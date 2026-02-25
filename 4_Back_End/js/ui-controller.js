@@ -153,15 +153,34 @@ document.addEventListener('DOMContentLoaded', () => {
         valDuration.textContent = `${duration} meses`;
         valRate.textContent = `${rate}%`;
 
+        // Elemento Informativo da Poupança
+        const poupancaInfo = document.getElementById('poupanca-info');
+        const poupancaRuleText = document.getElementById('poupanca-rule-text');
+
         // Lógica Visual Condicional
         if (type === 'poupanca') {
             sliderRate.style.display = 'none';
             rateHeaderContainer.style.display = 'none';
             cdiHelper.style.display = 'none';
+
+            // Mostra o card da poupança
+            if (poupancaInfo) poupancaInfo.style.display = 'block';
+
+            // Define o texto baseado na Selic atual
+            const taxasReais = FinMath.getRates();
+            if (poupancaRuleText && taxasReais.selic > 8.5) {
+                poupancaRuleText.innerHTML = `Como a Selic atual (${taxasReais.selic}%) está acima de 8,5% ao ano, a regra em vigor garante rendimento fixo de <strong>0,5% ao mês + Taxa Referencial (TR)</strong>. (Aprox. 6.17% a.a.)`;
+            } else if (poupancaRuleText) {
+                poupancaRuleText.innerHTML = `Como a Selic atual (${taxasReais.selic}%) está igual ou abaixo de 8,5% ao ano, a regra indica que a poupança rende <strong>70% da Selic + Taxa Referencial (TR)</strong>.`;
+            }
+
         } else {
             sliderRate.style.display = 'block';
             rateHeaderContainer.style.display = 'flex';
             cdiHelper.style.display = 'block';
+
+            // Esconde o card da poupança
+            if (poupancaInfo) poupancaInfo.style.display = 'none';
 
             // Puxa as taxas recém-atualizadas da Engine Financeira
             const taxasReais = FinMath.getRates();
