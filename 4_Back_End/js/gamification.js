@@ -181,28 +181,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     btnReset.addEventListener('click', () => {
         if (!state) return;
-        if (confirm("Tem certeza que deseja zerar os depósitos atuais para R$ 0,00? Sua meta será mantida.")) {
-            state.caixa = 0;
-            state.envelopesCompletos = [];
-            salvarEstado();
-            renderGrid();
-        }
+        // Removido confirm() pois o Chrome silencia popups em locahost/file local caso o usuário tenha marcado "Não exibir novamente".
+        state.caixa = 0;
+        state.envelopesCompletos = [];
+        salvarEstado();
+        renderGrid();
     });
 
     if (btnNewJourney) {
         btnNewJourney.addEventListener('click', () => {
-            if (confirm("Tem certeza que deseja apagar a jornada inteira e criar uma nova meta financeira do zero?")) {
-                localStorage.removeItem(CHAVE_STORAGE);
-                state = null;
+            // Ação direta e robusta
+            localStorage.removeItem(CHAVE_STORAGE);
+            state = null;
 
-                // Voltar painéis para o Setup
-                setupPanel.style.display = 'flex';
-                progressBox.style.display = 'none';
-                if (actionsPanel) actionsPanel.style.display = 'none';
+            // Voltar painéis para o Setup
+            setupPanel.style.display = 'flex';
+            progressBox.style.display = 'none';
+            if (actionsPanel) actionsPanel.style.display = 'none';
 
-                // Usando window.location.reload() como garantia brutal de destruição de estado em cache no navegador do usuario
-                window.location.reload(true);
-            }
+            // Usando window.location.reload() como garantia brutal de destruição de estado em cache no navegador do usuario
+            window.location.reload(true);
         });
     }
 
