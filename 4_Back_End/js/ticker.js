@@ -20,11 +20,11 @@ document.addEventListener('DOMContentLoaded', () => {
         { symbol: "IPCA (12m)", value: "4.50%", status: "neutral" }
     ];
 
-    function createTickerString() {
+    function createTickerString(marketDataArray) {
         let htmlString = "";
 
         // Repetimos o array para garantir o fluxo contínuo do CSS Animation
-        const fullArray = [...marketData, ...marketData, ...marketData];
+        const fullArray = [...marketDataArray, ...marketDataArray, ...marketDataArray];
 
         fullArray.forEach(item => {
             let color = "#10b981"; // neon green Default Up
@@ -45,7 +45,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (tickerContent) {
-        tickerContent.innerHTML = createTickerString();
+        tickerContent.innerHTML = createTickerString(marketData);
     }
+
+    // Escuta a API Real do BCB vinda do calculator.js
+    document.addEventListener('ratesLoaded', (e) => {
+        const taxasReais = e.detail;
+
+        // Atualiza o Mockup com os dados absolutos e reais
+        marketData[0].value = `${taxasReais.selic.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}%`;
+        marketData[1].value = `${taxasReais.cdi.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}%`;
+
+        // Repinta o Ticker
+        if (tickerContent) {
+            tickerContent.innerHTML = createTickerString(marketData);
+        }
+    });
 
 });

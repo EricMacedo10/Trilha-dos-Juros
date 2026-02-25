@@ -162,6 +162,10 @@ document.addEventListener('DOMContentLoaded', () => {
             sliderRate.style.display = 'block';
             rateHeaderContainer.style.display = 'flex';
             cdiHelper.style.display = 'block';
+
+            // Puxa as taxas recém-atualizadas da Engine Financeira
+            const taxasReais = FinMath.getRates();
+            cdiHelper.textContent = `Considerando Taxa Selic ${taxasReais.selic.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}% / CDI ${taxasReais.cdi.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}% a.a.`;
         }
 
         // Chamar a Engine Matemática
@@ -205,7 +209,13 @@ document.addEventListener('DOMContentLoaded', () => {
         radio.addEventListener('change', updateCalculator);
     });
 
-    // Boot
+    // Evento Customizado vindo da API do BCB
+    document.addEventListener('ratesLoaded', (e) => {
+        console.log("UI Controller recebeu taxas reais da API! Repintando tela...");
+        updateCalculator();
+    });
+
+    // Boot Inicial Fallback
     initChart();
     updateCalculator();
 });
