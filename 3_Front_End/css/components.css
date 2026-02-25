@@ -103,6 +103,28 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+/* FGC Badge */
+.fgc-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: var(--radius-sm);
+    color: var(--neon-green);
+    font-size: 0.75rem;
+}
+
+.fgc-badge i {
+    font-size: 1rem;
+}
+
+.fgc-badge strong {
+    font-weight: 600;
+}
+
 /* Custom Neon Sliders */
 .slider-group .slider-header {
     display: flex;
