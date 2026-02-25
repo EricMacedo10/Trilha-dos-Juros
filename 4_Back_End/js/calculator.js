@@ -69,10 +69,11 @@ const FinMath = (function () {
      * @param {number} valorInicial 
      * @param {number} aporteMensal 
      * @param {number} meses 
-     * @param {number} rentabilidadePct (Ex: 110 para 110% do CDI)
+     * @param {number} rentabilidadeValor (Ex: 110 para 110% do CDI, ou 12.0 para % a.a.)
+     * @param {string} tipoRentabilidade ('pos' ou 'pre')
      * @returns {Object} Dados completos da simulação incluindo histórico
      */
-    function simulate(tipo, valorInicial, aporteMensal, meses, rentabilidadePct = 100) {
+    function simulate(tipo, valorInicial, aporteMensal, meses, rentabilidadeValor = 100, tipoRentabilidade = 'pos') {
 
         let taxaAnual = 0;
         let isentoIR = false;
@@ -81,11 +82,11 @@ const FinMath = (function () {
             taxaAnual = POUPANCA_ANUAL;
             isentoIR = true;
         } else if (tipo === 'lci') {
-            taxaAnual = CDI_ANUAL_DEFAULT * (rentabilidadePct / 100);
+            taxaAnual = tipoRentabilidade === 'pos' ? CDI_ANUAL_DEFAULT * (rentabilidadeValor / 100) : rentabilidadeValor;
             isentoIR = true;
         } else {
             // CDB ou Padrão Tributado
-            taxaAnual = CDI_ANUAL_DEFAULT * (rentabilidadePct / 100);
+            taxaAnual = tipoRentabilidade === 'pos' ? CDI_ANUAL_DEFAULT * (rentabilidadeValor / 100) : rentabilidadeValor;
         }
 
         const taxaMensal = toMonthlyRate(taxaAnual);

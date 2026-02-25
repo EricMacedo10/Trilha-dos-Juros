@@ -114,16 +114,43 @@
                             class="neon-slider">
                     </div>
 
-                    <!-- Rentabilidade -->
-                    <div class="input-group slider-group" id="rentabilidade-group">
-                        <div class="slider-header" id="rate-header-container">
-                            <label for="interest-rate" id="rate-label">Rentabilidade (% do CDI)</label>
-                            <span class="value-display" id="val-rate">100%</span>
+                    <!-- Tipo de Rentabilidade -->
+                    <div class="input-group" id="rentabilidade-type-group">
+                        <label>Modelo de Rentabilidade</label>
+                        <div class="radio-pills" style="margin-bottom: 0.5rem;">
+                            <label class="radio-pill">
+                                <input type="radio" name="rate-type" value="pos" checked>
+                                <span>Pós-fixada (% do CDI)</span>
+                            </label>
+                            <label class="radio-pill">
+                                <input type="radio" name="rate-type" value="pre">
+                                <span>Pré-fixada (% a.a.)</span>
+                            </label>
                         </div>
-                        <input type="range" id="interest-rate" min="70" max="150" step="1" value="100"
+                    </div>
+
+                    <!-- Rentabilidade Pós -->
+                    <div class="input-group slider-group" id="rentabilidade-pos-group">
+                        <div class="slider-header" id="rate-pos-header">
+                            <label for="interest-rate-pos">Taxa Pós-fixada (% do CDI)</label>
+                            <span class="value-display" id="val-rate-pos">100%</span>
+                        </div>
+                        <input type="range" id="interest-rate-pos" min="70" max="150" step="1" value="100"
                             class="neon-slider">
                         <small class="helper-text" id="cdi-helper">Considerando Taxa Selic 10.75% / CDI 10.65%
                             a.a.</small>
+                    </div>
+
+                    <!-- Rentabilidade Pré -->
+                    <div class="input-group slider-group" id="rentabilidade-pre-group" style="display: none;">
+                        <div class="slider-header" id="rate-pre-header">
+                            <label for="interest-rate-pre">Taxa Pré-fixada (% a.a.)</label>
+                            <span class="value-display" id="val-rate-pre">12.0%</span>
+                        </div>
+                        <input type="range" id="interest-rate-pre" min="1" max="25" step="0.1" value="12"
+                            class="neon-slider">
+                        <small class="helper-text" id="pre-helper">Taxa fixa, travada no momento do
+                            investimento.</small>
                     </div>
 
                     <!-- Card Informativo da Poupança (Oculto por padrão) -->
@@ -132,7 +159,8 @@
                             style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 8px; padding: 1rem;">
                             <h4
                                 style="color: var(--brand-blue); font-size: 0.85rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
-                                <i class="ph-fill ph-info"></i> Regra da Poupança</h4>
+                                <i class="ph-fill ph-info"></i> Regra da Poupança
+                            </h4>
                             <p style="color: var(--text-muted); font-size: 0.75rem; line-height: 1.4; margin: 0;"
                                 id="poupanca-rule-text">
                                 Como a Selic está acima de 8,5% ao ano, o rendimento fixo é de <strong>0,5% ao mês +

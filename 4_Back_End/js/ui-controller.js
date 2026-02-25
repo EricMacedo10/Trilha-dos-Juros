@@ -32,21 +32,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 2. Elementos da Calculadora
     const inputTypeRadios = document.querySelectorAll('input[name="invest-type"]');
+    const inputRateTypeRadios = document.querySelectorAll('input[name="rate-type"]');
 
     // Sliders
     const sliderInitial = document.getElementById('initial-investment');
     const sliderMonthly = document.getElementById('monthly-investment');
     const sliderDuration = document.getElementById('duration-months');
-    const sliderRate = document.getElementById('interest-rate');
+    const sliderRatePos = document.getElementById('interest-rate-pos');
+    const sliderRatePre = document.getElementById('interest-rate-pre');
 
     // Display Values (Spans curtos em cima do slider)
     const valInitial = document.getElementById('val-initial');
     const valMonthly = document.getElementById('val-monthly');
     const valDuration = document.getElementById('val-duration');
-    const valRate = document.getElementById('val-rate');
+    const valRatePos = document.getElementById('val-rate-pos');
+    const valRatePre = document.getElementById('val-rate-pre');
 
-    // Divs condicionais para esconder taxa no caso da Poupança
-    const rateHeaderContainer = document.getElementById('rate-header-container');
+    // Divs condicionais para esconder taxa no caso da Poupança ou do Toggle
+    const rentabilidadeTypeGroup = document.getElementById('rentabilidade-type-group');
+    const rentabilidadePosGroup = document.getElementById('rentabilidade-pos-group');
+    const rentabilidadePreGroup = document.getElementById('rentabilidade-pre-group');
     const cdiHelper = document.getElementById('cdi-helper');
 
     // KPI Resultados
@@ -142,16 +147,26 @@ document.addEventListener('DOMContentLoaded', () => {
             if (radio.checked) type = radio.value;
         });
 
+        let rateType = 'pos';
+        if (inputRateTypeRadios) {
+            inputRateTypeRadios.forEach(radio => {
+                if (radio.checked) rateType = radio.value;
+            });
+        }
+
         const initial = parseFloat(sliderInitial.value);
         const monthly = parseFloat(sliderMonthly.value);
         const duration = parseInt(sliderDuration.value);
-        const rate = parseFloat(sliderRate.value);
+
+        const ratePos = sliderRatePos ? parseFloat(sliderRatePos.value) : 100;
+        const ratePre = sliderRatePre ? parseFloat(sliderRatePre.value) : 12;
 
         // Atualizar textos dos Sliders
         valInitial.textContent = `R$ ${initial.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
         valMonthly.textContent = `R$ ${monthly.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
         valDuration.textContent = `${duration} meses`;
-        valRate.textContent = `${rate}%`;
+        if (valRatePos) valRatePos.textContent = `${ratePos}%`;
+        if (valRatePre) valRatePre.textContent = `${ratePre.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`;
 
         // Elemento Informativo da Poupança
         const poupancaInfo = document.getElementById('poupanca-info');
@@ -159,9 +174,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Lógica Visual Condicional
         if (type === 'poupanca') {
-            sliderRate.style.display = 'none';
-            rateHeaderContainer.style.display = 'none';
-            cdiHelper.style.display = 'none';
+            if (rentabilidadeTypeGroup) rentabilidadeTypeGroup.style.display = 'none';
+            if (rentabilidadePosGroup) rentabilidadePosGroup.style.display = 'none';
+            if (rentabilidadePreGroup) rentabilidadePreGroup.style.display = 'none';
 
             // Mostra o card da poupança
             if (poupancaInfo) poupancaInfo.style.display = 'block';
@@ -175,20 +190,27 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
         } else {
-            sliderRate.style.display = 'block';
-            rateHeaderContainer.style.display = 'flex';
-            cdiHelper.style.display = 'block';
+            if (rentabilidadeTypeGroup) rentabilidadeTypeGroup.style.display = 'block';
+
+            if (rateType === 'pos') {
+                if (rentabilidadePosGroup) rentabilidadePosGroup.style.display = 'block';
+                if (rentabilidadePreGroup) rentabilidadePreGroup.style.display = 'none';
+            } else {
+                if (rentabilidadePosGroup) rentabilidadePosGroup.style.display = 'none';
+                if (rentabilidadePreGroup) rentabilidadePreGroup.style.display = 'block';
+            }
 
             // Esconde o card da poupança
             if (poupancaInfo) poupancaInfo.style.display = 'none';
 
             // Puxa as taxas recém-atualizadas da Engine Financeira
             const taxasReais = FinMath.getRates();
-            cdiHelper.textContent = `Considerando Taxa Selic ${taxasReais.selic.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}% / CDI ${taxasReais.cdi.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}% a.a.`;
+            if (cdiHelper) cdiHelper.textContent = `Considerando Taxa Selic ${taxasReais.selic.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}% / CDI ${taxasReais.cdi.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}% a.a.`;
         }
 
         // Chamar a Engine Matemática
-        const result = FinMath.simulate(type, initial, monthly, duration, rate);
+        const activeRate = rateType === 'pos' ? ratePos : ratePre;
+        const result = FinMath.simulate(type, initial, monthly, duration, activeRate, rateType);
         const dados = result.dadosGerais;
 
         // Atualizar KPIs
@@ -220,13 +242,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Bind de Eventos
-    [sliderInitial, sliderMonthly, sliderDuration, sliderRate].forEach(slider => {
-        slider.addEventListener('input', updateCalculator); // Update as dragging for real-time feel
+    [sliderInitial, sliderMonthly, sliderDuration, sliderRatePos, sliderRatePre].forEach(slider => {
+        if (slider) slider.addEventListener('input', updateCalculator); // Update as dragging for real-time feel
     });
 
     inputTypeRadios.forEach(radio => {
         radio.addEventListener('change', updateCalculator);
     });
+
+    if (inputRateTypeRadios) {
+        inputRateTypeRadios.forEach(radio => {
+            radio.addEventListener('change', updateCalculator);
+        });
+    }
 
     // Evento Customizado vindo da API do BCB
     document.addEventListener('ratesLoaded', (e) => {
