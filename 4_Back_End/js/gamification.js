@@ -1,11 +1,11 @@
 /**
- * Máquina de Gamificação - Desafio 102 (Envelopes)
+ * Máquina de Gamificação - Jornada dos Depósitos
  * Gera engajamento e salva estado localmente.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Referências do DOM
+    // Referências do DOM - UI
     const gridContainer = document.getElementById('envelope-grid');
     const saldoTxt = document.getElementById('chal-saved');
     const jurosTxt = document.getElementById('chal-interest');
@@ -13,19 +13,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const progressStatus = document.getElementById('challenge-status-text');
     const btnReset = document.getElementById('btn-reset-challenge');
 
-    const TOTAL_ENVELOPES = 102;
-    const CHAVE_STORAGE = '@trilha_juros_102';
+    // Referências do DOM - Setup
+    const setupPanel = document.getElementById('journey-setup-panel');
+    const progressBox = document.getElementById('journey-progress-box');
+    const inputMeta = document.getElementById('chal-val-meta');
+    const inputSteps = document.getElementById('chal-val-steps');
+    const btnStart = document.getElementById('btn-start-journey');
+    const displayMeta = document.getElementById('chal-display-meta');
+
+    const CHAVE_STORAGE = '@trilha_juros_jornada_v2';
 
     // Estado da Aplicação
-    let envelopesCompletos = carregarEstado();
+    let state = carregarEstado();
 
     function carregarEstado() {
         const salvo = localStorage.getItem(CHAVE_STORAGE);
-        return salvo ? JSON.parse(salvo) : [];
+        if (salvo) {
+            try {
+                return JSON.parse(salvo);
+            } catch (e) {
+                return null;
+            }
+        }
+        return null;
     }
 
     function salvarEstado() {
-        localStorage.setItem(CHAVE_STORAGE, JSON.stringify(envelopesCompletos));
+        localStorage.setItem(CHAVE_STORAGE, JSON.stringify(state));
         atualizarMetricas();
     }
 
@@ -33,34 +47,81 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderGrid() {
         gridContainer.innerHTML = '';
 
-        for (let val = 1; val <= TOTAL_ENVELOPES; val++) {
+        if (!state) {
+            gridContainer.innerHTML = '<p style="color: var(--text-muted); text-align: center; grid-column: 1 / -1; padding: 2rem;">Configure sua jornada acima para gerar as etapas de depósito.</p>';
+            return;
+        }
+
+        // Recuperar config
+        const N = state.etapas;
+        const M = state.metaFinal;
+
+        // Progressão Aritmética
+        // Soma S = N * (N + 1) / 2
+        // Base U = M / S
+        const S = (N * (N + 1)) / 2;
+        const U = M / S;
+
+        let somaReal = 0;
+        let valorEnvelope = [];
+
+        for (let i = 1; i <= N; i++) {
+            let val = i * U;
+            if (i === N) {
+                // Ajuste no último para garantir a soma exata (correção de centavos)
+                val = M - somaReal;
+            } else {
+                val = Math.round(val * 100) / 100; // Arredondar para moedas (2 casas decimais)
+            }
+            somaReal += val;
+            valorEnvelope.push(val);
+        }
+
+        for (let i = 0; i < N; i++) {
+            const indexEnvelope = i;
+            const val = valorEnvelope[i];
+
             const el = document.createElement('div');
             el.classList.add('envelope');
-            el.textContent = val;
-            el.dataset.valor = val;
 
-            if (envelopesCompletos.includes(val)) {
+            // Formatando valor para o grid de forma amigável
+            el.innerHTML = `<small>Depósito ${i + 1}</small><span>R$ ${val.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>`;
+            el.style.display = 'flex';
+            el.style.flexDirection = 'column';
+            el.style.gap = '0.2rem';
+            el.style.fontSize = '0.9rem';
+            el.style.padding = '0.5rem';
+
+            if (state.envelopesCompletos.includes(indexEnvelope)) {
                 el.classList.add('completed');
             }
 
             el.addEventListener('click', () => {
-                toggleEnvelope(val, el);
+                toggleEnvelope(indexEnvelope, el, val);
             });
 
             gridContainer.appendChild(el);
         }
+
+        // Esconder setup e mostrar barra de progresso
+        setupPanel.style.display = 'none';
+        progressBox.style.display = 'flex';
+        displayMeta.textContent = M.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 
-    function toggleEnvelope(valor, elemento) {
-        const index = envelopesCompletos.indexOf(valor);
+    function toggleEnvelope(index, elemento, valorGanhado) {
+        if (!state) return;
+        const position = state.envelopesCompletos.indexOf(index);
 
-        if (index > -1) {
+        if (position > -1) {
             // Remover
-            envelopesCompletos.splice(index, 1);
+            state.envelopesCompletos.splice(position, 1);
+            state.caixa -= valorGanhado;
             elemento.classList.remove('completed');
         } else {
             // Adicionar
-            envelopesCompletos.push(valor);
+            state.envelopesCompletos.push(index);
+            state.caixa += valorGanhado;
             elemento.classList.add('completed');
         }
 
@@ -69,38 +130,77 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Matemática de Atualização
     function calcularGanhosEstimados(valorCaixa) {
-        // Base de CDI 10.65% a.a (Aproximadamente 0.84% a.m.)
-        // Estima quanto esse valor já guardado estaria rendendo em apenas 1 mês
+        // Base de CDI atual da UI (aproximadamente usando uma taxa de 0.8% a.m estimativa educacional global)
         return valorCaixa * 0.0084;
     }
 
     function atualizarMetricas() {
-        const pctProgresso = (envelopesCompletos.length / TOTAL_ENVELOPES) * 100;
+        if (!state) {
+            saldoTxt.textContent = "R$ 0,00";
+            jurosTxt.textContent = "+ R$ 0,00";
+            progressFill.style.width = "0%";
+            progressStatus.textContent = "0 / 0 depósitos completados";
+            return;
+        }
 
-        let dinheiroCaixa = 0;
-        envelopesCompletos.forEach(v => dinheiroCaixa += v);
+        const pctProgresso = (state.envelopesCompletos.length / state.etapas) * 100;
 
         // Atualizar Barra
         progressFill.style.width = `${pctProgresso}%`;
-        progressStatus.textContent = `${envelopesCompletos.length} / ${TOTAL_ENVELOPES} depósitos completados`;
+        progressStatus.textContent = `${state.envelopesCompletos.length} / ${state.etapas} depósitos completados`;
 
         // Textos Financeiros
-        saldoTxt.textContent = `R$ ${dinheiroCaixa.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        saldoTxt.textContent = `R$ ${state.caixa.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
-        const rendimentoMes = calcularGanhosEstimados(dinheiroCaixa);
+        const rendimentoMes = calcularGanhosEstimados(state.caixa);
         jurosTxt.textContent = `+ R$ ${rendimentoMes.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     }
 
+    btnStart.addEventListener('click', () => {
+        const meta = parseFloat(inputMeta.value);
+        const etapas = parseInt(inputSteps.value);
+
+        if (isNaN(meta) || isNaN(etapas) || meta < 1 || etapas < 1) {
+            alert("Por favor, preencha valores válidos para Meta e Etapas.");
+            return;
+        }
+
+        state = {
+            metaFinal: meta,
+            etapas: etapas,
+            caixa: 0,
+            envelopesCompletos: []
+        };
+
+        salvarEstado();
+        renderGrid();
+    });
+
     btnReset.addEventListener('click', () => {
-        if (confirm("Tem certeza que deseja recomeçar a jornada e apagar o progresso atual?")) {
-            envelopesCompletos = [];
-            salvarEstado();
-            renderGrid();
+        if (confirm("Tem certeza que deseja apagar o progresso atual e criar uma nova jornada?")) {
+            localStorage.removeItem(CHAVE_STORAGE);
+            state = null;
+
+            // Voltar painéis
+            setupPanel.style.display = 'flex';
+            progressBox.style.display = 'none';
+            gridContainer.innerHTML = '';
+
+            // Resetar text box
+            atualizarMetricas();
         }
     });
 
     // Boot
-    renderGrid();
-    atualizarMetricas();
+    if (state) {
+        setupPanel.style.display = 'none';
+        progressBox.style.display = 'flex';
+        renderGrid();
+        atualizarMetricas();
+    } else {
+        setupPanel.style.display = 'flex';
+        progressBox.style.display = 'none';
+        atualizarMetricas();
+    }
 
 });
