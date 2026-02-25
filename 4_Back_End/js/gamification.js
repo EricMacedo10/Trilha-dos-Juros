@@ -200,9 +200,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 progressBox.style.display = 'none';
                 if (actionsPanel) actionsPanel.style.display = 'none';
 
-                // Resetar grid e metricas
-                renderGrid();
-                atualizarMetricas();
+                // Usando window.location.reload() como garantia brutal de destruição de estado em cache no navegador do usuario
+                window.location.reload(true);
             }
         });
     }
