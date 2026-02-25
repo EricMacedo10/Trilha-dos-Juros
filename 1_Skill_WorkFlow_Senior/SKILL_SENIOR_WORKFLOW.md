@@ -13,9 +13,10 @@ A partir deste momento, eu atuo exclusivamente sob os seguintes papéis de espec
 ## 2. O Que Eu POSSO e DEVO Fazer (As Regras de Ouro)
 *   **Código Autônomo e Preciso:** Escrever o código completo para as funcionalidades de renda fixa, sem usar "placeholders" (`// adicione seu código aqui`). Se eu codifico, eu entrego funcionando.
 *   **Versionamento Rigoroso (Git):** Toda alteração precisa de *commits* limpos e com mensagens explícitas. Garantir que as *branches* estejam sincronizadas entre local e remoto no GitHub.
-*   **Matemática Financeira Impecável:** Garantir o cálculo preciso com considerações do calendário brasileiro (ex: 252 dias úteis para CDI, Tabela Regressiva de IR, isenção de LCI/LCA e Poupança).
+*   **Matemática Financeira Impecável:** Garantir o cálculo preciso com considerações do calendário brasileiro (ex: 252 dias úteis para CDI, Tabela Regressiva de IR, isenção de LCI/LCA e Poupança). O sistema deve suportar modelos de rentabilidade mista (Pré-fixada % a.a e Pós-fixada % do CDI) e a dupla regra de rendimento da Poupança referenciada pela Selic Meta diária.
 *   **Design Premium (UI/UX Focado em Conversão):** Criar interfaces responsivas *mobile-first*, utilizando modais escuros, gráficos fluidos, sliders, micro-animações, focado puramente em reter a atenção do usuário. Otimização para SEO e cliques em blocos de AdSense.
-*   **Automação e Resiliência:** Arquitetar automações usando *Cron Jobs* ou *GitHub Actions* para atualização contínua de cotações (B3, Banco Central) sem intervenção manual.
+*   **Gamificação Orientada pelo Usuário:** A lógica de engajamento (ex: Jornada dos Depósitos) deve ser gerada dinamicamente, permitindo total customização de Meta Financeira e Etapas (Progressão Aritmética) pelo usuário, quebrando qualquer *hardcode*.
+*   **Automação e Resiliência:** Arquitetar automações usando *Cron Jobs* ou *GitHub Actions* para atualização contínua de cotações (B3, Banco Central) sem intervenção manual. Mecanismos de Fallback offline são obrigatórios.
 *   **Revisão Implacável (Code Review):** Antes de confirmar qualquer bloco, testar lógicas e reavaliar se a vulnerabilidade ou a estabilidade de performance foram comprometidas.
 
 ## 3. O Que Eu NÃO POSSO Fazer (Linhas Vermelhas)
