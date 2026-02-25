@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Trilha dos Juros - Simulador premium de renda fixa, cálculo exato de CDI, Tesouro, Poupança e Desafio Gamificado dos 102 depósitos.">
+    <title>Trilha dos Juros | Simulador Premium de Renda Fixa</title>
+
+    <!-- Google Fonts: Outfit (Headings) and Inter (Body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+
+    <!-- Global Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+    <!-- Ticker de Mercado -->
+    <div class="financial-ticker" id="market-ticker">
+        <div class="ticker-content" id="ticker-content">
+            <span>Aguardando dados da B3...</span>
+        </div>
+    </div>
+
+    <!-- Header / Nav -->
+    <header class="main-header">
+        <div class="container">
+            <h1 class="logo">
+                <i class="ph-fill ph-trend-up"></i>
+                Trilha dos Juros
+            </h1>
+            <nav class="pill-nav">
+                <button class="nav-btn active" data-target="calculator-view">Simulador</button>
+                <button class="nav-btn" data-target="gamification-view">Desafio 102</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- View 1: Calculadora -->
+        <section id="calculator-view" class="view-section active">
+            
+            <div class="grid-layout">
+                <!-- Painel de Inputs (Esquerda Desktop / Topo Mobile) -->
+                <aside class="glass-panel inputs-panel">
+                    <h2 class="section-title">Parâmetros</h2>
+                    
+                    <!-- Tipo de Investimento -->
+                    <div class="input-group">
+                        <label>Tipo de Investimento</label>
+                        <div class="radio-pills">
+                            <label class="radio-pill">
+                                <input type="radio" name="invest-type" value="cdb" checked>
+                                <span>CDB/LC</span>
+                            </label>
+                            <label class="radio-pill">
+                                <input type="radio" name="invest-type" value="lci">
+                                <span>LCI/LCA</span>
+                            </label>
+                            <label class="radio-pill">
+                                <input type="radio" name="invest-type" value="poupanca">
+                                <span>Poupança</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Investimento Inicial -->
+                    <div class="input-group slider-group">
+                        <div class="slider-header">
+                            <label for="initial-investment">Valor Inicial</label>
+                            <span class="value-display" id="val-initial">R$ 1.000,00</span>
+                        </div>
+                        <input type="range" id="initial-investment" min="0" max="100000" step="100" value="1000" class="neon-slider">
+                    </div>
+
+                    <!-- Investimento Mensal -->
+                    <div class="input-group slider-group">
+                        <div class="slider-header">
+                            <label for="monthly-investment">Aporte Mensal</label>
+                            <span class="value-display" id="val-monthly">R$ 500,00</span>
+                        </div>
+                        <input type="range" id="monthly-investment" min="0" max="20000" step="100" value="500" class="neon-slider">
+                    </div>
+
+                    <!-- Prazo -->
+                    <div class="input-group slider-group">
+                        <div class="slider-header">
+                            <label for="duration-months">Prazo (Meses)</label>
+                            <span class="value-display" id="val-duration">24 meses</span>
+                        </div>
+                        <input type="range" id="duration-months" min="1" max="120" step="1" value="24" class="neon-slider">
+                    </div>
+
+                    <!-- Rentabilidade -->
+                    <div class="input-group slider-group">
+                        <div class="slider-header" id="rate-header-container">
+                            <label for="interest-rate" id="rate-label">Rentabilidade (% do CDI)</label>
+                            <span class="value-display" id="val-rate">100%</span>
+                        </div>
+                        <input type="range" id="interest-rate" min="70" max="150" step="1" value="100" class="neon-slider">
+                        <small class="helper-text" id="cdi-helper">Considerando Taxa Selic 10.75% / CDI 10.65% a.a.</small>
+                    </div>
+
+                </aside>
+
+                <!-- Painel de Resultados (Direita Desktop / Baixo Mobile) -->
+                <article class="results-panel">
+                    
+                    <!-- Main KPI Cards -->
+                    <div class="kpi-grid">
+                        <div class="glass-card kpi-card highlight">
+                            <span class="kpi-label">Valor Total Líquido <i class="ph ph-info" title="Já descontado o Leão (IR)"></i></span>
+                            <strong class="kpi-value neon-text" id="res-net-total">R$ 0,00</strong>
+                        </div>
+                        <div class="glass-card kpi-card">
+                            <span class="kpi-label">Total Investido (Do seu bolso)</span>
+                            <strong class="kpi-value" id="res-total-invested">R$ 0,00</strong>
+                        </div>
+                    </div>
+
+                    <!-- Secondary KPI Cards -->
+                    <div class="kpi-grid secondary">
+                        <div class="glass-card kpi-card">
+                            <span class="kpi-label">Total Ganhos em Juros</span>
+                            <strong class="kpi-value positive" id="res-total-interest">R$ 0,00</strong>
+                        </div>
+                        <div class="glass-card kpi-card danger">
+                            <span class="kpi-label" id="res-tax-label">Imposto de Renda Retido</span>
+                            <strong class="kpi-value negative" id="res-tax-discount">- R$ 0,00</strong>
+                        </div>
+                    </div>
+
+                    <!-- Gráfico -->
+                    <div class="glass-card chart-container">
+                        <canvas id="growthChart"></canvas>
+                    </div>
+
+                </article>
+            </div>
+        </section>
+
+        <!-- View 2: Gamificação -->
+        <section id="gamification-view" class="view-section" style="display: none;">
+            <div class="glass-panel gamification-panel">
+                <header class="gamification-header">
+                    <div class="challenge-info">
+                        <h2>Desafio de Verão: A Jornada dos 102</h2>
+                        <p>Complete as missões depositando o respectivo valor. Seu dinheiro está rendendo a cada dia.</p>
+                    </div>
+                    <div class="progress-box">
+                        <span class="progress-label">Meta Final: R$ <span class="neon-text glow">6.251,00</span> + Juros</span>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" id="challenge-progress-fill" style="width: 0%;"></div>
+                        </div>
+                        <span class="progress-status" id="challenge-status-text">0 / 102 depósitos completados</span>
+                    </div>
+                </header>
+
+                <div class="gamification-metrics">
+                     <div class="stat">
+                         <span class="stat-label">Valor em Caixa</span>
+                         <strong id="chal-saved">R$ 0,00</strong>
+                     </div>
+                     <div class="stat">
+                         <span class="stat-label">Ganhos passivos (Est.)</span>
+                         <strong class="positive" id="chal-interest">+ R$ 0,00</strong>
+                     </div>
+                </div>
+
+                <div class="envelope-grid" id="envelope-grid">
+                    <!-- Gerado via JS -->
+                </div>
+                
+                <div class="gamification-actions">
+                    <button class="btn btn-outline" id="btn-reset-challenge">Reiniciar Desafio</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Scripts de Lógica e Renderização -->
+    <script src="../4_Back_End/js/ticker.js" defer></script>
+    <script src="../4_Back_End/js/calculator.js" defer></script>
+    <script src="../4_Back_End/js/ui-controller.js" defer></script>
+    <script src="../4_Back_End/js/gamification.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,380 @@
+/* ========================================================
+   Componentes Específicos (UI & Glassmorphism)
+   ======================================================== */
+
+/* Panels & Cards */
+.glass-panel,
+.glass-card {
+    background: var(--bg-panel);
+    border: var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-lg);
+    backdrop-filter: blur(10px);
+}
+
+.section-title {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-main);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 0.5rem;
+}
+
+/* Ticker (Top Bar) */
+.financial-ticker {
+    background: #000;
+    color: var(--neon-green);
+    font-family: monospace;
+    font-size: 0.8rem;
+    padding: 0.4rem 0;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.ticker-content {
+    display: inline-block;
+    padding-left: 100%;
+    animation: ticker 25s linear infinite;
+    letter-spacing: 1px;
+}
+
+.ticker-content span {
+    margin-right: 2rem;
+}
+
+@keyframes ticker {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+
+    100% {
+        transform: translate3d(-100%, 0, 0);
+    }
+}
+
+/* Inputs & Form Groups */
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+.input-group>label {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+/* Radio Pills (Invest Type) */
+.radio-pills {
+    display: flex;
+    gap: 0.5rem;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 0.25rem;
+    border-radius: var(--radius-md);
+}
+
+.radio-pill {
+    flex: 1;
+    text-align: center;
+}
+
+.radio-pill input {
+    display: none;
+}
+
+.radio-pill span {
+    display: block;
+    padding: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.radio-pill input:checked+span {
+    background: var(--bg-panel);
+    color: var(--text-main);
+    border: var(--glass-border);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Custom Neon Sliders */
+.slider-group .slider-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.slider-group label {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.value-display {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: var(--neon-green);
+    font-size: 1.1rem;
+}
+
+.neon-slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-full);
+    outline: none;
+    cursor: pointer;
+}
+
+.neon-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--text-main);
+    border: 4px solid var(--neon-green);
+    box-shadow: 0 0 10px var(--neon-green-glow);
+    cursor: grab;
+    transition: transform 0.1s;
+}
+
+.neon-slider::-webkit-slider-thumb:active {
+    transform: scale(1.2);
+    cursor: grabbing;
+}
+
+.helper-text {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* KPI Cards */
+.results-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+@media (max-width: 576px) {
+    .kpi-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.kpi-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.kpi-card.highlight {
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    box-shadow: 0 4px 20px var(--neon-green-glow);
+}
+
+.kpi-label {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.kpi-value {
+    font-family: var(--font-heading);
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -0.05em;
+}
+
+.kpi-card.highlight .kpi-value {
+    font-size: 2.5rem;
+}
+
+/* Charts */
+.chart-container {
+    position: relative;
+    height: 250px;
+    width: 100%;
+    padding: 1rem;
+}
+
+/* ========================================================
+   View: Gamificação (Desafio 102)
+   ======================================================== */
+.gamification-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.gamification-header h2 {
+    font-size: 1.75rem;
+    color: var(--text-main);
+    margin-bottom: 0.5rem;
+}
+
+.gamification-header p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Progress Bar */
+.progress-box {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    border: var(--glass-border);
+}
+
+.progress-label {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.progress-bar-bg {
+    width: 100%;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    margin-bottom: 0.75rem;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--brand-blue), var(--neon-green));
+    border-radius: var(--radius-full);
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 10px var(--neon-green-glow);
+}
+
+.progress-status {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+/* Gamification Metrics */
+.gamification-metrics {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: var(--radius-md);
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.stat>strong {
+    font-size: 1.5rem;
+    font-family: var(--font-heading);
+}
+
+/* The 102 Grid */
+.envelope-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+@media (max-width: 576px) {
+    .envelope-grid {
+        grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+        gap: 0.5rem;
+    }
+}
+
+.envelope {
+    aspect-ratio: 1;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 0.9rem;
+    user-select: none;
+}
+
+.envelope:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.envelope.completed {
+    background: rgba(16, 185, 129, 0.15);
+    border-color: var(--neon-green);
+    color: var(--neon-green);
+    box-shadow: 0 0 15px var(--neon-green-glow);
+    text-decoration: line-through;
+    text-decoration-color: rgba(16, 185, 129, 0.5);
+    text-decoration-thickness: 2px;
+}
+
+.envelope.completed:hover {
+    transform: none;
+}
+
+/* Buttons */
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    font-size: 0.875rem;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--text-main);
+}
+
+.btn-outline:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.gamification-actions {
+    display: flex;
+    justify-content: center;
+}
