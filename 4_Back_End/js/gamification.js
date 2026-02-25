@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const progressFill = document.getElementById('challenge-progress-fill');
     const progressStatus = document.getElementById('challenge-status-text');
     const btnReset = document.getElementById('btn-reset-challenge');
+    const btnNewJourney = document.getElementById('btn-new-journey');
+    const actionsPanel = document.getElementById('gamification-actions');
 
     // Referências do DOM - Setup
     const setupPanel = document.getElementById('journey-setup-panel');
@@ -103,9 +105,10 @@ document.addEventListener('DOMContentLoaded', () => {
             gridContainer.appendChild(el);
         }
 
-        // Esconder setup e mostrar barra de progresso
+        // Esconder setup, mostrar caixa de progresso e barra de botões
         setupPanel.style.display = 'none';
         progressBox.style.display = 'flex';
+        if (actionsPanel) actionsPanel.style.display = 'flex';
         displayMeta.textContent = M.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 
@@ -177,29 +180,44 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     btnReset.addEventListener('click', () => {
-        if (confirm("Tem certeza que deseja apagar o progresso atual e criar uma nova jornada?")) {
-            localStorage.removeItem(CHAVE_STORAGE);
-            state = null;
-
-            // Voltar painéis
-            setupPanel.style.display = 'flex';
-            progressBox.style.display = 'none';
-            gridContainer.innerHTML = '';
-
-            // Resetar text box
-            atualizarMetricas();
+        if (!state) return;
+        if (confirm("Tem certeza que deseja zerar os depósitos atuais para R$ 0,00? Sua meta será mantida.")) {
+            state.caixa = 0;
+            state.envelopesCompletos = [];
+            salvarEstado();
+            renderGrid();
         }
     });
+
+    if (btnNewJourney) {
+        btnNewJourney.addEventListener('click', () => {
+            if (confirm("Tem certeza que deseja apagar a jornada inteira e criar uma nova meta financeira do zero?")) {
+                localStorage.removeItem(CHAVE_STORAGE);
+                state = null;
+
+                // Voltar painéis para o Setup
+                setupPanel.style.display = 'flex';
+                progressBox.style.display = 'none';
+                if (actionsPanel) actionsPanel.style.display = 'none';
+
+                // Resetar grid e metricas
+                renderGrid();
+                atualizarMetricas();
+            }
+        });
+    }
 
     // Boot
     if (state) {
         setupPanel.style.display = 'none';
         progressBox.style.display = 'flex';
+        if (actionsPanel) actionsPanel.style.display = 'flex';
         renderGrid();
         atualizarMetricas();
     } else {
         setupPanel.style.display = 'flex';
         progressBox.style.display = 'none';
+        if (actionsPanel) actionsPanel.style.display = 'none';
         atualizarMetricas();
     }
 

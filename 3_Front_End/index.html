@@ -263,8 +263,12 @@
                     <!-- Gerado via JS -->
                 </div>
 
-                <div class="gamification-actions">
-                    <button class="btn btn-outline" id="btn-reset-challenge">Reiniciar Desafio</button>
+                <div class="gamification-actions" id="gamification-actions"
+                    style="display: none; justify-content: center; gap: 1rem;">
+                    <button class="btn btn-outline" id="btn-reset-challenge" style="flex: 1; max-width: 250px;">Zerar
+                        Depósitos</button>
+                    <button class="btn btn-primary" id="btn-new-journey" style="flex: 1; max-width: 250px;">Criar Nova
+                        Jornada</button>
                 </div>
             </div>
         </section>
@@ -272,10 +276,10 @@
     </main>
 
     <!-- Scripts de Lógica e Renderização -->
-    <script src="../4_Back_End/js/ticker.js" defer></script>
-    <script src="../4_Back_End/js/calculator.js" defer></script>
-    <script src="../4_Back_End/js/ui-controller.js" defer></script>
-    <script src="../4_Back_End/js/gamification.js" defer></script>
+    <script src="../4_Back_End/js/ticker.js?v=3" defer></script>
+    <script src="../4_Back_End/js/calculator.js?v=3" defer></script>
+    <script src="../4_Back_End/js/ui-controller.js?v=3" defer></script>
+    <script src="../4_Back_End/js/gamification.js?v=3" defer></script>
 </body>
 
 </html>
