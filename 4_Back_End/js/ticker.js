@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function updateMarketQuotes() {
         try {
-            // 1. AwesomeAPI (Moedas)
+            // 1. AwesomeAPI (Moedas - Funcionando OK em lote)
             const currencyResponse = await fetch('https://economia.awesomeapi.com.br/json/last/USD-BRL,EUR-BRL');
             if (currencyResponse.ok) {
                 const cData = await currencyResponse.json();
@@ -56,24 +56,38 @@ document.addEventListener('DOMContentLoaded', () => {
                 marketData[4].status = parseFloat(cData.EURBRL.pctChange) >= 0 ? "up" : "down";
             }
 
-            // 2. BrAPI (Stocks & Index - Usando assets públicos sem token)
-            const stockResponse = await fetch('https://brapi.dev/api/quote/%5EBVSP,PETR4,VALE3,ITUB4');
-            if (stockResponse.ok) {
-                const sData = await stockResponse.json();
-                if (sData.results) {
-                    sData.results.forEach(res => {
-                        const target = marketData.find(m => m.symbol === res.symbol || (m.symbol === "IBOVESPA" && res.symbol === "^BVSP"));
-                        if (target) {
-                            if (target.symbol === "IBOVESPA") {
-                                target.value = `${res.regularMarketPrice.toLocaleString('pt-BR')} pts`;
-                            } else {
-                                target.value = `R$ ${res.regularMarketPrice.toFixed(2)}`;
-                            }
-                            target.status = res.regularMarketChangePercent >= 0 ? "up" : "down";
-                        }
-                    });
+            // 2. BrAPI (Stocks - REQUER CHAMADAS INDIVIDUAIS PARA USO PÚBLICO SEM TOKEN)
+            const assetsToFetch = ['PETR4', 'VALE3', 'ITUB4'];
+            const fetchPromises = assetsToFetch.map(symbol =>
+                fetch(`https://brapi.dev/api/quote/${symbol}`).then(res => res.ok ? res.json() : null)
+            );
+
+            const results = await Promise.allSettled(fetchPromises);
+
+            results.forEach((result) => {
+                if (result.status === 'fulfilled' && result.value && result.value.results) {
+                    const res = result.value.results[0];
+                    const target = marketData.find(m => m.symbol === res.symbol);
+                    if (target) {
+                        target.value = `R$ ${res.regularMarketPrice.toFixed(2)}`;
+                        target.status = res.regularMarketChangePercent >= 0 ? "up" : "down";
+                    }
                 }
-            }
+            });
+
+            // 3. IBOVESPA (Caso Especial - Tentativa Individual)
+            try {
+                const ibovRes = await fetch('https://brapi.dev/api/quote/%5EBVSP');
+                if (ibovRes.ok) {
+                    const ibovData = await ibovRes.json();
+                    if (ibovData.results) {
+                        const ibov = ibovData.results[0];
+                        marketData[2].value = `${ibov.regularMarketPrice.toLocaleString('pt-BR')} pts`;
+                        marketData[2].status = ibov.regularMarketChangePercent >= 0 ? "up" : "down";
+                    }
+                }
+            } catch (e) { /* Fallback para IBOV se falhar chamadas sem token */ }
+
         } catch (error) {
             console.warn('[Trilha dos Juros] Erro ao carregar cotações reais. Mantendo fallbacks.', error);
         } finally {
