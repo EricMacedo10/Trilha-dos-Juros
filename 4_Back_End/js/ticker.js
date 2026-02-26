@@ -113,6 +113,10 @@ document.addEventListener('DOMContentLoaded', () => {
         marketData[0].value = `${taxasReais.selic.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}%`;
         marketData[1].value = `${taxasReais.cdi.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}%`;
 
+        if (taxasReais.ipca) {
+            marketData[8].value = `${taxasReais.ipca.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}%`;
+        }
+
         if (tickerContent) {
             tickerContent.innerHTML = createTickerString(marketData);
         }

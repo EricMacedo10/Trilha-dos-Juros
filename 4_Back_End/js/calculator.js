@@ -11,31 +11,67 @@ const FinMath = (function () {
     let POUPANCA_ANUAL = SELIC_ANUAL_DEFAULT > 8.5 ? 6.17 : (SELIC_ANUAL_DEFAULT * 0.7);
 
     /**
-     * Busca a Taxa Selic Meta real da API Pública do Banco Central do Brasil (BCB)
-     * SGS - Sistema Gerenciador de Séries Temporais (Código 432 = Selic Meta)
+     * Busca os indicadores reais (Selic, CDI e IPCA) da API do Banco Central (BCB)
      */
     async function fetchRealRates() {
         try {
-            // Tentativa primária: API HG Brasil (Requer CORS proxy ou backend futuro)
-            // Tentativa secundária pública garantida: Banco Central SGS (JSON)
-            const response = await fetch('https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados/ultimos/1?formato=json');
-            if (response.ok) {
-                const data = await response.json();
-                if (data && data.length > 0) {
-                    const selicReal = parseFloat(data[0].valor);
-                    SELIC_ANUAL_DEFAULT = selicReal;
-                    // CDI geralmente é 0.10 a menos que a Selic Meta no Brasil
-                    CDI_ANUAL_DEFAULT = selicReal - 0.10;
-                    POUPANCA_ANUAL = selicReal > 8.5 ? 6.17 : (selicReal * 0.7);
+            const endpoints = {
+                selic: 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados/ultimos/1?formato=json',
+                cdi: 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.4389/dados/ultimos/1?formato=json',
+                ipca: 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.13522/dados/ultimos/1?formato=json'
+            };
 
-                    console.log(`[Trilha dos Juros] Taxas autênticas carregadas do BCB. SELIC: ${selicReal}% | CDI: ${CDI_ANUAL_DEFAULT}%`);
+            const [selicRes, cdiRes, ipcaRes] = await Promise.all([
+                fetch(endpoints.selic),
+                fetch(endpoints.cdi),
+                fetch(endpoints.ipca)
+            ]);
 
-                    // Dispara evento para o UI Controller saber que os novos valores reais chegaram e repintar a tela
-                    document.dispatchEvent(new CustomEvent('ratesLoaded', { detail: { selic: SELIC_ANUAL_DEFAULT, cdi: CDI_ANUAL_DEFAULT } }));
+            let realData = {
+                selic: SELIC_ANUAL_DEFAULT,
+                cdi: CDI_ANUAL_DEFAULT,
+                ipca: 4.50 // Fallback IPCA
+            };
+
+            if (selicRes.ok) {
+                const data = await selicRes.json();
+                if (data.length > 0) {
+                    realData.selic = parseFloat(data[0].valor);
+                    SELIC_ANUAL_DEFAULT = realData.selic;
                 }
             }
+
+            if (cdiRes.ok) {
+                const data = await cdiRes.json();
+                if (data.length > 0) {
+                    realData.cdi = parseFloat(data[0].valor);
+                    CDI_ANUAL_DEFAULT = realData.cdi;
+                }
+            }
+
+            if (ipcaRes.ok) {
+                const data = await ipcaRes.json();
+                if (data.length > 0) {
+                    realData.ipca = parseFloat(data[0].valor);
+                }
+            }
+
+            // Atualiza poupança baseada na nova Selic
+            POUPANCA_ANUAL = SELIC_ANUAL_DEFAULT > 8.5 ? 6.17 : (SELIC_ANUAL_DEFAULT * 0.7);
+
+            console.log(`[Trilha dos Juros] Indicadores BCB sintonizados: Selic ${realData.selic}% | CDI ${realData.cdi}% | IPCA ${realData.ipca}%`);
+
+            // Dispara evento global para o Ticker e UI
+            document.dispatchEvent(new CustomEvent('ratesLoaded', {
+                detail: {
+                    selic: realData.selic,
+                    cdi: realData.cdi,
+                    ipca: realData.ipca
+                }
+            }));
+
         } catch (error) {
-            console.warn('[Trilha dos Juros] Fallback de segurança: Usando taxas CDI/Selic offline pré-fixadas devido a bloqueio de rede.', error);
+            console.warn('[Trilha dos Juros] Fallback: Usando taxas offline por erro de rede.', error);
         }
     }
 
