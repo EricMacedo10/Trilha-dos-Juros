@@ -26,6 +26,6 @@ jobs:
             **/.git*/**
             **/node_modules/**
             .env
-            .github/
-            1_Skill_WorkFlow_Senior/
-            2_Documentacao_do_Sistema/
+            .github/**
+            1_Skill_WorkFlow_Senior/**
+            2_Documentacao_do_Sistema/**
