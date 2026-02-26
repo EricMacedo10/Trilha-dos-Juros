@@ -92,40 +92,58 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            // 3. IBOVESPA (Sincronização Definitiva - Priorizando HG Brasil pois BrAPI falha sem token para índices)
+            // 3. IBOVESPA (Sincronização Avançada - Yahoo Finance via AllOrigins Proxy)
             try {
-                // Tenta HG Brasil primeiro (CORS-friendly e sem token)
-                const hgResponse = await fetch('https://api.hgbrasil.com/finance?format=json-cors');
-                if (hgResponse.ok) {
-                    const hgData = await hgResponse.json();
-                    if (hgData && hgData.results && hgData.results.stocks && hgData.results.stocks.IBOVESPA) {
-                        const ibov = hgData.results.stocks.IBOVESPA;
+                // Tenta Yahoo Finance via AllOrigins (CORS-friendly, no token, robusto)
+                const yahooUrl = encodeURIComponent('https://query1.finance.yahoo.com/v8/finance/chart/%5EBVSP');
+                const response = await fetch(`https://api.allorigins.win/get?url=${yahooUrl}`);
+                if (response.ok) {
+                    const proxyData = await response.json();
+                    const yData = JSON.parse(proxyData.contents);
+                    if (yData && yData.chart && yData.chart.result && yData.chart.result[0]) {
+                        const meta = yData.chart.result[0].meta;
                         const target = marketData.find(m => m.symbol === "IBOVESPA");
                         if (target) {
+                            target.value = `${meta.regularMarketPrice.toLocaleString('pt-BR', { maximumFractionDigits: 0 })} pts`;
+                            // No Yahoo, a variação precisa ser calculada ou extraída de outro campo se disponível
+                            // Para o ticker, o valor nominal já é o mais crítico
+                            target.status = "neutral";
+                        }
+                    } else {
+                        throw new Error('Yahoo Proxy data mismatch');
+                    }
+                } else {
+                    throw new Error('Yahoo Proxy failed');
+                }
+            } catch (e) {
+                console.warn('[Trilha dos Juros] Yahoo falhou. Tentando HG Brasil...', e);
+                try {
+                    const hgResponse = await fetch('https://api.hgbrasil.com/finance?format=json-cors');
+                    if (hgResponse.ok) {
+                        const hgData = await hgResponse.json();
+                        const ibov = hgData.results.stocks.IBOVESPA;
+                        const target = marketData.find(m => m.symbol === "IBOVESPA");
+                        if (target && ibov) {
                             target.value = `${ibov.points.toLocaleString('pt-BR', { maximumFractionDigits: 0 })} pts`;
                             target.status = ibov.variation >= 0 ? "up" : "down";
                         }
                     } else {
-                        throw new Error('HG Brasil format mismatch');
-                    }
-                } else {
-                    throw new Error('HG Brasil response not ok');
-                }
-            } catch (e) {
-                console.warn('[Trilha dos Juros] Fallback: Tentando BrAPI para IBOVESPA...', e);
-                try {
-                    const ibovResponse = await fetch('https://brapi.dev/api/quote/^BVSP');
-                    if (ibovResponse.ok) {
-                        const ibovData = await ibovResponse.json();
-                        const ibov = ibovData.results[0];
-                        const target = marketData.find(m => m.symbol === "IBOVESPA");
-                        if (target && ibov) {
-                            target.value = `${ibov.regularMarketPrice.toLocaleString('pt-BR', { maximumFractionDigits: 0 })} pts`;
-                            target.status = ibov.regularMarketChangePercent >= 0 ? "up" : "down";
-                        }
+                        throw new Error('HG Brasil fail');
                     }
                 } catch (e2) {
-                    console.warn('[Trilha dos Juros] Todas as APIs de IBOVESPA falharam.', e2);
+                    console.warn('[Trilha dos Juros] Fallback final: BrAPI...', e2);
+                    try {
+                        const brResponse = await fetch('https://brapi.dev/api/quote/^BVSP');
+                        if (brResponse.ok) {
+                            const brData = await brResponse.json();
+                            const ibov = brData.results[0];
+                            const target = marketData.find(m => m.symbol === "IBOVESPA");
+                            if (target && ibov) {
+                                target.value = `${ibov.regularMarketPrice.toLocaleString('pt-BR', { maximumFractionDigits: 0 })} pts`;
+                                target.status = ibov.regularMarketChangePercent >= 0 ? "up" : "down";
+                            }
+                        }
+                    } catch (e3) { }
                 }
             }
 
