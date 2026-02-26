@@ -24,7 +24,7 @@ jobs:
           sed -i 's|\.\./4_Back_End/js|js|g' dist/index.html
 
       - name: 📂 Sincronizar arquivos para Hostinger
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
@@ -32,4 +32,6 @@ jobs:
           server-dir: ./
           local-dir: ./dist/
           dangerous-clean-slate: true
+          timeout: 60000
+          protocol: ftp
 
