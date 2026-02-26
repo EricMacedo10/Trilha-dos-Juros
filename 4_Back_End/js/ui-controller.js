@@ -90,6 +90,17 @@ document.addEventListener('DOMContentLoaded', () => {
                         fill: '-1', // Fill area between this and previous dataset
                         tension: 0.4,
                         pointRadius: 0
+                    },
+                    {
+                        label: 'Poupança (Comparativo)',
+                        data: [],
+                        borderColor: '#fbbf24', // amber neon
+                        backgroundColor: 'transparent',
+                        borderWidth: 2,
+                        borderDash: [5, 5],
+                        fill: false,
+                        tension: 0.4,
+                        pointRadius: 0
                     }
                 ]
             },
@@ -230,13 +241,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Atualizar Chart.js
         if (growthChartInstance) {
+            // Obter dataset do investimento principal
             const labelsHtml = result.historicoMensal.map(h => `Mês ${h.mes}`);
             const dataInvestido = result.historicoMensal.map(h => h.investido);
             const dataAcumulado = result.historicoMensal.map(h => h.saldo);
 
+            // Obter dataset da Poupança como comparador fantasma (sempre calculado pra Chart independente da View)
+            const poupancaRef = FinMath.simulate('poupanca', initial, monthly, duration, 100, 'pos');
+            const dataPoupanca = poupancaRef.historicoMensal.map(h => h.saldo);
+
             growthChartInstance.data.labels = labelsHtml;
             growthChartInstance.data.datasets[0].data = dataInvestido;
             growthChartInstance.data.datasets[1].data = dataAcumulado;
+            growthChartInstance.data.datasets[2].data = dataPoupanca;
+
+            // Se o ativo principal JÁ FOR a poupanca, escondemos a linha fantasma pra não duplicar/sobrescrever visuals
+            if (type === 'poupanca') {
+                growthChartInstance.data.datasets[2].hidden = true;
+            } else {
+                growthChartInstance.data.datasets[2].hidden = false;
+            }
+
             growthChartInstance.update();
         }
     }
