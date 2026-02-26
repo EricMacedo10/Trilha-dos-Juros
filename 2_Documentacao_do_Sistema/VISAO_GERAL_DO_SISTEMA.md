@@ -5,7 +5,7 @@ O projeto **"Trilha dos Juros"** é uma plataforma financeira estratégica (*web
 *   **Matemática Financeira Impecável ("Resgate Exato"):** Oferecer aos usuários o valor real e líquido de seus investimentos, cravando as projeções de juros compostos, abatendo IOF e a Tabela Regressiva Tradicional de IR, com precisão absoluta nos rendimentos como CDI (base em 252 dias úteis).
 *   **Design Premium ("Faria Lima" / Fintech):** Distanciar-se dos velhos formulários estáticos e aborrecidos e da UI engessada institucional, utilizando *Dark Mode* sofisticado, sliders intuitivos de neon, áreas analíticas e *Glassmorphism* moderno, gerando a sensação de "terminal de investimentos de elite".
 *   **Máquina de Retenção e Monetização (AdSense):** Estruturado logicamente via SEO extremo e "Tráfego Recorrente". A grande revolução da "Trilha dos Juros" é gamificar a rotina financeira do brasileiro por meio de uma "**Jornada de Depósitos Dinâmica**" — onde o próprio usuário define sua Meta e Quantidade de Etapas, instigando-o a retornar religiosamente para bater metas personalizadas e garantindo um engajamento estrondoso nas visualizações (RPM/CPC).
-*   **Autonomia com IA (Operações Zero-Toque):** Arquitetura "Self-Driving". O front-end puxa dados via scripts automatizados atualizando Tickers diários e cotações da B3 (Selic e CDI reais) de forma síncrona, anulando a necessidade do gestor de realizar envios massantes dos indicadores monetários básicos.
+*   **Autonomia com IA (Operações Zero-Toque):** Arquitetura "Self-Driving". O front-end puxa dados via orquestração de APIs (Yahoo Finance Proxy, Banco Central SGS), atualizando Tickers e indicadores financeiros (Selic, CDI, IPCA) de forma síncrona e resiliente, anulando a necessidade de manutenção manual.
 
 ## 2. A Arquitetura do Sistema
 O sistema opera em uma estrutura ágil, blindada de gargalos, e otimizada unicamente para velocidade (Vitals) e escalabilidade.
@@ -24,7 +24,8 @@ O sistema opera em uma estrutura ágil, blindada de gargalos, e otimizada unicam
 
 ### 2.3. Cibersegurança e Infraestrutura (A Casamata)
 *   **Hospedagem Hostinger / CDN Cache:** Implantação veloz com criptografia TLS 1.3 obrigatória, com redirecionamento forçado no servidor (`.htaccess` blindado).
-*   **CI/CD Implacável via GitHub Actions:** Todo e qualquer código injetado passará por testes para se compilar na branch main, impedindo falhas em produção. Os fluxos garantem subida automática dos códigos à hospedagem sem abrir portas FTP desnecessárias à mão.
+*   **CI/CD Implacável via GitHub Actions:** Automação total do deploy. Todo código na branch main é validado e enviado automaticamente para a Hostinger, garantindo um ciclo de entrega contínuo e sem erros manuais de FTP.
+*   **Orquestração de Dados (Ticker Blindado):** O sistema utiliza uma estratégia de camadas para cotações. Prioriza fontes robustas (Yahoo Finance via AllOrigins Proxy) e possui saltos automáticos para HG Brasil e BrAPI, garantindo que o letreiro nunca falhe por bloqueios de CORS ou tokens.
 *   **Isolamento Analítico vs. Operacional:** Integração sutil mas pervasiva dos SDKs do Google AdSense (código das Tags) e Google Analytics sem travar as animações da simulação ou onerar a *Main Thread* do JS.
 
 ## 3. Fluxo de Vida Prática de Uso
@@ -38,4 +39,5 @@ O sistema opera em uma estrutura ágil, blindada de gargalos, e otimizada unicam
 3. Construção Lógica do Módulo JS: Máquina de Gamificação (Jornada de Depósitos por Progressão Aritmética). **[CONCLUÍDO]**
 4. Inserção Segura e Responsiva dos Anúncios e Analytics. **[CONCLUÍDO]**
 5. Refinamento de UX/UI Premium e Módulo de Contato Seguro (SGA / Ancord). **[CONCLUÍDO]**
-6. Deploy Automático CI/CD na Produção. **[PRÓXIMA FASE - EM ESPERA]**
+6. Deploy Automático CI/CD na Produção via GitHub Actions. **[CONCLUÍDO]**
+7. Integração de Bitcoin (BTC-USD) e Orquestração de Dados Resiliente (v13). **[CONCLUÍDO]**
