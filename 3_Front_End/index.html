@@ -8,6 +8,9 @@
         content="Trilha dos Juros - Simulador premium de renda fixa, cálculo exato de CDI, Tesouro, Poupança e Desafio Gamificado dos 102 depósitos.">
     <title>Trilha dos Juros | Simulador Premium de Renda Fixa</title>
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+
     <!-- Google Fonts: Outfit (Headings) and Inter (Body) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -45,6 +48,10 @@
             <nav class="pill-nav">
                 <button class="nav-btn active" data-target="calculator-view">Simulador</button>
                 <button class="nav-btn" data-target="gamification-view">Desafio dos Depósitos</button>
+                <button class="nav-btn" id="btn-open-contact"
+                    style="color: var(--neon-green); border: 1px solid rgba(16, 185, 129, 0.3);">
+                    <i class="ph-fill ph-envelope-simple"></i> Fale com Assessor de Investimentos
+                </button>
             </nav>
         </div>
     </header>
@@ -177,8 +184,14 @@
                     <!-- Main KPI Cards -->
                     <div class="kpi-grid">
                         <div class="glass-card kpi-card highlight">
-                            <span class="kpi-label">Valor Total Líquido <i class="ph ph-info"
-                                    title="Já descontado o Leão (IR)"></i></span>
+                            <span class="kpi-label">Valor Total Líquido
+                                <span class="info-tooltip">
+                                    <i class="ph ph-info"></i>
+                                    <span class="tooltip-text">Este é o valor final que sobra na sua mão. Já calculamos
+                                        e subtraímos automaticamente o Imposto de Renda (IR) conforme o prazo
+                                        escolhido.</span>
+                                </span>
+                            </span>
                             <strong class="kpi-value neon-text" id="res-net-total">R$ 0,00</strong>
                         </div>
                         <div class="glass-card kpi-card">
@@ -213,7 +226,16 @@
             <div class="glass-panel gamification-panel">
                 <header class="gamification-header">
                     <div class="challenge-info">
-                        <h2>Jornada dos Depósitos</h2>
+                        <div
+                            style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                            <h2 style="margin-bottom: 0;">Jornada dos Depósitos</h2>
+                            <span class="info-tooltip">
+                                <i class="ph-fill ph-info" style="font-size: 1.4rem;"></i>
+                                <span class="tooltip-text">A Jornada utiliza uma Progressão Aritmética para dividir sua
+                                    meta em depósitos crescentes. O saldo acumulado rende 100% do CDI diariamente,
+                                    ajudando você a chegar no objetivo muito mais rápido que na poupança!</span>
+                            </span>
+                        </div>
                         <p>Defina o valor da sua meta e em quantas etapas (depósitos) deseja chegar lá. Seu dinheiro
                             rende a cada passo.</p>
                     </div>
@@ -294,13 +316,54 @@
                 <a href="https://www.gov.br/cvm" target="_blank" rel="noopener noreferrer"
                     style="color: var(--primary-glow); text-decoration: none; display: flex; align-items: center; gap: 0.3rem;"><i
                         class="ph ph-shield-check"></i> CVM</a>
+                <a href="https://www.ancord.org.br" target="_blank" rel="noopener noreferrer"
+                    style="color: var(--primary-glow); text-decoration: none; display: flex; align-items: center; gap: 0.3rem;"><i
+                        class="ph ph-certificate"></i> Ancord</a>
             </div>
 
-            <p style="font-size: 0.75rem; opacity: 0.6; margin-top: 1rem;">Os cálculos exibidos são estimativas teóricas
+            <p style="font-size: 0.8rem; color: var(--text-muted); opacity: 0.9; margin-top: 1rem;">Os cálculos exibidos
+                são estimativas teóricas
                 para fins de educação financeira e não constituem recomendação oficial de investimento. A Poupança
                 assume a Regra da Taxa Referencial (TR) zerada e variação atrelada a Meta Selic atual.</p>
         </div>
     </footer>
+
+    <!-- Modal de Contato (SGA Invest) -->
+    <div id="contact-modal" class="modal-overlay" style="display: none;">
+        <div class="glass-panel modal-content">
+            <button class="modal-close" id="btn-close-contact"><i class="ph ph-x"></i></button>
+            <div class="modal-header">
+                <i class="ph-fill ph-paper-plane-right neon-text" style="font-size: 2.5rem; margin-bottom: 1rem;"></i>
+                <h2 style="font-size: 1.4rem; padding: 0 1rem;">Fale com o Assessor de Investimentos credenciado pela
+                    Ancord.</h2>
+                <p>Abra sua conta ou tire dúvidas diretamente com nosso especialista.</p>
+            </div>
+
+            <div class="contact-email-box">
+                <span id="sga-email-text">eric.macedo@sgainvest.com.br</span>
+                <button id="btn-copy-email" class="copy-btn" title="Copiar e-mail">
+                    <i class="ph ph-copy"></i>
+                </button>
+            </div>
+
+            <div class="contact-actions">
+                <!-- Abre no Gmail pelo Navegador -->
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=eric.macedo@sgainvest.com.br&su=Abertura%20de%20Conta%20-%20SGA%20Invest"
+                    target="_blank" rel="noopener" class="btn"
+                    style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; border-radius: 6px; padding: 0.8rem 1.5rem; font-weight: 500; font-family: Inter, sans-serif; cursor: pointer; transition: all 0.2s; background: rgba(245, 158, 11, 0.1); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.4); text-decoration: none;">
+                    <i class="ph-fill ph-google-logo"></i> Abrir no Gmail (Web)
+                </a>
+
+                <!-- Abre no App Padrão (Outlook/Mail) -->
+                <a href="mailto:eric.macedo@sgainvest.com.br?subject=Abertura%20de%20Conta%20-%20SGA%20Invest"
+                    class="btn btn-outline"
+                    style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; margin-top: 1rem; border-radius: 6px; padding: 0.8rem 1.5rem; font-weight: 500; font-family: Inter, sans-serif; cursor: pointer; transition: all 0.2s; background: transparent; color: var(--text-main); border: 1px solid rgba(255, 255, 255, 0.2); text-decoration: none;">
+                    <i class="ph-fill ph-envelope-open"></i> App de E-mail Padrão
+                </a>
+            </div>
+            <div id="copy-feedback" class="copy-feedback" style="display: none;">E-mail copiado!</div>
+        </div>
+    </div>
 
     <!-- Scripts de Lógica e Renderização -->
     <script src="../4_Back_End/js/ticker.js?v=3" defer></script>

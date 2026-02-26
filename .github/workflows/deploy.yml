@@ -1,0 +1,31 @@
+name: Deploy para Producao (Hostinger)
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  web-deploy:
+    name: 🚀 Deploy via FTP
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚚 Obter o código mais recente
+        uses: actions/checkout@v3
+
+      - name: 📂 Sincronizar arquivos para Hostinger
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: public_html/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            .env
+            .github/
+            1_Skill_WorkFlow_Senior/
+            2_Documentacao_do_Sistema/

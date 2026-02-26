@@ -6,7 +6,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // 1. Controle de Navegação (Pills)
-    const navBtns = document.querySelectorAll('.nav-btn');
+    const navBtns = document.querySelectorAll('.nav-btn[data-target]');
     const views = document.querySelectorAll('.view-section');
 
     navBtns.forEach(btn => {
@@ -286,6 +286,58 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("UI Controller recebeu taxas reais da API! Repintando tela...");
         updateCalculator();
     });
+
+    // ========================================================
+    // Lógica do Modal de Contato (SGA Invest)
+    // ========================================================
+    const btnOpenContact = document.getElementById('btn-open-contact');
+    const btnCloseContact = document.getElementById('btn-close-contact');
+    const contactModal = document.getElementById('contact-modal');
+    const btnCopyEmail = document.getElementById('btn-copy-email');
+    const emailText = document.getElementById('sga-email-text').textContent;
+    const copyFeedback = document.getElementById('copy-feedback');
+
+    if (btnOpenContact && contactModal && btnCloseContact) {
+        // Abrir Modal
+        btnOpenContact.addEventListener('click', () => {
+            contactModal.style.display = 'flex';
+        });
+
+        // Fechar Modal (via botão X)
+        btnCloseContact.addEventListener('click', () => {
+            contactModal.style.display = 'none';
+        });
+
+        // Fechar Modal (clicando fora)
+        window.addEventListener('click', (event) => {
+            if (event.target === contactModal) {
+                contactModal.style.display = 'none';
+            }
+        });
+
+        // Copiar E-mail
+        if (btnCopyEmail) {
+            btnCopyEmail.addEventListener('click', async () => {
+                try {
+                    await navigator.clipboard.writeText(emailText);
+                    // Feedback Visual
+                    copyFeedback.style.display = 'block';
+                    btnCopyEmail.innerHTML = '<i class="ph-fill ph-check"></i>';
+                    btnCopyEmail.style.color = 'var(--neon-green)';
+                    btnCopyEmail.style.borderColor = 'var(--neon-green)';
+
+                    setTimeout(() => {
+                        copyFeedback.style.display = 'none';
+                        btnCopyEmail.innerHTML = '<i class="ph ph-copy"></i>';
+                        btnCopyEmail.style.color = '';
+                        btnCopyEmail.style.borderColor = '';
+                    }, 2000);
+                } catch (err) {
+                    console.error('Falha ao copiar:', err);
+                }
+            });
+        }
+    }
 
     // Boot Inicial Fallback
     initChart();

@@ -15,6 +15,7 @@ O sistema opera em uma estrutura ágil, blindada de gargalos, e otimizada unicam
 *   **Módulos de Cálculos:** O motor javascript nativo, isolado para proteger e executar centenas de iterações do simulador temporal de juros, com alternância de modelo Pós-Fixado (% CDI) e Pré-Fixado (% a.a.). 
 *   **Motor Fantasma de Contraste:** O simulador roda uma via invisível permanente da Poupança para plotar o benchmark no Gráfico `Chart.js`, esfregando na cara do usuário (contraste visual) a ineficiência daquele modelo arcaico em contraponto ao CDB/LCI.
 *   **A Jornada Gamificada:** Área interativa persistida localmente (`localStorage`) que quebra uma Meta Financeira gigante em depósitos menores via Progressão Aritmética, gerando *envelopes* clicáveis.
+*   **Captação Institucional de Leads:** Módulo de contato em formato *Glassmorphism* com integração fluida ao Gmail/App Padrão, escorando-se na autoridade da Ancord e SGA Invest, focado em conversão livre da fricção de formulários longos.
 
 ### 2.2. A Matemática (O Motor de Juros Compostos)
 *   **Algoritmo de Conversão de Taxa Equivalente:** Conversão matemática exata (ao Ano <> ao Mês, e ao Dia Útil para CDI).
@@ -36,4 +37,5 @@ O sistema opera em uma estrutura ágil, blindada de gargalos, e otimizada unicam
 2. Construção Lógica do Módulo JS: Motor de Cálculos Misto (Calculadora Selic/CDI/Pré vs Poupança Dinâmica). **[CONCLUÍDO]**
 3. Construção Lógica do Módulo JS: Máquina de Gamificação (Jornada de Depósitos por Progressão Aritmética). **[CONCLUÍDO]**
 4. Inserção Segura e Responsiva dos Anúncios e Analytics. **[CONCLUÍDO]**
-5. Deploy CI/CD na Produção. **[PRÓXIMA FASE]**
+5. Refinamento de UX/UI Premium e Módulo de Contato Seguro (SGA / Ancord). **[CONCLUÍDO]**
+6. Deploy Automático CI/CD na Produção. **[PRÓXIMA FASE - EM ESPERA]**
