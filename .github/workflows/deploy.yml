@@ -14,6 +14,13 @@ jobs:
       - name: 🚚 Obter o código mais recente
         uses: actions/checkout@v3
 
+      - name: 📦 Preparar Build de Produção
+        run: |
+          mkdir dist
+          cp -r 3_Front_End/* dist/
+          cp -r 4_Back_End/js dist/js
+          sed -i 's|\.\./4_Back_End/js|js|g' dist/index.html
+
       - name: 📂 Sincronizar arquivos para Hostinger
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
@@ -21,12 +28,5 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: public_html/
-          exclude: |
-            .git/**
-            .github/**
-            node_modules/**
-            1_Skill_WorkFlow_Senior/**
-            2_Documentacao_do_Sistema/**
-            .env
-            README.md
+          local-dir: ./dist/
 
