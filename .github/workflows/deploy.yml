@@ -21,4 +21,12 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: public_html/
-          exclude: '["**/.git*", "**/.git*/**", "**/node_modules/**", ".env", ".github/**", "1_Skill_WorkFlow_Senior/**", "2_Documentacao_do_Sistema/**", "README.md"]'
+          exclude: |
+            .git/**
+            .github/**
+            node_modules/**
+            1_Skill_WorkFlow_Senior/**
+            2_Documentacao_do_Sistema/**
+            .env
+            README.md
+
