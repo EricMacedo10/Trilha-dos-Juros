@@ -13,6 +13,7 @@ O sistema opera em uma estrutura ágil, blindada de gargalos, e otimizada unicam
 ### 2.1. O Front-end ("O Palco Principal")
 *   **A "Interface Fintech":** SPA/PWA responsiva projetada Mobile-First. Construída para deslizar perfeitamente no toque do dedo do celular.
 *   **Módulos de Cálculos:** O motor javascript nativo, isolado para proteger e executar centenas de iterações do simulador temporal de juros, com alternância de modelo Pós-Fixado (% CDI) e Pré-Fixado (% a.a.). 
+*   **Motor Fantasma de Contraste:** O simulador roda uma via invisível permanente da Poupança para plotar o benchmark no Gráfico `Chart.js`, esfregando na cara do usuário (contraste visual) a ineficiência daquele modelo arcaico em contraponto ao CDB/LCI.
 *   **A Jornada Gamificada:** Área interativa persistida localmente (`localStorage`) que quebra uma Meta Financeira gigante em depósitos menores via Progressão Aritmética, gerando *envelopes* clicáveis.
 
 ### 2.2. A Matemática (O Motor de Juros Compostos)
