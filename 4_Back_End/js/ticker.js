@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { symbol: "IBOVESPA", value: "190.870 pts", status: "down" },
         { symbol: "DÓLAR", value: "R$ 6.05", status: "up" },
         { symbol: "EURO", value: "R$ 6.15", status: "up" },
+        { symbol: "BITCOIN", value: "$ 67.499", status: "up" },
         { symbol: "PETR4", value: "R$ 39.50", status: "down" },
         { symbol: "VALE3", value: "R$ 88.70", status: "up" },
         { symbol: "ITUB4", value: "R$ 47.42", status: "up" },
@@ -45,18 +46,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function updateMarketQuotes() {
         try {
-            // 1. AwesomeAPI (Moedas - Funcionando OK em lote)
-            const currencyResponse = await fetch('https://economia.awesomeapi.com.br/json/last/USD-BRL,EUR-BRL');
+            // 1. AwesomeAPI (Moedas + Bitcoin - Funcionando OK em lote)
+            const currencyResponse = await fetch('https://economia.awesomeapi.com.br/json/last/USD-BRL,EUR-BRL,BTC-USD');
             if (currencyResponse.ok) {
                 const cData = await currencyResponse.json();
-                marketData[3].value = `R$ ${parseFloat(cData.USDBRL.bid).toFixed(2)}`;
-                marketData[3].status = parseFloat(cData.USDBRL.pctChange) >= 0 ? "up" : "down";
 
-                marketData[4].value = `R$ ${parseFloat(cData.EURBRL.bid).toFixed(2)}`;
-                marketData[4].status = parseFloat(cData.EURBRL.pctChange) >= 0 ? "up" : "down";
+                // Dólar
+                const usd = marketData.find(m => m.symbol === "DÓLAR");
+                if (usd) {
+                    usd.value = `R$ ${parseFloat(cData.USDBRL.bid).toFixed(2)}`;
+                    usd.status = parseFloat(cData.USDBRL.pctChange) >= 0 ? "up" : "down";
+                }
+
+                // Euro
+                const eur = marketData.find(m => m.symbol === "EURO");
+                if (eur) {
+                    eur.value = `R$ ${parseFloat(cData.EURBRL.bid).toFixed(2)}`;
+                    eur.status = parseFloat(cData.EURBRL.pctChange) >= 0 ? "up" : "down";
+                }
+
+                // Bitcoin
+                const btc = marketData.find(m => m.symbol === "BITCOIN");
+                if (btc && cData.BTCUSD) {
+                    btc.value = `$ ${parseFloat(cData.BTCUSD.bid).toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
+                    btc.status = parseFloat(cData.BTCUSD.pctChange) >= 0 ? "up" : "down";
+                }
             }
 
-            // 2. BrAPI (Stocks - REQUER CHAMADAS INDIVIDUAIS PARA USO PÚBLICO SEM TOKEN)
+            // 2. BrAPI (Stocks - Fetches individuais para evitar restrição de token em lote)
             const assetsToFetch = ['PETR4', 'VALE3', 'ITUB4'];
             const fetchPromises = assetsToFetch.map(symbol =>
                 fetch(`https://brapi.dev/api/quote/${symbol}`).then(res => res.ok ? res.json() : null)
@@ -82,8 +99,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     const hgData = await hgResponse.json();
                     if (hgData && hgData.results && hgData.results.stocks && hgData.results.stocks.IBOVESPA) {
                         const ibov = hgData.results.stocks.IBOVESPA;
-                        marketData[2].value = `${ibov.points.toLocaleString('pt-BR')} pts`;
-                        marketData[2].status = ibov.variation >= 0 ? "up" : "down";
+                        const target = marketData.find(m => m.symbol === "IBOVESPA");
+                        if (target) {
+                            target.value = `${ibov.points.toLocaleString('pt-BR')} pts`;
+                            target.status = ibov.variation >= 0 ? "up" : "down";
+                        }
                     }
                 }
             } catch (e) {
@@ -110,11 +130,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // Escuta a API Real do BCB vinda do calculator.js
     document.addEventListener('ratesLoaded', (e) => {
         const taxasReais = e.detail;
-        marketData[0].value = `${taxasReais.selic.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}%`;
-        marketData[1].value = `${taxasReais.cdi.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}%`;
+
+        const selic = marketData.find(m => m.symbol === "SELIC");
+        if (selic) selic.value = `${taxasReais.selic.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}%`;
+
+        const cdi = marketData.find(m => m.symbol === "CDI");
+        if (cdi) cdi.value = `${taxasReais.cdi.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}%`;
 
         if (taxasReais.ipca) {
-            marketData[8].value = `${taxasReais.ipca.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}%`;
+            const ipca = marketData.find(m => m.symbol === "IPCA (12m)");
+            if (ipca) ipca.value = `${taxasReais.ipca.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}%`;
         }
 
         if (tickerContent) {
