@@ -92,22 +92,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            // 3. IBOVESPA (HG Brasil - Fonte 100% Real-Time e Pública para Índices)
+            // 3. IBOVESPA (BrAPI - Símbolo ^BVSP permitido sem token no navegador)
             try {
-                const hgResponse = await fetch('https://api.hgbrasil.com/finance?format=json-cors');
-                if (hgResponse.ok) {
-                    const hgData = await hgResponse.json();
-                    if (hgData && hgData.results && hgData.results.stocks && hgData.results.stocks.IBOVESPA) {
-                        const ibov = hgData.results.stocks.IBOVESPA;
+                const ibovResponse = await fetch('https://brapi.dev/api/quote/^BVSP');
+                if (ibovResponse.ok) {
+                    const ibovData = await ibovResponse.json();
+                    if (ibovData && ibovData.results && ibovData.results[0]) {
+                        const ibov = ibovData.results[0];
                         const target = marketData.find(m => m.symbol === "IBOVESPA");
                         if (target) {
-                            target.value = `${ibov.points.toLocaleString('pt-BR')} pts`;
-                            target.status = ibov.variation >= 0 ? "up" : "down";
+                            target.value = `${ibov.regularMarketPrice.toLocaleString('pt-BR')} pts`;
+                            target.status = ibov.regularMarketChangePercent >= 0 ? "up" : "down";
                         }
                     }
                 }
             } catch (e) {
-                console.warn('[Trilha dos Juros] Falha ao sintonizar IBOVESPA via HG Brasil.', e);
+                console.warn('[Trilha dos Juros] Falha ao sintonizar IBOVESPA via BrAPI (^BVSP).', e);
+                // Fallback via HG Brasil como redundância mínima
+                try {
+                    const hgResponse = await fetch('https://api.hgbrasil.com/finance?format=json-cors');
+                    if (hgResponse.ok) {
+                        const hgData = await hgResponse.json();
+                        const ibov = hgData.results.stocks.IBOVESPA;
+                        const target = marketData.find(m => m.symbol === "IBOVESPA");
+                        if (target && ibov) {
+                            target.value = `${ibov.points.toLocaleString('pt-BR')} pts`;
+                            target.status = ibov.variation >= 0 ? "up" : "down";
+                        }
+                    }
+                } catch (e2) { }
             }
 
         } catch (error) {
