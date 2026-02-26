@@ -19,6 +19,7 @@ jobs:
           mkdir dist
           cp -r 3_Front_End/* dist/
           cp -r 4_Back_End/js dist/js
+          cp .htaccess dist/
           sed -i 's|\.\./4_Back_End/js|js|g' dist/index.html
 
       - name: 📂 Sincronizar arquivos para Hostinger

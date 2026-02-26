@@ -1,0 +1,2 @@
+# Definir a prioridade dos arquivos principais (index.html em 1º lugar)
+DirectoryIndex index.html default.php index.php
