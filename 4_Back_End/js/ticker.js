@@ -7,16 +7,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const tickerContent = document.getElementById('ticker-content');
 
-    // Dados Iniciais (Servindo como Fallback se a internet cair)
+    // Dados Iniciais (Servindo como Fallback se a internet cair ou APIs bloquearem índices)
     let marketData = [
-        { symbol: "SELIC", value: "11.25%", status: "neutral" },
-        { symbol: "CDI", value: "11.15%", status: "neutral" },
-        { symbol: "IBOVESPA", value: "128.530 pts", status: "up" },
+        { symbol: "SELIC", value: "15.00%", status: "neutral" },
+        { symbol: "CDI", value: "14.90%", status: "neutral" },
+        { symbol: "IBOVESPA", value: "190.870 pts", status: "down" },
         { symbol: "DÓLAR", value: "R$ 6.05", status: "up" },
         { symbol: "EURO", value: "R$ 6.15", status: "up" },
-        { symbol: "PETR4", value: "R$ 41.22", status: "up" },
-        { symbol: "VALE3", value: "R$ 67.80", status: "down" },
-        { symbol: "ITUB4", value: "R$ 34.15", status: "up" },
+        { symbol: "PETR4", value: "R$ 39.50", status: "down" },
+        { symbol: "VALE3", value: "R$ 88.70", status: "up" },
+        { symbol: "ITUB4", value: "R$ 47.42", status: "up" },
         { symbol: "IPCA (12m)", value: "4.50%", status: "neutral" }
     ];
 
