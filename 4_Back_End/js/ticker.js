@@ -75,18 +75,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            // 3. IBOVESPA (Caso Especial - Tentativa Individual)
+            // 3. IBOVESPA (HG Brasil - Fonte 100% Real-Time e Pública para Índices)
             try {
-                const ibovRes = await fetch('https://brapi.dev/api/quote/%5EBVSP');
-                if (ibovRes.ok) {
-                    const ibovData = await ibovRes.json();
-                    if (ibovData.results) {
-                        const ibov = ibovData.results[0];
-                        marketData[2].value = `${ibov.regularMarketPrice.toLocaleString('pt-BR')} pts`;
-                        marketData[2].status = ibov.regularMarketChangePercent >= 0 ? "up" : "down";
+                const hgResponse = await fetch('https://api.hgbrasil.com/finance?format=json-cors');
+                if (hgResponse.ok) {
+                    const hgData = await hgResponse.json();
+                    if (hgData && hgData.results && hgData.results.stocks && hgData.results.stocks.IBOVESPA) {
+                        const ibov = hgData.results.stocks.IBOVESPA;
+                        marketData[2].value = `${ibov.points.toLocaleString('pt-BR')} pts`;
+                        marketData[2].status = ibov.variation >= 0 ? "up" : "down";
                     }
                 }
-            } catch (e) { /* Fallback para IBOV se falhar chamadas sem token */ }
+            } catch (e) {
+                console.warn('[Trilha dos Juros] Falha ao sintonizar IBOVESPA via HG Brasil.', e);
+            }
 
         } catch (error) {
             console.warn('[Trilha dos Juros] Erro ao carregar cotações reais. Mantendo fallbacks.', error);
