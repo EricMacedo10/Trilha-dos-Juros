@@ -7,13 +7,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const tickerContent = document.getElementById('ticker-content');
 
-    // Dados Fixos Simulando API em Tempo Real (Faria Lima Style)
-    const marketData = [
-        { symbol: "SELIC", value: "10.75%", status: "neutral" },
-        { symbol: "CDI", value: "10.65%", status: "neutral" },
+    // Dados Iniciais (Servindo como Fallback se a internet cair)
+    let marketData = [
+        { symbol: "SELIC", value: "11.25%", status: "neutral" },
+        { symbol: "CDI", value: "11.15%", status: "neutral" },
         { symbol: "IBOVESPA", value: "128.530 pts", status: "up" },
-        { symbol: "DÓLAR", value: "R$ 4.95", status: "down" },
-        { symbol: "EURO", value: "R$ 5.35", status: "down" },
+        { symbol: "DÓLAR", value: "R$ 6.05", status: "up" },
+        { symbol: "EURO", value: "R$ 6.15", status: "up" },
         { symbol: "PETR4", value: "R$ 41.22", status: "up" },
         { symbol: "VALE3", value: "R$ 67.80", status: "down" },
         { symbol: "ITUB4", value: "R$ 34.15", status: "up" },
@@ -22,12 +22,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function createTickerString(marketDataArray) {
         let htmlString = "";
-
         // Repetimos o array para garantir o fluxo contínuo do CSS Animation
         const fullArray = [...marketDataArray, ...marketDataArray, ...marketDataArray];
 
         fullArray.forEach(item => {
-            let color = "#10b981"; // neon green Default Up
+            let color = "#10b981"; // neon green
             let icon = "▲";
 
             if (item.status === "down") {
@@ -38,25 +37,66 @@ document.addEventListener('DOMContentLoaded', () => {
                 icon = "■";
             }
 
-            htmlString += `<span style="color: ${color};"><strong style="color: #f8fafc;">${item.symbol}</strong> ${item.value} ${icon}</span>`;
+            htmlString += `<span class="ticker-item" style="color: ${color};"><strong style="color: #f8fafc;">${item.symbol}</strong> ${item.value} ${icon}</span>`;
         });
 
         return htmlString;
     }
 
+    async function updateMarketQuotes() {
+        try {
+            // 1. AwesomeAPI (Moedas)
+            const currencyResponse = await fetch('https://economia.awesomeapi.com.br/json/last/USD-BRL,EUR-BRL');
+            if (currencyResponse.ok) {
+                const cData = await currencyResponse.json();
+                marketData[3].value = `R$ ${parseFloat(cData.USDBRL.bid).toFixed(2)}`;
+                marketData[3].status = parseFloat(cData.USDBRL.pctChange) >= 0 ? "up" : "down";
+
+                marketData[4].value = `R$ ${parseFloat(cData.EURBRL.bid).toFixed(2)}`;
+                marketData[4].status = parseFloat(cData.EURBRL.pctChange) >= 0 ? "up" : "down";
+            }
+
+            // 2. BrAPI (Stocks & Index - Usando assets públicos sem token)
+            const stockResponse = await fetch('https://brapi.dev/api/quote/%5EBVSP,PETR4,VALE3,ITUB4');
+            if (stockResponse.ok) {
+                const sData = await stockResponse.json();
+                if (sData.results) {
+                    sData.results.forEach(res => {
+                        const target = marketData.find(m => m.symbol === res.symbol || (m.symbol === "IBOVESPA" && res.symbol === "^BVSP"));
+                        if (target) {
+                            if (target.symbol === "IBOVESPA") {
+                                target.value = `${res.regularMarketPrice.toLocaleString('pt-BR')} pts`;
+                            } else {
+                                target.value = `R$ ${res.regularMarketPrice.toFixed(2)}`;
+                            }
+                            target.status = res.regularMarketChangePercent >= 0 ? "up" : "down";
+                        }
+                    });
+                }
+            }
+        } catch (error) {
+            console.warn('[Trilha dos Juros] Erro ao carregar cotações reais. Mantendo fallbacks.', error);
+        } finally {
+            if (tickerContent) {
+                tickerContent.innerHTML = createTickerString(marketData);
+            }
+        }
+    }
+
+    // Inicialização
     if (tickerContent) {
         tickerContent.innerHTML = createTickerString(marketData);
     }
 
+    updateMarketQuotes();
+    setInterval(updateMarketQuotes, 300000); // Atualiza a cada 5 minutos
+
     // Escuta a API Real do BCB vinda do calculator.js
     document.addEventListener('ratesLoaded', (e) => {
         const taxasReais = e.detail;
-
-        // Atualiza o Mockup com os dados absolutos e reais
         marketData[0].value = `${taxasReais.selic.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}%`;
         marketData[1].value = `${taxasReais.cdi.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}%`;
 
-        // Repinta o Ticker
         if (tickerContent) {
             tickerContent.innerHTML = createTickerString(marketData);
         }
