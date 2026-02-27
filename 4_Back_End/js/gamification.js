@@ -133,8 +133,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Matemática de Atualização
     function calcularGanhosEstimados(valorCaixa) {
-        // Base de CDI atual da UI (aproximadamente usando uma taxa de 0.8% a.m estimativa educacional global)
-        return valorCaixa * 0.0084;
+        // Busca o CDI real do motor matemático (FinMath)
+        const rates = FinMath.getRates();
+        const cdiAnual = rates.cdi;
+
+        // Converte taxa anual para mensal de forma exata (Juros Compostos)
+        const taxaMensal = FinMath.toMonthlyRate(cdiAnual);
+
+        return valorCaixa * taxaMensal;
     }
 
     function atualizarMetricas() {
@@ -211,11 +217,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (actionsPanel) actionsPanel.style.display = 'flex';
         renderGrid();
         atualizarMetricas();
-    } else {
-        setupPanel.style.display = 'flex';
-        progressBox.style.display = 'none';
-        if (actionsPanel) actionsPanel.style.display = 'none';
-        atualizarMetricas();
     }
+
+    // Escuta a API Real do BCB vinda do calculator.js para atualizar a Jornada
+    document.addEventListener('ratesLoaded', () => {
+        atualizarMetricas();
+    });
 
 });

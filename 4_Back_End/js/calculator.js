@@ -181,6 +181,7 @@ const FinMath = (function () {
 
     return {
         simulate,
+        toMonthlyRate,
         getRates: () => ({ selic: SELIC_ANUAL_DEFAULT, cdi: CDI_ANUAL_DEFAULT })
     };
 
