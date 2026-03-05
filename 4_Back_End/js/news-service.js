@@ -1,73 +1,44 @@
 /**
  * News Service - Trilha dos Juros
- * Orquestra a busca de notícias financeiras focadas em 4 pilares: Geral, Empresas, Câmbio e Renda Fixa.
+ * Usa rss2json.com API para converter RSS em JSON sem problemas de CORS.
  */
 
 const NewsService = (function () {
 
+    // Feeds especializados em finanças brasileiras
     const RSS_FEEDS = [
         { name: 'InfoMoney - Mercados', url: 'https://www.infomoney.com.br/mercados/feed/', tag: 'macro' },
+        { name: 'InfoMoney - Renda Fixa', url: 'https://www.infomoney.com.br/onde-investir/renda-fixa/feed/', tag: 'rf' },
         { name: 'Valor - Finanças', url: 'https://valor.globo.com/rss/financas/', tag: 'rf' },
-        { name: 'Valor - Brasil', url: 'https://valor.globo.com/rss/brasil/', tag: 'macro' },
-        { name: 'E-Investidor - RF', url: 'https://einvestidor.estadao.com.br/econometria/feed/', tag: 'rf' },
-        { name: 'InfoMoney - Renda Fixa', url: 'https://www.infomoney.com.br/onde-investir/renda-fixa/feed/', tag: 'rf' }
+        { name: 'Valor - Brasil', url: 'https://valor.globo.com/rss/brasil/', tag: 'macro' }
     ];
 
-    const PROXIES = [
-        { name: 'LocalProxy', fn: (url) => `news-proxy.php?url=${encodeURIComponent(url)}`, type: 'text' },
-        { name: 'CORSProxy.io', fn: (url) => `https://corsproxy.io/?${encodeURIComponent(url)}`, type: 'text' },
-        { name: 'AllOrigins', fn: (url) => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`, type: 'json' }
-    ];
-
+    // Usa rss2json.com - API gratuita e confiável para RSS no browser
     async function fetchFromFeed(feed) {
-        for (const proxy of PROXIES) {
-            try {
-                const proxyUrl = proxy.fn(feed.url);
-                const response = await fetch(proxyUrl);
-                if (!response.ok) continue;
+        try {
+            const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}&count=20`;
+            const response = await fetch(apiUrl);
+            if (!response.ok) return [];
 
-                let xmlContent;
-                if (proxy.type === 'json') {
-                    const data = await response.json();
-                    xmlContent = data.contents;
-                } else {
-                    xmlContent = await response.text();
-                }
+            const data = await response.json();
+            if (data.status !== 'ok' || !data.items || data.items.length === 0) return [];
 
-                if (!xmlContent || typeof xmlContent !== 'string' || xmlContent.length < 100) continue;
+            return data.items.map(item => ({
+                title: (item.title || '').trim(),
+                link: (item.link || '').trim(),
+                date: item.pubDate ? new Date(item.pubDate) : new Date(),
+                source: feed.name,
+                originalTag: feed.tag
+            })).filter(n => n.title && n.link);
 
-                const parser = new DOMParser();
-                const xmlDoc = parser.parseFromString(xmlContent, "text/xml");
-
-                let items = xmlDoc.querySelectorAll("item");
-                if (items.length === 0) items = xmlDoc.querySelectorAll("entry");
-
-                const news = [];
-                items.forEach((item, index) => {
-                    if (index < 25) { // Base ainda maior para garantir preenchimento dos slots
-                        const title = (item.querySelector("title")?.textContent || "").trim();
-                        const link = (item.querySelector("link")?.textContent || item.querySelector("link")?.getAttribute("href") || "").trim();
-                        const pubDate = (item.querySelector("pubDate")?.textContent || item.querySelector("published")?.textContent || item.querySelector("updated")?.textContent);
-
-                        if (title && link) {
-                            news.push({
-                                title,
-                                link,
-                                date: pubDate ? new Date(pubDate) : new Date(),
-                                source: feed.name,
-                                originalTag: feed.tag
-                            });
-                        }
-                    }
-                });
-                if (news.length > 0) return news;
-            } catch (e) { }
+        } catch (e) {
+            console.warn(`[NewsService] Erro ao buscar ${feed.name}:`, e);
+            return [];
         }
-        return [];
     }
 
     async function fetchNews() {
-        console.log('[Trilha dos Juros] Restaurando pilares de notícias...');
+        console.log('[Trilha dos Juros] Buscando notícias via rss2json...');
 
         const fetchPromises = RSS_FEEDS.map(feed => fetchFromFeed(feed));
         const results = await Promise.allSettled(fetchPromises);
@@ -77,7 +48,9 @@ const NewsService = (function () {
             .flatMap(r => r.value)
             .sort((a, b) => b.date - a.date);
 
-        // Pilares originais restaurados
+        console.log(`[NewsService] Total de notícias encontradas: ${allNews.length}`);
+
+        // 4 Pilares fixos
         const slots = [
             { key: 'geral', label: 'Geral', class: 'macro', item: null },
             { key: 'empresas', label: 'Empresas', class: 'macro', item: null },
@@ -90,30 +63,28 @@ const NewsService = (function () {
         const classify = (item) => {
             const title = item.title.toLowerCase();
 
-            // Critérios de Empresa (Removi 'banco' genérico pois bloqueava 'Banco Central')
             const isCompany = (/\([A-Z0-9]{4,5}\)/.test(item.title) ||
                 title.includes('petrobras') || title.includes('vale') || title.includes('itau') ||
                 title.includes('bradesco') || title.includes('ações') ||
                 title.includes('resultado') || title.includes('prejuízo') || title.includes('lucro') ||
-                title.includes('dividendo') || title.includes('dexco') || title.includes('setor hospitalar') ||
-                title.includes('fluxo de caixa') || title.includes('1t26')) && !title.includes('banco central');
+                title.includes('dividendo') || title.includes('fluxo de caixa')) &&
+                !title.includes('banco central');
 
-            // Critérios de Câmbio
             const isCambio = title.includes('dólar') || title.includes('dolar') || title.includes('euro') ||
                 title.includes('câmbio') || title.includes('moeda') || title.includes('fed');
 
-            // Critérios de Renda Fixa (ESTRITO)
-            const isRF = (title.includes('selic') || title.includes('juros') || title.includes('lca') ||
+            const isRF = !isCompany && (
+                title.includes('selic') || title.includes('juros') || title.includes('lca') ||
                 title.includes('lci') || title.includes('cdb') || title.includes('poupança') ||
-                title.includes('poupanca') || title.includes('tesouro') || title.includes('ipca') ||
-                title.includes('renda fixa') || title.includes('copom') || title.includes('inflação') ||
-                title.includes('cdi') || title.includes('título') || title.includes('pre-fixado') ||
-                title.includes('pós-fixado')) && !isCompany;
+                title.includes('tesouro') || title.includes('ipca') || title.includes('renda fixa') ||
+                title.includes('copom') || title.includes('inflação') || title.includes('cdi') ||
+                title.includes('título') || item.originalTag === 'rf'
+            );
 
             return { isCompany, isCambio, isRF };
         };
 
-        // Passo 1: Atribuição ideal
+        // Passo 1: Classificação ideal
         for (const item of allNews) {
             const { isCompany, isCambio, isRF } = classify(item);
             const title = item.title.toLowerCase();
@@ -121,65 +92,29 @@ const NewsService = (function () {
 
             if (isRF && !slots[3].item) {
                 slots[3].item = item; seenTitles.add(title);
-            } else if (isCambio && !slots[2].item && !isCompany) {
+            } else if (isCambio && !isCompany && !slots[2].item) {
                 slots[2].item = item; seenTitles.add(title);
             } else if (isCompany && !slots[1].item) {
                 slots[1].item = item; seenTitles.add(title);
-            } else if (!isCompany && !isCambio && !isRF && !slots[0].item && (title.includes('ibovespa') || title.includes('brasil') || title.includes('mercado'))) {
+            } else if (!isCompany && !isCambio && !isRF && !slots[0].item) {
                 slots[0].item = item; seenTitles.add(title);
             }
         }
 
-        // Passo 2: Fallback (Geral e Renda Fixa bloqueiam empresas)
-        for (const item of allNews) {
-            const { isCompany, isCambio, isRF } = classify(item);
-            const title = item.title.toLowerCase();
-            if (seenTitles.has(title)) continue;
-
-            if (!slots[0].item && !isCompany && !isCambio && !isRF) {
-                slots[0].item = item; seenTitles.add(title);
-            } else if (!slots[1].item && isCompany) {
-                slots[1].item = item; seenTitles.add(title);
-            } else if (!slots[2].item && isCambio) {
-                slots[2].item = item; seenTitles.add(title);
-            } else if (!slots[3].item && (isRF || item.originalTag === 'rf') && !isCompany) {
-                slots[3].item = item; seenTitles.add(title);
-            }
-        }
-
-        // Garante que o slot de Renda Fixa tenha algo, no pior caso
-        if (!slots[3].item) {
-            const anyRF = allNews.find(n => (n.originalTag === 'rf' || n.title.toLowerCase().includes('cbd') || n.title.toLowerCase().includes('lci') || n.title.toLowerCase().includes('lca')) && !seenTitles.has(n.title.toLowerCase()));
-            if (anyRF) {
-                slots[3].item = anyRF;
-                seenTitles.add(anyRF.title.toLowerCase());
-            }
-        }
-
-        // Garante preenchimento total de todos os slots com qualquer noticia que sobrou se ainda houver buracos
+        // Passo 2: Fallback para slots vazios com qualquer notícia disponível (sem repetir)
         slots.forEach(slot => {
             if (!slot.item) {
-                const nextAvailable = allNews.find(n => !seenTitles.has(n.title.toLowerCase()));
-                if (nextAvailable) {
-                    slot.item = nextAvailable;
-                    seenTitles.add(nextAvailable.title.toLowerCase());
+                const next = allNews.find(n => !seenTitles.has(n.title.toLowerCase()));
+                if (next) {
+                    slot.item = next;
+                    seenTitles.add(next.title.toLowerCase());
                 }
             }
         });
 
-        // Montar array final
         return slots.map(s => {
-            const item = s.item || {
-                title: 'Nenhum fato relevante encontrado no momento.',
-                link: '#',
-                source: 'Trilha dos Juros',
-                date: new Date()
-            };
-            return {
-                ...item,
-                tagLabel: s.label,
-                tagClass: s.class
-            };
+            const item = s.item || { title: 'Sem notícias no momento.', link: '#', source: 'Trilha dos Juros', date: new Date() };
+            return { ...item, tagLabel: s.label, tagClass: s.class };
         });
     }
 
