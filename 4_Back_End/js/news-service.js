@@ -1,14 +1,16 @@
 /**
  * News Service - Trilha dos Juros
- * Orquestra a busca de notícias financeiras focadas em Renda Fixa e Brasil com 4 pilares fixos.
+ * Orquestra a busca de notícias financeiras focadas em 4 pilares: Geral, Empresas, Câmbio e Renda Fixa.
  */
 
 const NewsService = (function () {
 
     const RSS_FEEDS = [
-        { name: 'InfoMoney - Renda Fixa', url: 'https://www.infomoney.com.br/onde-investir/renda-fixa/feed/', tag: 'rf' },
-        { name: 'E-Investidor - Renda Fixa', url: 'https://einvestidor.estadao.com.br/econometria/renda-fixa/feed/', tag: 'rf' },
-        { name: 'Valor - Finanças', url: 'https://valor.globo.com/rss/financas/', tag: 'rf' }
+        { name: 'InfoMoney - Mercados', url: 'https://www.infomoney.com.br/mercados/feed/', tag: 'macro' },
+        { name: 'Valor - Finanças', url: 'https://valor.globo.com/rss/financas/', tag: 'rf' },
+        { name: 'Valor - Brasil', url: 'https://valor.globo.com/rss/brasil/', tag: 'macro' },
+        { name: 'E-Investidor - RF', url: 'https://einvestidor.estadao.com.br/econometria/feed/', tag: 'rf' },
+        { name: 'InfoMoney - Renda Fixa', url: 'https://www.infomoney.com.br/onde-investir/renda-fixa/feed/', tag: 'rf' }
     ];
 
     const PROXIES = [
@@ -41,7 +43,7 @@ const NewsService = (function () {
 
                 const news = [];
                 items.forEach((item, index) => {
-                    if (index < 10) { // Base maior para classificação
+                    if (index < 15) { // Base maior para classificação
                         const title = (item.querySelector("title")?.textContent || "").trim();
                         const link = (item.querySelector("link")?.textContent || item.querySelector("link")?.getAttribute("href") || "").trim();
                         const pubDate = (item.querySelector("pubDate")?.textContent || item.querySelector("published")?.textContent || item.querySelector("updated")?.textContent);
@@ -64,7 +66,7 @@ const NewsService = (function () {
     }
 
     async function fetchNews() {
-        console.log('[Trilha dos Juros] Organizando notícias em 4 pilares fixos...');
+        console.log('[Trilha dos Juros] Restaurando pilares de notícias...');
 
         const fetchPromises = RSS_FEEDS.map(feed => fetchFromFeed(feed));
         const results = await Promise.allSettled(fetchPromises);
@@ -74,12 +76,12 @@ const NewsService = (function () {
             .flatMap(r => r.value)
             .sort((a, b) => b.date - a.date);
 
-        // Pilares 100% focados em Renda Fixa
+        // Pilares originais restaurados
         const slots = [
-            { key: 'cdb', label: 'CDB', class: 'rf', item: null },
-            { key: 'lci_lca', label: 'LCI / LCA', class: 'rf', item: null },
-            { key: 'poupança', label: 'Poupança', class: 'rf', item: null },
-            { key: 'tesouro', label: 'Tesouro Direto', class: 'rf', item: null }
+            { key: 'geral', label: 'Geral', class: 'macro', item: null },
+            { key: 'empresas', label: 'Empresas', class: 'macro', item: null },
+            { key: 'cambio', label: 'Câmbio', class: 'macro', item: null },
+            { key: 'rendafixa', label: 'Renda Fixa', class: 'rf', item: null }
         ];
 
         const seenTitles = new Set();
@@ -87,56 +89,65 @@ const NewsService = (function () {
         const classify = (item) => {
             const title = item.title.toLowerCase();
 
-            // Filtro rigoroso para excluir empresas/ações
+            // Critérios de Empresa
             const isCompany = /\([A-Z0-9]{4,5}\)/.test(item.title) ||
-                title.includes('ações') || title.includes('petrobras') || title.includes('vale') ||
-                title.includes('banco') || title.includes('itau') || title.includes('bradesco') ||
-                title.includes('dividendo') || title.includes('jcp') || title.includes('resultado') ||
-                title.includes('balanço') || title.includes('fluxo de caixa') || title.includes('setor hospitalar');
+                title.includes('petrobras') || title.includes('vale') || title.includes('itau') ||
+                title.includes('bradesco') || title.includes('banco') || title.includes('ações') ||
+                title.includes('resultado') || title.includes('prejuízo') || title.includes('lucro') ||
+                title.includes('dividendo') || title.includes('dexco') || title.includes('setor hospitalar') ||
+                title.includes('fluxo de caixa');
 
-            const isCDB = title.includes('cdb') || title.includes('banco') && title.includes('rendimento');
-            const isLC = title.includes('lci') || title.includes('lca');
-            const isPoupança = title.includes('poupança') || title.includes('poupanca');
-            const isTesouro = title.includes('tesouro') || title.includes('selic') || title.includes('ipca') || title.includes('copom');
+            // Critérios de Câmbio
+            const isCambio = title.includes('dólar') || title.includes('dolar') || title.includes('euro') ||
+                title.includes('câmbio') || title.includes('moeda') || title.includes('fed');
 
-            return { isCompany, isCDB, isLC, isPoupança, isTesouro };
+            // Critérios de Renda Fixa (ESTRITO)
+            const isRF = (title.includes('selic') || title.includes('juros') || title.includes('lca') ||
+                title.includes('lci') || title.includes('cdb') || title.includes('poupança') ||
+                title.includes('poupanca') || title.includes('tesouro') || title.includes('ipca') ||
+                title.includes('renda fixa') || title.includes('copom') || title.includes('inflação') ||
+                title.includes('cdi')) && !isCompany; // NÃO PODE SER EMPRESA
+
+            return { isCompany, isCambio, isRF };
         };
 
-        // Passo 1: Atribuição por categoria específica, bloqueando empresas
+        // Passo 1: Atribuição ideal
         for (const item of allNews) {
-            const { isCompany, isCDB, isLC, isPoupança, isTesouro } = classify(item);
+            const { isCompany, isCambio, isRF } = classify(item);
             const title = item.title.toLowerCase();
-            if (seenTitles.has(title) || isCompany) continue;
+            if (seenTitles.has(title)) continue;
 
-            if (isCDB && !slots[0].item) {
-                slots[0].item = item; seenTitles.add(title);
-            } else if (isLC && !slots[1].item) {
-                slots[1].item = item; seenTitles.add(title);
-            } else if (isPoupança && !slots[2].item) {
+            if (isRF && !slots[3].item) {
+                slots[3].item = item; seenTitles.add(title);
+            } else if (isCambio && !slots[2].item && !isCompany) {
                 slots[2].item = item; seenTitles.add(title);
-            } else if (isTesouro && !slots[3].item) {
+            } else if (isCompany && !slots[1].item) {
+                slots[1].item = item; seenTitles.add(title);
+            } else if (!isCompany && !isCambio && !isRF && !slots[0].item && (title.includes('ibovespa') || title.includes('brasil') || title.includes('mercado'))) {
+                slots[0].item = item; seenTitles.add(title);
+            }
+        }
+
+        // Passo 2: Fallback (Geral e Renda Fixa bloqueiam empresas)
+        for (const item of allNews) {
+            const { isCompany, isCambio, isRF } = classify(item);
+            const title = item.title.toLowerCase();
+            if (seenTitles.has(title)) continue;
+
+            if (!slots[0].item && !isCompany && !isCambio && !isRF) {
+                slots[0].item = item; seenTitles.add(title);
+            } else if (!slots[1].item && isCompany) {
+                slots[1].item = item; seenTitles.add(title);
+            } else if (!slots[2].item && isCambio) {
+                slots[2].item = item; seenTitles.add(title);
+            } else if (!slots[3].item && isRF) {
                 slots[3].item = item; seenTitles.add(title);
             }
         }
 
-        // Paso 2: Fallback para qualquer notícia de Renda Fixa que sobrou (sem empresas)
-        for (const item of allNews) {
-            const { isCompany } = classify(item);
-            const title = item.title.toLowerCase();
-            if (seenTitles.has(title) || isCompany) continue;
-
-            const emptySlot = slots.find(s => !s.item);
-            if (emptySlot) {
-                emptySlot.item = item;
-                seenTitles.add(title);
-            }
-        }
-
-
-
-        // Montar array final com classes e labels estritos
+        // Montar array final
         return slots.map(s => {
-            const item = s.item || { title: 'Sem notícias recentes neste pilar.', link: '#', source: 'Trilha dos Juros', date: new Date() };
+            const item = s.item || { title: 'Sincronizando mercado...', link: '#', source: 'Trilha dos Juros', date: new Date() };
             return {
                 ...item,
                 tagLabel: s.label,
