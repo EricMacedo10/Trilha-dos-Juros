@@ -148,9 +148,23 @@ const NewsService = (function () {
 
         // Garante que o slot de Renda Fixa tenha algo, no pior caso
         if (!slots[3].item) {
-            const anyRF = allNews.find(n => (n.originalTag === 'rf' || n.title.toLowerCase().includes('juros')) && !seenTitles.has(n.title.toLowerCase()));
-            if (anyRF) slots[3].item = anyRF;
+            const anyRF = allNews.find(n => (n.originalTag === 'rf' || n.title.toLowerCase().includes('cbd') || n.title.toLowerCase().includes('lci') || n.title.toLowerCase().includes('lca')) && !seenTitles.has(n.title.toLowerCase()));
+            if (anyRF) {
+                slots[3].item = anyRF;
+                seenTitles.add(anyRF.title.toLowerCase());
+            }
         }
+
+        // Garante preenchimento total de todos os slots com qualquer noticia que sobrou se ainda houver buracos
+        slots.forEach(slot => {
+            if (!slot.item) {
+                const nextAvailable = allNews.find(n => !seenTitles.has(n.title.toLowerCase()));
+                if (nextAvailable) {
+                    slot.item = nextAvailable;
+                    seenTitles.add(nextAvailable.title.toLowerCase());
+                }
+            }
+        });
 
         // Montar array final
         return slots.map(s => {
