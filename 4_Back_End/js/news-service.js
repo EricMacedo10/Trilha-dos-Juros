@@ -14,8 +14,9 @@ const NewsService = (function () {
     ];
 
     const PROXIES = [
-        { name: 'AllOrigins', fn: (url) => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`, type: 'json' },
-        { name: 'CORSProxy.io', fn: (url) => `https://corsproxy.io/?${encodeURIComponent(url)}`, type: 'text' }
+        { name: 'LocalProxy', fn: (url) => `news-proxy.php?url=${encodeURIComponent(url)}`, type: 'text' },
+        { name: 'CORSProxy.io', fn: (url) => `https://corsproxy.io/?${encodeURIComponent(url)}`, type: 'text' },
+        { name: 'AllOrigins', fn: (url) => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`, type: 'json' }
     ];
 
     async function fetchFromFeed(feed) {
@@ -168,7 +169,12 @@ const NewsService = (function () {
 
         // Montar array final
         return slots.map(s => {
-            const item = s.item || { title: 'Sincronizando mercado...', link: '#', source: 'Trilha dos Juros', date: new Date() };
+            const item = s.item || {
+                title: 'Nenhum fato relevante encontrado no momento.',
+                link: '#',
+                source: 'Trilha dos Juros',
+                date: new Date()
+            };
             return {
                 ...item,
                 tagLabel: s.label,
