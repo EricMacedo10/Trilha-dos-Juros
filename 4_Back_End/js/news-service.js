@@ -43,7 +43,7 @@ const NewsService = (function () {
 
                 const news = [];
                 items.forEach((item, index) => {
-                    if (index < 15) { // Base maior para classificação
+                    if (index < 25) { // Base ainda maior para garantir preenchimento dos slots
                         const title = (item.querySelector("title")?.textContent || "").trim();
                         const link = (item.querySelector("link")?.textContent || item.querySelector("link")?.getAttribute("href") || "").trim();
                         const pubDate = (item.querySelector("pubDate")?.textContent || item.querySelector("published")?.textContent || item.querySelector("updated")?.textContent);
@@ -89,13 +89,13 @@ const NewsService = (function () {
         const classify = (item) => {
             const title = item.title.toLowerCase();
 
-            // Critérios de Empresa
-            const isCompany = /\([A-Z0-9]{4,5}\)/.test(item.title) ||
+            // Critérios de Empresa (Removi 'banco' genérico pois bloqueava 'Banco Central')
+            const isCompany = (/\([A-Z0-9]{4,5}\)/.test(item.title) ||
                 title.includes('petrobras') || title.includes('vale') || title.includes('itau') ||
-                title.includes('bradesco') || title.includes('banco') || title.includes('ações') ||
+                title.includes('bradesco') || title.includes('ações') ||
                 title.includes('resultado') || title.includes('prejuízo') || title.includes('lucro') ||
                 title.includes('dividendo') || title.includes('dexco') || title.includes('setor hospitalar') ||
-                title.includes('fluxo de caixa');
+                title.includes('fluxo de caixa') || title.includes('1t26')) && !title.includes('banco central');
 
             // Critérios de Câmbio
             const isCambio = title.includes('dólar') || title.includes('dolar') || title.includes('euro') ||
@@ -106,7 +106,8 @@ const NewsService = (function () {
                 title.includes('lci') || title.includes('cdb') || title.includes('poupança') ||
                 title.includes('poupanca') || title.includes('tesouro') || title.includes('ipca') ||
                 title.includes('renda fixa') || title.includes('copom') || title.includes('inflação') ||
-                title.includes('cdi')) && !isCompany; // NÃO PODE SER EMPRESA
+                title.includes('cdi') || title.includes('título') || title.includes('pre-fixado') ||
+                title.includes('pós-fixado')) && !isCompany;
 
             return { isCompany, isCambio, isRF };
         };
@@ -140,9 +141,15 @@ const NewsService = (function () {
                 slots[1].item = item; seenTitles.add(title);
             } else if (!slots[2].item && isCambio) {
                 slots[2].item = item; seenTitles.add(title);
-            } else if (!slots[3].item && isRF) {
+            } else if (!slots[3].item && (isRF || item.originalTag === 'rf') && !isCompany) {
                 slots[3].item = item; seenTitles.add(title);
             }
+        }
+
+        // Garante que o slot de Renda Fixa tenha algo, no pior caso
+        if (!slots[3].item) {
+            const anyRF = allNews.find(n => (n.originalTag === 'rf' || n.title.toLowerCase().includes('juros')) && !seenTitles.has(n.title.toLowerCase()));
+            if (anyRF) slots[3].item = anyRF;
         }
 
         // Montar array final
