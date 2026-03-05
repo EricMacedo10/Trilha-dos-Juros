@@ -742,16 +742,20 @@
     background: rgba(255, 255, 255, 0.1);
 }
 
-.commodity-minmax {
-    display: flex;
-    justify-content: space-between;
+.commodities-disclaimer {
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
     font-size: 0.65rem;
     color: var(--text-muted);
+    line-height: 1.4;
+    display: flex;
+    gap: 0.5rem;
     opacity: 0.8;
 }
 
-.commodity-minmax span {
-    display: flex;
-    align-items: center;
-    gap: 0.2rem;
+.commodities-disclaimer i {
+    font-size: 0.9rem;
+    color: var(--brand-blue);
+    flex-shrink: 0;
 }
