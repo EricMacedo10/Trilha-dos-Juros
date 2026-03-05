@@ -16,7 +16,7 @@ if (empty($url)) {
 }
 
 // Lista de domínios permitidos
-$allowed_domains = ['infomoney.com.br', 'valor.globo.com', 'estadao.com.br', 'globo.com'];
+$allowed_domains = ['infomoney.com.br', 'valor.globo.com', 'estadao.com.br', 'globo.com', 'ebc.com.br'];
 $parsed_url = parse_url($url);
 $domain_allowed = false;
 

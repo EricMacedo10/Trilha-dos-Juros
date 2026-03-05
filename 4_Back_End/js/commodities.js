@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 // Em produção (GitHub Pages) isso apontaria para o RAW do repositório
                 // Ex: const jsonUrl = 'https://raw.githubusercontent.com/EricMacedo/Trilha-dos-Juros/main/API_Investimento/cota_hoje.json'
-                const jsonUrl = '../API_Investimento/cota_hoje.json';
+                const jsonUrl = '/API_Investimento/cota_hoje.json';
                 const res = await fetch(jsonUrl, { cache: 'no-store' });
                 if (res.ok) {
                     const scrapedData = await res.json();
