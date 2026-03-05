@@ -1,0 +1,40 @@
+name: Atualizar Cotações de Commodities
+
+on:
+  schedule:
+    - cron: '*/30 * * * *' # Executa a cada 30 minutos
+  workflow_dispatch: # Permite rodar manualmente pelo GitHub
+
+jobs:
+  update-prices:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Necessário para permitir o commit e push
+
+    steps:
+      - name: Checkout do Código
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Instalar Dependências
+        run: |
+          cd API_Investimento
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Executar Scraper
+        run: |
+          cd API_Investimento
+          python scraper.py
+
+      - name: Commit e Push das Alterações
+        run: |
+          git config --global user.name "GitHub Action [Bot]"
+          git config --global user.email "action@github.com"
+          git add API_Investimento/cota_hoje.json
+          git commit -m "chore: atualizar cotações [skip ci]" || echo "Nenhuma alteração para commitar"
+          git push

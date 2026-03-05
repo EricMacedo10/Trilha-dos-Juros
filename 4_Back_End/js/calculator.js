@@ -14,6 +14,7 @@ const FinMath = (function () {
      * Busca os indicadores reais (Selic, CDI e IPCA) da API do Banco Central (BCB)
      */
     async function fetchRealRates() {
+        console.log('[Trilha dos Juros] Sincronizando taxas oficiais com o Banco Central...');
         try {
             const endpoints = {
                 selic: 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados/ultimos/1?formato=json',
@@ -21,10 +22,11 @@ const FinMath = (function () {
                 ipca: 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.13522/dados/ultimos/1?formato=json'
             };
 
-            const [selicRes, cdiRes, ipcaRes] = await Promise.all([
-                fetch(endpoints.selic),
-                fetch(endpoints.cdi),
-                fetch(endpoints.ipca)
+            // Usamos Promise.allSettled para garantir que uma falha no IPCA não quebre a Selic/CDI
+            const [selicRes, cdiRes, ipcaRes] = await Promise.allSettled([
+                fetch(endpoints.selic).then(r => r.ok ? r.json() : null),
+                fetch(endpoints.cdi).then(r => r.ok ? r.json() : null),
+                fetch(endpoints.ipca).then(r => r.ok ? r.json() : null)
             ]);
 
             let realData = {
@@ -33,30 +35,21 @@ const FinMath = (function () {
                 ipca: 4.50 // Fallback IPCA
             };
 
-            if (selicRes.ok) {
-                const data = await selicRes.json();
-                if (data.length > 0) {
-                    realData.selic = parseFloat(data[0].valor);
-                    SELIC_ANUAL_DEFAULT = realData.selic;
-                }
+            if (selicRes.status === 'fulfilled' && selicRes.value && selicRes.value.length > 0) {
+                realData.selic = parseFloat(selicRes.value[0].valor);
+                SELIC_ANUAL_DEFAULT = realData.selic;
             }
 
-            if (cdiRes.ok) {
-                const data = await cdiRes.json();
-                if (data.length > 0) {
-                    realData.cdi = parseFloat(data[0].valor);
-                    CDI_ANUAL_DEFAULT = realData.cdi;
-                }
+            if (cdiRes.status === 'fulfilled' && cdiRes.value && cdiRes.value.length > 0) {
+                realData.cdi = parseFloat(cdiRes.value[0].valor);
+                CDI_ANUAL_DEFAULT = realData.cdi;
             }
 
-            if (ipcaRes.ok) {
-                const data = await ipcaRes.json();
-                if (data.length > 0) {
-                    realData.ipca = parseFloat(data[0].valor);
-                }
+            if (ipcaRes.status === 'fulfilled' && ipcaRes.value && ipcaRes.value.length > 0) {
+                realData.ipca = parseFloat(ipcaRes.value[0].valor);
             }
 
-            // Atualiza poupança baseada na nova Selic
+            // Atualiza poupança baseada na nova Selic (Regra Pós-2012)
             POUPANCA_ANUAL = SELIC_ANUAL_DEFAULT > 8.5 ? 6.17 : (SELIC_ANUAL_DEFAULT * 0.7);
 
             console.log(`[Trilha dos Juros] Indicadores BCB sintonizados: Selic ${realData.selic}% | CDI ${realData.cdi}% | IPCA ${realData.ipca}%`);
@@ -71,7 +64,7 @@ const FinMath = (function () {
             }));
 
         } catch (error) {
-            console.warn('[Trilha dos Juros] Fallback: Usando taxas offline por erro de rede.', error);
+            console.warn('[Trilha dos Juros] Fallback: Usando taxas offline por erro de rede inesperado.', error);
         }
     }
 
@@ -131,13 +124,6 @@ const FinMath = (function () {
         // Simulação Mês a Mês
         let saldoAcumulado = valorInicial;
         let totalInvestido = valorInicial;
-
-        historico.push({
-            mes: 0,
-            acrescimo: 0,
-            saldo: saldoAcumulado,
-            investido: totalInvestido
-        });
 
         for (let i = 1; i <= meses; i++) {
             let rendimentoMes = saldoAcumulado * taxaMensal;

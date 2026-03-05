@@ -19,6 +19,7 @@ jobs:
           mkdir dist
           cp -r 3_Front_End/* dist/
           cp -r 4_Back_End/js dist/js
+          cp -r API_Investimento dist/
           cp .htaccess dist/
           cp ads.txt dist/
           sed -i 's|\.\./4_Back_End/js|js|g' dist/index.html

@@ -208,6 +208,22 @@
                         </div>
                     </div>
 
+                    <!-- Painel de Commodities (Mercado Global) -->
+                    <div class="commodities-panel" id="commodities-panel" style="margin-top: 1.5rem;">
+                        <h4
+                            style="color: var(--brand-blue); font-size: 0.85rem; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem;">
+                            <i class="ph-fill ph-globe-hemisphere-west"></i> Mercado Global
+                        </h4>
+                        <div class="commodities-grid" id="commodities-grid">
+                            <div class="loading-commodities"
+                                style="text-align: center; padding: 1rem; color: var(--text-muted); font-size: 0.8rem; grid-column: 1 / -1;">
+                                <i class="ph ph-circle-notch ph-spin"
+                                    style="font-size: 1.5rem; margin-bottom: 0.5rem; display: block;"></i>
+                                Sincronizando...
+                            </div>
+                        </div>
+                    </div>
+
                 </aside>
 
                 <!-- Painel de Resultados (Direita Desktop / Baixo Mobile) -->
@@ -247,6 +263,30 @@
                     <!-- Gráfico -->
                     <div class="glass-card chart-container">
                         <canvas id="growthChart"></canvas>
+                    </div>
+
+                    <!-- Módulo de Notícias (Ocupando o espaço vago) -->
+                    <div id="news-section" class="glass-panel"
+                        style="margin-top: 1.5rem; padding: 1.5rem; display: none;">
+                        <div
+                            style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem;">
+                            <h3
+                                style="font-family: 'Outfit', sans-serif; font-size: 1.1rem; margin: 0; display: flex; align-items: center; gap: 0.6rem;">
+                                <i class="ph-fill ph-newspaper-clipping neon-text"></i>
+                                Últimas do Mercado Financeiro
+                            </h3>
+                            <span class="helper-text" style="font-size: 0.7rem; opacity: 0.7;">Atualizado em tempo
+                                real</span>
+                        </div>
+                        <div id="news-grid" class="news-grid">
+                            <!-- Injetado via JS -->
+                            <div class="loading-news"
+                                style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                                <i class="ph ph-circle-notch ph-spin"
+                                    style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+                                <p>Sincronizando notícias...</p>
+                            </div>
+                        </div>
                     </div>
 
                 </article>
@@ -401,10 +441,12 @@
     </div>
 
     <!-- Scripts de Lógica e Renderização -->
+    <script src="../4_Back_End/js/news-service.js?v=13" defer></script>
     <script src="../4_Back_End/js/ticker.js?v=13" defer></script>
     <script src="../4_Back_End/js/calculator.js?v=13" defer></script>
     <script src="../4_Back_End/js/ui-controller.js?v=13" defer></script>
     <script src="../4_Back_End/js/gamification.js?v=13" defer></script>
+    <script src="../4_Back_End/js/commodities.js?v=1" defer></script>
 </body>
 
 </html>

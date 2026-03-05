@@ -293,7 +293,7 @@
 /* Charts */
 .chart-container {
     position: relative;
-    height: 250px;
+    height: 450px;
     width: 100%;
     padding: 1rem;
 }
@@ -581,4 +581,177 @@
         opacity: 0;
         transform: translateY(10px);
     }
+}
+
+/* ========================================================
+   MODULO DE NOTICIAS (FEED)
+   ======================================================== */
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+}
+
+.news-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-sm);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    overflow: hidden;
+}
+
+.news-card:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--neon-green);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.2);
+}
+
+.news-card-tag {
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05rem;
+    padding: 0.2rem 0.5rem;
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--brand-blue);
+    border-radius: 4px;
+    width: fit-content;
+}
+
+.news-card-tag.macro {
+    background: rgba(167, 139, 250, 0.1);
+    color: #a78bfa;
+}
+
+.news-card-tag.rf {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--neon-green);
+}
+
+.news-card-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    font-weight: 500;
+    color: var(--text-main);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.news-card-footer {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+
+.news-card-footer .source {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-weight: 500;
+}
+
+/* ========================================================
+   MODULO DE COMMODITIES (SIDEBAR)
+   ======================================================== */
+.commodities-panel {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+}
+
+.commodities-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+}
+
+.commodity-mini-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-sm);
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    transition: all 0.2s;
+}
+
+.commodity-mini-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.commodity-header {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.commodity-header i {
+    font-size: 0.85rem;
+}
+
+.commodity-price {
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.commodity-change {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.1rem 0.3rem;
+    border-radius: 4px;
+}
+
+.commodity-change.up {
+    color: var(--neon-green);
+    background: rgba(16, 185, 129, 0.1);
+}
+
+.commodity-change.down {
+    color: var(--hazard-red);
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.commodity-change.neutral {
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.commodity-minmax {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    opacity: 0.8;
+}
+
+.commodity-minmax span {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
 }

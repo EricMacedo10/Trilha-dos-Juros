@@ -66,6 +66,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const ctx = document.getElementById('growthChart').getContext('2d');
 
     function initChart() {
+        if (growthChartInstance) {
+            growthChartInstance.destroy();
+        }
         growthChartInstance = new Chart(ctx, {
             type: 'line',
             data: {
@@ -76,31 +79,43 @@ document.addEventListener('DOMContentLoaded', () => {
                         data: [],
                         borderColor: '#3b82f6', // brand blue
                         backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                        borderWidth: 2,
+                        borderWidth: 3,
                         fill: true,
-                        tension: 0.4,
-                        pointRadius: 0
+                        tension: 0.1,
+                        pointBackgroundColor: '#0f172a', // Hollow center matching background
+                        pointBorderColor: '#3b82f6',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 7
                     },
                     {
                         label: 'Saldo Acumulado (Com Juros)',
                         data: [],
                         borderColor: '#10b981', // neon green
                         backgroundColor: 'rgba(16, 185, 129, 0.2)',
-                        borderWidth: 2,
+                        borderWidth: 3,
                         fill: '-1', // Fill area between this and previous dataset
-                        tension: 0.4,
-                        pointRadius: 0
+                        tension: 0.1,
+                        pointBackgroundColor: '#0f172a',
+                        pointBorderColor: '#10b981',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 7
                     },
                     {
                         label: 'Poupança (Comparativo)',
                         data: [],
                         borderColor: '#fbbf24', // amber neon
                         backgroundColor: 'transparent',
-                        borderWidth: 2,
+                        borderWidth: 3,
                         borderDash: [5, 5],
                         fill: false,
-                        tension: 0.4,
-                        pointRadius: 0
+                        tension: 0.1,
+                        pointBackgroundColor: '#0f172a',
+                        pointBorderColor: '#fbbf24',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 7
                     }
                 ]
             },
@@ -136,9 +151,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 scales: {
                     x: {
                         grid: { color: 'rgba(255,255,255,0.05)' },
-                        ticks: { color: '#a1a1aa' }
+                        ticks: {
+                            color: '#a1a1aa',
+                            maxTicksLimit: 12, // Evita sobreposição de dezenas de labels
+                            maxRotation: 45,
+                            minRotation: 45
+                        }
                     },
                     y: {
+                        beginAtZero: false,
                         grid: { color: 'rgba(255,255,255,0.05)' },
                         ticks: {
                             color: '#a1a1aa',
@@ -255,6 +276,13 @@ document.addEventListener('DOMContentLoaded', () => {
             growthChartInstance.data.datasets[1].data = dataAcumulado;
             growthChartInstance.data.datasets[2].data = dataPoupanca;
 
+            // Ajuste Dinâmico de Escala: "Abre" o gráfico focando nos dados
+            const allPoints = [...dataInvestido, ...dataAcumulado, ...dataPoupanca];
+            const minVal = Math.min(...allPoints);
+
+            // Forçamos o gráfico a começar em 99% do valor mínimo real (Zero espaço morto)
+            growthChartInstance.options.scales.y.min = Math.floor(minVal * 0.99);
+
             // Se o ativo principal JÁ FOR a poupanca, escondemos a linha fantasma pra não duplicar/sobrescrever visuals
             if (type === 'poupanca') {
                 growthChartInstance.data.datasets[2].hidden = true;
@@ -264,6 +292,62 @@ document.addEventListener('DOMContentLoaded', () => {
 
             growthChartInstance.update();
         }
+
+        // Chamar o carregamento de notícias (Apenas se estiver na view da calculadora)
+        if (type !== 'poupanca' || true) { // Queremos notícias sempre agora
+            loadNews();
+        }
+    }
+
+    async function loadNews() {
+        const newsSection = document.getElementById('news-section');
+        const newsGrid = document.getElementById('news-grid');
+
+        if (!newsSection || !newsGrid) return;
+
+        // Mostrar a seção (já que ela começa com display:none no HTML)
+        newsSection.style.display = 'block';
+
+        try {
+            const news = await NewsService.fetchNews();
+            renderNewsCards(news);
+        } catch (error) {
+            console.warn('[Trilha dos Juros] Falha ao carregar notícias filtradas.', error);
+            newsGrid.innerHTML = '<p style="color: var(--text-muted); padding: 1rem;">Não foi possível carregar as notícias agora. Tente novamente mais tarde.</p>';
+        }
+    }
+
+    function renderNewsCards(newsArray) {
+        const newsGrid = document.getElementById('news-grid');
+        if (!newsGrid) return;
+
+        if (newsArray.length === 0) {
+            newsGrid.innerHTML = '<p style="color: var(--text-muted); padding: 1rem;">Nenhuma notícia relevante encontrada no momento.</p>';
+            return;
+        }
+
+        let html = '';
+        newsArray.slice(0, 4).forEach(item => { // Forçamos o limite de 4 cards na UI
+            const timeStr = item.date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' });
+
+            // Usa as tags dinâmicas enviadas pelo NewsService ou fallback
+            const tagClass = item.tagClass || (item.tag === 'rf' ? 'rf' : 'macro');
+            const tagLabel = item.tagLabel || (item.tag === 'rf' ? 'Renda Fixa' : 'Macroeconomia');
+
+            html += `
+                <a href="${item.link}" target="_blank" rel="noopener" class="news-card">
+                    <span class="news-card-tag ${tagClass}">${tagLabel}</span>
+                    <h4 class="news-card-title">${item.title}</h4>
+                    <div class="news-card-footer">
+                        <span class="source"><i class="ph ph-newspaper"></i> ${item.source}</span>
+                        <span class="date">${timeStr}</span>
+                    </div>
+                </a>
+            `;
+        });
+
+        newsGrid.innerHTML = html;
+
     }
 
     // Bind de Eventos

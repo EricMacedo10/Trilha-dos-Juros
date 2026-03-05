@@ -1,0 +1,1 @@
+fetch('https://api.apifreaks.com/v1.0/commodity/symbols?apiKey=03462d5acb5447f9abaa797041ad38bd').then(r=>r.json()).then(d=>{const s = d.supportedCurrenciesMap; for(let k in s) { if(/Gold|Silver|Oil|Coffee|Cattle|Iron/i.test(s[k].name)) console.log(k + ' : ' + s[k].name); }})
