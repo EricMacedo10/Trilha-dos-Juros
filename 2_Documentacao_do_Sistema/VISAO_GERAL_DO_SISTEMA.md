@@ -26,6 +26,7 @@ O sistema opera em uma estrutura ágil, blindada de gargalos, e otimizada unicam
 *   **Hospedagem Hostinger / CDN Cache:** Implantação veloz com criptografia TLS 1.3 obrigatória, com redirecionamento forçado no servidor (`.htaccess` blindado).
 *   **CI/CD Implacável via GitHub Actions:** Automação total do deploy. Todo código na branch main é validado e enviado automaticamente para a Hostinger, garantindo um ciclo de entrega contínuo e sem erros manuais de FTP.
 *   **Orquestração de Dados (Ticker Blindado):** O sistema utiliza uma estratégia de camadas para cotações. Prioriza fontes robustas (Yahoo Finance via AllOrigins Proxy) e possui saltos automáticos para HG Brasil e BrAPI, garantindo que o letreiro nunca falhe por bloqueios de CORS ou tokens.
+*   **Serviço de Notícias (Multi-Fonte com Proxy PHP):** Módulo `news-service.js` busca RSS de fontes brasileiras validadas (`infomoney.com.br/mercados/feed/`, G1 Economia, Agência Brasil) via proxy PHP local (`/news-proxy.php`) hospedado no próprio servidor, com fallback para `allorigins.win`. Proxies públicos como `corsproxy.io` são bloqueados (403) pelos portais em produção — a solução com PHP proxy no servidor contorna isso sem depender de terceiros pagos. Feeds são classificados automaticamente em 4 pilares: **Geral, Empresas, Câmbio e Renda Fixa**.
 *   **Isolamento Analítico vs. Operacional:** Integração sutil mas pervasiva dos SDKs do Google AdSense (código das Tags) e Google Analytics sem travar as animações da simulação ou onerar a *Main Thread* do JS.
 
 ## 3. Fluxo de Vida Prática de Uso
@@ -41,3 +42,6 @@ O sistema opera em uma estrutura ágil, blindada de gargalos, e otimizada unicam
 5. Refinamento de UX/UI Premium e Módulo de Contato Seguro (SGA / Ancord). **[CONCLUÍDO]**
 6. Deploy Automático CI/CD na Produção via GitHub Actions. **[CONCLUÍDO]**
 7. Integração de Bitcoin (BTC-USD) e Orquestração de Dados Resiliente (v13). **[CONCLUÍDO]**
+8. Módulo de Cotações de Commodities com scraper Python + atualização automática a cada 30 min via GitHub Actions. **[CONCLUÍDO]**
+9. Módulo de Últimas Notícias do Mercado Financeiro com 4 pilares (Geral, Empresas, Câmbio, Renda Fixa) via RSS + Proxy PHP resiliente. **[CONCLUÍDO]**
+10. Disclaimer de atraso de 30 min nas cotações de commodities (transparência e proteção legal). **[CONCLUÍDO]**
