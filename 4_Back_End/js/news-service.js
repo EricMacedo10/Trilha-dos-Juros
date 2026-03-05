@@ -6,11 +6,9 @@
 const NewsService = (function () {
 
     const RSS_FEEDS = [
-        { name: 'InfoMoney - Mercados', url: 'https://www.infomoney.com.br/mercados/feed/', tag: 'macro' },
-        { name: 'Valor - Finanças', url: 'https://valor.globo.com/rss/financas/', tag: 'rf' },
-        { name: 'Valor - Brasil', url: 'https://valor.globo.com/rss/brasil/', tag: 'macro' },
-        { name: 'E-Investidor - RF', url: 'https://einvestidor.estadao.com.br/econometria/feed/', tag: 'rf' },
-        { name: 'InfoMoney - Renda Fixa', url: 'https://www.infomoney.com.br/onde-investir/renda-fixa/feed/', tag: 'rf' }
+        { name: 'InfoMoney - Renda Fixa', url: 'https://www.infomoney.com.br/onde-investir/renda-fixa/feed/', tag: 'rf' },
+        { name: 'E-Investidor - Renda Fixa', url: 'https://einvestidor.estadao.com.br/econometria/renda-fixa/feed/', tag: 'rf' },
+        { name: 'Valor - Finanças', url: 'https://valor.globo.com/rss/financas/', tag: 'rf' }
     ];
 
     const PROXIES = [
@@ -76,86 +74,65 @@ const NewsService = (function () {
             .flatMap(r => r.value)
             .sort((a, b) => b.date - a.date);
 
-        // Pilares na ordem solicitada pelo usuário
+        // Pilares 100% focados em Renda Fixa
         const slots = [
-            { key: 'geral', label: 'Geral', class: 'macro', item: null },
-            { key: 'empresas', label: 'Empresas', class: 'macro', item: null },
-            { key: 'cambio', label: 'Câmbio', class: 'macro', item: null },
-            { key: 'rendafixa', label: 'Renda Fixa', class: 'rf', item: null }
+            { key: 'cdb', label: 'CDB', class: 'rf', item: null },
+            { key: 'lci_lca', label: 'LCI / LCA', class: 'rf', item: null },
+            { key: 'poupança', label: 'Poupança', class: 'rf', item: null },
+            { key: 'tesouro', label: 'Tesouro Direto', class: 'rf', item: null }
         ];
 
         const seenTitles = new Set();
 
         const classify = (item) => {
             const title = item.title.toLowerCase();
+
+            // Filtro rigoroso para excluir empresas/ações
             const isCompany = /\([A-Z0-9]{4,5}\)/.test(item.title) ||
-                title.includes('petrobras') || title.includes('vale') || title.includes('itau') ||
-                title.includes('bradesco') || title.includes('banco') || title.includes('ações') ||
-                title.includes('resultado') || title.includes('prejuízo') || title.includes('lucro') ||
-                title.includes('dividendo') || title.includes('dexco');
+                title.includes('ações') || title.includes('petrobras') || title.includes('vale') ||
+                title.includes('banco') || title.includes('itau') || title.includes('bradesco') ||
+                title.includes('dividendo') || title.includes('jcp') || title.includes('resultado') ||
+                title.includes('balanço') || title.includes('fluxo de caixa') || title.includes('setor hospitalar');
 
-            const isCambio = title.includes('dólar') || title.includes('dolar') || title.includes('euro') ||
-                title.includes('câmbio') || title.includes('moeda') || title.includes('fed');
+            const isCDB = title.includes('cdb') || title.includes('banco') && title.includes('rendimento');
+            const isLC = title.includes('lci') || title.includes('lca');
+            const isPoupança = title.includes('poupança') || title.includes('poupanca');
+            const isTesouro = title.includes('tesouro') || title.includes('selic') || title.includes('ipca') || title.includes('copom');
 
-            const isRF = title.includes('selic') || title.includes('juros') || title.includes('lca') ||
-                title.includes('lci') || title.includes('cdb') || title.includes('poupança') ||
-                title.includes('poupanca') || title.includes('tesouro') || title.includes('ipca') ||
-                title.includes('renda fixa') || title.includes('copom') || title.includes('inflação') ||
-                title.includes('cdi');
-
-            return { isCompany, isCambio, isRF };
+            return { isCompany, isCDB, isLC, isPoupança, isTesouro };
         };
 
-        // Passo 1: Atribuição perfeita
+        // Passo 1: Atribuição por categoria específica, bloqueando empresas
         for (const item of allNews) {
-            const { isCompany, isCambio, isRF } = classify(item);
+            const { isCompany, isCDB, isLC, isPoupança, isTesouro } = classify(item);
             const title = item.title.toLowerCase();
-            if (seenTitles.has(title)) continue;
+            if (seenTitles.has(title) || isCompany) continue;
 
-            if (isRF && !slots[3].item && !isCompany) {
-                slots[3].item = item; seenTitles.add(title);
-            } else if (isCambio && !slots[2].item && !isCompany) {
-                slots[2].item = item; seenTitles.add(title);
-            } else if (isCompany && !slots[1].item) {
-                slots[1].item = item; seenTitles.add(title);
-            } else if (!isCompany && !isCambio && !isRF && !slots[0].item && (title.includes('ibovespa') || title.includes('brasil') || title.includes('mercado'))) {
+            if (isCDB && !slots[0].item) {
                 slots[0].item = item; seenTitles.add(title);
+            } else if (isLC && !slots[1].item) {
+                slots[1].item = item; seenTitles.add(title);
+            } else if (isPoupança && !slots[2].item) {
+                slots[2].item = item; seenTitles.add(title);
+            } else if (isTesouro && !slots[3].item) {
+                slots[3].item = item; seenTitles.add(title);
             }
         }
 
-        // Passo 2: Fallback para preencher buracos (sem quebrar a segregação de empresas)
+        // Paso 2: Fallback para qualquer notícia de Renda Fixa que sobrou (sem empresas)
         for (const item of allNews) {
-            const { isCompany, isCambio, isRF } = classify(item);
+            const { isCompany } = classify(item);
             const title = item.title.toLowerCase();
-            if (seenTitles.has(title)) continue;
+            if (seenTitles.has(title) || isCompany) continue;
 
-            if (!slots[0].item && !isCompany && !isCambio && !isRF) {
-                slots[0].item = item; seenTitles.add(title); continue;
-            }
-            if (!slots[1].item && isCompany) {
-                slots[1].item = item; seenTitles.add(title); continue;
-            }
-            if (!slots[2].item && isCambio) {
-                slots[2].item = item; seenTitles.add(title); continue;
-            }
-            if (!slots[3].item && (isRF || item.originalTag === 'rf') && !isCompany) {
-                slots[3].item = item; seenTitles.add(title); continue;
-            }
-        }
-
-        // Passo 3: Garantia Final (Preenche qualquer vazio com o que sobrou, mantendo o rótulo do slot)
-        for (const item of allNews) {
-            if (!seenTitles.has(item.title.toLowerCase())) {
-                const emptySlot = slots.find(s => !s.item);
-                if (!emptySlot) break;
-                // Evita colocar empresa em Geral e Renda Fixa se possível
-                const { isCompany } = classify(item);
-                if ((emptySlot.key === 'geral' || emptySlot.key === 'rendafixa') && isCompany) continue;
-
+            const emptySlot = slots.find(s => !s.item);
+            if (emptySlot) {
                 emptySlot.item = item;
-                seenTitles.add(item.title.toLowerCase());
+                seenTitles.add(title);
             }
         }
+
+
 
         // Montar array final com classes e labels estritos
         return slots.map(s => {
