@@ -1,7 +1,7 @@
 <?php
 /**
  * Trilha dos Juros - News Proxy
- * Evita erros de CORS e bloqueios de proxies públicos buscando as notícias diretamente do servidor.
+ * Usa file_get_contents com stream context para compatibilidade máxima com Hostinger.
  */
 
 header('Access-Control-Allow-Origin: *');
@@ -15,7 +15,7 @@ if (empty($url)) {
     exit;
 }
 
-// Lista de domínios permitidos para segurança
+// Lista de domínios permitidos
 $allowed_domains = ['infomoney.com.br', 'valor.globo.com', 'estadao.com.br', 'globo.com'];
 $parsed_url = parse_url($url);
 $domain_allowed = false;
@@ -35,23 +35,56 @@ if (!$domain_allowed) {
     exit;
 }
 
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, $url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36');
-curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+$opts = [
+    'http' => [
+        'method' => 'GET',
+        'header' => implode("\r\n", [
+            'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language: pt-BR,pt;q=0.9,en;q=0.7',
+        ]),
+        'timeout' => 15,
+        'follow_location' => 1,
+        'ignore_errors' => true,
+    ],
+    'ssl' => [
+        'verify_peer' => false,
+        'verify_peer_name' => false,
+    ]
+];
 
-$data = curl_exec($ch);
-$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+$context = stream_context_create($opts);
 
-if (curl_errno($ch)) {
-    http_response_code(500);
-    echo '<?xml version="1.0" encoding="UTF-8"?><error>Curl error: ' . htmlspecialchars(curl_error($ch)) . '</error>';
-} else {
-    http_response_code($http_code);
-    echo $data;
+// Tenta com curl se disponível, senão usa file_get_contents
+if (function_exists('curl_init')) {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36');
+    curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Accept: application/xml,text/xml,*/*']);
+
+    $data = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    if ($data && $http_code === 200) {
+        http_response_code(200);
+        echo $data;
+        exit;
+    }
 }
 
-curl_close($ch);
+// Fallback: file_get_contents
+$data = @file_get_contents($url, false, $context);
+
+if ($data === false || empty($data)) {
+    http_response_code(502);
+    echo '<?xml version="1.0" encoding="UTF-8"?><error>Failed to fetch feed</error>';
+    exit;
+}
+
+http_response_code(200);
+echo $data;
