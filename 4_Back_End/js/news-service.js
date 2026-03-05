@@ -1,28 +1,31 @@
 /**
  * News Service - Trilha dos Juros
- * Usa proxy PHP local no servidor para buscar RSS sem problemas de CORS.
+ * Multi-Source Fetching com saltos automáticos entre provedores (RSS + Proxy).
+ * Arquitetura resiliente conforme SKILL_SENIOR_WORKFLOW.md.
  */
 
 const NewsService = (function () {
 
+    // Feeds RSS diretos (sem dependência de proxy para leitura direta)
     const RSS_FEEDS = [
         { name: 'InfoMoney - Mercados', url: 'https://www.infomoney.com.br/mercados/feed/', tag: 'macro' },
-        { name: 'InfoMoney - Renda Fixa', url: 'https://www.infomoney.com.br/onde-investir/renda-fixa/feed/', tag: 'rf' },
-        { name: 'Valor - Finanças', url: 'https://valor.globo.com/rss/financas/', tag: 'rf' },
-        { name: 'Valor - Brasil', url: 'https://valor.globo.com/rss/brasil/', tag: 'macro' }
+        { name: 'InfoMoney - RF', url: 'https://www.infomoney.com.br/onde-investir/feed/', tag: 'rf' },
+        { name: 'G1 - Economia', url: 'https://g1.globo.com/dynamo/economia/rss2.xml', tag: 'macro' },
+        { name: 'Agência Brasil - Economia', url: 'https://agenciabrasil.ebc.com.br/economia/feed', tag: 'rf' }
     ];
 
-    // Proxy PHP local no servidor (caminho absoluto) + fallback AllOrigins
+    // Estratégia de proxies para contornar CORS (salto automático)
     const PROXIES = [
         { name: 'LocalPHP', fn: (url) => `/news-proxy.php?url=${encodeURIComponent(url)}`, type: 'text' },
-        { name: 'AllOrigins', fn: (url) => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`, type: 'json' }
+        { name: 'AllOrigins', fn: (url) => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`, type: 'json' },
+        { name: 'CORSAnywhere', fn: (url) => `https://corsproxy.io/?${encodeURIComponent(url)}`, type: 'text' }
     ];
 
     async function fetchFromFeed(feed) {
         for (const proxy of PROXIES) {
             try {
                 const proxyUrl = proxy.fn(feed.url);
-                const response = await fetch(proxyUrl);
+                const response = await fetch(proxyUrl, { signal: AbortSignal.timeout(8000) });
                 if (!response.ok) continue;
 
                 let xmlContent;
@@ -33,22 +36,25 @@ const NewsService = (function () {
                     xmlContent = await response.text();
                 }
 
-                if (!xmlContent || typeof xmlContent !== 'string' || xmlContent.length < 100) continue;
+                if (!xmlContent || typeof xmlContent !== 'string' || xmlContent.length < 200) continue;
+                if (xmlContent.includes('<error>') || xmlContent.includes('Page not found')) continue;
 
                 const parser = new DOMParser();
                 const xmlDoc = parser.parseFromString(xmlContent, 'text/xml');
 
                 let items = xmlDoc.querySelectorAll('item');
                 if (items.length === 0) items = xmlDoc.querySelectorAll('entry');
+                if (items.length === 0) continue;
 
                 const news = [];
                 items.forEach((item, index) => {
                     if (index < 20) {
-                        const title = (item.querySelector('title')?.textContent || '').trim();
+                        const title = (item.querySelector('title')?.textContent || '').trim()
+                            .replace('<![CDATA[', '').replace(']]>', '');
                         const link = (item.querySelector('link')?.textContent || item.querySelector('link')?.getAttribute('href') || '').trim();
                         const pubDate = item.querySelector('pubDate')?.textContent || item.querySelector('published')?.textContent;
 
-                        if (title && link) {
+                        if (title && link && title.length > 10) {
                             news.push({
                                 title,
                                 link,
@@ -60,17 +66,21 @@ const NewsService = (function () {
                     }
                 });
 
-                if (news.length > 0) return news;
+                if (news.length > 0) {
+                    console.log(`[NewsService] ✅ ${feed.name} via ${proxy.name}: ${news.length} notícias`);
+                    return news;
+                }
 
             } catch (e) {
-                console.warn(`[NewsService] Proxy ${proxy.name} falhou para ${feed.name}:`, e);
+                // Silently continue to next proxy
             }
         }
+        console.warn(`[NewsService] ❌ Falha total para: ${feed.name}`);
         return [];
     }
 
     async function fetchNews() {
-        console.log('[Trilha dos Juros] Buscando notícias...');
+        console.log('[Trilha dos Juros] Iniciando busca multi-fonte...');
 
         const fetchPromises = RSS_FEEDS.map(feed => fetchFromFeed(feed));
         const results = await Promise.allSettled(fetchPromises);
@@ -80,7 +90,7 @@ const NewsService = (function () {
             .flatMap(r => r.value)
             .sort((a, b) => b.date - a.date);
 
-        console.log(`[NewsService] Total: ${allNews.length} notícias`);
+        console.log(`[NewsService] Total consolidado: ${allNews.length} notícias`);
 
         const slots = [
             { key: 'geral', label: 'Geral', class: 'macro', item: null },
@@ -95,21 +105,21 @@ const NewsService = (function () {
             const title = item.title.toLowerCase();
 
             const isCompany = (/\([A-Z0-9]{4,5}\)/.test(item.title) ||
-                title.includes('petrobras') || title.includes('vale') || title.includes('itau') ||
-                title.includes('bradesco') || title.includes('ações') ||
-                title.includes('resultado') || title.includes('prejuízo') || title.includes('lucro') ||
+                title.includes('petrobras') || title.includes('vale3') ||
+                title.includes('itau') || title.includes('bradesco') ||
                 title.includes('dividendo') || title.includes('fluxo de caixa')) &&
                 !title.includes('banco central');
 
-            const isCambio = title.includes('dólar') || title.includes('dolar') || title.includes('euro') ||
-                title.includes('câmbio') || title.includes('moeda') || title.includes('fed');
+            const isCambio = title.includes('dólar') || title.includes('dolar') ||
+                title.includes('euro') || title.includes('câmbio') ||
+                title.includes('moeda') || title.includes('petróleo');
 
             const isRF = !isCompany && (
                 title.includes('selic') || title.includes('juros') || title.includes('lca') ||
                 title.includes('lci') || title.includes('cdb') || title.includes('poupança') ||
                 title.includes('tesouro') || title.includes('ipca') || title.includes('renda fixa') ||
                 title.includes('copom') || title.includes('inflação') || title.includes('cdi') ||
-                item.originalTag === 'rf'
+                title.includes('taxa') || item.originalTag === 'rf'
             );
 
             return { isCompany, isCambio, isRF };
@@ -132,7 +142,7 @@ const NewsService = (function () {
             }
         }
 
-        // Passo 2: preenche slots vazios com o que sobrou
+        // Passo 2: fallback - preenche slots vazios com qualquer notícia disponível
         slots.forEach(slot => {
             if (!slot.item) {
                 const next = allNews.find(n => !seenTitles.has(n.title.toLowerCase()));
