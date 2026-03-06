@@ -151,10 +151,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = quotes.find(q => q.id === config.id);
             if (!data) return;
 
-            const price = `${data.prefix} ${data.regularMarketPrice.toFixed(2)}`;
+            const formatPrice = (val) => {
+                const numericVal = parseFloat(val);
+                if (isNaN(numericVal)) return "0,00";
+                return numericVal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            };
+
+            const price = `${data.prefix} ${formatPrice(data.regularMarketPrice)}`;
             const changePct = data.regularMarketChangePercent || 0;
             const changeStr = changePct !== null
-                ? `${changePct > 0 ? '+' : ''}${changePct.toFixed(2)}%`
+                ? `${changePct > 0 ? '+' : ''}${formatPrice(changePct)}%`
                 : '--';
 
             let changeClass = 'neutral';
