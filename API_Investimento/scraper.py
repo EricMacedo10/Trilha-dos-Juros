@@ -7,8 +7,7 @@ def fetch_prices():
     assets = {
         'gold': 'GC=F',       # Ouro (Gold Futures)
         'silver': 'SI=F',     # Prata (Silver Futures)
-        'oil': 'BZ=F',        # Petróleo Brent Crude
-        'iron': 'TIO=F'       # Minério de Ferro (Iron Ore)
+        'oil': 'BZ=F'         # Petróleo Brent Crude
     }
     
     results = {}

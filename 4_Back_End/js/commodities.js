@@ -13,8 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const commodities = [
         { id: 'gold', name: 'Ouro', symbol: 'GC=F', icon: 'ph-coins', unit: 'oz' },
         { id: 'silver', name: 'Prata', symbol: 'SI=F', icon: 'ph-coin', unit: 'oz' },
-        { id: 'oil', name: 'Petróleo Brent', symbol: 'BZ=F', icon: 'ph-drop', unit: 'bbl' },
-        { id: 'iron', name: 'Min. Ferro', symbol: 'TIOc1', icon: 'ph-wall', unit: 'T' }
+        { id: 'oil', name: 'Petróleo Brent', symbol: 'BZ=F', icon: 'ph-drop', unit: 'bbl' }
     ];
 
     // Array de ativos para renderizar via B3 (BrAPI) ou fallback estático simulado devido à escassez de APIs gratuitas de commodities abertas
@@ -68,7 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         gold: buildBase('gold', 'US$'),
                         silver: buildBase('silver', 'US$'),
                         oil: buildBase('oil', 'US$'),
-                        iron: buildBase('iron', 'US$'),
                         lastUpdate: scrapedData.last_update || null
                     };
                 }
@@ -82,7 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     gold: { price: 2928.40, variation: -0.24, prefix: 'US$' },
                     silver: { price: 33.55, variation: 0.85, prefix: 'US$' },
                     oil: { price: 77.23, variation: 1.12, prefix: 'US$' },
-                    iron: { price: 100.25, variation: 0.83, prefix: 'US$' },
                     lastUpdate: null
                 };
             }
