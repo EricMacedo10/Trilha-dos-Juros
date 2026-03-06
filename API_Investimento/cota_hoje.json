@@ -1,6 +1,5 @@
 {
   "gold": {
-<<<<<<< HEAD
     "price": 5097.49,
     "variation": 0.37
   },
@@ -11,18 +10,6 @@
   "oil": {
     "price": 89.16,
     "variation": 4.39
-=======
-    "price": 5098.21,
-    "variation": 0.38
-  },
-  "silver": {
-    "price": 82.68,
-    "variation": 0.61
-  },
-  "oil": {
-    "price": 89.42,
-    "variation": 4.7
->>>>>>> 2a593b5 (fix(scraper): force UTC-3 timezone for last_update to match Brasília local time)
   },
   "coffee": {
     "price": 377.25,
@@ -36,9 +23,5 @@
     "price": 100.89,
     "variation": 0.0
   },
-<<<<<<< HEAD
-  "last_update": "2026-03-06 12:31:39"
-=======
   "last_update": "2026-03-06 09:50:16"
->>>>>>> 2a593b5 (fix(scraper): force UTC-3 timezone for last_update to match Brasília local time)
 }

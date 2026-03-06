@@ -17,9 +17,9 @@ const FinMath = (function () {
         console.log('[Trilha dos Juros] Sincronizando taxas oficiais com o Banco Central...');
         try {
             const endpoints = {
-                selic: 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados/ultimos/1?formato=json',
-                cdi: 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.4389/dados/ultimos/1?formato=json',
-                ipca: 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.13522/dados/ultimos/1?formato=json'
+                selic: `/news-proxy.php?b64url=${btoa('https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados/ultimos/1?formato=json')}`,
+                cdi: `/news-proxy.php?b64url=${btoa('https://api.bcb.gov.br/dados/serie/bcdata.sgs.4389/dados/ultimos/1?formato=json')}`,
+                ipca: `/news-proxy.php?b64url=${btoa('https://api.bcb.gov.br/dados/serie/bcdata.sgs.13522/dados/ultimos/1?formato=json')}`
             };
 
             // Usamos Promise.allSettled para garantir que uma falha no IPCA não quebre a Selic/CDI

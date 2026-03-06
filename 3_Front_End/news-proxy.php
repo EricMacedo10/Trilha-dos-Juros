@@ -22,8 +22,16 @@ if (empty($url)) {
 
 // Lista de domínios permitidos
 $allowed_domains = [
-    'infomoney.com.br', 'valor.globo.com', 'estadao.com.br', 'globo.com', 'ebc.com.br',
-    'yahoo.com', 'hgbrasil.com', 'brapi.dev', 'awesomeapi.com.br'
+    'infomoney.com.br',
+    'valor.globo.com',
+    'estadao.com.br',
+    'globo.com',
+    'ebc.com.br',
+    'yahoo.com',
+    'hgbrasil.com',
+    'brapi.dev',
+    'awesomeapi.com.br',
+    'bcb.gov.br'
 ];
 $parsed_url = parse_url($url);
 $domain_allowed = false;
@@ -45,7 +53,7 @@ if (!$domain_allowed) {
 }
 
 // Dynamically set Content-Type
-$is_json = (strpos($url, 'yahoo.com') !== false || strpos($url, 'hgbrasil.com') !== false || strpos($url, 'brapi.dev') !== false || strpos($url, 'awesomeapi.com.br') !== false);
+$is_json = (strpos($url, 'yahoo.com') !== false || strpos($url, 'hgbrasil.com') !== false || strpos($url, 'brapi.dev') !== false || strpos($url, 'awesomeapi.com.br') !== false || strpos($url, 'bcb.gov.br') !== false);
 if ($is_json) {
     header('Content-Type: application/json; charset=utf-8');
 } else {

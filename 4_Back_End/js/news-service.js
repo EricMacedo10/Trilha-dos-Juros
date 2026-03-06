@@ -11,7 +11,7 @@ const NewsService = (function () {
         { name: 'InfoMoney - Mercados', url: 'https://www.infomoney.com.br/mercados/feed/', tag: 'macro' },
         { name: 'InfoMoney - RF', url: 'https://www.infomoney.com.br/onde-investir/feed/', tag: 'rf' },
         { name: 'G1 - Economia', url: 'https://g1.globo.com/dynamo/economia/rss2.xml', tag: 'macro' },
-        { name: 'Agência Brasil - Economia', url: 'https://agenciabrasil.ebc.com.br/economia/feed', tag: 'rf' }
+        { name: 'Agência Brasil - Economia', url: 'https://agenciabrasil.ebc.com.br/rss/economia/feed.xml', tag: 'rf' }
     ];
 
     // Estratégia de proxies para contornar CORS (salto automático)
