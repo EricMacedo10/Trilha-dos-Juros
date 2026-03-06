@@ -36,5 +36,10 @@ jobs:
           git config --global user.name "GitHub Action [Bot]"
           git config --global user.email "action@github.com"
           git add API_Investimento/cota_hoje.json
-          git commit -m "chore: atualizar cotações [skip ci]" || echo "Nenhuma alteração para commitar"
-          git push
+          git commit -m "chore: atualizar cotações [trigger deploy]" || echo "Nenhuma alteração para commitar"
+          
+      - name: Push com Token Alternativo
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
