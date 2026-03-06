@@ -5,18 +5,26 @@
  */
 
 header('Access-Control-Allow-Origin: *');
-header('Content-Type: application/xml; charset=utf-8');
 
-$url = isset($_GET['url']) ? $_GET['url'] : '';
+$url = '';
+if (isset($_GET['b64url'])) {
+    $url = base64_decode($_GET['b64url']);
+} elseif (isset($_GET['url'])) {
+    $url = $_GET['url'];
+}
 
 if (empty($url)) {
     http_response_code(400);
+    header('Content-Type: application/xml; charset=utf-8');
     echo '<?xml version="1.0" encoding="UTF-8"?><error>URL missing</error>';
     exit;
 }
 
 // Lista de domínios permitidos
-$allowed_domains = ['infomoney.com.br', 'valor.globo.com', 'estadao.com.br', 'globo.com', 'ebc.com.br'];
+$allowed_domains = [
+    'infomoney.com.br', 'valor.globo.com', 'estadao.com.br', 'globo.com', 'ebc.com.br',
+    'yahoo.com', 'hgbrasil.com', 'brapi.dev', 'awesomeapi.com.br'
+];
 $parsed_url = parse_url($url);
 $domain_allowed = false;
 
@@ -31,8 +39,17 @@ if (isset($parsed_url['host'])) {
 
 if (!$domain_allowed) {
     http_response_code(403);
+    header('Content-Type: application/xml; charset=utf-8');
     echo '<?xml version="1.0" encoding="UTF-8"?><error>Domain not allowed</error>';
     exit;
+}
+
+// Dynamically set Content-Type
+$is_json = (strpos($url, 'yahoo.com') !== false || strpos($url, 'hgbrasil.com') !== false || strpos($url, 'brapi.dev') !== false || strpos($url, 'awesomeapi.com.br') !== false);
+if ($is_json) {
+    header('Content-Type: application/json; charset=utf-8');
+} else {
+    header('Content-Type: application/xml; charset=utf-8');
 }
 
 $opts = [

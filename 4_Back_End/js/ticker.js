@@ -78,45 +78,51 @@ document.addEventListener('DOMContentLoaded', () => {
             console.warn('[Trilha dos Juros] AwesomeAPI falhou.', e);
         }
 
-        // 2. BrAPI (Stocks - Ações Individuais)
+        // 2. Yahoo Finance via Local Proxy (Substituindo BrAPI)
         try {
             const assetsToFetch = ['PETR4', 'VALE3', 'ITUB4'];
-            const fetchPromises = assetsToFetch.map(symbol =>
-                fetch(`https://brapi.dev/api/quote/${symbol}`).then(res => res.ok ? res.json() : null).catch(() => null)
-            );
+            const fetchPromises = assetsToFetch.map(symbol => {
+                const url = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}.SA`;
+                return fetch(`/news-proxy.php?b64url=${btoa(url)}`)
+                    .then(res => res.ok ? res.json() : null)
+                    .then(data => ({ symbol, data }))
+                    .catch(() => null);
+            });
 
             const results = await Promise.allSettled(fetchPromises);
 
             results.forEach((result) => {
-                if (result.status === 'fulfilled' && result.value && result.value.results && result.value.results.length > 0) {
-                    const res = result.value.results[0];
-                    const target = marketData.find(m => m.symbol === res.symbol);
-                    if (target && res.regularMarketPrice !== undefined) {
-                        target.value = `R$ ${res.regularMarketPrice.toFixed(2)}`;
-                        target.status = (res.regularMarketChangePercent || 0) >= 0 ? "up" : "down";
+                if (result.status === 'fulfilled' && result.value && result.value.data) {
+                    const { symbol, data } = result.value;
+                    if (data && data.chart && data.chart.result && data.chart.result[0]) {
+                        const meta = data.chart.result[0].meta;
+                        const target = marketData.find(m => m.symbol === symbol);
+                        if (target && meta.regularMarketPrice !== undefined) {
+                            target.value = `R$ ${meta.regularMarketPrice.toFixed(2)}`;
+                            target.status = meta.regularMarketPrice >= (meta.previousClose || meta.chartPreviousClose) ? "up" : "down";
+                        }
                     }
                 }
             });
         } catch (e) {
-            console.warn('[Trilha dos Juros] Erro crítico no lote da BrAPI.', e);
+            console.warn('[Trilha dos Juros] Erro crítico nas ações via Yahoo.', e);
         }
 
         // 3. IBOVESPA (Sincronização Avançada com Fallback Hierárquico)
         let ibovSincronizado = false;
 
-        // Fonte A: Yahoo Finance (via AllOrigins)
+        // Fonte A: Yahoo Finance (via Local Proxy B64)
         try {
-            const yahooUrl = encodeURIComponent('https://query1.finance.yahoo.com/v8/finance/chart/%5EBVSP');
-            const response = await fetch(`https://api.allorigins.win/get?url=${yahooUrl}`);
+            const yahooUrl = 'https://query1.finance.yahoo.com/v8/finance/chart/%5EBVSP';
+            const response = await fetch(`/news-proxy.php?b64url=${btoa(yahooUrl)}`);
             if (response.ok) {
-                const proxyData = await response.json();
-                const yData = JSON.parse(proxyData.contents);
+                const yData = await response.json();
                 if (yData && yData.chart && yData.chart.result && yData.chart.result[0]) {
                     const meta = yData.chart.result[0].meta;
                     const target = marketData.find(m => m.symbol === "IBOVESPA");
                     if (target && meta.regularMarketPrice) {
                         target.value = `${meta.regularMarketPrice.toLocaleString('pt-BR', { maximumFractionDigits: 0 })} pts`;
-                        target.status = meta.regularMarketPrice >= meta.previousClose ? "up" : "down";
+                        target.status = meta.regularMarketPrice >= (meta.previousClose || meta.chartPreviousClose) ? "up" : "down";
                         ibovSincronizado = true;
                         console.log('[Trilha dos Juros] Ibovespa sintonizado via Yahoo.');
                     }
@@ -129,7 +135,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Fonte B: HG Brasil (Se Yahoo falhar)
         if (!ibovSincronizado) {
             try {
-                const hgResponse = await fetch('https://api.hgbrasil.com/finance?format=json-cors');
+                const hgUrl = 'https://api.hgbrasil.com/finance?format=json-cors';
+                const hgResponse = await fetch(`/news-proxy.php?b64url=${btoa(hgUrl)}`);
                 if (hgResponse.ok) {
                     const hgData = await hgResponse.json();
                     const ibov = hgData.results.stocks.IBOVESPA;

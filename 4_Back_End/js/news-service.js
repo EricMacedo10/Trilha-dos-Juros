@@ -16,6 +16,7 @@ const NewsService = (function () {
 
     // Estratégia de proxies para contornar CORS (salto automático)
     const PROXIES = [
+        { name: 'LocalPHP_B64', fn: (url) => `/news-proxy.php?b64url=${btoa(url)}`, type: 'text' },
         { name: 'LocalPHP', fn: (url) => `/news-proxy.php?url=${encodeURIComponent(url)}`, type: 'text' },
         { name: 'AllOrigins', fn: (url) => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`, type: 'json' },
         { name: 'CORSAnywhere', fn: (url) => `https://corsproxy.io/?${encodeURIComponent(url)}`, type: 'text' }
