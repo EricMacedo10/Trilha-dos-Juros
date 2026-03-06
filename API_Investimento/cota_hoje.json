@@ -1,27 +1,27 @@
 {
   "gold": {
-    "price": 5155.35,
-    "variation": 1.51
+    "price": 5152.49,
+    "variation": 1.45
   },
   "silver": {
-    "price": 82.825,
-    "variation": 0.78
+    "price": 84.568,
+    "variation": 2.9
   },
   "oil": {
-    "price": 90.8,
-    "variation": 6.31
+    "price": 90.81,
+    "variation": 6.32
   },
   "coffee": {
     "price": 380.0,
     "variation": 0.73
   },
   "cattle": {
-    "price": 236.83,
-    "variation": -0.71
+    "price": 238.25,
+    "variation": -0.12
   },
   "iron": {
     "price": 100.89,
     "variation": 0.0
   },
-  "last_update": "2026-03-06 12:05:06"
+  "last_update": "2026-03-06 12:57:22"
 }
