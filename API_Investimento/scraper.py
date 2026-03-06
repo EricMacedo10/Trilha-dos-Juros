@@ -64,8 +64,10 @@ def main():
         time.sleep(2)
         
     if results:
-        # Adiciona timestamp da última atualização bem-sucedida
-        results["last_update"] = time.strftime("%Y-%m-%d %H:%M:%S")
+        # Adiciona timestamp da última atualização bem-sucedida (Força UTC-3 - Brasília)
+        from datetime import datetime, timedelta, timezone
+        tz_br = timezone(timedelta(hours=-3))
+        results["last_update"] = datetime.now(tz_br).strftime("%Y-%m-%d %H:%M:%S")
         print(f"\nResultados Finais: {results}")
         
         with open('cota_hoje.json', 'w', encoding='utf-8') as f:
