@@ -45,16 +45,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } catch (e) { }
 
-            // Limpa qualquer cache de API anterior que possa estar travando valores antigos (APIFreaks etc)
-            localStorage.removeItem('commodities_cache');
-            localStorage.removeItem('commodities_cache_time');
-
             // Puxa os dados reais raspados pelo nosso script Python hospedado localmente/no GitHub
             let baseData = null;
             try {
-                // Em produção (GitHub Pages) isso apontaria para o RAW do repositório
-                // Ex: const jsonUrl = 'https://raw.githubusercontent.com/EricMacedo/Trilha-dos-Juros/main/API_Investimento/cota_hoje.json'
-                const jsonUrl = '/API_Investimento/cota_hoje.json';
+                // Cache busting: adiciona timestamp para evitar cache do navegador/proxy
+                const cacheBuster = new Date().getTime();
+                const jsonUrl = `/API_Investimento/cota_hoje.json?t=${cacheBuster}`;
+
                 const res = await fetch(jsonUrl, { cache: 'no-store' });
                 if (res.ok) {
                     const scrapedData = await res.json();
@@ -75,11 +72,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         oil: buildBase('oil', 'US$'),
                         coffee: buildBase('coffee', 'US¢'),
                         cattle: buildBase('cattle', 'US¢'),
-                        iron: buildBase('iron', 'US$')
+                        iron: buildBase('iron', 'US$'),
+                        lastUpdate: scrapedData.last_update || null
                     };
                 }
             } catch (err) {
-                console.warn("Aviso: cota_hoje.json não encontrado. Rodando valores de salvaguarda.");
+                console.warn("Aviso: cota_hoje.json não encontrado ou erro no fetch. Rodando valores de salvaguarda.");
             }
 
             // Fallback Inteligente caso o robô scraper esteja offline ou o JSON não construído
@@ -90,7 +88,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     oil: { price: 77.23, variation: 1.12, prefix: 'US$' },
                     coffee: { price: 286.40, variation: 2.24, prefix: 'US¢' },
                     cattle: { price: 255.85, variation: 0.50, prefix: 'US¢' },
-                    iron: { price: 100.25, variation: 0.83, prefix: 'US$' }
+                    iron: { price: 100.25, variation: 0.83, prefix: 'US$' },
+                    lastUpdate: null
                 };
             }
 
@@ -108,11 +107,40 @@ document.addEventListener('DOMContentLoaded', () => {
             // Para garantir que a promessa demore um instante e mostre o loading
             setTimeout(() => {
                 renderCommodities(todayQuotes);
+                updateUpdateStatus(baseData.lastUpdate);
             }, 800);
 
         } catch (error) {
             console.error('[Commodities] Erro ao buscar cotações:', error);
             showError();
+        }
+    }
+
+    function updateUpdateStatus(timestamp) {
+        let statusEl = document.getElementById('market-status-time');
+        if (!statusEl) {
+            const panel = document.getElementById('commodities-panel');
+            const h4 = panel.querySelector('h4');
+            h4.style.display = 'flex';
+            h4.style.justifyContent = 'space-between';
+            h4.style.alignItems = 'center';
+
+            statusEl = document.createElement('span');
+            statusEl.id = 'market-status-time';
+            statusEl.style.fontSize = '0.65rem';
+            statusEl.style.opacity = '0.6';
+            statusEl.style.fontWeight = '400';
+            h4.appendChild(statusEl);
+        }
+
+        if (timestamp) {
+            const date = new Date(timestamp);
+            const timeStr = date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+            statusEl.innerHTML = `<i class="ph ph-clock"></i> Sincronizado às ${timeStr}`;
+        } else {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+            statusEl.innerHTML = `<i class="ph ph-clock"></i> Simulado às ${timeStr}`;
         }
     }
 

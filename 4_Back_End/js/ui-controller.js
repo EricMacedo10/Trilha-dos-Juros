@@ -299,6 +299,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Configura atualização periódica de notícias (a cada 10 minutos)
+    setInterval(loadNews, 600000);
+
     async function loadNews() {
         const newsSection = document.getElementById('news-section');
         const newsGrid = document.getElementById('news-grid');
@@ -311,10 +314,37 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const news = await NewsService.fetchNews();
             renderNewsCards(news);
+            updateNewsTimestamp();
         } catch (error) {
             console.warn('[Trilha dos Juros] Falha ao carregar notícias filtradas.', error);
             newsGrid.innerHTML = '<p style="color: var(--text-muted); padding: 1rem;">Não foi possível carregar as notícias agora. Tente novamente mais tarde.</p>';
         }
+    }
+
+    function updateNewsTimestamp() {
+        const newsSection = document.getElementById('news-section');
+        const header = newsSection.querySelector('h3').parentElement;
+        let timeLabel = document.getElementById('news-sync-time');
+
+        if (!timeLabel) {
+            timeLabel = document.createElement('span');
+            timeLabel.id = 'news-sync-time';
+            timeLabel.className = 'helper-text';
+            timeLabel.style.fontSize = '0.7rem';
+            timeLabel.style.opacity = '0.7';
+
+            // Substitui o span estático "Atualizado em tempo real" se existir
+            const oldSpan = header.querySelector('.helper-text');
+            if (oldSpan && oldSpan.textContent.includes('Atualizado')) {
+                oldSpan.replaceWith(timeLabel);
+            } else {
+                header.appendChild(timeLabel);
+            }
+        }
+
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        timeLabel.innerHTML = `<i class="ph ph-clock"></i> Atualizado às ${timeStr}`;
     }
 
     function renderNewsCards(newsArray) {

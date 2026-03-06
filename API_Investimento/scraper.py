@@ -58,15 +58,20 @@ def main():
     
     for key, url in assets.items():
         price = get_investing_price(url)
-        if price is not None:
+        if price is not None and price.get("price") is not None:
             results[key] = price
         # Delay de 2 segundos entre requests para não ativar Cloudflare
         time.sleep(2)
         
-    print(f"\nResultados Finais: {results}")
-    
-    with open('cota_hoje.json', 'w', encoding='utf-8') as f:
-        json.dump(results, f, ensure_ascii=False, indent=2)
+    if results:
+        # Adiciona timestamp da última atualização bem-sucedida
+        results["last_update"] = time.strftime("%Y-%m-%d %H:%M:%S")
+        print(f"\nResultados Finais: {results}")
+        
+        with open('cota_hoje.json', 'w', encoding='utf-8') as f:
+            json.dump(results, f, ensure_ascii=False, indent=2)
+    else:
+        print("\n[ERRO] Nenhum dado foi coletado. O arquivo não será sobrescrito.")
 
 if __name__ == '__main__':
     main()
