@@ -8,8 +8,6 @@ def fetch_prices():
         'gold': 'GC=F',       # Ouro (Gold Futures)
         'silver': 'SI=F',     # Prata (Silver Futures)
         'oil': 'BZ=F',        # Petróleo Brent Crude
-        'coffee': 'KC=F',     # Café Arábica (Coffee C Futures)
-        'cattle': 'LE=F',     # Boi Gordo (Live Cattle Futures)
         'iron': 'TIO=F'       # Minério de Ferro (Iron Ore)
     }
     

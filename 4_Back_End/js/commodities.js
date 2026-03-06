@@ -14,8 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'gold', name: 'Ouro', symbol: 'GC=F', icon: 'ph-coins', unit: 'oz' },
         { id: 'silver', name: 'Prata', symbol: 'SI=F', icon: 'ph-coin', unit: 'oz' },
         { id: 'oil', name: 'Petróleo Brent', symbol: 'BZ=F', icon: 'ph-drop', unit: 'bbl' },
-        { id: 'coffee', name: 'Café Arabica', symbol: 'KC=F', icon: 'ph-coffee', unit: 'lb' },
-        { id: 'cattle', name: 'Boi Gordo', symbol: 'LE=F', icon: 'ph-cow', unit: 'lb' },
         { id: 'iron', name: 'Min. Ferro', symbol: 'TIOc1', icon: 'ph-wall', unit: 'T' }
     ];
 
@@ -70,8 +68,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         gold: buildBase('gold', 'US$'),
                         silver: buildBase('silver', 'US$'),
                         oil: buildBase('oil', 'US$'),
-                        coffee: buildBase('coffee', 'US¢'),
-                        cattle: buildBase('cattle', 'US¢'),
                         iron: buildBase('iron', 'US$'),
                         lastUpdate: scrapedData.last_update || null
                     };
@@ -86,8 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     gold: { price: 2928.40, variation: -0.24, prefix: 'US$' },
                     silver: { price: 33.55, variation: 0.85, prefix: 'US$' },
                     oil: { price: 77.23, variation: 1.12, prefix: 'US$' },
-                    coffee: { price: 286.40, variation: 2.24, prefix: 'US¢' },
-                    cattle: { price: 255.85, variation: 0.50, prefix: 'US¢' },
                     iron: { price: 100.25, variation: 0.83, prefix: 'US$' },
                     lastUpdate: null
                 };

@@ -11,17 +11,9 @@
     "price": 92.87,
     "variation": 8.73
   },
-  "coffee": {
-    "price": 294.15,
-    "variation": 1.85
-  },
-  "cattle": {
-    "price": 234.32,
-    "variation": -1.76
-  },
   "iron": {
     "price": 161.91,
     "variation": 20.99
   },
-  "last_update": "2026-03-06 19:31:24"
+  "last_update": "2026-03-06 19:36:00"
 }
