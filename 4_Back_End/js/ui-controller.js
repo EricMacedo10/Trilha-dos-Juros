@@ -456,4 +456,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // Boot Inicial Fallback
     initChart();
     updateCalculator();
+
+    // ========================================================
+    // Lógica do Accordion (FAQ / Guia Prático)
+    // ========================================================
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+        const questionBtn = item.querySelector('.faq-question');
+        if (questionBtn) {
+            questionBtn.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                
+                // Fecha todos os itens
+                faqItems.forEach(i => i.classList.remove('active'));
+                
+                // Abre o clicado se não estava ativo
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        }
+    });
+
 });
