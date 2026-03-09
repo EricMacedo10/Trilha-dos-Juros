@@ -9,20 +9,20 @@ on:
 jobs:
   web-deploy:
     name: 🚀 Deploy via FTP
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: 🚚 Obter o código mais recente
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: 📦 Preparar Build de Produção
         run: |
           mkdir dist
           cp -r 3_Front_End/* dist/
-          cp -r 4_Back_End/js dist/js
+          cp -r 4_Back_End/js dist/js || true
           cp -r API_Investimento dist/
-          cp .htaccess dist/
-          cp ads.txt dist/
-          sed -i 's|\.\./4_Back_End/js|js|g' dist/index.html
+          [ -f .htaccess ] && cp .htaccess dist/ || echo ".htaccess not found"
+          [ -f ads.txt ] && cp ads.txt dist/ || echo "ads.txt not found"
+          sed -i 's|\.\./4_Back_End/js|js|g' dist/index.html || echo "sed skip"
 
       - name: 📂 Sincronizar arquivos para Hostinger
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -32,7 +32,7 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: ./
           local-dir: ./dist/
-          dangerous-clean-slate: true
-          timeout: 60000
+          dangerous-clean-slate: false
+          timeout: 90000
           protocol: ftp
-
+          port: 21
