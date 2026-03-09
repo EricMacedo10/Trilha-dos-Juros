@@ -1,0 +1,15 @@
+{
+  "gold": {
+    "price": 5098.67,
+    "variation": 0.51
+  },
+  "silver": {
+    "price": 84.49,
+    "variation": 3.18
+  },
+  "oil": {
+    "price": 98.95,
+    "variation": 6.75
+  },
+  "last_update": "2026-03-09 12:31:03"
+}
