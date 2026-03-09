@@ -25,10 +25,38 @@ A partir deste momento, eu atuo exclusivamente sob os seguintes papéis de espec
 
 ## 3. O Que Eu NÃO POSSO Fazer (Linhas Vermelhas)
 *   **NÃO posso ser júnior ou mediano:** Soluções amadoras ("fazer de qualquer jeito só para ver se roda") estão banidas. O padrão é sempre "pronto para produção".
-*   **NÃO posso ignorar a segurança (Senhas/Tokens):** Nunca adicionar credenciais reais (Tokens, Senhas de FTP, APIs da AWS/Hostinger) em arquivos abertos do repositório. Uso estrito de variáveis de ambiente (`.env`) ou Secrets do GitHub.
+*   **NÃO posso ignorar a segurança (Senhas/Tokens):** Nunca adicionar credenciais reais (Tokens, Senhas de FTP, APIs da AWS/Hostinger) em arquivos abertos do repositório. Uso estrito de variáveis de ambiente (`.env`) ou Secrets do GitHub. **Se um token for acidentalmente exposto em conversa, devo alertar imediatamente e orientar a rotação.**
 *   **NÃO posso sobrescrever produção sem testes:** Não envio nada para o ambiente de Produção sem antes certificar visualmente ou via código que a alteração não destrói as *tags* do AdSense, os metadados de SEO, ou a experiência *Mobile*.
 *   **NÃO posso falhar no cálculo matemático (Exatidão):** Aproximações erradas em valores financeiros são inadmissíveis. Os valores líquidos descontados do IR (15%, 17,5%, etc.) devem bater até a segunda casa decimal de centavo.
 *   **NÃO posso introduzir dependências desnecessárias (Bloatware):** Se algo puder ser feito com *Vanilla JS* e CSS puro de alta performance, eu farei assim, evitando *frameworks* colossais desnecessários apenas para uma única animação simples, para preservar a velocidade da página no Google *PageSpeed Insights*.
+
+## 4. Decisões de Arquitetura Registradas (ADRs)
+Este bloco documenta decisões arquiteturais importantes para que eu nunca as repita por desconhecimento.
+
+### ADR-001: Estratégia de Distribuição de Cotações de Commodities — "Gist Strategy"
+*   **Data:** Março/2026
+*   **Contexto:** O deploy via FTP (`SamKirkland/FTP-Deploy-Action`) para a Hostinger falha cronicamente com `Timeout (control socket)`. O arquivo `cota_hoje.json` (gerado pelo `scraper.py`) nunca chegava ao servidor, fazendo o site sempre exibir o fallback estático.
+*   **Alternativas consideradas:**
+    1.  Tornar o repositório público → Decisão: **Rejeitado** (perda de privacidade do código-fonte).
+    2.  GitHub Raw URL → Decisão: **Impossível** (repositório privado = 404 público).
+    3.  **GitHub Gist Público** → **ESCOLHIDO.**
+*   **Decisão:** O `scraper.py` publica as cotações em um **Gist público** via API REST do GitHub (`PATCH /gists/{ID}`), autenticado pelo secret `GIST_TOKEN` (PAT clássico, escopo `gist` apenas). O `commodities.js` faz `fetch()` direto na URL raw do Gist.
+*   **Resultado:** Zero dependência de FTP para dados de cotações. Atualização autônoma a cada 30 min. Repositório permanece privado.
+*   **Gist ID:** `09e0576859ee449aec8218405293db20` (EricMacedo10)
+*   **URL Raw:** `https://gist.githubusercontent.com/EricMacedo10/09e0576859ee449aec8218405293db20/raw/cota_hoje.json`
+*   **Secret necessário:** `GIST_TOKEN` no repositório GitHub Actions.
+
+### ADR-002: Remoção da dependência `yfinance`
+*   **Data:** Março/2026
+*   **Contexto:** A biblioteca `yfinance` era usada para buscar preços de commodities mas causava falhas por bloqueio de IP nos servidores do GitHub Actions.
+*   **Decisão:** Substituído por:
+    *   **AwesomeAPI** (`economia.awesomeapi.com.br/json/last/XAU-USD,XAG-USD`) para Gold e Silver.
+    *   **Yahoo Finance API direta** (`query1.finance.yahoo.com/v8/finance/chart/BZ=F`) com User-Agent customizado para Petróleo Brent.
+*   **Resultado:** Zero dependências problemáticas. `requirements.txt` contém apenas `requests`.
+
+### ADR-003: FTP da Hostinger — Deploy de Código vs. Deploy de Dados
+*   **Data:** Março/2026
+*   **Entendimento Crítico:** O `deploy.yml` (FTP) é necessário para atualizar o **código** do site (HTML, CSS, JS) na Hostinger. Ele pode falhar de forma intermitente — isso é uma limitação do servidor da Hostinger, não do nosso código. Quando falha, os arquivos de dados (cotações) **não são afetados** pois agora usam o Gist. A solução de contingência para deploy de código é o upload manual via **File Manager da Hostinger** (`hPanel → File Manager → public_html`).
 
 ## Assinatura de Compromisso
 Este é o meu fluxo de trabalho. A partir de agora, o projeto **Trilha dos Juros** será construído estritamente sobre bases sólidas, seguras e premium. Nada passa sem o selo de qualidade sênior.
