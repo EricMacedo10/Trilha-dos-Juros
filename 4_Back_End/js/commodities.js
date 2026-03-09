@@ -42,37 +42,39 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } catch (e) { }
 
-            // Puxa os dados reais raspados pelo nosso script Python hospedado localmente/no GitHub
+            // Estratégia: lê direto do GitHub Raw (atualizado a cada 30min pelo robô)
+            // Isso elimina a dependência do FTP/deploy para servir as cotações.
             let baseData = null;
+            const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/EricMacedo10/Trilha-dos-Juros/main/API_Investimento/cota_hoje.json';
+
+            const tryFetch = async (url) => {
+                const res = await fetch(url, { cache: 'no-store' });
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                return res.json();
+            };
+
             try {
-                // Cache busting simples: adiciona timestamp para evitar cache do navegador/proxy
-                const cacheBuster = new Date().getTime();
-                const jsonUrl = `mercado_global.json?t=${cacheBuster}`;
+                // Fonte Primária: GitHub Raw (sempre atualizado pelo GitHub Actions, sem FTP)
+                const scrapedData = await tryFetch(GITHUB_RAW_URL);
+                console.log('[Commodities] Dados recebidos do GitHub Raw:', scrapedData.last_update);
 
-                const res = await fetch(jsonUrl, { cache: 'no-store' });
-                if (res.ok) {
-                    const scrapedData = await res.json();
-                    console.log("[Commodities] Dados sincronizados recebidos:", scrapedData.last_update);
-
-                    const buildBase = (key, pfx) => {
-                        const s = scrapedData[key] || {};
-                        const p = s.price || 0;
-                        return {
-                            price: p,
-                            variation: s.variation !== null && s.variation !== undefined ? s.variation : 0,
-                            prefix: pfx
-                        };
+                const buildBase = (key, pfx) => {
+                    const s = scrapedData[key] || {};
+                    return {
+                        price: s.price || 0,
+                        variation: s.variation ?? 0,
+                        prefix: pfx
                     };
+                };
 
-                    baseData = {
-                        gold: buildBase('gold', 'US$'),
-                        silver: buildBase('silver', 'US$'),
-                        oil: buildBase('oil', 'US$'),
-                        lastUpdate: scrapedData.last_update || null
-                    };
-                }
+                baseData = {
+                    gold: buildBase('gold', 'US$'),
+                    silver: buildBase('silver', 'US$'),
+                    oil: buildBase('oil', 'US$'),
+                    lastUpdate: scrapedData.last_update || null
+                };
             } catch (err) {
-                console.warn("Aviso: cota_hoje.json não encontrado ou erro no fetch. Rodando valores de salvaguarda.");
+                console.warn('[Commodities] GitHub Raw indisponível, usando fallback estático.', err.message);
             }
 
             // Fallback Inteligente caso o robô scraper esteja offline ou o JSON não construído
