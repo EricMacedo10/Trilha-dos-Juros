@@ -45,13 +45,14 @@ document.addEventListener('DOMContentLoaded', () => {
             // Puxa os dados reais raspados pelo nosso script Python hospedado localmente/no GitHub
             let baseData = null;
             try {
-                // Cache busting: adiciona timestamp para evitar cache do navegador/proxy
+                // Cache busting simples: adiciona timestamp para evitar cache do navegador/proxy
                 const cacheBuster = new Date().getTime();
-                const jsonUrl = `/API_Investimento/cota_hoje.json?t=${cacheBuster}`;
+                const jsonUrl = `mercado_global.json?t=${cacheBuster}`;
 
                 const res = await fetch(jsonUrl, { cache: 'no-store' });
                 if (res.ok) {
                     const scrapedData = await res.json();
+                    console.log("[Commodities] Dados sincronizados recebidos:", scrapedData.last_update);
 
                     const buildBase = (key, pfx) => {
                         const s = scrapedData[key] || {};
