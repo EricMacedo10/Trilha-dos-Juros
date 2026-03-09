@@ -42,10 +42,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } catch (e) { }
 
-            // Estratégia: lê direto do GitHub Raw (atualizado a cada 30min pelo robô)
-            // Isso elimina a dependência do FTP/deploy para servir as cotações.
+            // Estratégia: lê direto do Gist Público do GitHub (atualizado a cada 30min pelo robô)
+            // Esta URL não depende de FTP nem de o repositório ser público.
             let baseData = null;
-            const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/EricMacedo10/Trilha-dos-Juros/main/API_Investimento/cota_hoje.json';
+            const GIST_RAW_URL = 'https://gist.githubusercontent.com/EricMacedo10/09e0576859ee449aec8218405293db20/raw/cota_hoje.json';
 
             const tryFetch = async (url) => {
                 const res = await fetch(url, { cache: 'no-store' });
@@ -54,9 +54,9 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             try {
-                // Fonte Primária: GitHub Raw (sempre atualizado pelo GitHub Actions, sem FTP)
-                const scrapedData = await tryFetch(GITHUB_RAW_URL);
-                console.log('[Commodities] Dados recebidos do GitHub Raw:', scrapedData.last_update);
+                // Fonte Primária: Gist Público (sempre atualizado pelo GitHub Actions, sem FTP)
+                const scrapedData = await tryFetch(GIST_RAW_URL);
+                console.log('[Commodities] Dados recebidos do Gist:', scrapedData.last_update);
 
                 const buildBase = (key, pfx) => {
                     const s = scrapedData[key] || {};
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     lastUpdate: scrapedData.last_update || null
                 };
             } catch (err) {
-                console.warn('[Commodities] GitHub Raw indisponível, usando fallback estático.', err.message);
+                console.warn('[Commodities] Gist indisponível, usando fallback estático.', err.message);
             }
 
             // Fallback Inteligente caso o robô scraper esteja offline ou o JSON não construído

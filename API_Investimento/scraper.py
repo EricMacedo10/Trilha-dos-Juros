@@ -1,16 +1,44 @@
 import requests
 import json
+import os
 from datetime import datetime, timedelta, timezone
+
+# ID do Gist Público onde as cotações são publicadas
+GIST_ID = "09e0576859ee449aec8218405293db20"
+
+def update_gist(data: dict, token: str):
+    """Envia os dados atualizados para o Gist público do GitHub."""
+    headers = {
+        "Authorization": f"token {token}",
+        "Accept": "application/vnd.github.v3+json"
+    }
+    payload = {
+        "files": {
+            "cota_hoje.json": {
+                "content": json.dumps(data, ensure_ascii=False, indent=2)
+            }
+        }
+    }
+    response = requests.patch(
+        f"https://api.github.com/gists/{GIST_ID}",
+        headers=headers,
+        json=payload,
+        timeout=15
+    )
+    response.raise_for_status()
+    print(f"[OK] Gist atualizado: {response.json().get('html_url')}")
 
 def fetch_prices():
     results = {}
-    print("Iniciando Sincronização de Commodities (Producao - GitHub Actions)...")
+    print("Iniciando Sincronizacao de Commodities (Producao - Gist Strategy)...")
     
-    # 1. Busca Ouro e Prata via AwesomeAPI (Referência Global em USD)
-    # AwesomeAPI é extremamente resiliente e não costuma bloquear requests simples
+    # 1. Busca Ouro e Prata via AwesomeAPI (Referencia Global em USD)
     try:
         print("[AwesomeAPI] Buscando Ouro e Prata...")
-        res = requests.get("https://economia.awesomeapi.com.br/json/last/XAU-USD,XAG-USD", timeout=15)
+        res = requests.get(
+            "https://economia.awesomeapi.com.br/json/last/XAU-USD,XAG-USD",
+            timeout=15
+        )
         if res.status_code == 200:
             data = res.json()
             results['gold'] = {
@@ -26,8 +54,7 @@ def fetch_prices():
     except Exception as e:
         print(f"[Erro] Falha ao buscar Metais via AwesomeAPI: {e}")
 
-    # 2. Busca Petróleo Brent via Yahoo Finance API Direta
-    # Evitamos a biblioteca yfinance para reduzir peso e instabilidade de IP
+    # 2. Busca Petroleo Brent via Yahoo Finance API Direta
     try:
         print("[Yahoo API] Buscando Petroleo Brent...")
         url = "https://query1.finance.yahoo.com/v8/finance/chart/BZ=F"
@@ -49,23 +76,28 @@ def fetch_prices():
     except Exception as e:
         print(f"[Erro] Falha ao buscar Petroleo via Yahoo API: {e}")
 
-    # Validação Final e Escrita
-    # Garantimos que pelo menos 2 dos 3 assets foram capturados antes de salvar
+    # Validacao Final — ao menos 2 dos 3 ativos capturados
     if len(results) >= 2:
-        # Fuso horário de Brasília (UTC-3)
         tz_br = timezone(timedelta(hours=-3))
         results["last_update"] = datetime.now(tz_br).strftime("%Y-%m-%d %H:%M:%S")
-        
-        # O GitHub Action executa: cd API_Investimento && python scraper.py
-        # Então 'cota_hoje.json' é criado em API_Investimento/cota_hoje.json no repositório.
-        # Este arquivo é commitado e publicado no GitHub, onde o front-end o lê via Raw URL.
+
+        # Publicar no Gist público (fonte primária do front-end)
+        gist_token = os.environ.get("GIST_TOKEN", "")
+        if gist_token:
+            try:
+                update_gist(results, gist_token)
+            except Exception as e:
+                print(f"[Aviso] Falha ao atualizar Gist: {e}")
+        else:
+            print("[Aviso] GIST_TOKEN nao encontrado. Pulando atualizacao do Gist.")
+
+        # Salvar localmente como backup (cota_hoje.json no diretorio do script)
         with open('cota_hoje.json', 'w', encoding='utf-8') as f:
             json.dump(results, f, ensure_ascii=False, indent=2)
-            
+
         print(f"\n[SUCESSO] Sincronizacao concluida as {results['last_update']} (BRT).")
-        print("Arquivo 'cota_hoje.json' atualizado. GitHub Actions fara o commit automaticamente.")
     else:
-        print("\n[ERRO CRITICO] Falha na captacao dos dados. O arquivo nao foi alterado.")
+        print("\n[ERRO CRITICO] Falha na captacao dos dados. Arquivo nao alterado.")
 
 if __name__ == '__main__':
     fetch_prices()
