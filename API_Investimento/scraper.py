@@ -6,10 +6,15 @@ from datetime import datetime, timedelta, timezone
 # CONFIGURAÇÂO - Chaves sensíveis via Environment Variables (Prioridade Máxima)
 GIST_ID = "09e0576859ee449aec8218405293db20"
 
-# Tenta ler do Secret oficial ou do Secret com erro de digitação (COMMODITTY)
-API_KEY = os.environ.get("COMMODITY_API_KEY") or os.environ.get("COMMODITTY_API_KEY")
+# Tenta ler de TODAS as variações possíveis de digitação para garantir o funcionamento
+API_KEY = (
+    os.environ.get("COMMODITY_API_KEY") or 
+    os.environ.get("COMMODITTY_API_KEY") or 
+    os.environ.get("COMMODITTY_APT_KEY") or
+    os.environ.get("COMMODITY_APT_KEY")
+)
 
-# Fallback apenas para DESENVOLVIMENTO LOCAL (se não encontrar nenhuma env)
+# Fallback apenas para DESENVOLVIMENTO LOCAL
 if not API_KEY and not os.environ.get("GITHUB_ACTIONS"):
     API_KEY = "0652c687-3f50-4b95-8c7c-670f9c77923c"
 
