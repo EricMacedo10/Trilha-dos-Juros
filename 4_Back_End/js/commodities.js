@@ -1,25 +1,24 @@
 /**
  * Módulo de Cotações de Commodities
- * Busca dados usando APIs alternativas (BrAPI, AwesomeAPI, etc).
+ * Busca dados em tempo real via CommodityPriceAPI v2.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
     const grid = document.getElementById('commodities-grid');
     if (!grid) return;
 
-    // Configuração dos Ativos
-    // Em virtude do bloqueio severo de CORS do Yahoo Finance e proxies,
-    // usaremos fontes alternativas Brasileiras que refletem os derivativos ou mercado local/global.
-    const commodities = [
-        { id: 'gold', name: 'Ouro', symbol: 'GC=F', icon: 'ph-coins', unit: 'oz' },
-        { id: 'silver', name: 'Prata', symbol: 'SI=F', icon: 'ph-coin', unit: 'oz' },
-        { id: 'oil', name: 'Petróleo Brent', symbol: 'BZ=F', icon: 'ph-drop', unit: 'bbl' }
-    ];
+    // CONFIGURAÇÃO: O Proxy PHP gerencia o cache e esconde sua API Key.
+    const PROXY_URL = '../api_commodities.php';
 
-    // Array de ativos para renderizar via B3 (BrAPI) ou fallback estático simulado devido à escassez de APIs gratuitas de commodities abertas
-    // Como a API gratuita da B3 (BrAPI) foca em ações e FIIs, e não derivativos puros (BGI, ICF), 
-    // usaremos um mock inteligente baseado na variação macroeconômica do dia para manter a UI viva, 
-    // ou tentaremos buscar o que for possível da API Awesome.
+    const commoditiesConfig = [
+        { id: 'gold', name: 'Ouro', symbol: 'XAU', icon: 'ph-coins' },
+        { id: 'silver', name: 'Prata', symbol: 'XAG', icon: 'ph-coin' },
+        { id: 'coffee', name: 'Café', symbol: 'CA', icon: 'ph-coffee' },
+        { id: 'iron', name: 'Minério de Ferro', symbol: 'TIOC', icon: 'ph-factory' },
+        { id: 'oil-wti', name: 'Petróleo WTI', symbol: 'WTIOIL-FUT', icon: 'ph-drop-half' },
+        { id: 'oil-brent', name: 'Petróleo Brent', symbol: 'BRENTOIL-FUT', icon: 'ph-drop' },
+        { id: 'beef', name: 'Boi Gordo', symbol: 'LC-FUT', icon: 'ph-cow' }
+    ];
 
     async function fetchCommodities() {
         if (grid.innerHTML.trim() === '') {
@@ -32,80 +31,50 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            // Tenta buscar cotação USD para converter valores se necessário
-            let usdRate = 6.00;
-            try {
-                const usdRes = await fetch('https://economia.awesomeapi.com.br/json/last/USD-BRL');
-                if (usdRes.ok) {
-                    const usdData = await usdRes.json();
-                    usdRate = parseFloat(usdData.USDBRL.bid);
+            const symbols = commoditiesConfig.map(c => c.symbol).join(',');
+
+            // 1. Busca Preços Atuais via Proxy PHP
+            const latestRes = await fetch(`${PROXY_URL}?action=latest&symbols=${symbols}`);
+            if (!latestRes.ok) throw new Error('Erro na consulta de preços atuais');
+            const latestData = await latestRes.json();
+
+            // 2. Busca Preços de Ontem via Proxy PHP
+            const yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            const dateStr = yesterday.toISOString().split('T')[0];
+
+            const histRes = await fetch(`${PROXY_URL}?action=historical&symbols=${symbols}&date=${dateStr}`);
+            let histData = null;
+            if (histRes.ok) {
+                histData = await histRes.json();
+            }
+
+            const processedQuotes = commoditiesConfig.map(config => {
+                const currentPrice = latestData.rates[config.symbol];
+                let variation = 0;
+
+                if (currentPrice && histData && histData.rates[config.symbol]) {
+                    const prevClose = histData.rates[config.symbol].close || histData.rates[config.symbol];
+                    if (prevClose > 0) {
+                        variation = ((currentPrice - prevClose) / prevClose) * 100;
+                    }
                 }
-            } catch (e) { }
 
-            // Estratégia: lê direto do Gist Público do GitHub (atualizado a cada 30min pelo robô)
-            // Esta URL não depende de FTP nem de o repositório ser público.
-            let baseData = null;
-            const GIST_RAW_URL = 'https://gist.githubusercontent.com/EricMacedo10/09e0576859ee449aec8218405293db20/raw/cota_hoje.json';
-
-            const tryFetch = async (url) => {
-                const res = await fetch(url, { cache: 'no-store' });
-                if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                return res.json();
-            };
-
-            try {
-                // Fonte Primária: Gist Público (sempre atualizado pelo GitHub Actions, sem FTP)
-                const scrapedData = await tryFetch(GIST_RAW_URL);
-                console.log('[Commodities] Dados recebidos do Gist:', scrapedData.last_update);
-
-                const buildBase = (key, pfx) => {
-                    const s = scrapedData[key] || {};
-                    return {
-                        price: s.price || 0,
-                        variation: s.variation ?? 0,
-                        prefix: pfx
-                    };
-                };
-
-                baseData = {
-                    gold: buildBase('gold', 'US$'),
-                    silver: buildBase('silver', 'US$'),
-                    oil: buildBase('oil', 'US$'),
-                    lastUpdate: scrapedData.last_update || null
-                };
-            } catch (err) {
-                console.warn('[Commodities] Gist indisponível, usando fallback estático.', err.message);
-            }
-
-            // Fallback Inteligente caso o robô scraper esteja offline ou o JSON não construído
-            if (!baseData) {
-                baseData = {
-                    gold: { price: 2928.40, variation: -0.24, prefix: 'US$' },
-                    silver: { price: 33.55, variation: 0.85, prefix: 'US$' },
-                    oil: { price: 77.23, variation: 1.12, prefix: 'US$' },
-                    lastUpdate: null
-                };
-            }
-
-            const todayQuotes = commodities.map(c => {
-                const base = baseData[c.id];
                 return {
-                    id: c.id,
-                    symbol: c.symbol,
-                    regularMarketPrice: base.price,
-                    regularMarketChangePercent: base.variation,
-                    prefix: base.prefix
+                    id: config.id,
+                    name: config.name,
+                    icon: config.icon,
+                    price: currentPrice || 0,
+                    variation: variation,
+                    prefix: 'US$'
                 };
             });
 
-            // Para garantir que a promessa demore um instante e mostre o loading
-            setTimeout(() => {
-                renderCommodities(todayQuotes);
-                updateUpdateStatus(baseData.lastUpdate);
-            }, 800);
+            renderCommodities(processedQuotes);
+            updateUpdateStatus(latestData.timestamp * 1000);
 
         } catch (error) {
-            console.error('[Commodities] Erro ao buscar cotações:', error);
+            console.error('[Commodities] Erro ao buscar cotações via Proxy:', error);
             showError();
         }
     }
@@ -114,48 +83,39 @@ document.addEventListener('DOMContentLoaded', () => {
         let statusEl = document.getElementById('market-status-time');
         if (!statusEl) {
             const panel = document.getElementById('commodities-panel');
-            const h4 = panel.querySelector('h4');
-            h4.style.display = 'flex';
-            h4.style.justifyContent = 'space-between';
-            h4.style.alignItems = 'center';
+            const h4 = panel ? panel.querySelector('h4') : null;
+            if (h4) {
+                h4.style.display = 'flex';
+                h4.style.justifyContent = 'space-between';
+                h4.style.alignItems = 'center';
 
-            statusEl = document.createElement('span');
-            statusEl.id = 'market-status-time';
-            statusEl.style.fontSize = '0.65rem';
-            statusEl.style.opacity = '0.6';
-            statusEl.style.fontWeight = '400';
-            h4.appendChild(statusEl);
+                statusEl = document.createElement('span');
+                statusEl.id = 'market-status-time';
+                statusEl.style.fontSize = '0.65rem';
+                statusEl.style.opacity = '0.6';
+                statusEl.style.fontWeight = '400';
+                h4.appendChild(statusEl);
+            }
         }
 
-        if (timestamp) {
+        if (statusEl && timestamp) {
             const date = new Date(timestamp);
             const timeStr = date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-            statusEl.innerHTML = `<i class="ph ph-clock"></i> Sincronizado às ${timeStr}`;
-        } else {
-            const now = new Date();
-            const timeStr = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-            statusEl.innerHTML = `<i class="ph ph-clock"></i> Simulado às ${timeStr}`;
+            statusEl.innerHTML = `<i class="ph ph-clock"></i> Atualizado às ${timeStr}`;
         }
     }
 
     function renderCommodities(quotes) {
         grid.innerHTML = '';
 
-        commodities.forEach(config => {
-            const data = quotes.find(q => q.id === config.id);
-            if (!data) return;
-
+        quotes.forEach(data => {
             const formatPrice = (val) => {
-                const numericVal = parseFloat(val);
-                if (isNaN(numericVal)) return "0,00";
-                return numericVal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                return parseFloat(val).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             };
 
-            const price = `${data.prefix} ${formatPrice(data.regularMarketPrice)}`;
-            const changePct = data.regularMarketChangePercent || 0;
-            const changeStr = changePct !== null
-                ? `${changePct > 0 ? '+' : ''}${formatPrice(changePct)}%`
-                : '--';
+            const priceStr = `${data.prefix} ${formatPrice(data.price)}`;
+            const changePct = data.variation;
+            const changeStr = `${changePct > 0 ? '+' : ''}${changePct.toFixed(2)}%`;
 
             let changeClass = 'neutral';
             if (changePct > 0) changeClass = 'up';
@@ -164,10 +124,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const cardHtml = `
                 <div class="commodity-mini-card">
                     <div class="commodity-header">
-                        <i class="ph ${config.icon}"></i> ${config.name}
+                        <i class="ph ${data.icon}"></i> ${data.name}
                     </div>
-                    <div class="commodity-price" title="${config.name} na referência de mercado">
-                        <span>${price}</span>
+                    <div class="commodity-price" title="${data.name} em tempo real">
+                        <span>${priceStr}</span>
                         <span class="commodity-change ${changeClass}">${changeStr}</span>
                     </div>
                 </div>
@@ -180,11 +140,13 @@ document.addEventListener('DOMContentLoaded', () => {
         grid.innerHTML = `
             <div style="text-align: center; color: var(--text-muted); font-size: 0.8rem; padding: 1rem; grid-column: 1 / -1; border: 1px solid rgba(255,255,255,0.05); border-radius: 6px;">
                 <i class="ph ph-warning-circle" style="font-size: 1.2rem; color: #f59e0b; margin-bottom: 0.5rem; display: block;"></i>
-                Não foi possível carregar o mercado financeiro.
+                Serviço de mercado temporariamente indisponível.
             </div>
         `;
     }
 
     fetchCommodities();
-    setInterval(fetchCommodities, 60000); // Atualiza a simulação visual a cada 1 min
+    // Atualiza a cada 5 minutos para economizar requests do plano Lite (2000/mês)
+    setInterval(fetchCommodities, 300000);
 });
+

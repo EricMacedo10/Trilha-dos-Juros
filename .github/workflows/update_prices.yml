@@ -1,8 +1,9 @@
 name: Atualizar Cotações de Commodities
 
+# on:
+#   schedule:
+#     - cron: '*/30 * * * *' # Executa a cada 30 minutos
 on:
-  schedule:
-    - cron: '*/30 * * * *' # Executa a cada 30 minutos
   workflow_dispatch: # Permite rodar manualmente pelo GitHub
 
 jobs:
