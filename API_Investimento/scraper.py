@@ -78,10 +78,13 @@ def fetch_prices():
                 # Trata formato da API (pode ser valor ou objeto)
                 if isinstance(prev, dict): prev = prev.get('close')
                 
-                if current and prev:
-                    current_val = float(current)
-                    prev_val = float(prev)
-                    variation = ((current_val - prev_val) / prev_val) * 100
+                current_val = float(current) if current else None
+                prev_val = float(prev) if prev else None
+                
+                if current_val:
+                    variation = 0.0
+                    if prev_val:
+                        variation = ((current_val - prev_val) / prev_val) * 100
                     
                     results[key] = {
                         "price": round(current_val, 2),
