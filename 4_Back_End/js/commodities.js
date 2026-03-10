@@ -15,9 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'silver', name: 'Prata', symbol: 'XAG', icon: 'ph-coin' },
         { id: 'coffee', name: 'Café', symbol: 'CA', icon: 'ph-coffee' },
         { id: 'iron', name: 'Minério de Ferro', symbol: 'TIOC', icon: 'ph-factory' },
-        { id: 'oil-wti', name: 'Petróleo WTI', symbol: 'WTIOIL-FUT', icon: 'ph-drop-half' },
-        { id: 'oil-brent', name: 'Petróleo Brent', symbol: 'BRENTOIL-FUT', icon: 'ph-drop' },
-        { id: 'beef', name: 'Boi Gordo', symbol: 'LC-FUT', icon: 'ph-cow' }
+        { id: 'oil-brent', name: 'Petróleo Brent', symbol: 'BRENTOIL-FUT', icon: 'ph-drop' }
     ];
 
     async function fetchCommodities() {
