@@ -30,6 +30,20 @@ jobs:
           COMMODITY_API_KEY: ${{ secrets.COMMODITY_API_KEY }}
           COMMODITTY_API_KEY: ${{ secrets.COMMODITTY_API_KEY }}
           COMMODITTY_APT_KEY: ${{ secrets.COMMODITTY_APT_KEY }}
+          COMMODITY_APT_KEY: ${{ secrets.COMMODITY_APT_KEY }}
+          APT_KEY: ${{ secrets.APT_KEY }}
         run: |
           cd API_Investimento
           python scraper.py
+
+      - name: Deploy via FTP para Hostinger
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.0
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: public_html/
+          local-dir: API_Investimento/ # Assuming the files to deploy are in this directory
+          # You might want to specify which files to upload, e.g., include: 'API_Investimento/**'
+          # or exclude: 'API_Investimento/requirements.txt' etc.
+          # For simplicity, deploying the whole API_Investimento directory content.
