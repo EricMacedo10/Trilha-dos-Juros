@@ -43,4 +43,4 @@ jobs:
           dangerous-clean-slate: true
           timeout: 2400000
           protocol: sftp
-          port: 22
+          port: 65002
