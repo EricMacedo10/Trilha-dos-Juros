@@ -42,5 +42,5 @@ jobs:
           local-dir: ./dist/
           dangerous-clean-slate: true
           timeout: 1200000
-          protocol: ftps
+          protocol: ftp
           port: 21
