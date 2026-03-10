@@ -8,14 +8,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!grid) return;
 
     // CONFIGURAÇÃO: O Proxy PHP gerencia o cache e esconde sua API Key.
-    const PROXY_URL = '../api_commodities.php';
+    const GIST_URL = 'https://gist.githubusercontent.com/EricMacedo10/09e0576859ee449aec8218405293db20/raw/cota_hoje.json';
 
     const commoditiesConfig = [
-        { id: 'gold', name: 'Ouro', symbol: 'XAU', icon: 'ph-coins' },
-        { id: 'silver', name: 'Prata', symbol: 'XAG', icon: 'ph-coin' },
-        { id: 'coffee', name: 'Café', symbol: 'CA', icon: 'ph-coffee' },
-        { id: 'iron', name: 'Minério de Ferro', symbol: 'TIOC', icon: 'ph-factory' },
-        { id: 'oil-brent', name: 'Petróleo Brent', symbol: 'BRENTOIL-FUT', icon: 'ph-drop' }
+        { id: 'gold', name: 'Ouro', key: 'gold', icon: 'ph-coins' },
+        { id: 'silver', name: 'Prata', key: 'silver', icon: 'ph-coin' },
+        { id: 'coffee', name: 'Café', key: 'coffee', icon: 'ph-coffee' },
+        { id: 'iron', name: 'Minério de Ferro', key: 'iron', icon: 'ph-factory' },
+        { id: 'oil-brent', name: 'Petróleo Brent', key: 'oil', icon: 'ph-drop' }
     ];
 
     async function fetchCommodities() {
@@ -29,55 +29,33 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const symbols = commoditiesConfig.map(c => c.symbol).join(',');
-
-            // 1. Busca Preços Atuais via Proxy PHP
-            const latestRes = await fetch(`${PROXY_URL}?action=latest&symbols=${symbols}`);
-            if (!latestRes.ok) throw new Error('Erro na consulta de preços atuais');
-            const latestData = await latestRes.json();
-
-            // 2. Busca Preços de Ontem via Proxy PHP
-            const yesterday = new Date();
-            yesterday.setDate(yesterday.getDate() - 1);
-            const dateStr = yesterday.toISOString().split('T')[0];
-
-            const histRes = await fetch(`${PROXY_URL}?action=historical&symbols=${symbols}&date=${dateStr}`);
-            let histData = null;
-            if (histRes.ok) {
-                histData = await histRes.json();
-            }
+            // Adicionado timestamp para evitar cache agressivo
+            const res = await fetch(`${GIST_URL}?t=${new Date().getTime()}`);
+            if (!res.ok) throw new Error('Falha ao carregar Gist');
+            const data = await res.json();
 
             const processedQuotes = commoditiesConfig.map(config => {
-                const currentPrice = latestData.rates[config.symbol];
-                let variation = 0;
-
-                if (currentPrice && histData && histData.rates[config.symbol]) {
-                    const prevClose = histData.rates[config.symbol].close || histData.rates[config.symbol];
-                    if (prevClose > 0) {
-                        variation = ((currentPrice - prevClose) / prevClose) * 100;
-                    }
-                }
-
+                const item = data[config.key];
                 return {
                     id: config.id,
                     name: config.name,
                     icon: config.icon,
-                    price: currentPrice || 0,
-                    variation: variation,
+                    price: item ? item.price : 0,
+                    variation: item ? item.variation : 0,
                     prefix: 'US$'
                 };
             });
 
             renderCommodities(processedQuotes);
-            updateUpdateStatus(latestData.timestamp * 1000);
+            updateUpdateStatus(data.last_update);
 
         } catch (error) {
-            console.error('[Commodities] Erro ao buscar cotações via Proxy:', error);
+            console.error('[Commodities] Erro ao buscar cotações do Gist:', error);
             showError();
         }
     }
 
-    function updateUpdateStatus(timestamp) {
+    function updateUpdateStatus(timeStr) {
         let statusEl = document.getElementById('market-status-time');
         if (!statusEl) {
             const panel = document.getElementById('commodities-panel');
@@ -96,10 +74,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        if (statusEl && timestamp) {
-            const date = new Date(timestamp);
-            const timeStr = date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-            statusEl.innerHTML = `<i class="ph ph-clock"></i> Atualizado às ${timeStr}`;
+        if (statusEl && timeStr) {
+            const shortStr = timeStr.split(' ')[1].substring(0, 5);
+            statusEl.innerHTML = `<i class="ph ph-clock"></i> Atualizado às ${shortStr}`;
         }
     }
 

@@ -3,8 +3,19 @@ import json
 import os
 from datetime import datetime, timedelta, timezone
 
-# ID do Gist Público onde as cotações são publicadas
+# CONFIGURAÇÂO
 GIST_ID = "09e0576859ee449aec8218405293db20"
+API_KEY = "0652c687-3f50-4b95-8c7c-670f9c77923c"
+BASE_URL = "https://api.commoditypriceapi.com/v2"
+
+# Mapeamento do Site para a API
+SYMBOLS_MAP = {
+    'gold': 'XAU',
+    'silver': 'XAG',
+    'coffee': 'CA',
+    'iron': 'TIOC',
+    'oil': 'BRENTOIL-FUT'
+}
 
 def update_gist(data: dict, token: str):
     """Envia os dados atualizados para o Gist público do GitHub."""
@@ -26,78 +37,55 @@ def update_gist(data: dict, token: str):
         timeout=15
     )
     response.raise_for_status()
-    print(f"[OK] Gist atualizado: {response.json().get('html_url')}")
+    print(f"[OK] Gist atualizado.")
 
 def fetch_prices():
     results = {}
-    print("Iniciando Sincronizacao de Commodities (Producao - Gist Strategy)...")
+    print("Iniciando Sincronizacao de Commodities via API Profissional...")
     
-    # 1. Busca Ouro e Prata via AwesomeAPI (Referencia Global em USD)
+    symbols_str = ",".join(SYMBOLS_MAP.values())
+    
     try:
-        print("[AwesomeAPI] Buscando Ouro e Prata...")
-        res = requests.get(
-            "https://economia.awesomeapi.com.br/json/last/XAU-USD,XAG-USD",
-            timeout=15
-        )
-        if res.status_code == 200:
-            data = res.json()
-            results['gold'] = {
-                "price": round(float(data['XAUUSD']['bid']), 2),
-                "variation": round(float(data['XAUUSD']['pctChange']), 2)
-            }
-            results['silver'] = {
-                "price": round(float(data['XAGUSD']['bid']), 2),
-                "variation": round(float(data['XAGUSD']['pctChange']), 2)
-            }
-            print(f"[OK] GOLD: {results['gold']['price']} ({results['gold']['variation']}%)")
-            print(f"[OK] SILVER: {results['silver']['price']} ({results['silver']['variation']}%)")
-    except Exception as e:
-        print(f"[Erro] Falha ao buscar Metais via AwesomeAPI: {e}")
+        # 1. Busca Preços Atuais
+        print(f"[API] Buscando precos atuais para: {symbols_str}")
+        latest_res = requests.get(f"{BASE_URL}/rates/latest?apiKey={API_KEY}&symbols={symbols_str}", timeout=15)
+        latest_data = latest_res.json()
+        
+        # 2. Busca Preços de Ontem (Variação %)
+        yesterday_date = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
+        print(f"[API] Buscando precos historicos de {yesterday_date}...")
+        hist_res = requests.get(f"{BASE_URL}/rates/historical?apiKey={API_KEY}&symbols={symbols_str}&date={yesterday_date}", timeout=15)
+        hist_data = hist_res.json()
 
-    # 2. Busca Petroleo Brent via Yahoo Finance API Direta
-    try:
-        print("[Yahoo API] Buscando Petroleo Brent...")
-        url = "https://query1.finance.yahoo.com/v8/finance/chart/BZ=F"
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36'
-        }
-        res_oil = requests.get(url, headers=headers, timeout=15)
-        if res_oil.status_code == 200:
-            data_oil = res_oil.json()
-            meta = data_oil['chart']['result'][0]['meta']
-            price_oil = meta['regularMarketPrice']
-            prev_close = meta['chartPreviousClose']
-            variation_oil = ((price_oil - prev_close) / prev_close) * 100
-            results['oil'] = {
-                "price": round(float(price_oil), 2),
-                "variation": round(float(variation_oil), 2)
-            }
-            print(f"[OK] OIL (Brent): {results['oil']['price']} ({results['oil']['variation']}%)")
-    except Exception as e:
-        print(f"[Erro] Falha ao buscar Petroleo via Yahoo API: {e}")
+        if latest_data.get('success') and hist_data.get('success'):
+            for key, symbol in SYMBOLS_MAP.items():
+                current = latest_data['rates'].get(symbol)
+                hist_item = hist_data['rates'].get(symbol)
+                
+                # Trata formato da API (valor direto ou objeto com 'close')
+                prev_close = hist_item.get('close') if isinstance(hist_item, dict) else hist_item
+                
+                if current and prev_close:
+                    variation = ((float(current) - float(prev_close)) / float(prev_close)) * 100
+                    results[key] = {
+                        "price": round(float(current), 2),
+                        "variation": round(float(variation), 2)
+                    }
+                    print(f"[OK] {key.upper()}: {current} ({variation:.2f}%)")
 
-    # Validacao Final — ao menos 2 dos 3 ativos capturados
-    if len(results) >= 2:
-        tz_br = timezone(timedelta(hours=-3))
-        results["last_update"] = datetime.now(tz_br).strftime("%Y-%m-%d %H:%M:%S")
+            # Metadados de Tempo
+            tz_br = timezone(timedelta(hours=-3))
+            results["last_update"] = datetime.now(tz_br).strftime("%Y-%m-%d %H:%M:%S")
 
-        # Publicar no Gist público (fonte primária do front-end)
-        gist_token = os.environ.get("GIST_TOKEN", "")
-        if gist_token:
-            try:
+            # Publicar no Gist
+            gist_token = os.environ.get("GIST_TOKEN", "")
+            if gist_token:
                 update_gist(results, gist_token)
-            except Exception as e:
-                print(f"[Aviso] Falha ao atualizar Gist: {e}")
-        else:
-            print("[Aviso] GIST_TOKEN nao encontrado. Pulando atualizacao do Gist.")
+            else:
+                print("[Aviso] GIST_TOKEN nao encontrado no GitHub Secrets.")
 
-        # Salvar localmente como backup (cota_hoje.json no diretorio do script)
-        with open('cota_hoje.json', 'w', encoding='utf-8') as f:
-            json.dump(results, f, ensure_ascii=False, indent=2)
-
-        print(f"\n[SUCESSO] Sincronizacao concluida as {results['last_update']} (BRT).")
-    else:
-        print("\n[ERRO CRITICO] Falha na captacao dos dados. Arquivo nao alterado.")
+    except Exception as e:
+        print(f"[ERRO CRITICO] Falha na Sincronizacao: {e}")
 
 if __name__ == '__main__':
     fetch_prices()
