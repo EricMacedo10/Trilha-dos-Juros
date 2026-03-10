@@ -16,14 +16,17 @@ jobs:
 
       - name: 📦 Preparar Build de Produção
         run: |
+          rm -rf dist
           mkdir dist
           cp -r 3_Front_End/* dist/
-          cp -r 4_Back_End/js dist/js || true
-          cp 4_Back_End/api_commodities.php dist/ || echo "api_commodities.php not found"
+          cp -r 4_Back_End/js/* dist/js/ 2>/dev/null || true
+          cp 4_Back_End/api_commodities.php dist/ 2>/dev/null || echo "api_commodities.php skip"
           cp -r API_Investimento dist/
-          [ -f .htaccess ] && cp .htaccess dist/ || echo ".htaccess not found"
-          [ -f ads.txt ] && cp ads.txt dist/ || echo "ads.txt not found"
-          sed -i 's|\.\./4_Back_End/js|js|g' dist/index.html || echo "sed skip"
+          [ -f .htaccess ] && cp .htaccess dist/ || echo ".htaccess skip"
+          [ -f ads.txt ] && cp ads.txt dist/ || echo "ads.txt skip"
+          # Normalização de caminhos para produção
+          find dist -name "*.html" -exec sed -i 's|\.\./4_Back_End/js|js|g' {} +
+          find dist -name "*.html" -exec sed -i 's|4_Back_End/||g' {} +
 
       - name: 📂 Sincronizar arquivos para Hostinger
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
