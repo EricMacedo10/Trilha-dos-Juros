@@ -19,6 +19,7 @@ jobs:
           mkdir dist
           cp -r 3_Front_End/* dist/
           cp -r 4_Back_End/js dist/js || true
+          cp 4_Back_End/api_commodities.php dist/ || echo "api_commodities.php not found"
           cp -r API_Investimento dist/
           [ -f .htaccess ] && cp .htaccess dist/ || echo ".htaccess not found"
           [ -f ads.txt ] && cp ads.txt dist/ || echo "ads.txt not found"
