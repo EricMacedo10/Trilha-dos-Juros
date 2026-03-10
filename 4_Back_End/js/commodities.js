@@ -29,10 +29,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            // Adicionado timestamp para evitar cache agressivo
-            const res = await fetch(`${GIST_URL}?t=${new Date().getTime()}`);
+            // Cache busting triplo: timestamp + random + Headers
+            const res = await fetch(`${GIST_URL}?t=${new Date().getTime()}&r=${Math.random()}`, {
+                cache: 'no-store',
+                headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' }
+            });
+
             if (!res.ok) throw new Error('Falha ao carregar Gist');
             const data = await res.json();
+
+            // Sincronização Sênior: Se o Gist estiver vazio ou for antigo, loga no console
+            if (!data.gold || !data.last_update) {
+                console.warn('[Commodities] Gist carregado mas incompleto. Verifique o Scraper.');
+            }
 
             const processedQuotes = commoditiesConfig.map(config => {
                 const item = data[config.key];
