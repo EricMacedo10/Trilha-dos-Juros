@@ -27,7 +27,7 @@ SYMBOLS_MAP = {
     'silver': 'XAG',
     'coffee': 'CA',
     'iron': 'TIOC',
-    'oil': 'BRN00'
+    'oil': 'BRENTOIL'
 }
 
 def update_gist(data: dict, token: str):
