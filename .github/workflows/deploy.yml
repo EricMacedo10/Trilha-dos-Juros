@@ -32,15 +32,14 @@ jobs:
           echo "### Estrutura do diretório de deploy: ###"
           ls -R dist
 
-      - name: 📂 Sincronizar arquivos para Hostinger
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      - name: 📂 Sincronizar arquivos para Hostinger (SFTP Seguro)
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-          server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
+          server: ${{ secrets.FTP_SERVER }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: ./
-          local-dir: ./dist/
-          dangerous-clean-slate: true
-          timeout: 2400000
-          protocol: sftp
           port: 65002
+          local_path: './dist/*'
+          remote_path: './public_html'
+          delete_remote_files: true
+          args: '-o ConnectTimeout=60'
