@@ -3,15 +3,16 @@ import json
 import os
 from datetime import datetime, timedelta, timezone
 
-# CONFIGURAÇÂO - Chaves sensíveis via Environment Variables (Prioridade Máxima)
+# CONFIGURAÇÂO - Chaves sensíveis via Environment Variables (Foco em Resiliência)
 GIST_ID = "09e0576859ee449aec8218405293db20"
 
-# Tenta ler de TODAS as variações possíveis de digitação para garantir o funcionamento
+# Tenta ler de TODAS as variações possíveis para não travar o sistema
 API_KEY = (
     os.environ.get("COMMODITY_API_KEY") or 
     os.environ.get("COMMODITTY_API_KEY") or 
     os.environ.get("COMMODITTY_APT_KEY") or
-    os.environ.get("COMMODITY_APT_KEY")
+    os.environ.get("COMMODITY_APT_KEY") or
+    os.environ.get("APT_KEY")
 )
 
 # Fallback apenas para DESENVOLVIMENTO LOCAL
