@@ -46,17 +46,22 @@ Este bloco documenta decisões arquiteturais importantes para que eu nunca as re
 *   **URL Raw:** `https://gist.githubusercontent.com/EricMacedo10/09e0576859ee449aec8218405293db20/raw/cota_hoje.json`
 *   **Secrets necessários:** `GIST_TOKEN` e `COMMODITY_API_KEY` no repositório GitHub Actions.
 
-### ADR-002: Remoção da dependência `yfinance`
+### ADR-002: Integração Profissional — CommodityPriceAPI
 *   **Data:** Março/2026
-*   **Contexto:** A biblioteca `yfinance` era usada para buscar preços de commodities mas causava falhas por bloqueio de IP nos servidores do GitHub Actions.
-*   **Decisão:** Substituído por:
-    *   **AwesomeAPI** (`economia.awesomeapi.com.br/json/last/XAU-USD,XAG-USD`) para Gold e Silver.
-    *   **Yahoo Finance API direta** (`query1.finance.yahoo.com/v8/finance/chart/BZ=F`) com User-Agent customizado para Petróleo Brent.
-*   **Resultado:** Zero dependências problemáticas. `requirements.txt` contém apenas `requests`.
+*   **Contexto:** Tentativas com Yahoo Finance e AwesomeAPI falharam por bloqueios de IP (GitHub Actions) e inconsistência de símbolos para Petróleo Brent.
+*   **Decisão:** Uso exclusivo da **CommodityPriceAPI** (v2) para todos os ativos:
+    *   **Ouro/Prata:** `XAU`, `XAG`.
+    *   **Petróleo Brent:** `BRENTOIL-SPOT` (Uso de SPOT em vez de FUTUROS para evitar gaps de rolagem de contrato e variações mentirosas).
+*   **Filtro de Sanidade:** Implementada trava de segurança no `scraper.py` que ignora variações superiores a **12%** em 24h, exibindo 0.00% em caso de anomalia da API para preservar a credibilidade do site.
+*   **Resultado:** Dados estáveis, profissionais e dentro da cota de 2.000 créditos mensais (2 créditos/hora).
 
-### ADR-003: FTP da Hostinger — Deploy de Código vs. Deploy de Dados
+### ADR-003: FTP da Hostinger — Deploy de Código sem Duplicidade
 *   **Data:** Março/2026
-*   **Entendimento Crítico:** O `deploy.yml` (FTP) é necessário para atualizar o **código** do site (HTML, CSS, JS) na Hostinger. Ele pode falhar de forma intermitente — isso é uma limitação do servidor da Hostinger, não do nosso código. Quando falha, os arquivos de dados (cotações) **não são afetados** pois agora usam o Gist. A solução de contingência para deploy de código é o upload manual via **File Manager da Hostinger** (`hPanel → File Manager → public_html`).
+*   **Problema:** O deploy criava pastas `public_html/public_html` e falhava por timeout.
+*   **Decisão:** 
+    1.  Ajuste do `server-dir` para **`./`** (raiz), pois o usuário FTP da Hostinger já inicia dentro da pasta de destino.
+    2.  Protocolo **FTP (Porta 21)** mantido como primário por ser o mais aceito pelo firewall, com fallback para **SFTP (Porta 65002)** se necessário (requer SSH ativo).
+    3.  Desativação do `clean-slate` em cada deploy para evitar timeout por deleção em massa; a limpeza deve ser manual em caso de corrupção de arquivos.
 
 ## Assinatura de Compromisso
 Este é o meu fluxo de trabalho. A partir de agora, o projeto **Trilha dos Juros** será construído estritamente sobre bases sólidas, seguras e premium. Nada passa sem o selo de qualidade sênior.
