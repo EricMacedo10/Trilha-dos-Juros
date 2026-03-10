@@ -3,9 +3,16 @@ import json
 import os
 from datetime import datetime, timedelta, timezone
 
-# CONFIGURAÇÂO - Chaves sensíveis agora via Environment Variables (Segurança Sênior)
+# CONFIGURAÇÂO - Chaves sensíveis via Environment Variables (Prioridade Máxima)
 GIST_ID = "09e0576859ee449aec8218405293db20"
-API_KEY = os.environ.get("COMMODITY_API_KEY", "0652c687-3f50-4b95-8c7c-670f9c77923c") # Fallback temporário para não quebrar imediato se não configurado
+
+# Tenta ler do Secret oficial ou do Secret com erro de digitação (COMMODITTY)
+API_KEY = os.environ.get("COMMODITY_API_KEY") or os.environ.get("COMMODITTY_API_KEY")
+
+# Fallback apenas para DESENVOLVIMENTO LOCAL (se não encontrar nenhuma env)
+if not API_KEY and not os.environ.get("GITHUB_ACTIONS"):
+    API_KEY = "0652c687-3f50-4b95-8c7c-670f9c77923c"
+
 BASE_URL = "https://api.commoditypriceapi.com/v2"
 
 # Mapeamento do Site para a API

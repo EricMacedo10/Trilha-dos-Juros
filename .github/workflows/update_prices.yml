@@ -28,6 +28,7 @@ jobs:
         env:
           GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
           COMMODITY_API_KEY: ${{ secrets.COMMODITY_API_KEY }}
+          COMMODITTY_API_KEY: ${{ secrets.COMMODITTY_API_KEY }}
         run: |
           cd API_Investimento
           python scraper.py
