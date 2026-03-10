@@ -46,7 +46,7 @@ def fetch_prices():
     SYMBOLS_MAP = {
         'gold': 'XAU',
         'silver': 'XAG',
-        'oil': 'BRENTOIL-FUT',
+        'oil': 'BRENTOIL-SPOT',
         'coffee': 'CA',
         'iron': 'TIOC'
     }
@@ -85,6 +85,11 @@ def fetch_prices():
                     variation = 0.0
                     if prev_val:
                         variation = ((current_val - prev_val) / prev_val) * 100
+                    
+                    # FILTRO DE SANIDADE SENIOR (Evita alucinações de contratos/rolagem)
+                    if abs(variation) > 12.0:
+                        print(f"[AVISO] Variação anômala detectada em {key.upper()} ({variation:.2f}%). Zerando para segurança.")
+                        variation = 0.0
                     
                     results[key] = {
                         "price": round(current_val, 2),
