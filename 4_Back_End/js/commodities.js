@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     fetchCommodities();
-    // Atualiza a cada 5 minutos para economizar requests do plano Lite (2000/mês)
+    // Atualiza a cada 5 minutos (leitura do Gist sincronizado via GitHub Action a cada 1h)
     setInterval(fetchCommodities, 300000);
 });
 

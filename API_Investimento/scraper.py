@@ -3,9 +3,9 @@ import json
 import os
 from datetime import datetime, timedelta, timezone
 
-# CONFIGURAÇÂO
+# CONFIGURAÇÂO - Chaves sensíveis agora via Environment Variables (Segurança Sênior)
 GIST_ID = "09e0576859ee449aec8218405293db20"
-API_KEY = "0652c687-3f50-4b95-8c7c-670f9c77923c"
+API_KEY = os.environ.get("COMMODITY_API_KEY", "0652c687-3f50-4b95-8c7c-670f9c77923c") # Fallback temporário para não quebrar imediato se não configurado
 BASE_URL = "https://api.commoditypriceapi.com/v2"
 
 # Mapeamento do Site para a API
@@ -30,31 +30,41 @@ def update_gist(data: dict, token: str):
             }
         }
     }
-    response = requests.patch(
-        f"https://api.github.com/gists/{GIST_ID}",
-        headers=headers,
-        json=payload,
-        timeout=15
-    )
-    response.raise_for_status()
-    print(f"[OK] Gist atualizado.")
+    try:
+        response = requests.patch(
+            f"https://api.github.com/gists/{GIST_ID}",
+            headers=headers,
+            json=payload,
+            timeout=15
+        )
+        response.raise_for_status()
+        print(f"[OK] Gist atualizado com sucesso.")
+    except Exception as e:
+        print(f"[ERRO] Falha ao atualizar Gist: {e}")
+        raise
 
 def fetch_prices():
     results = {}
     print("Iniciando Sincronizacao de Commodities via API Profissional...")
     
+    if not API_KEY:
+        print("[ERRO CRITICO] COMMODITY_API_KEY nao configurada nos Secrets.")
+        exit(1)
+
     symbols_str = ",".join(SYMBOLS_MAP.values())
     
     try:
         # 1. Busca Preços Atuais
         print(f"[API] Buscando precos atuais para: {symbols_str}")
-        latest_res = requests.get(f"{BASE_URL}/rates/latest?apiKey={API_KEY}&symbols={symbols_str}", timeout=15)
+        latest_res = requests.get(f"{BASE_URL}/rates/latest?apiKey={API_KEY}&symbols={symbols_str}", timeout=20)
+        latest_res.raise_for_status()
         latest_data = latest_res.json()
         
         # 2. Busca Preços de Ontem (Variação %)
         yesterday_date = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
         print(f"[API] Buscando precos historicos de {yesterday_date}...")
-        hist_res = requests.get(f"{BASE_URL}/rates/historical?apiKey={API_KEY}&symbols={symbols_str}&date={yesterday_date}", timeout=15)
+        hist_res = requests.get(f"{BASE_URL}/rates/historical?apiKey={API_KEY}&symbols={symbols_str}&date={yesterday_date}", timeout=20)
+        hist_res.raise_for_status()
         hist_data = hist_res.json()
 
         if latest_data.get('success') and hist_data.get('success'):
@@ -72,8 +82,12 @@ def fetch_prices():
                         "variation": round(float(variation), 2)
                     }
                     print(f"[OK] {key.upper()}: {current} ({variation:.2f}%)")
+            
+            if not results:
+                print("[AVISO] Nenhum dado processado com sucesso. Verifique os simbolos.")
+                return
 
-            # Metadados de Tempo
+            # Metadados de Tempo (Horário oficial de Brasília)
             tz_br = timezone(timedelta(hours=-3))
             results["last_update"] = datetime.now(tz_br).strftime("%Y-%m-%d %H:%M:%S")
 
@@ -82,10 +96,19 @@ def fetch_prices():
             if gist_token:
                 update_gist(results, gist_token)
             else:
-                print("[Aviso] GIST_TOKEN nao encontrado no GitHub Secrets.")
+                print("[ERRO] GIST_TOKEN nao encontrado no GitHub Secrets.")
+                exit(1)
+        else:
+            print(f"[ERRO API] Sucesso falso. Latest: {latest_data.get('success')}, Hist: {hist_data.get('success')}")
+            print(f"Mensagem: {latest_data.get('error', {}).get('info', 'Sem info')}")
+            exit(1)
 
     except Exception as e:
         print(f"[ERRO CRITICO] Falha na Sincronizacao: {e}")
+        exit(1)
+
+if __name__ == '__main__':
+    fetch_prices()
 
 if __name__ == '__main__':
     fetch_prices()

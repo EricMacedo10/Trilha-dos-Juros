@@ -44,7 +44,7 @@ Este bloco documenta decisões arquiteturais importantes para que eu nunca as re
 *   **Resultado:** Zero dependência de FTP para dados de cotações. Atualização autônoma a cada 30 min. Repositório permanece privado.
 *   **Gist ID:** `09e0576859ee449aec8218405293db20` (EricMacedo10)
 *   **URL Raw:** `https://gist.githubusercontent.com/EricMacedo10/09e0576859ee449aec8218405293db20/raw/cota_hoje.json`
-*   **Secret necessário:** `GIST_TOKEN` no repositório GitHub Actions.
+*   **Secrets necessários:** `GIST_TOKEN` e `COMMODITY_API_KEY` no repositório GitHub Actions.
 
 ### ADR-002: Remoção da dependência `yfinance`
 *   **Data:** Março/2026
