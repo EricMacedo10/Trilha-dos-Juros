@@ -679,6 +679,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0.5rem;
+    min-height: 120px; /* Evita que o painel colapse enquanto sincroniza */
 }
 
 .commodity-mini-card {

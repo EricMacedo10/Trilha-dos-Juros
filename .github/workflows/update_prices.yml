@@ -2,7 +2,7 @@ name: Atualizar Cotações de Commodities
 
 on:
   schedule:
-    - cron: '0 * * * *' # Executa a cada 1 hora para economizar creditos
+    - cron: '0 * * * *' # Executa a cada 1 hora para segurança de limites (Plano Lite)
   workflow_dispatch: # Permite rodar manualmente pelo GitHub
 
 jobs:

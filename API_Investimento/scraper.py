@@ -27,7 +27,7 @@ SYMBOLS_MAP = {
     'silver': 'XAG',
     'coffee': 'CA',
     'iron': 'TIOC',
-    'oil': 'BRENTOIL-FUT'
+    'oil': 'BRENTOIL'
 }
 
 def update_gist(data: dict, token: str):
@@ -119,9 +119,6 @@ def fetch_prices():
     except Exception as e:
         print(f"[ERRO CRITICO] Falha na Sincronizacao: {e}")
         exit(1)
-
-if __name__ == '__main__':
-    fetch_prices()
 
 if __name__ == '__main__':
     fetch_prices()
