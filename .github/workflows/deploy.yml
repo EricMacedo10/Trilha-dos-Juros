@@ -21,12 +21,16 @@ jobs:
           cp -r 3_Front_End/* dist/
           cp -r 4_Back_End/js/* dist/js/ 2>/dev/null || true
           cp 4_Back_End/api_commodities.php dist/ 2>/dev/null || echo "api_commodities.php skip"
-          cp -r API_Investimento dist/
+          # API_Investimento não é mais enviada para a Hostinger (roda no Gist Strategy)
           [ -f .htaccess ] && cp .htaccess dist/ || echo ".htaccess skip"
           [ -f ads.txt ] && cp ads.txt dist/ || echo "ads.txt skip"
+          
           # Normalização de caminhos para produção
           find dist -name "*.html" -exec sed -i 's|\.\./4_Back_End/js|js|g' {} +
           find dist -name "*.html" -exec sed -i 's|4_Back_End/||g' {} +
+          
+          echo "### Estrutura do diretório de deploy: ###"
+          ls -R dist
 
       - name: 📂 Sincronizar arquivos para Hostinger
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -36,7 +40,7 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: public_html/
           local-dir: ./dist/
-          dangerous-clean-slate: false
+          dangerous-clean-slate: true
           timeout: 1200000
           protocol: ftps
           port: 21
