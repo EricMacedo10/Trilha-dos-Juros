@@ -78,47 +78,33 @@ document.addEventListener('DOMContentLoaded', () => {
             console.warn('[Trilha dos Juros] AwesomeAPI falhou.', e);
         }
 
-        // 2. IBOVESPA via Awesome API (Super estável e nativo do Brasil, mesmo provedor de moedas)
+        // 2 & 3. Ibovespa e Ações via Vercel Serverless Function (Sem limite de CORS ou IP bloqueado)
         try {
-            const ibovRes = await fetch('https://economia.awesomeapi.com.br/json/last/IBOVESPA-BRL');
-            if (ibovRes.ok) {
-                const iData = await ibovRes.json();
-                if (iData && iData.IBOVESPABRL) {
-                    const ibov = marketData.find(m => m.symbol === "IBOVESPA");
-                    if (ibov && iData.IBOVESPABRL.bid) {
-                        ibov.value = `${parseFloat(iData.IBOVESPABRL.bid).toLocaleString('pt-BR', { maximumFractionDigits: 0 })} pts`;
-                        ibov.status = parseFloat(iData.IBOVESPABRL.pctChange) >= 0 ? "up" : "down";
-                    }
-                }
-            }
-        } catch (e) {
-            console.warn('[Trilha dos Juros] Ibovespa falhou.', e);
-        }
-
-        // 3. Ações isoladas via Yahoo Finance (com Proxy CodeTabs que é imune ao 401 da Vercel)
-        try {
-            const assetsToFetch = ['PETR4.SA', 'VALE3.SA', 'ITUB4.SA'];
-            for (const sym of assetsToFetch) {
-                const url = `https://query1.finance.yahoo.com/v8/finance/chart/${sym}?interval=1d`;
-                const proxyUrl = `https://api.codetabs.com/v1/proxy/?quest=${encodeURIComponent(url)}`;
-                
+            const assetsToFetch = ['%5EBVSP', 'PETR4.SA', 'VALE3.SA', 'ITUB4.SA'];
+            const promessas = assetsToFetch.map(async (sym) => {
+                const urlBackend = `/api/yahoo?symbol=${sym}`;
                 try {
-                    const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(5000) });
+                    const res = await fetch(urlBackend, { signal: AbortSignal.timeout(5000) });
                     if(res.ok) {
                         const data = await res.json();
                         if (data?.chart?.result?.[0]?.meta) {
                             const meta = data.chart.result[0].meta;
-                            const internalSym = sym.replace('.SA', '');
+                            const internalSym = sym === '%5EBVSP' ? 'IBOVESPA' : sym.replace('.SA', '');
                             const target = marketData.find(m => m.symbol === internalSym);
                             
                             if (target && meta.regularMarketPrice) {
-                                target.value = `R$ ${meta.regularMarketPrice.toFixed(2)}`;
+                                if (internalSym === 'IBOVESPA') {
+                                    target.value = `${meta.regularMarketPrice.toLocaleString('pt-BR', { maximumFractionDigits: 0 })} pts`;
+                                } else {
+                                    target.value = `R$ ${meta.regularMarketPrice.toFixed(2)}`;
+                                }
                                 target.status = meta.regularMarketPrice >= (meta.previousClose || meta.chartPreviousClose) ? "up" : "down";
                             }
                         }
                     }
-                } catch(e) { /* skip individual */ }
-            }
+                } catch(e) { /* skip individual fallback request */ }
+            });
+            await Promise.allSettled(promessas);
         } catch(e) { /* master skip */ }
 
         // Renderização Final do Ticker
