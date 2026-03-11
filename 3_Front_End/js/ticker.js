@@ -78,74 +78,48 @@ document.addEventListener('DOMContentLoaded', () => {
             console.warn('[Trilha dos Juros] AwesomeAPI falhou.', e);
         }
 
-        // 2. Ações B3 via Proxy HGBrasil (Plano A) ou Yahoo
-        const hgUrl = `https://api.allorigins.win/get?url=${encodeURIComponent('https://api.hgbrasil.com/finance?format=json-cors')}`;
-        
+        // 2. IBOVESPA via Awesome API (Super estável e nativo do Brasil, mesmo provedor de moedas)
         try {
-            const hgRes = await fetch(hgUrl, { signal: AbortSignal.timeout(5000) });
-            if (hgRes.ok) {
-                const jsonPayload = await hgRes.json();
-                const hgData = JSON.parse(jsonPayload.contents);
-                
-                if (hgData && hgData.results && hgData.results.stocks) {
-                    const stocks = hgData.results.stocks;
-                    
-                    // Ibovespa
-                    if (stocks.IBOVESPA) {
-                        const target = marketData.find(m => m.symbol === "IBOVESPA");
-                        if (target) {
-                            target.value = `${stocks.IBOVESPA.points.toLocaleString('pt-BR', { maximumFractionDigits: 0 })} pts`;
-                            target.status = stocks.IBOVESPA.variation >= 0 ? "up" : "down";
-                        }
+            const ibovRes = await fetch('https://economia.awesomeapi.com.br/json/last/IBOVESPA-BRL');
+            if (ibovRes.ok) {
+                const iData = await ibovRes.json();
+                if (iData && iData.IBOVESPABRL) {
+                    const ibov = marketData.find(m => m.symbol === "IBOVESPA");
+                    if (ibov && iData.IBOVESPABRL.bid) {
+                        ibov.value = `${parseFloat(iData.IBOVESPABRL.bid).toLocaleString('pt-BR', { maximumFractionDigits: 0 })} pts`;
+                        ibov.status = parseFloat(iData.IBOVESPABRL.pctChange) >= 0 ? "up" : "down";
                     }
-                    
-                    // Ações Notórias
-                    const mappedStocks = {
-                        "PETR4": "PETR4",
-                        "VALE3": "VALE3",
-                        "ITUB4": "ITUB4"
-                    };
-                    
-                    // As free APIs costumam nao ter cotaçoes especificas, dependendo do momento.
-                    // Na ausência, usamos um fallback pro Yahoo Allorigins
                 }
             }
-        } catch(e) { /* Silenced */ }
-        
-        // 3. Fallback Yahoo Finance via proxy livre
+        } catch (e) {
+            console.warn('[Trilha dos Juros] Ibovespa falhou.', e);
+        }
+
+        // 3. Ações isoladas via Yahoo Finance (com Proxy CodeTabs que é imune ao 401 da Vercel)
         try {
-            const assetsToFetch = ['PETR4.SA', 'VALE3.SA', 'ITUB4.SA', '%5EBVSP'];
+            const assetsToFetch = ['PETR4.SA', 'VALE3.SA', 'ITUB4.SA'];
             for (const sym of assetsToFetch) {
                 const url = `https://query1.finance.yahoo.com/v8/finance/chart/${sym}?interval=1d`;
-                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+                const proxyUrl = `https://api.codetabs.com/v1/proxy/?quest=${encodeURIComponent(url)}`;
                 
                 try {
-                    const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(4000) });
+                    const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(5000) });
                     if(res.ok) {
-                        const jsonPayload = await res.json();
-                        const data = JSON.parse(jsonPayload.contents);
-                        
+                        const data = await res.json();
                         if (data?.chart?.result?.[0]?.meta) {
                             const meta = data.chart.result[0].meta;
-                            const internalSym = sym === '%5EBVSP' ? 'IBOVESPA' : sym.replace('.SA', '');
+                            const internalSym = sym.replace('.SA', '');
                             const target = marketData.find(m => m.symbol === internalSym);
                             
-                            // Apenas sobrecreve se tiver fallback padrao ou erro
                             if (target && meta.regularMarketPrice) {
-                                if (internalSym === 'IBOVESPA') {
-                                    target.value = `${meta.regularMarketPrice.toLocaleString('pt-BR', { maximumFractionDigits: 0 })} pts`;
-                                } else {
-                                    target.value = `R$ ${meta.regularMarketPrice.toFixed(2)}`;
-                                }
+                                target.value = `R$ ${meta.regularMarketPrice.toFixed(2)}`;
                                 target.status = meta.regularMarketPrice >= (meta.previousClose || meta.chartPreviousClose) ? "up" : "down";
                             }
                         }
                     }
-                } catch(e) { /* skip */ }
+                } catch(e) { /* skip individual */ }
             }
-        } catch(e) {
-            // master skip
-        }
+        } catch(e) { /* master skip */ }
 
         // Renderização Final do Ticker
         if (tickerContent) {
