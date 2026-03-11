@@ -8,7 +8,7 @@ on:
 
 jobs:
   web-deploy:
-    name: 🚀 Deploy via FTP
+    name: 🚀 Deploy via SFTP/LFTP
     runs-on: ubuntu-22.04
     steps:
       - name: 🚚 Obter o código mais recente
