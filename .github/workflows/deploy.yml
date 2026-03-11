@@ -40,10 +40,12 @@ jobs:
           FTP_PASS: ${{ secrets.FTP_PASSWORD }}
         run: |
           sudo apt-get update && sudo apt-get install -y lftp
-          lftp -e "
+          lftp -d -e "
           set sftp:connect-program 'ssh -a -x -p 65002 -o StrictHostKeyChecking=no';
+          set net:max-retries 2;
+          set net:timeout 15;
           open sftp://46.202.145.226;
           user \"$FTP_USER\" \"$FTP_PASS\";
-          mirror -R ./dist/ ./domains/trilhadosjuros.com.br/public_html;
+          mirror -v -R --parallel=10 ./dist/ ./domains/trilhadosjuros.com.br/public_html;
           quit;
           "
