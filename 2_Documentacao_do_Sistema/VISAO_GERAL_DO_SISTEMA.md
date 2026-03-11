@@ -38,7 +38,7 @@ O sistema opera em uma estrutura ágil, blindada de gargalos, e otimizada unicam
     ```
     [GitHub Actions Cron: 0 * * * *]
            ↓
-    scraper.py → CommodityPriceAPI (XAU, XAG, BRENTOIL-SPOT)
+    scraper.py → CommodityPriceAPI (XAU, XAG, BRENTOIL-FUT)
            ↓
     API REST GitHub → PATCH /gists/{GIST_ID} (autenticado com GIST_TOKEN secret)
            ↓
@@ -67,4 +67,4 @@ O sistema opera em uma estrutura ágil, blindada de gargalos, e otimizada unicam
 9. Módulo de Últimas Notícias do Mercado Financeiro com 4 pilares (Geral, Empresas, Câmbio, Renda Fixa) via RSS + Proxy PHP resiliente. **[CONCLUÍDO]**
 1068. Disclaimer de atraso de até 1 hora nas cotações de commodities (transparência e proteção legal). **[CONCLUÍDO]**
 69. Refatoração da estratégia de distribuição de cotações de commodities: **Gist Strategy** — eliminação da dependência de FTP para dados de mercado, garantindo atualização autônoma e resiliente do painel "Mercado Global". **[CONCLUÍDO — Mar/2026]**
-70. Implementação de Filtro de Sanidade (12%) e uso de Brent Spot para evitar anomalias de preços em contratos futuros. **[CONCLUÍDO — Mar/2026]**
+70. Implementação de Filtro de Sanidade (12%) e uso de Brent Futuro para maior estabilidade e precisão. **[CONCLUÍDO — Mar/2026]**

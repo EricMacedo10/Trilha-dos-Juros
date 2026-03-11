@@ -57,7 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     name: config.name,
                     icon: config.icon,
                     price: price,
-                    variation: item ? item.variation : 0,
                     prefix: 'US$',
                     unit: config.unit || ''
                 };
@@ -106,13 +105,6 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             const priceStr = `${data.prefix} ${formatPrice(data.price)}`;
-            const changePct = data.variation;
-            const changeStr = `${changePct > 0 ? '+' : ''}${changePct.toFixed(2)}%`;
-
-            let changeClass = 'neutral';
-            if (changePct > 0) changeClass = 'up';
-            if (changePct < 0) changeClass = 'down';
-
             const cardHtml = `
                 <div class="commodity-mini-card">
                     <div class="commodity-header">
@@ -120,7 +112,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                     <div class="commodity-price" title="${data.name} em tempo real">
                         <span>${priceStr} <small style="font-size: 0.6rem; opacity: 0.5; font-weight: 400;">${data.unit}</small></span>
-                        <span class="commodity-change ${changeClass}">${changeStr}</span>
                     </div>
                 </div>
             `;

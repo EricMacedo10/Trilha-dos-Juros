@@ -46,7 +46,7 @@ def fetch_prices():
     SYMBOLS_MAP = {
         'gold': 'XAU',
         'silver': 'XAG',
-        'oil': 'BRENTOIL-SPOT',
+        'oil': 'BRENTOIL-FUT',
         'coffee': 'CA',
         'iron': 'TIOC'
     }
