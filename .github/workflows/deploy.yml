@@ -1,4 +1,6 @@
 name: Deploy para Producao (Hostinger)
+# Deploy acionado após atualização de credenciais (SFTP v2.1)
+
 
 on:
   push:
