@@ -16,10 +16,10 @@ const NewsService = (function () {
 
     // Estratégia de proxies para contornar CORS (salto automático)
     const PROXIES = [
-        { name: 'LocalPHP_B64', fn: (url) => `/news-proxy.php?b64url=${btoa(url)}`, type: 'text' },
-        { name: 'LocalPHP', fn: (url) => `/news-proxy.php?url=${encodeURIComponent(url)}`, type: 'text' },
+        // Vercel apps suffer 403 from corsproxy.io, prioritizing allorigins
         { name: 'AllOrigins', fn: (url) => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`, type: 'json' },
-        { name: 'CORSAnywhere', fn: (url) => `https://corsproxy.io/?${encodeURIComponent(url)}`, type: 'text' }
+        { name: 'ThingProxy', fn: (url) => `https://thingproxy.freeboard.io/fetch/${url}`, type: 'text' },
+        { name: 'LocalPHP', fn: (url) => `/news-proxy.php?url=${encodeURIComponent(url)}`, type: 'text' }
     ];
 
     async function fetchFromFeed(feed) {
