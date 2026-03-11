@@ -14,25 +14,44 @@ const NewsService = (function () {
         { name: 'Agência Brasil - Economia', url: 'https://agenciabrasil.ebc.com.br/rss/economia/feed.xml', tag: 'rf' }
     ];
 
-    // Estratégia de proxies para contornar CORS (salto automático)
+    // Estratégia de proxies para contornar CORS Vercel Edge Restraint
     const PROXIES = [
-        // Vercel apps suffer 403 from corsproxy.io, prioritizing allorigins
         { name: 'AllOrigins', fn: (url) => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`, type: 'json' },
-        { name: 'ThingProxy', fn: (url) => `https://thingproxy.freeboard.io/fetch/${url}`, type: 'text' },
-        { name: 'LocalPHP', fn: (url) => `/news-proxy.php?url=${encodeURIComponent(url)}`, type: 'text' }
+        { name: 'Rss2Json', fn: (url) => `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}&api_key=`, type: 'rss2json' }
     ];
 
     async function fetchFromFeed(feed) {
         for (const proxy of PROXIES) {
             try {
                 const proxyUrl = proxy.fn(feed.url);
-                const response = await fetch(proxyUrl, { signal: AbortSignal.timeout(8000) });
-                if (!response.ok) continue;
+                const response = await fetch(proxyUrl, { signal: AbortSignal.timeout(6000) }).catch(() => null);
+                
+                // Silently skip if network error (saves console noise)
+                if (!response || !response.ok) continue;
 
                 let xmlContent;
                 if (proxy.type === 'json') {
                     const data = await response.json();
                     xmlContent = data.contents;
+                } else if (proxy.type === 'rss2json') {
+                    // Custom handler for RSS2JSON fallback
+                    const data = await response.json();
+                    if (data.status === 'ok' && data.items.length > 0) {
+                        const news = [];
+                        data.items.slice(0, 20).forEach(item => {
+                            if (item.title && item.link) {
+                                news.push({
+                                    title: item.title,
+                                    link: item.link,
+                                    date: new Date(item.pubDate),
+                                    source: feed.name,
+                                    originalTag: feed.tag
+                                });
+                            }
+                        });
+                        if(news.length > 0) return news;
+                    }
+                    continue;
                 } else {
                     xmlContent = await response.text();
                 }
@@ -68,7 +87,6 @@ const NewsService = (function () {
                 });
 
                 if (news.length > 0) {
-                    console.log(`[NewsService] ✅ ${feed.name} via ${proxy.name}: ${news.length} notícias`);
                     return news;
                 }
 
@@ -76,7 +94,7 @@ const NewsService = (function () {
                 // Silently continue to next proxy
             }
         }
-        console.warn(`[NewsService] ❌ Falha total para: ${feed.name}`);
+        // Fail silently without alarming user in console log
         return [];
     }
 
