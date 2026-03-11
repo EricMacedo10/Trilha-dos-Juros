@@ -1,0 +1,32 @@
+name: Atualizar Cotações de Commodities
+
+on:
+  schedule:
+    - cron: '30 * * * *' # Executa no minuto 30 de cada hora
+  workflow_dispatch: # Permite execução manual
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout do Repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Instalar Dependências
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      - name: Rodar Scraper e Atualizar Gist
+        env:
+          COMMODITY_API_KEY: ${{ secrets.COMMODITY_API_KEY }}
+          GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
+        run: python API_Investimento/scraper.py

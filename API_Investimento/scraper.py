@@ -54,54 +54,30 @@ def fetch_prices():
     symbols_str = ",".join(SYMBOLS_MAP.values())
     
     try:
-        # 1. Busca Cotações Atuais
+        # Busca Cotações Atuais
         print(f"[API] Solicitando rates para: {symbols_str}")
         res_latest = requests.get(f"{API_URL}/latest?apiKey={api_key}&symbols={symbols_str}", timeout=20)
         res_latest.raise_for_status()
         data_latest = res_latest.json()
         
-        # 2. Busca Cotações de Ontem (Variação %)
-        yesterday_date = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
-        print(f"[API] Solicitando histórico de {yesterday_date}...")
-        res_hist = requests.get(f"{API_URL}/historical?apiKey={api_key}&symbols={symbols_str}&date={yesterday_date}", timeout=20)
-        res_hist.raise_for_status()
-        data_hist = res_hist.json()
-
-        if data_latest.get('success') and data_hist.get('success'):
+        if data_latest.get('success'):
             rates = data_latest['rates']
-            hist_rates = data_hist['rates']
             
             for key, symbol in SYMBOLS_MAP.items():
-                current = rates.get(symbol)
-                prev = hist_rates.get(symbol)
-                
-                # Trata formato da API (pode ser valor ou objeto)
-                if isinstance(prev, dict): prev = prev.get('close')
-                
-                current_val = float(current) if current else None
-                prev_val = float(prev) if prev else None
+                current_val = rates.get(symbol)
                 
                 if current_val:
-                    variation = 0.0
-                    if prev_val:
-                        variation = ((current_val - prev_val) / prev_val) * 100
-                    
-                    # FILTRO DE SANIDADE SENIOR (Evita alucinações de contratos/rolagem)
-                    if abs(variation) > 12.0:
-                        print(f"[AVISO] Variação anômala detectada em {key.upper()} ({variation:.2f}%). Zerando para segurança.")
-                        variation = 0.0
-                    
+                    # Nenhuma variação percentual será calculada nem guardada
                     results[key] = {
-                        "price": round(current_val, 2),
-                        "variation": round(variation, 2)
+                        "price": round(float(current_val), 2)
                     }
-                    print(f"[OK] {key.upper()}: {current_val} ({variation:.2f}%)")
+                    print(f"[OK] {key.upper()} (Último negócio): {current_val}")
             
             if not results:
                 print("[AVISO] Nenhum dado extraído. Verifique os símbolos.")
                 return
 
-            # Metadados de Tempo (Brasília)
+            # Metadados de Tempo Real (Brasília)
             tz_br = timezone(timedelta(hours=-3))
             results["last_update"] = datetime.now(tz_br).strftime("%Y-%m-%d %H:%M:%S")
 
