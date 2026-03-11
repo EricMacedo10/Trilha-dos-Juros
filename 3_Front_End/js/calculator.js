@@ -5,9 +5,9 @@
 
 const FinMath = (function () {
 
-    // Taxas Base Iniciais (Usadas como Fallback se a API falhar)
-    let SELIC_ANUAL_DEFAULT = 11.25; // Taxa Selic Atualizada Padrão
-    let CDI_ANUAL_DEFAULT = 11.15; // CDI Atualizado Padrão
+    // Taxas Base Iniciais (Usadas como Fallback se a API falhar ou demorar para responder)
+    let SELIC_ANUAL_DEFAULT = 15.00; // Taxa Selic Atualizada Real de 2026
+    let CDI_ANUAL_DEFAULT = 14.90; // CDI Atualizado Real de 2026
     let POUPANCA_ANUAL = SELIC_ANUAL_DEFAULT > 8.5 ? 6.17 : (SELIC_ANUAL_DEFAULT * 0.7);
 
     /**
@@ -16,10 +16,11 @@ const FinMath = (function () {
     async function fetchRealRates() {
         console.log('[Trilha dos Juros] Sincronizando taxas oficiais com o Banco Central...');
         try {
+            // Removido o proxy PHP legado que quebrava na Vercel com 404 (O BCB aceita CORS nativo)
             const endpoints = {
-                selic: `/news-proxy.php?b64url=${btoa('https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados/ultimos/1?formato=json')}`,
-                cdi: `/news-proxy.php?b64url=${btoa('https://api.bcb.gov.br/dados/serie/bcdata.sgs.4389/dados/ultimos/1?formato=json')}`,
-                ipca: `/news-proxy.php?b64url=${btoa('https://api.bcb.gov.br/dados/serie/bcdata.sgs.13522/dados/ultimos/1?formato=json')}`
+                selic: 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados/ultimos/1?formato=json',
+                cdi: 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.4389/dados/ultimos/1?formato=json',
+                ipca: 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.13522/dados/ultimos/1?formato=json'
             };
 
             // Usamos Promise.allSettled para garantir que uma falha no IPCA não quebre a Selic/CDI
@@ -32,7 +33,7 @@ const FinMath = (function () {
             let realData = {
                 selic: SELIC_ANUAL_DEFAULT,
                 cdi: CDI_ANUAL_DEFAULT,
-                ipca: 4.50 // Fallback IPCA
+                ipca: 4.44 // IPCA Acumulado Real de 2026 pesquisado no IBGE
             };
 
             if (selicRes.status === 'fulfilled' && selicRes.value && selicRes.value.length > 0) {

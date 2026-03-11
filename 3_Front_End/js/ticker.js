@@ -7,10 +7,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const tickerContent = document.getElementById('ticker-content');
 
-    // Dados Iniciais (Servindo como Fallback se a internet cair ou APIs bloquearem índices)
+    // Dados Iniciais (Servindo como Fallback visual caso demore milissegundos a mais do backend)
     let marketData = [
-        { symbol: "SELIC", value: "11.25%", status: "neutral" },
-        { symbol: "CDI", value: "11.15%", status: "neutral" },
+        { symbol: "SELIC", value: "15.00%", status: "neutral" },
+        { symbol: "CDI", value: "14.90%", status: "neutral" },
         { symbol: "IBOVESPA", value: "Aguardando...", status: "neutral" },
         { symbol: "DÓLAR", value: "Aguardando...", status: "neutral" },
         { symbol: "EURO", value: "Aguardando...", status: "neutral" },
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { symbol: "PETR4", value: "Aguardando...", status: "neutral" },
         { symbol: "VALE3", value: "Aguardando...", status: "neutral" },
         { symbol: "ITUB4", value: "Aguardando...", status: "neutral" },
-        { symbol: "IPCA (12m)", value: "4.50%", status: "neutral" }
+        { symbol: "IPCA (12m)", value: "4.44%", status: "neutral" }
     ];
 
     // Função Pura para Atualizar um Node Específico Sem Quebrar a Animação
