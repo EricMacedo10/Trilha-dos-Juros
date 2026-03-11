@@ -45,7 +45,7 @@ jobs:
           set net:max-retries 2;
           set net:timeout 15;
           open sftp://46.202.145.226;
-          user \"$FTP_USER\" \"$FTP_PASS\";
+          user $FTP_USER '$FTP_PASS';
           mirror -v -R --parallel=10 ./dist/ ./domains/trilhadosjuros.com.br/public_html;
           quit;
           "
