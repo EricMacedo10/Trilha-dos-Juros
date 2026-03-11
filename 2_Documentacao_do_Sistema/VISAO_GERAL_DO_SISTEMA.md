@@ -22,49 +22,24 @@ O sistema opera em uma estrutura ágil, blindada de gargalos, e otimizada unicam
 *   **Regras do Imposto de Renda Automáticas:** Parametrização estrita. Prazo selecionado => Gatilho imediato do desconto condicional correspondente (22.5%, 20%, 17.5%, 15%) em cima unicamente da variável de *Lucro Líquido*, ou anulação para Cestas Isentas.
 *   **Composição Mista:** Adição progressiva (Aportes Regulares) submetidos a prazos de vida útil diferentes.  
 
-### 2.3. Cibersegurança e Infraestrutura (A Casamata)
-*   **Hospedagem Hostinger / CDN Cache:** Implantação veloz com criptografia TLS 1.3 obrigatória, com redirecionamento forçado no servidor (`.htaccess` blindado).
-*   **CI/CD via GitHub Actions:** Automação total. Dois workflows:
-    *   `deploy.yml` — Deploy do código HTML/CSS/JS para a Hostinger via FTP (ocasionalmente instável por timeout do servidor da Hostinger; não é crítico para as cotações).
-    *   `update_prices.yml` — Executa o `scraper.py` a cada 1 hora (estratégia para preservação de créditos da API Profissional) e publica as cotações no Gist público via API.
-*   **Orquestração de Dados (Ticker Blindado):** Multi-Source Fetching com saltos automáticos entre Yahoo Finance Proxy, HG Brasil e BrAPI.
-*   **Serviço de Notícias (Multi-Fonte com Proxy PHP):** Módulo `news-service.js` busca RSS de fontes brasileiras validadas (`infomoney.com.br/mercados/feed/`, G1 Economia, Agência Brasil) via proxy PHP local (`/news-proxy.php`) hospedado no próprio servidor Hostinger. Proxies públicos como `corsproxy.io` são bloqueados (403) pelos portais em produção — a solução com PHP proxy no servidor contorna isso sem depender de terceiros pagos. Feeds são classificados automaticamente em 4 pilares: **Geral, Empresas, Câmbio e Renda Fixa**.
-*   **Isolamento Analítico vs. Operacional:** Integração sutil mas pervasiva dos SDKs do Google AdSense (código das Tags) e Google Analytics sem travar as animações da simulação ou onerar a *Main Thread* do JS.
+### 2.3. Cibersegurança e Infraestrutura (A Nuvem Vercel Edge)
+*   **Hospedagem Zero-Config Integrada (Vercel):** Frontend servido via CDN Global ultra-rápida. Subverte atritos antigos do FTP legados (como delays de Hostinger) trazendo deploy em segundos sob Criptografia TLS Let's Encrypt padrão de fábrica.
+*   **Backend Oculto (Serverless):** O sistema isola chamadas propensas a bloqueio corporativo (como a rota do Yahoo Finance) através de uma **função Cloud Node.js** engavetada (`/api/yahoo.js`). Isso blinda o app de proxies não confiáveis e falhas de CORS sem abrir o código-fonte ao público.
+*   **Orquestração de Dados (Ticker Blindado V22):** A integração da barra infinita flutuante (60fps) consulta dados em *pure vanilla DOM Mutation* direto do Banco Central Brasileiro (SGS) em tempo real absoluto, somado às bolsas e criptos na Awesome API.
+*   **Serviço de Notícias Resiliente:** Módulo `news-service.js` busca RSS de portais verificáveis sem engasgar o rendering nativo usando instâncias CORS abertas e fallbacks amigáveis ao invés de proxies locais obsoletos (PHP extirpado).
 
-### 2.4. Arquitetura de Commodities — "Gist Strategy" (Solução Definitiva)
-*   **Problema Resolvido:** O deploy via FTP para a Hostinger falha intermitentemente com `Timeout (control socket)`, impedindo que o arquivo `cota_hoje.json` chegue ao servidor.
-*   **Solução Implementada:** O front-end (`commodities.js`) lê as cotações diretamente de um **Gist Público do GitHub**, que é atualizado pelo `scraper.py` via API REST a cada 1 hora.
-*   **Fluxo Completo:**
-    ```
-    [GitHub Actions Cron: 0 * * * *]
-           ↓
-    scraper.py → CommodityPriceAPI (XAU, XAG, BRENTOIL-FUT)
-           ↓
-    API REST GitHub → PATCH /gists/{GIST_ID} (autenticado com GIST_TOKEN secret)
-           ↓
-    Gist Público: gist.githubusercontent.com/EricMacedo10/{ID}/raw/cota_hoje.json
-           ↓
-    commodities.js → fetch() na URL do Gist → exibe no painel "Mercado Global"
-    ```
-*   **Por que Gist e não GitHub Raw?** O repositório é **privado**. O `raw.githubusercontent.com` retorna 404 para repositórios privados sem token. O Gist é independente do repositório e serve arquivos publicamente de forma cacheada pela CDN do GitHub.
-*   **Fallback de Segurança:** Se o Gist estiver indisponível, `commodities.js` exibe os valores do fallback estático hard-coded, garantindo que o painel nunca quebre visualmente.
-*   **Secrets necessários:** `GIST_TOKEN` (escopo gist) e `COMMODITY_API_KEY` (chave da CommodityPriceAPI). Devem ser rotacionados se expostos.
+### 2.4. Arquitetura de Commodities — "Gist Strategy" (A Grande Muralha)
+*   **Problema Resolvido:** O antigo deploy exigia dependência instável de pipelines FTP lentos que resultavam em `Timeout`.
+*   **Solução Definitiva:** O front-end (`commodities.js`) exibe as commodities valiosas lendo as cotações perfeitamente de um **Gist Público do GitHub**, preenchido em *background* silencioso a cada 1 hora via GitHub Actions e `scraper.py`, isolando a plataforma de qualquer gargalos de taxa de requisição e blindando o front contra quebras de API Profissionais.
 
 ## 3. Fluxo de Vida Prática de Uso
 1.  **A Atração:** Usuário navega pelo celular (via orgânico Google) atrás de "Quanto rende R$ 1000 na poupança?".
 2.  **O Choque de UI:** Logo no hero section encontra a barra minimalista (Ticker) passando as cotações financeiras; ao ir para o Simulador, ele troca a via entre um CDI pós-fixado ou CDB pré-fixado usando *sliders* em verde neon, vendo instantaneamente o impacto da Tabela Regressiva contra a Poupança.
 3.  **A Retenção AdSense:** Descobre a ferramenta mágica de gamificação (Jornada dos Depósitos). Configura sua própria meta e salva nos Favoritos, retornando com frequência para preencher os *envelopes virtuais*. Esse retorno contínuo expulsa a rejeição orgânica e clica involuntária e naturalmente nos banners altamente segmentados do Google. 
 
-## 4. O Roadmap Imediato do Código (Status Atual)
-1. Arquitetura unificada da Interface Inicial HTML/CSS principal (Foco no *Dark Mode Glass*). **[CONCLUÍDO]**
-2. Construção Lógica do Módulo JS: Motor de Cálculos Misto (Calculadora Selic/CDI/Pré vs Poupança Dinâmica). **[CONCLUÍDO]**
-3. Construção Lógica do Módulo JS: Máquina de Gamificação (Jornada de Depósitos por Progressão Aritmética). **[CONCLUÍDO]**
-4. Inserção Segura e Responsiva dos Anúncios e Analytics. **[CONCLUÍDO]**
-5. Refinamento de UX/UI Premium e Módulo de Contato Seguro (SGA / Ancord). **[CONCLUÍDO]**
-6. Deploy Automático CI/CD na Produção via GitHub Actions. **[CONCLUÍDO]**
-7. Integração de Bitcoin (BTC-USD) e Orquestração de Dados Resiliente (v13). **[CONCLUÍDO]**
-8. Módulo de Cotações de Commodities com scraper Python + atualização automática a cada 1 hora via GitHub Actions. **[CONCLUÍDO]**
-9. Módulo de Últimas Notícias do Mercado Financeiro com 4 pilares (Geral, Empresas, Câmbio, Renda Fixa) via RSS + Proxy PHP resiliente. **[CONCLUÍDO]**
-1068. Disclaimer de atraso de até 1 hora nas cotações de commodities (transparência e proteção legal). **[CONCLUÍDO]**
-69. Refatoração da estratégia de distribuição de cotações de commodities: **Gist Strategy** — eliminação da dependência de FTP para dados de mercado, garantindo atualização autônoma e resiliente do painel "Mercado Global". **[CONCLUÍDO — Mar/2026]**
-70. Implementação de Filtro de Sanidade (12%) e uso de Brent Futuro para maior estabilidade e precisão. **[CONCLUÍDO — Mar/2026]**
+## 4. O Marco de Evolução Vercel (Mar/2026)
+1. Arquitetura unificada HTML/CSS (Foco no *Dark Mode Glass*) **[CONCLUÍDO]**
+2. Deploy Automático CI/CD direto para a Nuvem Edge Serverless da Vercel. **[CONCLUÍDO]**
+3. Motor de Cotações de Commodities e Moedas via Scraper Python + GIST Action (Muralha contra Bloqueios Web) **[CONCLUÍDO]**
+4. Abandono integral do PHP Proxy legado em prol de rotas nativas diretas B3/BCB para o front-end Vercel sem bloqueios 404 e com Ticker 60fps *DOM Mutation Rule*. **[CONCLUÍDO]**
+5. Auditoria ativa concluída: Credenciais Zero em repositórios abertos, aderência a *Action Secrets* Git e Autenticação robusta. **[CONCLUÍDO]**

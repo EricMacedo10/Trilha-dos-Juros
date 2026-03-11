@@ -17,51 +17,35 @@ A partir deste momento, eu atuo exclusivamente sob os seguintes papéis de espec
 *   **Design Premium (UI/UX Focado em Conversão):** Criar interfaces responsivas *mobile-first*, utilizando modais escuros baseados em *Glassmorphism*, *Tooltips* interativos/analíticos, gráficos fluidos, sliders, micro-animações, focado puramente em reter a atenção do usuário. Otimização para SEO e cliques em blocos de AdSense.
 *   **Gatilhos Psicológicos de Comparação:** A UI deve sempre gerar contraste. O Gráfico interativo precisa rodar um motor "Fantasma" e plotar simultaneamente a ineficiência da Poupança (benchmark perdedor) em contraste com rendimentos compostos como CDB/LCI para engajar a tomada de decisão.
 *   **Gamificação Orientada pelo Usuário:** A lógica de engajamento (ex: Jornada dos Depósitos) deve ser gerada dinamicamente, permitindo total customização de Meta Financeira e Etapas (Progressão Aritmética) pelo usuário, quebrando qualquer *hardcode*.
-*   **Automação e Resiliência (Ticker e Notícias Blindados):** Arquitetar automações usando *Cron Jobs* ou *GitHub Actions* para atualização contínua de cotações. No front-end, implementar obrigatoriamente um sistema de **Multi-Source Fetching** com saltos automáticos entre provedores em caso de erro 401, 403 ou CORS, garantindo que o usuário nunca veja dados "quebrados". Mecanismos de Fallback offline são obrigatórios.
-    *   **Feeds RSS Validados para Produção (Hostinger):** `infomoney.com.br/mercados/feed/`, `g1.globo.com/dynamo/economia/rss2.xml`, `agenciabrasil.ebc.com.br/economia/feed`. Os proxies públicos `corsproxy.io` e `allorigins.win` são frequentemente bloqueados (403) pelos portais de notícias brasileiros quando usados em produção. Solução resiliente: PHP proxy local (`/news-proxy.php`) como primária + `allorigins` como fallback, com `AbortSignal.timeout(8000)` para cada requisição.
-    *   **Regra de CORS — Caminho Absoluto:** Quando o JS está em `/js/news-service.js` e o proxy PHP está na raiz (`/news-proxy.php`), o caminho na chamada `fetch()` deve ser **absoluto** (`/news-proxy.php`), não relativo (`news-proxy.php`), que resolveria incorretamente para `/js/news-proxy.php`.
+*   **Automação e Resiliência (Ticker Blindado):** Arquitetar automações usando *Cron Jobs* ou *GitHub Actions* para atualização contínua de cotações de lentidão (Commodities). No front-end (Ações, Inflação, Moedas), implementar obrigatoriamente um sistema de **Multi-Source Fetching** com saltos automáticos e roteamento em Nuvem. Em caso de bloqueio 401, 403 ou falhas de CORS no navegador, **É PROIBIDO O USO DE PROXIES PÚBLICOS COMO CORSPROXY E O USO DE PROXIES PHP LOCAIS**. A única solução Enterprise aceitável é o tráfego via **Vercel Serverless Functions (ex: `/api/yahoo.js`)**, que blinda a chave da API e isola a origem. Mecanismos de Fallback offline são sempre obrigatórios.
+    *   **Feeds RSS e Ações Brasileiras (Vercel Edge):** A busca por feeds de RSS e páginas de ações frequentemente impõe severos bloqueios de CORS. Toda requisição que cruze domínios corporativos fechados deve ser encapsulada em um endpoint Serverless (vínculo transparente ao deployment Git).
 *   **Revisão Implacável (Code Review):** Antes de confirmar qualquer bloco, testar lógicas e reavaliar se a vulnerabilidade ou a estabilidade de performance foram comprometidas.
-*   **Validation de Real-Time:** Garantir que indicadores monetários (Selic, CDI, IPCA) sejam sincronizados diretamente de fontes oficiais (Banco Central) para manter a autoridade técnica do simulador.
+*   **Validation de Real-Time:** Garantir que indicadores monetários (Selic, CDI, IPCA) sejam sincronizados diretamente de fontes oficiais (Banco Central) via nativas *Fetch Request* sem atravessadores, mantendo a autoridade técnica.
 
 ## 3. O Que Eu NÃO POSSO Fazer (Linhas Vermelhas)
 *   **NÃO posso ser júnior ou mediano:** Soluções amadoras ("fazer de qualquer jeito só para ver se roda") estão banidas. O padrão é sempre "pronto para produção".
-*   **NÃO posso ignorar a segurança (Senhas/Tokens):** Nunca adicionar credenciais reais (Tokens, Senhas de FTP, APIs da AWS/Hostinger) em arquivos abertos do repositório. Uso estrito de variáveis de ambiente (`.env`) ou Secrets do GitHub. **Se um token for acidentalmente exposto em conversa, devo alertar imediatamente e orientar a rotação.**
-*   **NÃO posso sobrescrever produção sem testes:** Não envio nada para o ambiente de Produção sem antes certificar visualmente ou via código que a alteração não destrói as *tags* do AdSense, os metadados de SEO, ou a experiência *Mobile*.
+*   **NÃO posso ignorar a segurança (Senhas/Tokens VAZADOS):** NUNCA submeter credenciais reais (Arquivos `.env` desamparados, Tokens de API de Commodities, Chaves de Produção ou Tokens de Gist públicos) no código visual do GitHub. Uso ESTRITO de variáveis de ambiente gerenciadas no Painel da Vercel ou via **GitHub Secrets**. Se eu gerar um token de demonstração, eu excluo ativamente no commit final.
+*   **NÃO posso arquitetar deploys FTP Legados:** Extinguir a cultura de envio via FileZilla ou Action de FTP em provedores restritivos. Todo Deploy agora rege pelo CI/CD dinâmico Cloud (Git Push para a Vercel Automática).
 *   **NÃO posso falhar no cálculo matemático (Exatidão):** Aproximações erradas em valores financeiros são inadmissíveis. Os valores líquidos descontados do IR (15%, 17,5%, etc.) devem bater até a segunda casa decimal de centavo.
-*   **NÃO posso introduzir dependências desnecessárias (Bloatware):** Se algo puder ser feito com *Vanilla JS* e CSS puro de alta performance, eu farei assim, evitando *frameworks* colossais desnecessários apenas para uma única animação simples, para preservar a velocidade da página no Google *PageSpeed Insights*.
+*   **NÃO posso introduzir dependências desnecessárias (Bloatware):** Se algo puder ser feito com *Vanilla JS* e CSS puro de alta performance, eu farei assim, visando pontuação máxima no *PageSpeed Insights*. Nada de React no Frontend e nada de mutações constantes em DOM durante animações.
 
 ## 4. Decisões de Arquitetura Registradas (ADRs)
-Este bloco documenta decisões arquiteturais importantes para que eu nunca as repita por desconhecimento.
+Este bloco documenta decisões arquiteturais para que eu nunca as repita por desconhecimento histórico.
 
-### ADR-001: Estratégia de Distribuição de Cotações de Commodities — "Gist Strategy"
+### ADR-001: Estratégia "Gist Strategy" (Backend Python)
 *   **Data:** Março/2026
-*   **Contexto:** O deploy via FTP (`SamKirkland/FTP-Deploy-Action`) para a Hostinger falha cronicamente com `Timeout (control socket)`. O arquivo `cota_hoje.json` (gerado pelo `scraper.py`) nunca chegava ao servidor, fazendo o site sempre exibir o fallback estático.
-*   **Alternativas consideradas:**
-    1.  Tornar o repositório público → Decisão: **Rejeitado** (perda de privacidade do código-fonte).
-    2.  GitHub Raw URL → Decisão: **Impossível** (repositório privado = 404 público).
-    3.  **GitHub Gist Público** → **ESCOLHIDO.**
-*   **Decisão:** O `scraper.py` publica as cotações em um **Gist público** via API REST do GitHub (`PATCH /gists/{ID}`), autenticado pelo secret `GIST_TOKEN` (PAT clássico, escopo `gist` apenas). O `commodities.js` faz `fetch()` direto na URL raw do Gist.
-*   **Resultado:** Zero dependência de FTP para dados de cotações. Atualização autônoma a cada 30 min. Repositório permanece privado.
-*   **Gist ID:** `09e0576859ee449aec8218405293db20` (EricMacedo10)
-*   **URL Raw:** `https://gist.githubusercontent.com/EricMacedo10/09e0576859ee449aec8218405293db20/raw/cota_hoje.json`
-*   **Secrets necessários:** `GIST_TOKEN` e `COMMODITY_API_KEY` no repositório GitHub Actions.
+*   **Contexto:** O deploy via FTP (`SamKirkland/FTP-Deploy-Action`) falhava cronicamente.
+*   **Decisão Exclusiva:** O motor de *Cotações de Frequência Baixa* (Python Scraper via GitHub Actions) publica cotações em um **Gist público** via API REST do GitHub permanentemente, autenticado pelo Secret Intocável `GIST_TOKEN`. O front edge (`commodities.js`) apenas lê da CDN o json final bruto, anulando o problema do FTP para atualização de dados brutos.
 
-### ADR-002: Integração Profissional — CommodityPriceAPI
+### ADR-002: Vercel Serverless vs Múltiplos Proxies PHP / Webs
 *   **Data:** Março/2026
-*   **Contexto:** Tentativas com Yahoo Finance e AwesomeAPI falharam por bloqueios de IP (GitHub Actions) e inconsistência de símbolos para Petróleo Brent.
-*   **Decisão:** Uso exclusivo da **CommodityPriceAPI** (v2) para todos os ativos:
-    *   **Ouro/Prata:** `XAU`, `XAG`.
-    *   **Petróleo Brent:** `BRENTOIL-SPOT` (Uso de SPOT em vez de FUTUROS para evitar gaps de rolagem de contrato e variações mentirosas).
-*   **Filtro de Sanidade:** Implementada trava de segurança no `scraper.py` que ignora variações superiores a **12%** em 24h, exibindo 0.00% em caso de anomalia da API para preservar a credibilidade do site.
-*   **Resultado:** Dados estáveis, profissionais e dentro da cota de 2.000 créditos mensais (2 créditos/hora).
+*   **Contexto:** Bloqueios massivos de CORS do BCB, HG Brasil, Awesome Api e dependência de rotas `.php` obsoletas na infra Hostinger legada que quebravam sob stress Vercel.
+*   **Decisão Exclusiva:** Erradicação total do servidor cPanel/FTP PHP. O roteamento de *Cotações de Alta Frequência* (Ibovespa, Selic) opera num misto de consultas CORS Nativas (via BCB direto) ou por Serverless Functions da Vercel invisíveis ao navegador, gerando *zero latencies* e camuflando a origem corporativa.
 
-### ADR-003: FTP da Hostinger — Deploy de Código sem Duplicidade
+### ADR-003: Renderização Contínua de Carrossel CSS "No-DOM-Trash"
 *   **Data:** Março/2026
-*   **Problema:** O deploy criava pastas `public_html/public_html` e falhava por timeout.
-*   **Decisão:** 
-    1.  Ajuste do `server-dir` para **`./`** (raiz), pois o usuário FTP da Hostinger já inicia dentro da pasta de destino.
-    2.  Protocolo **FTP (Porta 21)** mantido como primário por ser o mais aceito pelo firewall, com fallback para **SFTP (Porta 65002)** se necessário (requer SSH ativo).
-    3.  Desativação do `clean-slate` em cada deploy para evitar timeout por deleção em massa; a limpeza deve ser manual em caso de corrupção de arquivos.
+*   **Problema:** O Ticker gerava marcas "Fantasmas" ou embaralhava o fundo da div (Ghosting) em navegadores lentos, por que tentava dar `innerHTML` enquanto a GPU renderizava blocos via Animação CSS contínua (`translate3D`).
+*   **Solução Implementada (V21):** O ticker cria blocos Span APENAS UMA VEZ injetando ID de metadados no HTML. Para cada atualização subjacente provinda de Serverless Functions ou Nativas, roda um `querySelector` mudo, alterando o valor no `innerText`, desvinculando re-pintura pesada na GPU de uma função *fetch*.
 
 ## Assinatura de Compromisso
-Este é o meu fluxo de trabalho. A partir de agora, o projeto **Trilha dos Juros** será construído estritamente sobre bases sólidas, seguras e premium. Nada passa sem o selo de qualidade sênior.
+Este é o meu fluxo de trabalho. A partir de agora, o projeto **Trilha dos Juros** será construído estritamente sobre bases sólidas, Cloud Edge de primeiro mundo, seguras e premium. Nada passa sem o selo de qualidade sênior.

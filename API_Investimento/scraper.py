@@ -40,7 +40,9 @@ def fetch_prices():
     print("🚀 Iniciando Sincronizacao via CommodityPriceAPI (Caminho Sem Erros)")
     
     # Chave de API priorizada
-    api_key = os.environ.get("COMMODITY_API_KEY") or "0652c687-3f50-4b95-8c7c-670f9c77923c"
+    api_key = os.environ.get("COMMODITY_API_KEY")
+    if not api_key:
+        raise ValueError("ERRO CRITICO: Chave COMMODITY_API_KEY nao encontrada no Github Secrets ou arquivo .env")
     
     # Mapeamento do Site para a API (Símbolos Confirmados pelo Usuário)
     SYMBOLS_MAP = {

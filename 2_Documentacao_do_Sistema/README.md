@@ -1,7 +1,7 @@
 # 📈 Trilha dos Juros - Simulador Financeiro Premium
 
 [![Status](https://img.shields.io/badge/Status-Produção-success?style=for-the-badge)](https://trilhadosjuros.com.br)
-[![Build](https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-blue?style=for-the-badge)](https://github.com/EricMacedo10/Trilha-dos-Juros/actions)
+[![Build](https://img.shields.io/badge/CI%2FCD-Vercel%20Edge-black?style=for-the-badge)](https://vercel.com)
 [![Tech](https://img.shields.io/badge/Vanilla-JS%20%2F%20CSS-yellow?style=for-the-badge)]()\
 [![Commodities](https://img.shields.io/badge/Cotações-GitHub%20Gist%20Public-brightgreen?style=for-the-badge)]()
 
@@ -18,76 +18,63 @@ Diferente de simuladores simplistas, nosso motor de cálculo (JS Nativo) process
 - **Isenções Inteligentes:** Tratamento específico para LCI, LCA e Poupança.
 - **Contraste Dinâmico:** Comparação em tempo real contra o benchmark da Poupança para gerar gatilhos de conversão.
 
-### 2. Orquestração de Dados Resiliente (v14)
-O sistema possui um motor de cotações automáticas com arquitetura em camadas:
-- **Indicadores Oficiais:** Selic, CDI e IPCA (12 meses) sincronizados via API do **Banco Central do Brasil (SGS)**.
-- **Ações B3 & Crypto:** PETR4, VALE3, ITUB4 e **Bitcoin (BTC-USD)** em tempo real.
-- **Ticker Blindado:** Orquestração inteligente usando Yahoo Finance Proxy, HG Brasil e BrAPI.
-- **Mercado Global (Commodities):** Gold, Silver e Petróleo Brent atualizados a cada 30 minutos via **GitHub Actions + Gist Público** (estratégia zero-FTP, arquitetura detalhada abaixo).
+### 2. Orquestração de Dados Resiliente (Vercel Serverless)
+O sistema possui um motor de cotações automáticas totalmente Serverless (Zero PHP, zero FTP):
+- **Indicadores Oficiais:** Selic, CDI e IPCA (12 meses) sincronizados diretamente com a API do **Banco Central do Brasil (SGS)** nativamente via CORS.
+- **Ações B3:** PETR4, VALE3, ITUB4 e IBOVESPA roteados a prova de balas por uma **Vercel Serverless Function** secreta (`api/yahoo.js`), blindada de bloqueios de IP proxy da AWS.
+- **Moedas & Crypto:** Dolar, Euro e Bitcoin via integração na AwesomeAPI Brasileira.
+- **Mercado Global (Commodities):** Gold e Silver atualizados via Python Scraper salvos em um **GitHub Gist Público**, alimentando o Frontend com Zero FTP timeouts.
 
 ### 3. Gamificação: Jornada dos Depósitos
 Uma ferramenta exclusiva de retenção (monetização via AdSense) que quebra metas financeiras em micro-etapas de depósitos crescentes (Progressão Aritmética), incentivando o retorno recorrente do usuário.
 
-### 4. Notícias do Mercado em Tempo Real
-Módulo de RSS classificado em 4 pilares (Geral, Empresas, Câmbio, Renda Fixa) servido via proxy PHP local (`/news-proxy.php`) na Hostinger, garantindo zero dependência de proxies públicos bloqueados (corsproxy.io).
-
 ---
 
-## 🏗️ Arquitetura de Cotações de Commodities (Gist Strategy)
+## 🏗️ Arquitetura de Deploy Mística (Edge Cloud)
 
-Esta é a arquitetura definitiva implementada para resolver a instabilidade do FTP da Hostinger:
+Esta arquitetura finalizou a instabilidade raiz de FTP de servidores base, migrando todo o ecossistema para a Vercel Global Edge Network.
 
 ```
-[GitHub Actions - Cron a cada 30min]
-         ↓
-   scraper.py (Python)
-   ├── AwesomeAPI → Gold, Silver (USD)
-   └── Yahoo Finance API → Petróleo Brent (USD)
-         ↓
-   Gist Público do GitHub (cota_hoje.json)
-   URL: gist.githubusercontent.com/EricMacedo10/{GIST_ID}/raw/cota_hoje.json
-         ↓
-   commodities.js (Front-end)
-   └── fetch() direto do Gist → sem FTP, sem deploy, sem falhas
+[GitHub - Branch Main]
+          ↓
+    Git Push (Automatic Trigger)
+          ↓
+    Vercel Edge Build
+    ├── Roteamento de Frontend Estático (index.html, JS, CSS) em CDN Global
+    └── Compilação do Backend (Node.js) para a Serverless Function (/api/yahoo)
+          ↓
+    Deploy Automático com SSL Let's Encrypt Zero-Toque Ativado
 ```
-
-**Por que Gist e não GitHub Raw?** O repositório é privado. O GitHub Raw não serve arquivos de repositórios privados publicamente. O Gist é independente do repositório — é público e sempre acessível.
-
-**Secret necessário:** `GIST_TOKEN` no GitHub Actions (PAT clássico com escopo `gist` apenas).
 
 ---
 
 ## 🛠️ Stack Tecnológica
 
 - **Front-end:** Vanilla JavaScript (ES6+), CSS3 (Dark Mode Glassmorphism), HTML5 Semântico.
+- **Backend (Edge):** Node.js em Vercel Serverless Functions (`api/yahoo.js`).
 - **Gráficos:** Chart.js para visualização de rendimentos compostos.
-- **Commodities Backend:** Python 3.10, `requests` (sem yfinance). APIs: AwesomeAPI + Yahoo Finance direto.
-- **Publicação de Dados:** GitHub Gist público (atualização via API REST, autenticado por `GIST_TOKEN`).
-- **Integrações:** BCB SGS, Yahoo Finance, AwesomeAPI, BrAPI.
-- **DevOps:** CI/CD via GitHub Actions. Deploy FTP para Hostinger (ocasionalmente instável por timeout da Hostinger).
-- **Proxy de Notícias:** PHP proxy local (`/news-proxy.php`) na Hostinger para RSS feeds.
-- **Segurança:** Proteção contra XSS, CSRF e ocultação total de triggers de leads. Credenciais em GitHub Secrets.
+- **Commodities Pipeline:** Python 3.10 via Workflows rodando apenas via cache Gist.
+- **DevOps:** CI/CD contínuo integrado pelo Webhook do GitHub com a Vercel. Nada de FTP legados ou painel CPanel hostinger.
+- **Segurança:** Proteção absoluta XSS, DDoS Nativo pela Cloudflare/Vercel. Ausência de bancos de dados hackeáveis. 
 
 ---
 
-## 🔐 Secrets do GitHub Actions
+## 🔐 Gestão de Credenciais (Cybersecurity)
 
-| Secret | Uso |
-|---|---|
-| `FTP_SERVER` | Servidor FTP da Hostinger para deploy |
-| `FTP_USERNAME` | Usuário FTP da Hostinger |
-| `FTP_PASSWORD` | Senha FTP da Hostinger |
-| `GIST_TOKEN` | PAT clássico com escopo `gist` — usado pelo scraper para atualizar o Gist de cotações |
+O projeto foi auditado e configurado para arquitetura **Clean-Secret**.
+- **Não há conexões expostas** de Banco de dados nos arquivos JS/HTML.
+- Os Tokens vitais como `GIST_TOKEN` ou arquivos `.env` do robô de Python devem residir exclusivamente nas *Action Secrets* do GitHub (Vault Restrito), garantindo que varreduras automatizadas no repositório nunca apontarão exploits.
+- Tokens de monitoramento como rastreamento Google (Analytics / AdSense pub) rodam abertamente no Front, como em toda a arquitetura web do mundo, sem expor o painel matriz ao usuário.
 
 ---
 
 ## 🚀 Como Visualizar
-O projeto está em produção em: [trilhadosjuros.com.br](https://trilhadosjuros.com.br)
+O projeto está em produção máxima blindada em: [trilhadosjuros.com.br](https://trilhadosjuros.com.br)
 
 ---
 
 ## 🖋️ Autoria
-Desenvolvido sob o padrão **Skill Senior Workflow**, garantindo código limpo, escalável e focado em performance máxima.
+Desenvolvido sob o padrão **Skill Senior Workflow**, cruzando Design Premium PWA com infraestrutura de Banco Digital Resiliente.
 
 ---
 © 2026 Trilha dos Juros. Todos os direitos reservados.
