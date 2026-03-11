@@ -39,7 +39,8 @@ jobs:
           sudo apt-get update && sudo apt-get install -y lftp
           lftp -e "
           set sftp:connect-program 'ssh -a -x -p 65002 -o StrictHostKeyChecking=no';
-          open -u ${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }} sftp://46.202.145.226;
-          mirror -R ./dist/ ./;
+          open sftp://46.202.145.226;
+          user ${{ secrets.FTP_USERNAME }} '${{ secrets.FTP_PASSWORD }}';
+          mirror -R ./dist/ ./domains/trilhadosjuros.com.br/public_html;
           quit;
           "
