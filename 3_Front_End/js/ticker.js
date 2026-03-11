@@ -21,6 +21,27 @@ document.addEventListener('DOMContentLoaded', () => {
         { symbol: "IPCA (12m)", value: "4.50%", status: "neutral" }
     ];
 
+    // Função Pura para Atualizar um Node Específico Sem Quebrar a Animação
+    function updateTickerNode(symbol, value, status) {
+        // Encontra todas as instâncias (já que triplicamos o array pra animação infinita)
+        const nodes = document.querySelectorAll(`[data-ticker-symbol="${symbol}"]`);
+        
+        let color = "#10b981"; // green
+        let icon = "▲";
+        if (status === "down") {
+            color = "#ef4444"; // red
+            icon = "▼";
+        } else if (status === "neutral") {
+            color = "#a1a1aa"; // gray
+            icon = "■";
+        }
+
+        nodes.forEach(node => {
+            node.style.color = color;
+            node.innerHTML = `<strong style="color: #f8fafc;">${symbol}</strong> ${value} ${icon}`;
+        });
+    }
+
     function createTickerString(marketDataArray) {
         let htmlString = "";
         // Repetimos o array para garantir o fluxo contínuo do CSS Animation
@@ -38,14 +59,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 icon = "■";
             }
 
-            htmlString += `<span class="ticker-item" style="color: ${color};"><strong style="color: #f8fafc;">${item.symbol}</strong> ${item.value} ${icon}</span>`;
+            // Usamos data-ticker-symbol para rastrear as cópias geradas
+            htmlString += `<span class="ticker-item" data-ticker-symbol="${item.symbol}" style="color: ${color};"><strong style="color: #f8fafc;">${item.symbol}</strong> ${item.value} ${icon}</span>`;
         });
 
         return htmlString;
     }
 
+    // A injeção pesada acontece APENAS UMA VEZ no Boot
+    if (tickerContent) {
+        tickerContent.innerHTML = createTickerString(marketData);
+    }
+
     async function updateMarketQuotes() {
-        console.log('[Trilha dos Juros] Iniciando rodada de atualização de cotações...');
+        console.log('[Trilha dos Juros] Iniciando rodada de atualização de cotações API...');
 
         // 1. AwesomeAPI (Moedas + Bitcoin)
         try {
@@ -53,32 +80,24 @@ document.addEventListener('DOMContentLoaded', () => {
             if (currencyResponse.ok) {
                 const cData = await currencyResponse.json();
 
-                // Dólar
-                const usd = marketData.find(m => m.symbol === "DÓLAR");
-                if (usd && cData.USDBRL && cData.USDBRL.bid) {
-                    usd.value = `R$ ${parseFloat(cData.USDBRL.bid).toFixed(2)}`;
-                    usd.status = parseFloat(cData.USDBRL.pctChange) >= 0 ? "up" : "down";
+                if (cData.USDBRL && cData.USDBRL.bid) {
+                    const status = parseFloat(cData.USDBRL.pctChange) >= 0 ? "up" : "down";
+                    updateTickerNode("DÓLAR", `R$ ${parseFloat(cData.USDBRL.bid).toFixed(2)}`, status);
                 }
-
-                // Euro
-                const eur = marketData.find(m => m.symbol === "EURO");
-                if (eur && cData.EURBRL && cData.EURBRL.bid) {
-                    eur.value = `R$ ${parseFloat(cData.EURBRL.bid).toFixed(2)}`;
-                    eur.status = parseFloat(cData.EURBRL.pctChange) >= 0 ? "up" : "down";
+                if (cData.EURBRL && cData.EURBRL.bid) {
+                    const status = parseFloat(cData.EURBRL.pctChange) >= 0 ? "up" : "down";
+                    updateTickerNode("EURO", `R$ ${parseFloat(cData.EURBRL.bid).toFixed(2)}`, status);
                 }
-
-                // Bitcoin
-                const btc = marketData.find(m => m.symbol === "BITCOIN");
-                if (btc && cData.BTCUSD && cData.BTCUSD.bid) {
-                    btc.value = `$ ${parseFloat(cData.BTCUSD.bid).toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
-                    btc.status = parseFloat(cData.BTCUSD.pctChange) >= 0 ? "up" : "down";
+                if (cData.BTCUSD && cData.BTCUSD.bid) {
+                    const status = parseFloat(cData.BTCUSD.pctChange) >= 0 ? "up" : "down";
+                    updateTickerNode("BITCOIN", `$ ${parseFloat(cData.BTCUSD.bid).toLocaleString('en-US', { maximumFractionDigits: 0 })}`, status);
                 }
             }
         } catch (e) {
             console.warn('[Trilha dos Juros] AwesomeAPI falhou.', e);
         }
 
-        // 2 & 3. Ibovespa e Ações via Vercel Serverless Function (Sem limite de CORS ou IP bloqueado)
+        // 2 & 3. Ibovespa e Ações via Vercel Serverless Function
         try {
             const assetsToFetch = ['%5EBVSP', 'PETR4.SA', 'VALE3.SA', 'ITUB4.SA'];
             const promessas = assetsToFetch.map(async (sym) => {
@@ -90,32 +109,21 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (data?.chart?.result?.[0]?.meta) {
                             const meta = data.chart.result[0].meta;
                             const internalSym = sym === '%5EBVSP' ? 'IBOVESPA' : sym.replace('.SA', '');
-                            const target = marketData.find(m => m.symbol === internalSym);
                             
-                            if (target && meta.regularMarketPrice) {
+                            if (meta.regularMarketPrice) {
+                                const status = meta.regularMarketPrice >= (meta.previousClose || meta.chartPreviousClose) ? "up" : "down";
+                                let valStr = `R$ ${meta.regularMarketPrice.toFixed(2)}`;
                                 if (internalSym === 'IBOVESPA') {
-                                    target.value = `${meta.regularMarketPrice.toLocaleString('pt-BR', { maximumFractionDigits: 0 })} pts`;
-                                } else {
-                                    target.value = `R$ ${meta.regularMarketPrice.toFixed(2)}`;
+                                    valStr = `${meta.regularMarketPrice.toLocaleString('pt-BR', { maximumFractionDigits: 0 })} pts`;
                                 }
-                                target.status = meta.regularMarketPrice >= (meta.previousClose || meta.chartPreviousClose) ? "up" : "down";
+                                updateTickerNode(internalSym, valStr, status);
                             }
                         }
                     }
-                } catch(e) { /* skip individual fallback request */ }
+                } catch(e) { /* skip */ }
             });
             await Promise.allSettled(promessas);
         } catch(e) { /* master skip */ }
-
-        // Renderização Final do Ticker
-        if (tickerContent) {
-            tickerContent.innerHTML = createTickerString(marketData);
-        }
-    }
-
-    // Inicialização
-    if (tickerContent) {
-        tickerContent.innerHTML = createTickerString(marketData);
     }
 
     updateMarketQuotes();
@@ -125,24 +133,14 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('ratesLoaded', (e) => {
         const taxasReais = e.detail;
 
-        const selic = marketData.find(m => m.symbol === "SELIC");
-        if (selic) selic.value = `${taxasReais.selic.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}%`;
-
-        const cdi = marketData.find(m => m.symbol === "CDI");
-        if (cdi) cdi.value = `${taxasReais.cdi.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}%`;
-
-        if (taxasReais.ipca) {
-            const ipca = marketData.find(m => m.symbol === "IPCA (12m)");
-            if (ipca) ipca.value = `${taxasReais.ipca.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}%`;
+        if (taxasReais.selic) {
+            updateTickerNode("SELIC", `${taxasReais.selic.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}%`, "neutral");
         }
-
-        if (tickerContent) {
-            // Removendo eventuais frames de CSS animation presa
-            tickerContent.innerHTML = '';
-            // Forçando repaint clean
-            setTimeout(() => {
-                tickerContent.innerHTML = createTickerString(marketData);
-            }, 10);
+        if (taxasReais.cdi) {
+            updateTickerNode("CDI", `${taxasReais.cdi.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}%`, "neutral");
+        }
+        if (taxasReais.ipca) {
+            updateTickerNode("IPCA (12m)", `${taxasReais.ipca.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}%`, "neutral");
         }
     });
 
