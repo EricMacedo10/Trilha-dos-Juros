@@ -33,14 +33,13 @@ jobs:
           ls -R dist
 
       - name: 📂 Sincronizar arquivos para Hostinger
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-          server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
+          server: ${{ secrets.FTP_SERVER }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: ./
-          local-dir: ./dist/
-          dangerous-clean-slate: false
-          timeout: 1200000
-          protocol: ftp
-          port: 21
+          port: 65002
+          local_path: './dist/*'
+          remote_path: './'
+          sftp_only: true
+          delete_remote_files: false
