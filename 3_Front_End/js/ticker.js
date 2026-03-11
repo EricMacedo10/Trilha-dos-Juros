@@ -9,15 +9,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Dados Iniciais (Servindo como Fallback se a internet cair ou APIs bloquearem índices)
     let marketData = [
-        { symbol: "SELIC", value: "15.00%", status: "neutral" },
-        { symbol: "CDI", value: "14.90%", status: "neutral" },
-        { symbol: "IBOVESPA", value: "190.870 pts", status: "down" },
-        { symbol: "DÓLAR", value: "R$ 6.05", status: "up" },
-        { symbol: "EURO", value: "R$ 6.15", status: "up" },
-        { symbol: "BITCOIN", value: "$ 67.499", status: "up" },
-        { symbol: "PETR4", value: "R$ 39.50", status: "down" },
-        { symbol: "VALE3", value: "R$ 88.70", status: "up" },
-        { symbol: "ITUB4", value: "R$ 47.42", status: "up" },
+        { symbol: "SELIC", value: "11.25%", status: "neutral" },
+        { symbol: "CDI", value: "11.15%", status: "neutral" },
+        { symbol: "IBOVESPA", value: "Aguardando...", status: "neutral" },
+        { symbol: "DÓLAR", value: "Aguardando...", status: "neutral" },
+        { symbol: "EURO", value: "Aguardando...", status: "neutral" },
+        { symbol: "BITCOIN", value: "Aguardando...", status: "neutral" },
+        { symbol: "PETR4", value: "Aguardando...", status: "neutral" },
+        { symbol: "VALE3", value: "Aguardando...", status: "neutral" },
+        { symbol: "ITUB4", value: "Aguardando...", status: "neutral" },
         { symbol: "IPCA (12m)", value: "4.50%", status: "neutral" }
     ];
 
@@ -137,7 +137,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (tickerContent) {
-            tickerContent.innerHTML = createTickerString(marketData);
+            // Removendo eventuais frames de CSS animation presa
+            tickerContent.innerHTML = '';
+            // Forçando repaint clean
+            setTimeout(() => {
+                tickerContent.innerHTML = createTickerString(marketData);
+            }, 10);
         }
     });
 
