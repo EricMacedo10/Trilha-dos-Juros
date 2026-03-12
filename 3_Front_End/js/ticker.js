@@ -74,20 +74,62 @@ document.addEventListener('DOMContentLoaded', () => {
     async function updateMarketQuotes() {
         console.log('[Trilha dos Juros] Iniciando rodada de atualização de cotações API...');
 
-        // 1. AwesomeAPI (Moedas + Bitcoin)
+        let hgData = null;
+        const HG_KEY = 'cce1a3d7'; // Chave integrada conforme solicitação do usuário
+
+        // 1. Tentar HG Brasil como fonte primária para IBOV e Moedas (Alta Precisão)
+        try {
+            const hgResponse = await fetch(`https://api.hgbrasil.com/finance?key=${HG_KEY}&format=json-cors`);
+            if (hgResponse.ok) {
+                hgData = await hgResponse.json();
+                console.log('[Trilha dos Juros] HG Brasil carregada com sucesso.');
+                
+                // Processar Dados HG
+                const results = hgData.results;
+                
+                // IBOVESPA
+                if (results.stocks && results.stocks.IBOVESPA) {
+                    const ibov = results.stocks.IBOVESPA;
+                    updateTickerNode("IBOVESPA", `${ibov.points.toLocaleString('pt-BR', { maximumFractionDigits: 0 })} pts`, ibov.variation >= 0 ? "up" : "down");
+                }
+
+                // Dólar
+                if (results.currencies && results.currencies.USD) {
+                    const usd = results.currencies.USD;
+                    updateTickerNode("DÓLAR", `R$ ${usd.buy.toFixed(2)}`, usd.variation >= 0 ? "up" : "down");
+                }
+
+                // Euro
+                if (results.currencies && results.currencies.EUR) {
+                    const eur = results.currencies.EUR;
+                    updateTickerNode("EURO", `R$ ${eur.buy.toFixed(2)}`, eur.variation >= 0 ? "up" : "down");
+                }
+            }
+        } catch (e) {
+            console.warn('[Trilha dos Juros] HG Brasil falhou ou atingiu limite. Usando fallbacks...', e);
+        }
+
+        // 2. AwesomeAPI (Fallback para Moedas + Bitcoin)
         try {
             const currencyResponse = await fetch('https://economia.awesomeapi.com.br/json/last/USD-BRL,EUR-BRL,BTC-USD');
             if (currencyResponse.ok) {
                 const cData = await currencyResponse.json();
 
-                if (cData.USDBRL && cData.USDBRL.bid) {
-                    const status = parseFloat(cData.USDBRL.pctChange) >= 0 ? "up" : "down";
-                    updateTickerNode("DÓLAR", `R$ ${parseFloat(cData.USDBRL.bid).toFixed(2)}`, status);
+                // Só atualiza se o HG não tiver trazido ou se for Bitcoin (que o HG Free às vezes não traz em todas as chaves)
+                if (!hgData || !hgData.results.currencies.USD) {
+                    if (cData.USDBRL && cData.USDBRL.bid) {
+                        const status = parseFloat(cData.USDBRL.pctChange) >= 0 ? "up" : "down";
+                        updateTickerNode("DÓLAR", `R$ ${parseFloat(cData.USDBRL.bid).toFixed(2)}`, status);
+                    }
                 }
-                if (cData.EURBRL && cData.EURBRL.bid) {
-                    const status = parseFloat(cData.EURBRL.pctChange) >= 0 ? "up" : "down";
-                    updateTickerNode("EURO", `R$ ${parseFloat(cData.EURBRL.bid).toFixed(2)}`, status);
+                
+                if (!hgData || !hgData.results.currencies.EUR) {
+                    if (cData.EURBRL && cData.EURBRL.bid) {
+                        const status = parseFloat(cData.EURBRL.pctChange) >= 0 ? "up" : "down";
+                        updateTickerNode("EURO", `R$ ${parseFloat(cData.EURBRL.bid).toFixed(2)}`, status);
+                    }
                 }
+
                 if (cData.BTCUSD && cData.BTCUSD.bid) {
                     const status = parseFloat(cData.BTCUSD.pctChange) >= 0 ? "up" : "down";
                     updateTickerNode("BITCOIN", `$ ${parseFloat(cData.BTCUSD.bid).toLocaleString('en-US', { maximumFractionDigits: 0 })}`, status);
@@ -97,9 +139,12 @@ document.addEventListener('DOMContentLoaded', () => {
             console.warn('[Trilha dos Juros] AwesomeAPI falhou.', e);
         }
 
-        // 2 & 3. Ibovespa e Ações via Vercel Serverless Function
+        // 3. Yahoo Finance via Vercel Serverless Function (Para Ações Individuais)
         try {
-            const assetsToFetch = ['%5EBVSP', 'PETR4.SA', 'VALE3.SA', 'ITUB4.SA'];
+            const assetsToFetch = ['PETR4.SA', 'VALE3.SA', 'ITUB4.SA'];
+            // IBOVESPA já foi via HG, mas se HG falhar, Yahoo pega
+            if (!hgData || !hgData.results.stocks.IBOVESPA) assetsToFetch.push('%5EBVSP');
+
             const promessas = assetsToFetch.map(async (sym) => {
                 const urlBackend = `/api/yahoo?symbol=${sym}`;
                 try {
