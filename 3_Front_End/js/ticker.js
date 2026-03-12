@@ -141,9 +141,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 3. Yahoo Finance via Vercel Serverless Function (Para Ações Individuais)
         try {
+            const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            
             const assetsToFetch = ['PETR4.SA', 'VALE3.SA', 'ITUB4.SA'];
             // IBOVESPA já foi via HG, mas se HG falhar, Yahoo pega
             if (!hgData || !hgData.results.stocks.IBOVESPA) assetsToFetch.push('%5EBVSP');
+
+            if (isLocal) {
+                console.log('[Trilha dos Juros] Ambiente local detectado. Pulando chamadas para /api/yahoo (disponível apenas após deploy).');
+                return;
+            }
 
             const promessas = assetsToFetch.map(async (sym) => {
                 const urlBackend = `/api/yahoo?symbol=${sym}`;

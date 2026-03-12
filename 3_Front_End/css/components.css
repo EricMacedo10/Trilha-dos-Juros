@@ -743,6 +743,22 @@
     background: rgba(255, 255, 255, 0.1);
 }
 
+.radar-card-featured {
+    grid-column: 1 / -1;
+    background: linear-gradient(145deg, rgba(16, 185, 129, 0.05), rgba(0, 0, 0, 0.2));
+    border-color: rgba(16, 185, 129, 0.2);
+}
+
+.radar-card-featured .commodity-price {
+    font-size: 1.15rem;
+    color: var(--neon-green);
+    text-shadow: 0 0 10px var(--neon-green-glow);
+}
+
+.radar-card-featured .commodity-header i {
+    color: var(--neon-green);
+}
+
 .commodities-disclaimer {
     margin-top: 1rem;
     padding-top: 0.75rem;

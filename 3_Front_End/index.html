@@ -208,23 +208,20 @@
                         </div>
                     </div>
 
-                    <!-- Painel de Commodities (Mercado Global) -->
-                    <div class="commodities-panel" id="commodities-panel" style="margin-top: 1.5rem;">
+                    <!-- Painel de Radar de Ativos -->
+                    <div class="commodities-panel radar-panel" id="radar-panel" style="margin-top: 1.5rem;">
                         <h4
                             style="color: var(--brand-blue); font-size: 0.85rem; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem;">
-                            <i class="ph-fill ph-globe-hemisphere-west"></i> Mercado Global
+                            <i class="ph-fill ph-trend-up"></i> Ativos em Destaque
+                            <span style="margin-left:auto; font-size:0.7rem; color:var(--text-muted); font-weight:normal; display:flex; align-items:center; gap:0.2rem;"><i class="ph ph-clock"></i> Atualizado agora</span>
                         </h4>
-                        <div class="commodities-grid" id="commodities-grid">
+                        <div class="commodities-grid radar-grid" id="radar-grid">
                             <div class="loading-commodities"
                                 style="text-align: center; padding: 1rem; color: var(--text-muted); font-size: 0.8rem; grid-column: 1 / -1;">
                                 <i class="ph ph-circle-notch ph-spin"
                                     style="font-size: 1.5rem; margin-bottom: 0.5rem; display: block;"></i>
-                                Sincronizando...
+                                Sincronizando Radar...
                             </div>
-                        </div>
-                        <div class="commodities-disclaimer">
-                            <i class="ph-fill ph-info"></i>
-                            <p>Os dados possuem atraso seguro de aproximadamente 60 a 90 minutos para evitar flutuações e viés emocional (Exibição apenas para fins educativos).</p>
                         </div>
                     </div>
 
@@ -610,7 +607,8 @@
     <script src="js/calculator.js?v=22" defer></script>
     <script src="js/ui-controller.js?v=15" defer></script>
     <script src="js/gamification.js?v=15" defer></script>
-    <script src="js/commodities.js?v=9" defer></script>
+    <!-- <script src="js/commodities.js?v=9" defer></script> -->
+    <script src="js/radar-service.js?v=1" defer></script>
 </body>
 
 </html>
