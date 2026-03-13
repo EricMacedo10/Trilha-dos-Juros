@@ -75,11 +75,12 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('[Trilha dos Juros] Iniciando rodada de atualização de cotações API...');
 
         let hgData = null;
-        const HG_KEY = 'cce1a3d7'; // Chave integrada conforme solicitação do usuário
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
-        // 1. Tentar HG Brasil como fonte primária para IBOV e Moedas (Alta Precisão)
+        // 1. Tentar HG Brasil como fonte primária para IBOV e Moedas (via Vercel Proxy)
         try {
-            const hgResponse = await fetch(`https://api.hgbrasil.com/finance?key=${HG_KEY}&format=json-cors`);
+            const hgUrl = isLocal ? 'https://api.hgbrasil.com/finance?key=SUA_CHAVE_AQUI&format=json-cors' : '/api/hg';
+            const hgResponse = await fetch(hgUrl);
             if (hgResponse.ok) {
                 hgData = await hgResponse.json();
                 console.log('[Trilha dos Juros] HG Brasil carregada com sucesso.');

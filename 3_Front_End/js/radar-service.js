@@ -73,8 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
     async function fetchRadarData() {
         // 1. Fetch HG Brasil para o IPCA Projetado (via Vercel Serverless Function)
         try {
-            // Em local o IPCA HG pode ser simulado ou buscado via proxy se o dev server permitir
-            const hgUrl = isLocal ? 'https://api.hgbrasil.com/finance?key=cce1a3d7&format=json-cors' : '/api/hg';
+            // Em local o IPCA HG pode ser simulado ou buscado via proxy com sua própria chave
+            const hgUrl = isLocal ? 'https://api.hgbrasil.com/finance?key=SUA_CHAVE_AQUI&format=json-cors' : '/api/hg';
             
             const hgRes = await fetch(hgUrl);
             if (hgRes.ok) {

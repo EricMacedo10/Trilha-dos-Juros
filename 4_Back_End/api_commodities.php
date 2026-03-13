@@ -5,7 +5,7 @@
  */
 
 // CONFIGURAÇÃO
-$apiKey = '0652c687-3f50-4b95-8c7c-670f9c77923c';
+$apiKey = 'SUA_CHAVE_AQUI';
 $cacheFileLatest = 'cache_latest.json';
 $cacheFileHist = 'cache_historical.json';
 $cacheTimeLatest = 1800; // 30 minutos (em segundos)

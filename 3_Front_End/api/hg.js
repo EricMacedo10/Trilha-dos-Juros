@@ -1,7 +1,7 @@
 export default async function handler(req, res) {
     // A chave pode vir de uma variável de ambiente no Vercel (recomendado)
     // ou usamos a chave padrão se não estiver definida.
-    const HG_KEY = process.env.HG_KEY || 'cce1a3d7';
+    const HG_KEY = process.env.HG_KEY;
 
     try {
         const url = `https://api.hgbrasil.com/finance?key=${HG_KEY}&format=json-cors`;
