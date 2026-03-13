@@ -1,0 +1,12 @@
+# Local temporary files
+hg.json
+cota_hoje.json
+output.txt
+output2.txt
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Vercel
+.vercel

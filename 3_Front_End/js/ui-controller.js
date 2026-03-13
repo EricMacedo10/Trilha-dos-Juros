@@ -100,7 +100,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         pointBorderColor: '#10b981',
                         pointBorderWidth: 2,
                         pointRadius: 5,
-                        pointHoverRadius: 7
+                        pointHoverRadius: 7,
+                        // Premium Glow Effect
+                        shadowColor: 'rgba(16, 185, 129, 0.4)',
+                        shadowBlur: 10
                     },
                     {
                         label: 'Poupança (Comparativo)',
@@ -143,6 +146,20 @@ document.addEventListener('DOMContentLoaded', () => {
                                 if (context.parsed.y !== null) {
                                     label += new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(context.parsed.y);
                                 }
+
+                                // Se for o dataset de Saldo Acumulado, mostrar o lucro proporcional
+                                if (context.datasetIndex === 1 && context.parsed.y !== null) {
+                                    const index = context.dataIndex;
+                                    const investido = context.chart.data.datasets[0].data[index];
+                                    const lucro = context.parsed.y - investido;
+                                    const pct = ((lucro / investido) * 100).toFixed(1);
+                                    
+                                    return [
+                                        label,
+                                        `Lucro: R$ ${lucro.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} (+${pct}%)`
+                                    ];
+                                }
+
                                 return label;
                             }
                         }
@@ -170,6 +187,38 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    /**
+     * Animação Suave de Números (Counter)
+     * @param {HTMLElement} obj Elemento DOM
+     * @param {number} start Valor inicial
+     * @param {number} end Valor final
+     * @param {number} duration Duração em ms
+     * @param {boolean} isCurrency Se deve formatar como R$
+     */
+    function animateValue(obj, start, end, duration, isCurrency = true) {
+        if (!obj) return;
+        let startTimestamp = null;
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            const currentVal = progress * (end - start) + start;
+            
+            if (isCurrency) {
+                obj.innerHTML = currentVal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            } else {
+                obj.innerHTML = currentVal.toFixed(2).replace('.', ',');
+            }
+
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            }
+        };
+        window.requestAnimationFrame(step);
+    }
+
+    // Armazenar últimos valores para animar a partir deles
+    let lastResults = { total: 0, invested: 0, interest: 0, tax: 0 };
 
     // Função Principal de Atualização Visual
     function updateCalculator() {
@@ -245,10 +294,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const result = FinMath.simulate(type, initial, monthly, duration, activeRate, rateType);
         const dados = result.dadosGerais;
 
-        // Atualizar KPIs
-        resNetTotal.textContent = `R$ ${dados.valorLiquido.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-        resTotalInvested.textContent = `R$ ${dados.totalInvestido.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-        resTotalInterest.textContent = `+ R$ ${dados.lucroBruto.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        // Atualizar KPIs com Animação
+        animateValue(resNetTotal, lastResults.total, dados.valorLiquido, 400);
+        animateValue(resTotalInvested, lastResults.invested, dados.totalInvestido, 400);
+        animateValue(resTotalInterest, lastResults.interest, dados.lucroBruto, 400);
+
+        // Feedback Visual de Pulso no Card Principal
+        const mainCard = resNetTotal.closest('.kpi-card');
+        if (mainCard) {
+            mainCard.classList.remove('pulse-animation');
+            void mainCard.offsetWidth; // Force reflow
+            mainCard.classList.add('pulse-animation');
+        }
 
         if (dados.isentoIR) {
             resTaxLabel.textContent = "Imposto de Renda (Isento)";
@@ -256,9 +313,17 @@ document.addEventListener('DOMContentLoaded', () => {
             resTaxDiscount.style.color = "#a1a1aa"; // Gray
         } else {
             resTaxLabel.textContent = "Imposto de Renda Retido";
-            resTaxDiscount.textContent = `- R$ ${dados.impostoRetido.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            animateValue(resTaxDiscount, lastResults.tax, -dados.impostoRetido, 400);
             resTaxDiscount.style.color = "var(--hazard-red)";
         }
+
+        // Atualiza estado para a próxima animação
+        lastResults = {
+            total: dados.valorLiquido,
+            invested: dados.totalInvestido,
+            interest: dados.lucroBruto,
+            tax: -dados.impostoRetido
+        };
 
         // Atualizar Chart.js
         if (growthChartInstance) {

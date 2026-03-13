@@ -47,5 +47,15 @@ Este bloco documenta decisões arquiteturais para que eu nunca as repita por des
 *   **Problema:** O Ticker gerava marcas "Fantasmas" ou embaralhava o fundo da div (Ghosting) em navegadores lentos, por que tentava dar `innerHTML` enquanto a GPU renderizava blocos via Animação CSS contínua (`translate3D`).
 *   **Solução Implementada (V21):** O ticker cria blocos Span APENAS UMA VEZ injetando ID de metadados no HTML. Para cada atualização subjacente provinda de Serverless Functions ou Nativas, roda um `querySelector` mudo, alterando o valor no `innerText`, desvinculando re-pintura pesada na GPU de uma função *fetch*.
 
+### ADR-004: Resiliência de DNS (Vercel + Registro.br)
+*   **Data:** 13/Março/2026
+*   **Problema:** Site saiu do ar subitamente na virada do dia (13/03) devido ao reset dos servidores DNS para o padrão do Registro.br, resultando em erro `NXDOMAIN`.
+*   **Decisão Exclusiva:** Priorizar o uso do **"Modo Avançado"** no Registro.br, mantendo a zona de DNS sob gestão direta (A pointing to `76.76.21.21`). Esta configuração evita o erro de "Pesquisa Recusada" (QREFUSED) que ocorre na troca de Servidores DNS (NS) quando a Vercel ainda não propagou a autoridade, garantindo uma reconexão instantânea e resiliente a resets silenciosos do registrador.
+
+### ADR-005: Transparência de Inflação (Dual-Source IPCA)
+*   **Data:** 13/Março/2026
+*   **Contexto:** Divergência entre dados oficiais (BCB - Retroativos) e projeções de mercado (HG Brasil - Atuais/Estimados).
+*   **Decisão Exclusiva:** Remover o IPCA do letreiro superior (Ticker) e criar uma exibição dupla no bloco "Ativos em Destaque". Isso separa visualmente a **Inflação Oficial (BCB)** da **Inflação Projetada (HG)**, educando o usuário sobre a diferença entre dados realizados e expectativas de mercado, elevando a autoridade técnica da plataforma.
+
 ## Assinatura de Compromisso
 Este é o meu fluxo de trabalho. A partir de agora, o projeto **Trilha dos Juros** será construído estritamente sobre bases sólidas, Cloud Edge de primeiro mundo, seguras e premium. Nada passa sem o selo de qualidade sênior.
