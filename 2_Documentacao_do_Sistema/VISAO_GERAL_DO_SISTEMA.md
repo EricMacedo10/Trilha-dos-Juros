@@ -38,8 +38,9 @@ O sistema opera em uma estrutura ágil, blindada de gargalos, e otimizada unicam
 3.  **A Retenção AdSense:** Descobre a ferramenta mágica de gamificação (Jornada dos Depósitos). Configura sua própria meta e salva nos Favoritos, retornando com frequência para preencher os *envelopes virtuais*. Esse retorno contínuo expulsa a rejeição orgânica e clica involuntária e naturalmente nos banners altamente segmentados do Google. 
 
 ## 4. O Marco de Evolução Vercel (Mar/2026)
-1. Arquitetura unificada HTML/CSS (Foco no *Dark Mode Glass*) **[CONCLUÍDO]**
-2. Deploy Automático CI/CD direto para a Nuvem Edge Serverless da Vercel. **[CONCLUÍDO]**
-3. Motor de Cotações de Commodities e Moedas via Scraper Python + GIST Action (Muralha contra Bloqueios Web) **[CONCLUÍDO]**
-4. Abandono integral do PHP Proxy legado em prol de rotas nativas diretas B3/BCB para o front-end Vercel sem bloqueios 404 e com Ticker 60fps *DOM Mutation Rule*. **[CONCLUÍDO]**
-5. Auditoria ativa concluída: Credenciais Zero em repositórios abertos, aderência a *Action Secrets* Git e Autenticação robusta. **[CONCLUÍDO]**
+1.  **Arquitetura unificada HTML/CSS** (Foco no *Dark Mode Glass*) **[CONCLUÍDO]**
+2.  **Deploy Automático CI/CD** direto para a Nuvem Edge Serverless da Vercel. **[CONCLUÍDO]**
+3.  **Motor de Cotações de Commodities e Moedas** via Scraper Python + GIST Action. **[CONCLUÍDO]**
+4.  **Modernização Estética & Gamificação:** Integração de vídeo 3D de alta fidelidade na Jornada dos Depósitos, contadores animados (KPIs) e efeitos neon de profundidade no simulador. **[NOVO - MAR/26]**
+5.  **Segurança Master:** Migração de chaves HG Brasil para Serverless Proxy (`/api/hg.js`), eliminando chaves expostas no código. **[NOVO - MAR/26]**
+6.  **Auditoria Técnica:** Correção de bugs de interface (tooltip clipping) e adesão total ao padrão *Senior Workflow*. **[CONCLUÍDO]**

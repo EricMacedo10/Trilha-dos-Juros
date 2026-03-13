@@ -57,5 +57,20 @@ Este bloco documenta decisões arquiteturais para que eu nunca as repita por des
 *   **Contexto:** Divergência entre dados oficiais (BCB - Retroativos) e projeções de mercado (HG Brasil - Atuais/Estimados).
 *   **Decisão Exclusiva:** Remover o IPCA do letreiro superior (Ticker) e criar uma exibição dupla no bloco "Ativos em Destaque". Isso separa visualmente a **Inflação Oficial (BCB)** da **Inflação Projetada (HG)**, educando o usuário sobre a diferença entre dados realizados e expectativas de mercado, elevando a autoridade técnica da plataforma.
 
+### ADR-006: Blindagem de Chaves via Serverless Proxy (HG Brasil)
+*   **Data:** 13/Março/2026
+*   **Contexto:** A exposição de chaves de API (`HG_KEY`) no frontend é um risco de segurança e exaustão de quota por terceiros.
+*   **Decisão Exclusiva:** Toda API de parceiros com chaves sensíveis deve ser encapsulada em um endpoint Serverless (ex: `/api/hg.js`). O frontend consome apenas a rota interna, enquanto a Vercel gerencia a chave via Variáveis de Ambiente, elevando a segurança para o nível corporativo.
+
+### ADR-007: Estética Premium sem Conflito de Overflow (Clip-Path Masking)
+*   **Data:** 13/Março/2026
+*   **Contexto:** O uso de `overflow: hidden` para conter efeitos de brilho (*shine*) impedia a exibição de tooltips externos e balões de informação.
+*   **Decisão Exclusiva:** Utilizar `clip-path: inset(0 round var(--radius-lg))` nos pseudo-elementos de brilho. Isso permite que o container principal mantenha `overflow: visible` para os tooltips, enquanto o efeito visual de luz permanece cirurgicamente confinado às bordas arredondadas do cartão.
+
+### ADR-008: Motor de Micro-interação (Dynamic Counter Engine)
+*   **Data:** 13/Março/2026
+*   **Contexto:** Interfaces estáticas reduzem a percepção de "vida" e precisão em simuladores financeiros.
+*   **Decisão Exclusiva:** Implementação de um motor de interpolação matemática (`animateValue`) para todos os KPIs principais. Os números não "pulam" de um valor para outro; eles "correm" (tweening), gerando um gatilho de satisfação visual e reforçando a qualidade técnica da ferramenta de cálculo.
+
 ## Assinatura de Compromisso
 Este é o meu fluxo de trabalho. A partir de agora, o projeto **Trilha dos Juros** será construído estritamente sobre bases sólidas, Cloud Edge de primeiro mundo, seguras e premium. Nada passa sem o selo de qualidade sênior.
