@@ -6,8 +6,8 @@
 const FinMath = (function () {
 
     // Taxas Base Iniciais (Usadas como Fallback se a API falhar ou demorar para responder)
-    let SELIC_ANUAL_DEFAULT = 15.00; // Taxa Selic Atualizada Real de 2026
-    let CDI_ANUAL_DEFAULT = 14.90; // CDI Atualizado Real de 2026
+    let SELIC_ANUAL_DEFAULT = 14.75; // Taxa Selic Atualizada Real de 2026
+    let CDI_ANUAL_DEFAULT = 14.65; // CDI Atualizado Real de 2026
     let POUPANCA_ANUAL = SELIC_ANUAL_DEFAULT > 8.5 ? 6.17 : (SELIC_ANUAL_DEFAULT * 0.7);
 
     /**
@@ -33,7 +33,7 @@ const FinMath = (function () {
             let realData = {
                 selic: SELIC_ANUAL_DEFAULT,
                 cdi: CDI_ANUAL_DEFAULT,
-                ipca: 4.44 // IPCA Acumulado Real de 2026 pesquisado no IBGE
+                ipca: 3.81 // IPCA Acumulado Real (Fev/2026 divulgado pelo IBGE)
             };
 
             if (selicRes.status === 'fulfilled' && selicRes.value && selicRes.value.length > 0) {
@@ -41,10 +41,10 @@ const FinMath = (function () {
                 SELIC_ANUAL_DEFAULT = realData.selic;
             }
 
-            if (cdiRes.status === 'fulfilled' && cdiRes.value && cdiRes.value.length > 0) {
-                realData.cdi = parseFloat(cdiRes.value[0].valor);
-                CDI_ANUAL_DEFAULT = realData.cdi;
-            }
+            // O CDI oficial pelo BCB sofre atraso da série 4389. 
+            // Seguindo a convenção de mercado e contornando o delay: CDI = Selic Meta - 0,10 a.a.
+            realData.cdi = Math.max(0, realData.selic - 0.10);
+            CDI_ANUAL_DEFAULT = realData.cdi;
 
             if (ipcaRes.status === 'fulfilled' && ipcaRes.value && ipcaRes.value.length > 0) {
                 realData.ipca = parseFloat(ipcaRes.value[0].valor);
