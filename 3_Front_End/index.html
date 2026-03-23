@@ -79,8 +79,8 @@
                 Trilha dos Juros
             </h1>
             <nav class="pill-nav">
-                <button class="nav-btn active" data-target="calculator-view">Simulador</button>
-                <button class="nav-btn" data-target="gamification-view">Desafio dos Depósitos</button>
+                <button class="nav-btn" data-target="calculator-view">Simulador</button>
+                <button class="nav-btn active" data-target="gamification-view">Desafio dos Depósitos</button>
                 <button class="nav-btn" id="btn-open-contact"
                     style="color: var(--neon-green); border: 1px solid rgba(16, 185, 129, 0.3);">
                     <i class="ph-fill ph-envelope-simple"></i> Fale com Assessor de Investimentos
@@ -91,7 +91,7 @@
 
     <main class="container">
         <!-- View 1: Calculadora -->
-        <section id="calculator-view" class="view-section active">
+        <section id="calculator-view" class="view-section" style="display: none;">
 
             <div class="grid-layout">
                 <!-- Painel de Inputs (Esquerda Desktop / Topo Mobile) -->
@@ -296,7 +296,7 @@
         </section>
 
         <!-- View 2: Gamificação -->
-        <section id="gamification-view" class="view-section" style="display: none;">
+        <section id="gamification-view" class="view-section active">
             <div class="glass-panel gamification-panel">
                 <!-- Vídeo de Destaque Premium -->
                 <div class="hero-video-container">

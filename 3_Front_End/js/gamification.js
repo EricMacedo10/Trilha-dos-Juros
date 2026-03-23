@@ -174,6 +174,15 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // Disparo do Evento para o Google Analytics
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'started_journey', {
+                'event_category': 'Gamification',
+                'event_label': `Meta: ${meta} / Etapas: ${etapas}`,
+                'value': meta
+            });
+        }
+
         state = {
             metaFinal: meta,
             etapas: etapas,
