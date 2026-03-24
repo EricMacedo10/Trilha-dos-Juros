@@ -72,19 +72,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function fetchRadarData() {
         // 1. IPCA Acumulado 12 meses — BCB Série 13522 (gratuito, sem chave, sempre real)
-        // Substituímos o HG Brasil (taxa paga, retornava dado hardcoded) pela fonte oficial.
+        // A série 13522 JÁ É o IPCA Acumulado (Anualizado), não podemos aplicar juros compostos em cima dela!
         try {
-            const ipcaUrl = 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.13522/dados/ultimos/12?formato=json';
+            const ipcaUrl = 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.13522/dados/ultimos/1?formato=json';
             const ipcaRes = await fetch(ipcaUrl);
             if (ipcaRes.ok) {
                 const ipcaData = await ipcaRes.json();
                 if (Array.isArray(ipcaData) && ipcaData.length > 0) {
-                    // Cálculo correto: IPCA acumulado 12m por regime de juros compostos
-                    // (1 + r1/100) * (1 + r2/100) * ... - 1
-                    const acumulado = ipcaData.reduce((acc, item) => {
-                        return acc * (1 + parseFloat(item.valor) / 100);
-                    }, 1);
-                    const ipcaAcumulado = (acumulado - 1) * 100;
+                    const ipcaAcumulado = parseFloat(ipcaData[0].valor);
 
                     const ipca12Ativo = ativosData.find(a => a.id === 'IPCA_12');
                     if (ipca12Ativo) {

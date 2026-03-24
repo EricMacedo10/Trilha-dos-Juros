@@ -20,7 +20,7 @@ const FinMath = (function () {
             const endpoints = {
                 selic: 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados/ultimos/1?formato=json',
                 cdi: 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.4389/dados/ultimos/1?formato=json',
-                ipca: 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.13522/dados/ultimos/1?formato=json'
+                ipca: 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.433/dados/ultimos/1?formato=json' // Mensal
             };
 
             // Usamos Promise.allSettled para garantir que uma falha no IPCA não quebre a Selic/CDI
