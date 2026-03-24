@@ -82,5 +82,15 @@ Este bloco documenta decisões arquiteturais para que eu nunca as repita por des
 *   **Contexto:** O bug mais crítico da gamificação ("O Somiço do Desafio dos Depósitos") ocorreu pelo uso do comando hostil `window.location.reload(true)` combinado com deploys acidentais do Github Actions. Isso forçava os navegadores a atualizar o Service Worker e expurgar brutalmente o `localStorage` inteiro da origem.
 *   **Decisão Exclusiva:** É terminantemente proibido o uso de hard-reloads via javascript. A deleção de dados agora requer uma trava de segurança (`confirm`) e as repinturas de tela ocorrem puramente via manipulação local do DOM. Além disso, o foco primário para retenção é instruir o usuário educacionalmente a **Instalar o PWA (Adicionar à Tela Inicial)**, isolando os dados de cache num *sandbox* nativo imune a limpezas rotineiras de cookies do browser.
 
+### ADR-011: Tipografia Responsiva Fluida (Fluid Typography)
+*   **Data:** 24/Março/2026
+*   **Contexto:** Textos e títulos que usavam dimensões estáticas (ex: `1.75rem`) quebravam layout em multilinhas indesejadas em dispositivos móveis menores ou desperdiçavam espaço em desktops Ultrawide.
+*   **Decisão Exclusiva:** Adoção absoluta da função `clamp(min, preferencial, max)` para títulos primários e modais críticos. A interface se ajusta "elasticamente" conforme o viewport do navegador `vw`, garantindo proporção e eliminando conflitos horizontais de design sem encher o CSS de *media queries* redundantes.
+
+### ADR-012: Otimização de Animação Atmosférica (No-Data Distraction)
+*   **Data:** 24/Março/2026
+*   **Contexto:** Necessidade de adicionar fator "UAU" visual em gráficos e containers premium sem prejudicar a leitura de valores técnicos ou confundir o usuário sobre a atualização dos dados (movimento vs. real-time).
+*   **Decisão Exclusiva:** Uso de *Animações Atmosféricas Passivas* (ex: Glowing Borders pulsantes ou Shimmer de fundo via `::before`) rodando no *background* dos containers. Componentes estáticos de visualização retêm o foco do olhar, enquanto as bordas "respiram" via `@keyframes`, transmitindo a sensação de um dashboard de alta tecnologia, vivo e ativo.
+
 ## Assinatura de Compromisso
 Este é o meu fluxo de trabalho. A partir de agora, o projeto **Trilha dos Juros** será construído estritamente sobre bases sólidas, Cloud Edge de primeiro mundo, seguras e premium. Nada passa sem o selo de qualidade sênior.
