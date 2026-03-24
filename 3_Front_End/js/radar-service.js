@@ -11,13 +11,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Estado local para armazenar e renderizar de uma vez
     const ativosData = [
-        { id: 'BTC', name: 'Bitcoin (BTC)', type: 'crypto', icon: 'ph-currency-btc', price: '...', change: 0, isFeatured: true },
-        { id: 'IPCA_BC', name: 'Inflação (BCB)', type: 'rate', icon: 'ph-bank', price: '...', change: 0, isFeatured: false, subtitle: 'Oficial Acumulado' },
-        { id: 'IPCA_HG', name: 'Inflação (HG)', type: 'rate', icon: 'ph-chart-line-up', price: '...', change: 0, isFeatured: false, subtitle: 'Projeção Mercado' },
-        { id: 'PETR4', name: 'Petrobras', type: 'stock', icon: 'ph-gas-pump', price: '...', change: 0, isFeatured: false },
-        { id: 'VALE3', name: 'Vale', type: 'stock', icon: 'ph-mountains', price: '...', change: 0, isFeatured: false },
-        { id: 'ITUB4', name: 'Itaú Unibanco', type: 'stock', icon: 'ph-bank', price: '...', change: 0, isFeatured: false },
-        { id: 'BBDC4', name: 'Bradesco', type: 'stock', icon: 'ph-bank', price: '...', change: 0, isFeatured: false }
+        { id: 'BTC',     name: 'Bitcoin (BTC)',      type: 'crypto', icon: 'ph-currency-btc',  price: '...', change: 0, isFeatured: true },
+        { id: 'IPCA_BC', name: 'IPCA Mensal (BCB)',  type: 'rate',   icon: 'ph-bank',          price: '...', change: 0, isFeatured: false, subtitle: 'Último divulgado' },
+        { id: 'IPCA_12', name: 'IPCA 12 meses',      type: 'rate',   icon: 'ph-chart-line-up', price: '...', change: 0, isFeatured: false, subtitle: 'Acumulado BCB' },
+        { id: 'PETR4',   name: 'Petrobras',          type: 'stock',  icon: 'ph-gas-pump',      price: '...', change: 0, isFeatured: false },
+        { id: 'VALE3',   name: 'Vale',               type: 'stock',  icon: 'ph-mountains',     price: '...', change: 0, isFeatured: false },
+        { id: 'ITUB4',   name: 'Itaú Unibanco',      type: 'stock',  icon: 'ph-bank',          price: '...', change: 0, isFeatured: false },
+        { id: 'BBDC4',   name: 'Bradesco',           type: 'stock',  icon: 'ph-bank',          price: '...', change: 0, isFeatured: false }
     ];
 
     function renderRadar() {
@@ -54,14 +54,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Render Inicial
     renderRadar();
 
-    // Sintoniza com o Banco Central via calculator.js para o IPCA Oficial
+    // Sintoniza com o Banco Central via calculator.js para o IPCA Mensal Oficial
     document.addEventListener('ratesLoaded', (e) => {
         const rates = e.detail;
         if (rates.ipca) {
             const bcAtivo = ativosData.find(a => a.id === 'IPCA_BC');
             if (bcAtivo) {
                 bcAtivo.price = `${rates.ipca.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}%`;
-                bcAtivo.change = 0; // Oficial não tem variação diária no radar
+                bcAtivo.change = 0;
                 renderRadar();
             }
         }
@@ -71,24 +71,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
     async function fetchRadarData() {
-        // 1. Fetch HG Brasil para o IPCA Projetado (via Vercel Serverless Function)
+        // 1. IPCA Acumulado 12 meses — BCB Série 13522 (gratuito, sem chave, sempre real)
+        // Substituímos o HG Brasil (taxa paga, retornava dado hardcoded) pela fonte oficial.
         try {
-            // Em local o IPCA HG pode ser simulado ou buscado via proxy com sua própria chave
-            const hgUrl = isLocal ? 'https://api.hgbrasil.com/finance?key=SUA_CHAVE_AQUI&format=json-cors' : '/api/hg';
-            
-            const hgRes = await fetch(hgUrl);
-            if (hgRes.ok) {
-                const data = await hgRes.json();
-                // A HG fornece IPCA Projetado/Mercado na chave 'taxes' em algumas requisições ou custom
-                // Como verifiquei que o usuário viu 4.51%, vou simular ou capturar do campo correto se existir
-                const hgAtivo = ativosData.find(a => a.id === 'IPCA_HG');
-                if (hgAtivo) {
-                    hgAtivo.price = "4.51%"; // Valor detectado pelo usuário na HG
-                    hgAtivo.change = 0;
+            const ipcaUrl = 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.13522/dados/ultimos/12?formato=json';
+            const ipcaRes = await fetch(ipcaUrl);
+            if (ipcaRes.ok) {
+                const ipcaData = await ipcaRes.json();
+                if (Array.isArray(ipcaData) && ipcaData.length > 0) {
+                    // Cálculo correto: IPCA acumulado 12m por regime de juros compostos
+                    // (1 + r1/100) * (1 + r2/100) * ... - 1
+                    const acumulado = ipcaData.reduce((acc, item) => {
+                        return acc * (1 + parseFloat(item.valor) / 100);
+                    }, 1);
+                    const ipcaAcumulado = (acumulado - 1) * 100;
+
+                    const ipca12Ativo = ativosData.find(a => a.id === 'IPCA_12');
+                    if (ipca12Ativo) {
+                        ipca12Ativo.price = `${ipcaAcumulado.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`;
+                        ipca12Ativo.change = 0;
+                    }
                 }
             }
         } catch (e) {
-            console.warn('[Radar] Erro ao buscar HG Brasil para IPCA Projetado.', e);
+            console.warn('[Radar] Erro ao buscar IPCA 12m do BCB.', e);
         }
 
         // 2. Fetch Criptomoedas (AwesomeAPI)
