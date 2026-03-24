@@ -376,6 +376,34 @@
             </div>
         </section>
 
+        <!-- Monitor de Poder de Compra (Vistoso / Premium) -->
+        <section class="buying-power-section container" style="margin-top: 2.5rem;">
+            <div class="buying-power-area">
+                <div class="buying-power-header">
+                    <div class="buying-power-title">
+                        <h3><i class="ph-fill ph-chart-line-down"></i> O Real em 1994 vs Hoje</h3>
+                        <p>Acompanhe a queda histórica do poder de compra de R$ 100,00 baseada na inflação oficial (IPCA) desde a criação do Plano Real até o último dado do Banco Central.</p>
+                    </div>
+                    <div class="buying-power-stats">
+                        <div class="bp-stat">
+                            <span>Perda Acumulada</span>
+                            <strong class="bp-loss" id="buying-power-loss-pct">- --%</strong>
+                        </div>
+                        <div class="bp-stat">
+                            <span>Valor Atual</span>
+                            <strong class="bp-current" id="buying-power-current-val">R$ --,--</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="buyingPowerChart"></canvas>
+                </div>
+                <div class="buying-power-footer" style="margin-top: 1rem; text-align: right; font-size: 0.7rem; color: var(--text-muted); position: relative; z-index: 2;">
+                    <i class="ph-fill ph-database"></i> <strong>Fonte:</strong> <a href="https://www3.bcb.gov.br/sgspub/localizarseries/localizarSeries.do?method=prepararTelaLocalizarSeries" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline; opacity: 0.8;">Banco Central do Brasil (SGS Série 433)</a>
+                </div>
+            </div>
+        </section>
+
         <!-- NOVO: Bloco Educacional / FAQ (Para SEO e AdSense Quality) -->
         <section class="educational-section" style="margin-top: 3rem; margin-bottom: 2rem;">
             <div class="glass-panel" style="padding: 2.5rem 1.5rem;">
@@ -634,12 +662,13 @@
 
     <!-- Scripts de Lógica e Renderização -->
     <script src="js/news-service.js?v=24" defer></script>
-    <script src="js/ticker.js?v=23" defer></script>
-    <script src="js/calculator.js?v=23" defer></script>
+    <script src="js/ticker.js?v=24" defer></script>
+    <script src="js/calculator.js?v=24" defer></script>
     <script src="js/ui-controller.js?v=15" defer></script>
     <script src="js/gamification.js?v=15" defer></script>
     <!-- <script src="js/commodities.js?v=9" defer></script> -->
-    <script src="js/radar-service.js?v=3" defer></script>
+    <script src="js/radar-service.js?v=4" defer></script>
+    <script src="js/buying-power.js?v=1" defer></script>
 </body>
 
 </html>
