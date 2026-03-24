@@ -9,11 +9,14 @@ jobs:
   update-data:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read  # SEGURANÇA: apenas leitura. O scraper usa GIST_TOKEN separado, nunca escreve no repo.
 
     steps:
       - name: Checkout do Repositório
         uses: actions/checkout@v4
+        with:
+          sparse-checkout: API_Investimento  # Faz checkout apenas da pasta necessária
+          sparse-checkout-cone-mode: true
 
       - name: Configurar Python
         uses: actions/setup-python@v4
@@ -30,3 +33,4 @@ jobs:
           COMMODITY_API_KEY: ${{ secrets.COMMODITY_API_KEY }}
           GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
         run: python API_Investimento/scraper.py
+        continue-on-error: true  # Falha de API externa não deve travar o pipeline

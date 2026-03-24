@@ -205,17 +205,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (btnNewJourney) {
         btnNewJourney.addEventListener('click', () => {
-            // Ação direta e robusta
+            // CORREÇÃO DE SEGURANÇA: Confirmação obrigatória antes de apagar dados
+            // Evita perda acidental de progresso
+            const confirmado = confirm(
+                '⚠️ Atenção: Criar uma nova jornada irá apagar todo o seu progresso atual permanentemente.\n\nDeseja continuar?'
+            );
+            if (!confirmado) return;
+
+            // Limpa o estado do localStorage de forma segura
             localStorage.removeItem(CHAVE_STORAGE);
             state = null;
+
+            // CORREÇÃO: Removido window.location.reload(true) que era perigoso.
+            // O reload forçado (hard-reload) pode, em combinação com Service Workers,
+            // apagar todo o localStorage da origem. Fazemos a limpeza manual do DOM.
+            gridContainer.innerHTML = '<p style="color: var(--text-muted); text-align: center; grid-column: 1 / -1; padding: 2rem;">Configure sua jornada acima para gerar as etapas de depósito.</p>';
+
+            // Zerar as métricas visualmente
+            if (saldoTxt) saldoTxt.textContent = 'R$ 0,00';
+            if (jurosTxt) jurosTxt.textContent = '+ R$ 0,00';
+            if (progressFill) progressFill.style.width = '0%';
+            if (progressStatus) progressStatus.textContent = '0 / 0 depósitos completados';
+
+            // Limpar os inputs de configuração
+            if (inputMeta) inputMeta.value = '10000';
+            if (inputSteps) inputSteps.value = '50';
 
             // Voltar painéis para o Setup
             setupPanel.style.display = 'flex';
             progressBox.style.display = 'none';
             if (actionsPanel) actionsPanel.style.display = 'none';
-
-            // Usando window.location.reload() como garantia brutal de destruição de estado em cache no navegador do usuario
-            window.location.reload(true);
         });
     }
 
