@@ -52,15 +52,15 @@ Este bloco documenta decisões arquiteturais para que eu nunca as repita por des
 *   **Problema:** Site saiu do ar subitamente na virada do dia (13/03) devido ao reset dos servidores DNS para o padrão do Registro.br, resultando em erro `NXDOMAIN`.
 *   **Decisão Exclusiva:** Priorizar o uso do **"Modo Avançado"** no Registro.br, mantendo a zona de DNS sob gestão direta (A pointing to `76.76.21.21`). Esta configuração evita o erro de "Pesquisa Recusada" (QREFUSED) que ocorre na troca de Servidores DNS (NS) quando a Vercel ainda não propagou a autoridade, garantindo uma reconexão instantânea e resiliente a resets silenciosos do registrador.
 
-### ADR-005: Transparência de Inflação (Dual-Source IPCA)
-*   **Data:** 13/Março/2026
-*   **Contexto:** Divergência entre dados oficiais (BCB - Retroativos) e projeções de mercado (HG Brasil - Atuais/Estimados).
-*   **Decisão Exclusiva:** Remover o IPCA do letreiro superior (Ticker) e criar uma exibição dupla no bloco "Ativos em Destaque". Isso separa visualmente a **Inflação Oficial (BCB)** da **Inflação Projetada (HG)**, educando o usuário sobre a diferença entre dados realizados e expectativas de mercado, elevando a autoridade técnica da plataforma.
+### ADR-005: Transparência Absoluta de Inflação (IPCA 12m BCB)
+*   **Data:** Atualizado Março/2026
+*   **Contexto:** O uso de APIs de mercado (como HG Brasil) para buscar o IPCA projetado provou-se ineficaz, pois as versões gratuitas não fornecem o dado, forçando o uso de valores *hardcoded* (falsos/estáticos).
+*   **Decisão Exclusiva:** Erradicação da API HG Brasil. O Radar de Ativos agora busca estritamente o Histórico de 12 Meses (Série 13522) direto do Banco Central e realiza o cálculo de **Juros Compostos do IPCA Acumulado** no próprio front-end. O usuário vê um dado 100% verdadeiro, gratuito e atualizado pela instituição primária do país.
 
-### ADR-006: Blindagem de Chaves via Serverless Proxy (HG Brasil)
-*   **Data:** 13/Março/2026
-*   **Contexto:** A exposição de chaves de API (`HG_KEY`) no frontend é um risco de segurança e exaustão de quota por terceiros.
-*   **Decisão Exclusiva:** Toda API de parceiros com chaves sensíveis deve ser encapsulada em um endpoint Serverless (ex: `/api/hg.js`). O frontend consome apenas a rota interna, enquanto a Vercel gerencia a chave via Variáveis de Ambiente, elevando a segurança para o nível corporativo.
+### ADR-006: Blindagem de Chaves e APIs Gratuitas
+*   **Data:** Atualizado Março/2026
+*   **Contexto:** APIs de bolsas e moedas exigem chaves que geram custo e estouram limites (Ex: `commoditypriceapi.com` gerando Erro 402 - Payment Required).
+*   **Decisão Exclusiva:** Substituição imediata por alternativas de custo-zero e sem chave. O scraper de Python foi migrado para a biblioteca não-oficial `yfinance` do Yahoo Finance. O pipeline GitHub Actions teve suas permissões rebaixadas para `contents: read` para evitar qualquer reescrita acidental do repositório em caso de quebra de script.
 
 ### ADR-007: Estética Premium sem Conflito de Overflow (Clip-Path Masking)
 *   **Data:** 13/Março/2026
@@ -71,6 +71,11 @@ Este bloco documenta decisões arquiteturais para que eu nunca as repita por des
 *   **Data:** 13/Março/2026
 *   **Contexto:** Interfaces estáticas reduzem a percepção de "vida" e precisão em simuladores financeiros.
 *   **Decisão Exclusiva:** Implementação de um motor de interpolação matemática (`animateValue`) para todos os KPIs principais. Os números não "pulam" de um valor para outro; eles "correm" (tweening), gerando um gatilho de satisfação visual e reforçando a qualidade técnica da ferramenta de cálculo.
+
+### ADR-009: Persistência Extrema e Segurança do LocalStorage (PWA Definitivo)
+*   **Data:** 24/Março/2026
+*   **Contexto:** O bug mais crítico da gamificação ("O Somiço do Desafio dos Depósitos") ocorreu pelo uso do comando hostil `window.location.reload(true)` combinado com deploys acidentais do Github Actions. Isso forçava os navegadores a atualizar o Service Worker e expurgar brutalmente o `localStorage` inteiro da origem.
+*   **Decisão Exclusiva:** É terminantemente proibido o uso de hard-reloads via javascript. A deleção de dados agora requer uma trava de segurança (`confirm`) e as repinturas de tela ocorrem puramente via manipulação local do DOM. Além disso, o foco primário para retenção é instruir o usuário educacionalmente a **Instalar o PWA (Adicionar à Tela Inicial)**, isolando os dados de cache num *sandbox* nativo imune a limpezas rotineiras de cookies do browser.
 
 ## Assinatura de Compromisso
 Este é o meu fluxo de trabalho. A partir de agora, o projeto **Trilha dos Juros** será construído estritamente sobre bases sólidas, Cloud Edge de primeiro mundo, seguras e premium. Nada passa sem o selo de qualidade sênior.

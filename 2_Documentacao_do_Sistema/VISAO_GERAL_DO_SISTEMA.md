@@ -29,8 +29,8 @@ O sistema opera em uma estrutura ágil, blindada de gargalos, e otimizada unicam
 *   **Serviço de Notícias Resiliente:** Módulo `news-service.js` busca RSS de portais verificáveis sem engasgar o rendering nativo usando instâncias CORS abertas e fallbacks amigáveis ao invés de proxies locais obsoletos (PHP extirpado).
 
 ### 2.4. Arquitetura de Commodities — "Gist Strategy" (A Grande Muralha)
-*   **Problema Resolvido:** O antigo deploy exigia dependência instável de pipelines FTP lentos que resultavam em `Timeout`.
-*   **Solução Definitiva:** O front-end (`commodities.js`) exibe as commodities valiosas lendo as cotações perfeitamente de um **Gist Público do GitHub**, preenchido em *background* silencioso a cada 1 hora via GitHub Actions e `scraper.py`, isolando a plataforma de qualquer gargalos de taxa de requisição e blindando o front contra quebras de API Profissionais.
+*   **Problema Resolvido:** Serviços de cotações pagos impõem limites de requisição ou custos altos (ex: `commoditypriceapi.com` gerando erro 402).
+*   **Solução Definitiva:** O front-end lê as cotações perfeitamente de um **Gist Público do GitHub**, preenchido em *background* silencioso a cada 1 hora via GitHub Actions e `scraper.py` (consumindo o ecosistema gratuito do **Yahoo Finance**). Isso isola a plataforma de gargalos de taxa de requisição, zera os custos do servidor e blinda o front contra quebras de API de terceiros.
 
 ## 3. Fluxo de Vida Prática de Uso
 1.  **A Atração:** Usuário navega pelo celular (via orgânico Google) atrás de "Quanto rende R$ 1000 na poupança?".
@@ -40,7 +40,7 @@ O sistema opera em uma estrutura ágil, blindada de gargalos, e otimizada unicam
 ## 4. O Marco de Evolução Vercel (Mar/2026)
 1.  **Arquitetura unificada HTML/CSS** (Foco no *Dark Mode Glass*) **[CONCLUÍDO]**
 2.  **Deploy Automático CI/CD** direto para a Nuvem Edge Serverless da Vercel. **[CONCLUÍDO]**
-3.  **Motor de Cotações de Commodities e Moedas** via Scraper Python + GIST Action. **[CONCLUÍDO]**
-4.  **Modernização Estética & Gamificação:** Integração de vídeo 3D de alta fidelidade na Jornada dos Depósitos, contadores animados (KPIs) e efeitos neon de profundidade no simulador. **[NOVO - MAR/26]**
-5.  **Segurança Master:** Migração de chaves HG Brasil para Serverless Proxy (`/api/hg.js`), eliminando chaves expostas no código. **[NOVO - MAR/26]**
-6.  **Auditoria Técnica:** Correção de bugs de interface (tooltip clipping) e adesão total ao padrão *Senior Workflow*. **[CONCLUÍDO]**
+3.  **Motor de Cotações "Cost-Zero":** Scraper Python em Actions via Yahoo Finance (sem chave de API) + GIST Action com permissões de segurança blindadas (`contents: read`). **[MIGRADO]**
+4.  **Modernização Estética & Gamificação:** Integração de vídeo 3D de alta fidelidade na Jornada dos Depósitos, contadores animados (KPIs) e suporte oficial nativo à instalação como **Aplicativo (PWA)** no celular para máxima proteção do cache do usuário. **[NOVO - MAR/26]**
+5.  **Radar de Ativos 100% Oficial:** Migração de APIs irrelevantes/pagas (HG Brasil) para a fonte oficial absoluta de IPCA Acumulado 12 meses (Série 13522 do BCB com juros compostos), zerando dependência de chaves (`SUA_CHAVE_AQUI`). **[NOVO - MAR/26]**
+6.  **Auditoria Técnica Sênior:** Zero perda de dados locais por hard-reloads perigosos, eliminação de memory-leaks e refatoração preventiva de Service Workers. **[CONCLUÍDO]**
