@@ -24,8 +24,8 @@ O sistema opera em uma estrutura ágil, blindada de gargalos, e otimizada unicam
 
 ### 2.3. Cibersegurança e Infraestrutura (A Nuvem Vercel Edge)
 *   **Hospedagem Zero-Config Integrada (Vercel):** Frontend servido via CDN Global ultra-rápida. Subverte atritos antigos do FTP legados (como delays de Hostinger) trazendo deploy em segundos sob Criptografia TLS Let's Encrypt padrão de fábrica.
-*   **Backend Oculto (Serverless):** O sistema isola chamadas propensas a bloqueio corporativo (como a rota do Yahoo Finance) através de uma **função Cloud Node.js** engavetada (`/api/yahoo.js`). Isso blinda o app de proxies não confiáveis e falhas de CORS sem abrir o código-fonte ao público.
-*   **Orquestração de Dados (Ticker Blindado V22):** A integração da barra infinita flutuante (60fps) consulta dados em *pure vanilla DOM Mutation* direto do Banco Central Brasileiro (SGS) em tempo real absoluto, somado às bolsas e criptos na Awesome API.
+*   **Backend Oculto (Serverless) vs Autenticação Domain-Locked:** O sistema isola chamadas propensas a falhas de CORS através de funções Node.js (`/api/yahoo.js`). No entanto, para serviços de alta criticidade e velocidade (como a HG Brasil no Ticker), adotou-se o bypass do Proxy utilizando Chaves Pagas Client-Side bloqueadas inteiramente na origem pelo domínio real (`trilhadosjuros.com.br`), combinando altíssima performance ("zero-latency hop") com segurança corporativa contra sequestro de token.
+*   **Orquestração de Dados (Ticker Blindado V23):** A integração da barra infinita flutuante (60fps) consulta dados em *pure vanilla DOM Mutation* direto do Banco Central Brasileiro (SGS) em tempo real absoluto, somado às bolsas direto pela conexão nativa.
 *   **Serviço de Notícias Resiliente:** Módulo `news-service.js` busca RSS de portais verificáveis sem engasgar o rendering nativo usando instâncias CORS abertas e fallbacks amigáveis ao invés de proxies locais obsoletos (PHP extirpado).
 
 ### 2.4. Arquitetura de Commodities — "Gist Strategy" (A Grande Muralha)

@@ -62,6 +62,11 @@ Este bloco documenta decisões arquiteturais para que eu nunca as repita por des
 *   **Contexto:** APIs de bolsas e moedas exigem chaves que geram custo e estouram limites (Ex: `commoditypriceapi.com` gerando Erro 402 - Payment Required).
 *   **Decisão Exclusiva:** Substituição imediata por alternativas de custo-zero e sem chave. O scraper de Python foi migrado para a biblioteca não-oficial `yfinance` do Yahoo Finance. O pipeline GitHub Actions teve suas permissões rebaixadas para `contents: read` para evitar qualquer reescrita acidental do repositório em caso de quebra de script.
 
+### ADR-010: Carga Direta Premium HG Brasil (Domain Locked)
+*   **Data:** 24/Março/2026
+*   **Contexto:** Originalmente, o plano era usar um proxy Serverless (`/api/hg`) para proteger a chave da HG Brasil. No entanto, o usuário adquiriu um plano Premium com chave exclusiva (`cce1a3d7`) configurada com restrição obrigatória de origem de domínio (`trilhadosjuros.com.br`).
+*   **Decisão Exclusiva:** Como a chave é bloqueada no servidor deles para qualquer tentativa que não venha do nosso domínio, a proteção via Proxy Serverless tornou-se redundante. O Ticker de Mercado agora realiza o fetch diretamente do Client-Side. Isso remove a repetição de latência do intermediário (Vercel Node.js) e acelera drasticamente a exibição das moedas e Ibovespa no boot inicial.
+
 ### ADR-007: Estética Premium sem Conflito de Overflow (Clip-Path Masking)
 *   **Data:** 13/Março/2026
 *   **Contexto:** O uso de `overflow: hidden` para conter efeitos de brilho (*shine*) impedia a exibição de tooltips externos e balões de informação.
