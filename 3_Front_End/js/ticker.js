@@ -77,9 +77,10 @@ document.addEventListener('DOMContentLoaded', () => {
         let hgData = null;
         const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
-        // 1. Tentar HG Brasil como fonte primária para IBOV e Moedas (via Vercel Proxy)
+        // 1. Tentar HG Brasil como fonte primária para IBOV e Moedas (usando a Chave Client-Side do Usuário)
         try {
-            const hgUrl = isLocal ? 'https://api.hgbrasil.com/finance?key=SUA_CHAVE_AQUI&format=json-cors' : '/api/hg';
+            // Chave bloqueada para uso em trilhadosjuros.com.br
+            const hgUrl = 'https://api.hgbrasil.com/finance?key=cce1a3d7&format=json-cors';
             const hgResponse = await fetch(hgUrl);
             if (hgResponse.ok) {
                 hgData = await hgResponse.json();
