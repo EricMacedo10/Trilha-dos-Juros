@@ -223,7 +223,8 @@
     border-radius: var(--radius-md);
     padding: 1rem;
     position: absolute;
-    z-index: 1001; /* Fica acima do z-index 100 dos cards vizinhos */
+    z-index: 1001;
+    /* Fica acima do z-index 100 dos cards vizinhos */
     top: 150%;
     left: 50%;
     transform: translateX(-50%) translateY(-10px);
@@ -701,7 +702,8 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0.5rem;
-    min-height: 120px; /* Evita que o painel colapse enquanto sincroniza */
+    min-height: 120px;
+    /* Evita que o painel colapse enquanto sincroniza */
 }
 
 .commodity-mini-card {
@@ -856,7 +858,8 @@
     color: var(--text-muted);
     font-size: 0.9rem;
     line-height: 1.6;
-    margin: 0; border-top: 1px solid transparent; 
+    margin: 0;
+    border-top: 1px solid transparent;
 }
 
 /* Estado Ativo: */
@@ -876,13 +879,15 @@
 }
 
 .faq-item.active .faq-answer {
-    max-height: 500px; /* Suficientemente grande para o texto caber */
+    max-height: 500px;
+    /* Suficientemente grande para o texto caber */
 }
 
 .faq-item.active .faq-answer p {
     border-top: 1px solid rgba(255, 255, 255, 0.05);
     padding-top: 1rem;
 }
+
 /* Monitor de Poder de Compra Real (Vistoso / Premium) */
 .buying-power-area {
     margin-top: 2rem;
@@ -906,43 +911,43 @@
     z-index: 0;
 }
 
-.buying-power-area::after {
-    content: "";
+.buying-power-video {
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 60.6%;
+    left: 54%;
     width: 100%;
     height: 100%;
+    object-fit: cover;
     transform: translate(-50%, -50%);
-    background-image: url('../assets/bill-full-neon.png');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    opacity: 0.22;
+    opacity: 0.69;
+    /* Sutil para não atrapalhar o gráfico */
     pointer-events: none;
     z-index: 0;
-    /* Soft Neon Glow Filter */
-    filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.3)) saturate(1.4);
+    /* Sombreamento Neon correspondendo à identidade visual */
+    filter: drop-shadow(0 0 15px rgba(16, 185, 129, 0.4)) saturate(1.9);
 }
+
 
 .buying-power-header {
     display: flex;
-    flex-direction: column; /* Coloca os elementos em coluna para centralizar tudo */
+    flex-direction: column;
+    /* Coloca os elementos em coluna para centralizar tudo */
     align-items: center;
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 0.9rem;
     position: relative;
     z-index: 1;
 }
 
 .buying-power-title h3 {
     font-size: clamp(1.3rem, 4vw, 1.75rem);
-    margin-top: -0.5rem;
+    margin-top: 0.4rem;
     margin-bottom: 0.5rem;
     color: var(--text-main);
     display: flex;
     align-items: center;
-    justify-content: center; /* Centraliza o conteúdo do flex (ícone + texto) */
+    justify-content: center;
+    /* Centraliza o conteúdo do flex (ícone + texto) */
     gap: 0.75rem;
 }
 
@@ -953,16 +958,19 @@
 .buying-power-title p {
     color: var(--text-muted);
     font-size: 0.95rem;
-    max-width: 650px; /* Aumentado para preencher melhor o centro */
+    max-width: 650px;
+    /* Aumentado para preencher melhor o centro */
     line-height: 1.5;
-    margin: 0 auto 1.5rem; /* Centraliza o bloco e dá espaço para os stats abaixo */
+    margin: 1 auto 1.5rem;
+    /* Centraliza o bloco e dá espaço para os stats abaixo */
 }
 
 .buying-power-stats {
     display: flex;
     gap: 2rem;
-    text-align: center; /* Centraliza os textos internos dos stats */
-    margin-top: 0rem; 
+    text-align: center;
+    /* Centraliza os textos internos dos stats */
+    margin-top: 1rem;
 }
 
 .bp-stat {
@@ -998,7 +1006,8 @@
     width: 100%;
     position: relative;
     z-index: 1;
-    background: rgba(0, 0, 0, 0.4); /* Escurecido para destacar o brilho */
+    background: rgba(0, 0, 0, 0.4);
+    /* Escurecido para destacar o brilho */
     border-radius: var(--radius-md);
     padding: 1.5rem;
     border: 1px solid rgba(16, 185, 129, 0.1);
@@ -1016,31 +1025,37 @@
     left: -150%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(16, 185, 129, 0.05),
-        transparent
-    );
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(16, 185, 129, 0.05),
+            transparent);
     animation: chart-shimmer 8s infinite linear;
     z-index: 0;
     pointer-events: none;
 }
 
 @keyframes chart-breathing {
-    0%, 100% { 
+
+    0%,
+    100% {
         border-color: rgba(16, 185, 129, 0.1);
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
     }
-    50% { 
+
+    50% {
         border-color: rgba(16, 185, 129, 0.3);
         box-shadow: 0 0 40px rgba(16, 185, 129, 0.1);
     }
 }
 
 @keyframes chart-shimmer {
-    0% { left: -150%; }
-    100% { left: 150%; }
+    0% {
+        left: -150%;
+    }
+
+    100% {
+        left: 150%;
+    }
 }
 
 @media (max-width: 768px) {
@@ -1049,11 +1064,13 @@
         align-items: flex-start;
         gap: 1.5rem;
     }
+
     .buying-power-stats {
         width: 100%;
         justify-content: space-between;
         text-align: left;
     }
+
     .buying-power-area {
         padding: 1.5rem;
     }
