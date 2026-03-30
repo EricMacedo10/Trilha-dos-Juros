@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { symbol: "PETR4", value: "Aguardando...", status: "neutral" },
         { symbol: "VALE3", value: "Aguardando...", status: "neutral" },
         { symbol: "ITUB4", value: "Aguardando...", status: "neutral" },
-        { symbol: "IPCA (Focus)", value: "4.10%", status: "neutral" }
+        { symbol: "IPCA (Focus)", value: "4.102%", status: "neutral" }
     ];
 
     // Função Pura para Atualizar um Node Específico Sem Quebrar a Animação
@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
             updateTickerNode("CDI", `${taxasReais.cdi.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}%`, "neutral");
         }
         if (taxasReais.ipcaProjetado) {
-            updateTickerNode("IPCA (Focus)", `${taxasReais.ipcaProjetado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}%`, "neutral");
+            updateTickerNode("IPCA (Focus)", `${taxasReais.ipcaProjetado.toLocaleString('pt-BR', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}%`, "neutral");
         }
     });
 

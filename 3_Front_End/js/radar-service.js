@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (rates.ipcaProjetado) {
             const ipcaFocusAtivo = ativosData.find(a => a.id === 'IPCA_FOCUS');
             if (ipcaFocusAtivo) {
-                ipcaFocusAtivo.price = `${rates.ipcaProjetado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}%`;
+                ipcaFocusAtivo.price = `${rates.ipcaProjetado.toLocaleString('pt-BR', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}%`;
                 ipcaFocusAtivo.change = 0;
             }
         }
