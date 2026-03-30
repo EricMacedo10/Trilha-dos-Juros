@@ -20,20 +20,23 @@ const FinMath = (function () {
             const endpoints = {
                 selic: 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados/ultimos/1?formato=json',
                 cdi: 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.4389/dados/ultimos/1?formato=json',
-                ipca: 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.433/dados/ultimos/1?formato=json' // Mensal
+                ipcaMensal: 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.433/dados/ultimos/1?formato=json',
+                ipca12m: 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.13522/dados/ultimos/1?formato=json'
             };
 
             // Usamos Promise.allSettled para garantir que uma falha no IPCA não quebre a Selic/CDI
-            const [selicRes, cdiRes, ipcaRes] = await Promise.allSettled([
+            const [selicRes, cdiRes, ipcaMensalRes, ipca12mRes] = await Promise.allSettled([
                 fetch(endpoints.selic).then(r => r.ok ? r.json() : null),
                 fetch(endpoints.cdi).then(r => r.ok ? r.json() : null),
-                fetch(endpoints.ipca).then(r => r.ok ? r.json() : null)
+                fetch(endpoints.ipcaMensal).then(r => r.ok ? r.json() : null),
+                fetch(endpoints.ipca12m).then(r => r.ok ? r.json() : null)
             ]);
 
             let realData = {
                 selic: SELIC_ANUAL_DEFAULT,
                 cdi: CDI_ANUAL_DEFAULT,
-                ipca: 3.81 // IPCA Acumulado Real (Fev/2026 divulgado pelo IBGE)
+                ipcaMensal: 0.83, // Fallback (Fev/2026)
+                ipca12m: 3.81 // IPCA Acumulado Real (Fev/2026 divulgado pelo IBGE)
             };
 
             if (selicRes.status === 'fulfilled' && selicRes.value && selicRes.value.length > 0) {
@@ -46,21 +49,29 @@ const FinMath = (function () {
             realData.cdi = Math.max(0, realData.selic - 0.10);
             CDI_ANUAL_DEFAULT = realData.cdi;
 
-            if (ipcaRes.status === 'fulfilled' && ipcaRes.value && ipcaRes.value.length > 0) {
-                realData.ipca = parseFloat(ipcaRes.value[0].valor);
+            if (ipcaMensalRes.status === 'fulfilled' && ipcaMonthlyVal(ipcaMensalRes.value)) {
+                realData.ipcaMensal = parseFloat(ipcaMensalRes.value[0].valor);
             }
+
+            if (ipca12mRes.status === 'fulfilled' && ipca12mRes.value && ipca12mRes.value.length > 0) {
+                realData.ipca12m = parseFloat(ipca12mRes.value[0].valor);
+            }
+
+            // Função extra para garantir valor do IPCA mensal
+            function ipcaMonthlyVal(val) { return val && val.length > 0; }
 
             // Atualiza poupança baseada na nova Selic (Regra Pós-2012)
             POUPANCA_ANUAL = SELIC_ANUAL_DEFAULT > 8.5 ? 6.17 : (SELIC_ANUAL_DEFAULT * 0.7);
 
-            console.log(`[Trilha dos Juros] Indicadores BCB sintonizados: Selic ${realData.selic}% | CDI ${realData.cdi}% | IPCA ${realData.ipca}%`);
+            console.log(`[Trilha dos Juros] Indicadores BCB sintonizados: Selic ${realData.selic}% | CDI ${realData.cdi}% | IPCA 12m ${realData.ipca12m}%`);
 
             // Dispara evento global para o Ticker e UI
             document.dispatchEvent(new CustomEvent('ratesLoaded', {
                 detail: {
                     selic: realData.selic,
                     cdi: realData.cdi,
-                    ipca: realData.ipca
+                    ipca: realData.ipca12m, // Mantido para compatibilidade com o Ticker (que usa .ipca)
+                    ipcaMensal: realData.ipcaMensal
                 }
             }));
 

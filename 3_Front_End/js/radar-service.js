@@ -58,14 +58,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // Sintoniza com o Banco Central via calculator.js para o IPCA Mensal Oficial
     document.addEventListener('ratesLoaded', (e) => {
         const rates = e.detail;
-        if (rates.ipca) {
+        
+        // 1. IPCA Mensal (Série 433)
+        if (rates.ipcaMensal) {
             const bcAtivo = ativosData.find(a => a.id === 'IPCA_BC');
             if (bcAtivo) {
-                bcAtivo.price = `${rates.ipca.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}%`;
+                bcAtivo.price = `${rates.ipcaMensal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}%`;
                 bcAtivo.change = 0;
-                renderRadar();
             }
         }
+
+        // 2. IPCA 12 meses (Série 13522)
+        if (rates.ipca) {
+            const ipca12Ativo = ativosData.find(a => a.id === 'IPCA_12');
+            if (ipca12Ativo) {
+                ipca12Ativo.price = `${rates.ipca.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}%`;
+                ipca12Ativo.change = 0;
+            }
+        }
+
+        renderRadar();
     });
 
     // Helper para verificar se está rodando localmente (inclui protocolo file://)
