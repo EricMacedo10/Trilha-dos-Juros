@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const ativosData = [
         { id: 'BTC',     name: 'Bitcoin (BTC)',      type: 'crypto', icon: 'ph-currency-btc',           price: '...', change: 0, isFeatured: true },
         { id: 'IPCA_BC', name: 'IPCA Mensal (BCB)',  type: 'rate',   icon: 'ph-bank',                   price: '...', change: 0, isFeatured: false, subtitle: 'Último divulgado' },
-        { id: 'IPCA_12', name: 'IPCA 12 meses',      type: 'rate',   icon: 'ph-chart-line-up',          price: '...', change: 0, isFeatured: false, subtitle: 'Acumulado BCB' },
+        { id: 'IPCA_FOCUS', name: 'IPCA (Focus 12m)', type: 'rate',   icon: 'ph-chart-line-up',          price: '...', change: 0, isFeatured: false, subtitle: 'Expectativa Mercado' },
         { id: 'COMPRA',  name: 'Real em 1994',       type: 'rate',   icon: 'ph-currency-circle-dollar', price: '...', change: 0, isFeatured: false, subtitle: 'Poder de Compra' },
         { id: 'PETR4',   name: 'Petrobras',          type: 'stock',  icon: 'ph-gas-pump',               price: '...', change: 0, isFeatured: false },
         { id: 'VALE3',   name: 'Vale',               type: 'stock',  icon: 'ph-mountains',              price: '...', change: 0, isFeatured: false },
@@ -68,12 +68,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // 2. IPCA 12 meses (Série 13522)
-        if (rates.ipca) {
-            const ipca12Ativo = ativosData.find(a => a.id === 'IPCA_12');
-            if (ipca12Ativo) {
-                ipca12Ativo.price = `${rates.ipca.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}%`;
-                ipca12Ativo.change = 0;
+        // 2. IPCA Focus 12 meses (Olinda)
+        if (rates.ipcaProjetado) {
+            const ipcaFocusAtivo = ativosData.find(a => a.id === 'IPCA_FOCUS');
+            if (ipcaFocusAtivo) {
+                ipcaFocusAtivo.price = `${rates.ipcaProjetado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}%`;
+                ipcaFocusAtivo.change = 0;
             }
         }
 
@@ -84,26 +84,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname === '';
 
     async function fetchRadarData() {
-        // 1. IPCA Acumulado 12 meses — BCB Série 13522 (gratuito, sem chave, sempre real)
-        // A série 13522 JÁ É o IPCA Acumulado (Anualizado), não podemos aplicar juros compostos em cima dela!
-        try {
-            const ipcaUrl = 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.13522/dados/ultimos/1?formato=json';
-            const ipcaRes = await fetch(ipcaUrl);
-            if (ipcaRes.ok) {
-                const ipcaData = await ipcaRes.json();
-                if (Array.isArray(ipcaData) && ipcaData.length > 0) {
-                    const ipcaAcumulado = parseFloat(ipcaData[0].valor);
-
-                    const ipca12Ativo = ativosData.find(a => a.id === 'IPCA_12');
-                    if (ipca12Ativo) {
-                        ipca12Ativo.price = `${ipcaAcumulado.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`;
-                        ipca12Ativo.change = 0;
-                    }
-                }
-            }
-        } catch (e) {
-            console.warn('[Radar] Erro ao buscar IPCA 12m do BCB.', e);
-        }
+        // 1. O IPCA Focus já chega via evento ratesLoaded() do calculator.js
+        // Evitamos requisições duplicadas.
 
         // 1.1 Poder de Compra Histórico (Real desde 1994) — BCB Série 433 (Calculado)
         try {

@@ -21,22 +21,25 @@ const FinMath = (function () {
                 selic: 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.432/dados/ultimos/1?formato=json',
                 cdi: 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.4389/dados/ultimos/1?formato=json',
                 ipcaMensal: 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.433/dados/ultimos/1?formato=json',
-                ipca12m: 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.13522/dados/ultimos/1?formato=json'
+                ipca12m: 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.13522/dados/ultimos/1?formato=json',
+                ipcaFocus: "https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/odata/ExpectativasMercadoInflacao12Meses?$filter=Indicador%20eq%20'IPCA'%20and%20Suavizada%20eq%20'S'&$orderby=Data%20desc&$top=1&$format=json"
             };
 
-            // Usamos Promise.allSettled para garantir que uma falha no IPCA não quebre a Selic/CDI
-            const [selicRes, cdiRes, ipcaMensalRes, ipca12mRes] = await Promise.allSettled([
+            // Usamos Promise.allSettled para garantir resiliência
+            const [selicRes, cdiRes, ipcaMensalRes, ipca12mRes, ipcaFocusRes] = await Promise.allSettled([
                 fetch(endpoints.selic).then(r => r.ok ? r.json() : null),
                 fetch(endpoints.cdi).then(r => r.ok ? r.json() : null),
                 fetch(endpoints.ipcaMensal).then(r => r.ok ? r.json() : null),
-                fetch(endpoints.ipca12m).then(r => r.ok ? r.json() : null)
+                fetch(endpoints.ipca12m).then(r => r.ok ? r.json() : null),
+                fetch(endpoints.ipcaFocus).then(r => r.ok ? r.json() : null)
             ]);
 
             let realData = {
                 selic: SELIC_ANUAL_DEFAULT,
                 cdi: CDI_ANUAL_DEFAULT,
                 ipcaMensal: 0.83, // Fallback (Fev/2026)
-                ipca12m: 3.81 // IPCA Acumulado Real (Fev/2026 divulgado pelo IBGE)
+                ipca12m: 3.81, // IPCA Acumulado Real (Fev/2026 divulgado pelo IBGE)
+                ipcaProjetado: 4.10 // Expectativa Focus 12m suavizada
             };
 
             if (selicRes.status === 'fulfilled' && selicRes.value && selicRes.value.length > 0) {
@@ -57,21 +60,27 @@ const FinMath = (function () {
                 realData.ipca12m = parseFloat(ipca12mRes.value[0].valor);
             }
 
+            if (ipcaFocusRes.status === 'fulfilled' && ipcaFocusRes.value && ipcaFocusRes.value.value && ipcaFocusRes.value.value.length > 0) {
+                // Focus API retorna a mediana na chave "Mediana" dentro de "value"
+                realData.ipcaProjetado = parseFloat(ipcaFocusRes.value.value[0].Mediana);
+            }
+
             // Função extra para garantir valor do IPCA mensal
             function ipcaMonthlyVal(val) { return val && val.length > 0; }
 
             // Atualiza poupança baseada na nova Selic (Regra Pós-2012)
             POUPANCA_ANUAL = SELIC_ANUAL_DEFAULT > 8.5 ? 6.17 : (SELIC_ANUAL_DEFAULT * 0.7);
 
-            console.log(`[Trilha dos Juros] Indicadores BCB sintonizados: Selic ${realData.selic}% | CDI ${realData.cdi}% | IPCA 12m ${realData.ipca12m}%`);
+            console.log(`[Trilha dos Juros] Indicadores BCB sintonizados: Selic ${realData.selic}% | CDI ${realData.cdi}% | IPCA 12m ${realData.ipca12m}% | IPCA Focus ${realData.ipcaProjetado}%`);
 
             // Dispara evento global para o Ticker e UI
             document.dispatchEvent(new CustomEvent('ratesLoaded', {
                 detail: {
                     selic: realData.selic,
                     cdi: realData.cdi,
-                    ipca: realData.ipca12m, // Mantido para compatibilidade com o Ticker (que usa .ipca)
-                    ipcaMensal: realData.ipcaMensal
+                    ipca: realData.ipca12m, // Realizado 12m
+                    ipcaMensal: realData.ipcaMensal, // Realizado 1 mês
+                    ipcaProjetado: realData.ipcaProjetado // Projeção Focus 12m (Suavizada)
                 }
             }));
 
