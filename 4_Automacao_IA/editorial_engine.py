@@ -142,15 +142,22 @@ def main():
 
     # Gera Morning Call
     morning_call = generate_editorial(news_context, mode="morning")
+    if morning_call:
+        morning_call["date"] = datetime.now().strftime("%d/%m/%Y • 08:30h")
+        
     # Gera Resumo do Dia
     evening_call = generate_editorial(news_context, mode="evening")
+    if evening_call:
+        evening_call["date"] = datetime.now().strftime("%d/%m/%Y • 18:00h")
+        
     # Gera Pílula de Conhecimento (Termo do Dia)
     daily_term = generate_educational_pill(news_context)
     
     feed_data = {
         "morning": morning_call,
         "evening": evening_call,
-        "daily_term": daily_term
+        "daily_term": daily_term,
+        "last_update": datetime.now().isoformat()
     }
     
     # Salva no diretório do Front-End (Ambiente de Produção Oficial)

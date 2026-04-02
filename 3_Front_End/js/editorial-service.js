@@ -5,7 +5,8 @@
 const EditorialService = {
     async loadFeed() {
         try {
-            const response = await fetch('editorial_feed.json');
+            // Adiciona timestamp para evitar cache do navegador no editorial_feed.json
+            const response = await fetch('editorial_feed.json?v=' + new Date().getTime());
             if (!response.ok) throw new Error('Falha no carregamento do feed editorial.');
             const data = await response.json();
             this.renderFeed(data);
