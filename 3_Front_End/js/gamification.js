@@ -25,9 +25,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Referências do Slider de Yield (CDI)
     const yieldSlider = document.getElementById('chal-yield-slider');
-    const yieldSliderActive = document.getElementById('chal-yield-slider-active'); // Slider dinâmico
+    const yieldSliderActive = document.getElementById('chal-yield-slider-active');
     const yieldDisplay = document.getElementById('chal-yield-display');
     const yieldCurrent = document.getElementById('chal-yield-current');
+    const yieldLabelVal = document.getElementById('yield-label-val'); // Label KPI "Ganhos Passivos"
 
     const CHAVE_STORAGE = '@trilha_juros_jornada_v2';
     
@@ -37,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (yieldSliderActive) yieldSliderActive.value = val;
         if (yieldDisplay) yieldDisplay.textContent = `${val}%`;
         if (yieldCurrent) yieldCurrent.textContent = `${val}%`;
+        if (yieldLabelVal) yieldLabelVal.textContent = val;
     }
 
     // Estado da Aplicação
@@ -75,11 +77,27 @@ document.addEventListener('DOMContentLoaded', () => {
         const N = state.etapas;
         const M = state.metaFinal;
 
-        // Progressão Aritmética
-        // Soma S = N * (N + 1) / 2
-        // Base U = M / S
-        const S = (N * (N + 1)) / 2;
-        const U = M / S;
+        /**
+         * Calcula o valor unitário (U) ajustado por juros compostos
+         * Para que Sum( (i*U) * (1+r)^(N-i) ) = Meta
+         */
+        const calculateBaseUnit = (M, N, yieldCdi) => {
+            const rates = FinMath.getRates();
+            const yieldFactor = (yieldCdi || 100) / 100;
+            const cdiAnual = rates.cdi * yieldFactor;
+            const r = FinMath.toMonthlyRate(cdiAnual); // Taxa periódica
+            
+            if (r <= 0) return M / ((N * (N + 1)) / 2);
+
+            let sumFactor = 0;
+            for (let i = 1; i <= N; i++) {
+                sumFactor += i * Math.pow(1 + r, N - i);
+            }
+            return M / sumFactor;
+        };
+
+        // Base unitária U considerando o CDI escolhido
+        const U = calculateBaseUnit(M, N, state.yieldCdi || 100);
 
         let somaReal = 0;
         let valorEnvelope = [];
@@ -128,9 +146,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (actionsPanel) actionsPanel.style.display = 'flex';
         displayMeta.textContent = M.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         
-        // Atualiza o display da taxa no box de progresso
-        if (yieldCurrent) yieldCurrent.textContent = `${state.yieldCdi || 100}%`;
-        if (yieldSliderActive) yieldSliderActive.value = state.yieldCdi || 100;
+        // Atualiza UI de taxa
+        syncYieldUI(state.yieldCdi || 100);
     }
 
     function toggleEnvelope(index, elemento, valorGanhado) {
@@ -194,6 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (state) {
             state.yieldCdi = parseInt(val);
             salvarEstado();
+            renderGrid(); // Recalcula os envelopes em tempo real ao mexer no slider
         }
     };
 
