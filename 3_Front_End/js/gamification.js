@@ -23,7 +23,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnStart = document.getElementById('btn-start-journey');
     const displayMeta = document.getElementById('chal-display-meta');
 
+    // Referências do Slider de Yield (CDI)
+    const yieldSlider = document.getElementById('chal-yield-slider');
+    const yieldSliderActive = document.getElementById('chal-yield-slider-active'); // Slider dinâmico
+    const yieldDisplay = document.getElementById('chal-yield-display');
+    const yieldCurrent = document.getElementById('chal-yield-current');
+
     const CHAVE_STORAGE = '@trilha_juros_jornada_v2';
+    
+    // Função auxiliar para sincronizar todos os displays de taxa
+    function syncYieldUI(val) {
+        if (yieldSlider) yieldSlider.value = val;
+        if (yieldSliderActive) yieldSliderActive.value = val;
+        if (yieldDisplay) yieldDisplay.textContent = `${val}%`;
+        if (yieldCurrent) yieldCurrent.textContent = `${val}%`;
+    }
 
     // Estado da Aplicação
     let state = carregarEstado();
@@ -32,7 +46,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const salvo = localStorage.getItem(CHAVE_STORAGE);
         if (salvo) {
             try {
-                return JSON.parse(salvo);
+                const parsed = JSON.parse(salvo);
+                // Migração: se não tem yield definido (usuário antigo), define 100%
+                if (!parsed.yieldCdi) parsed.yieldCdi = 100;
+                return parsed;
             } catch (e) {
                 return null;
             }
@@ -110,6 +127,10 @@ document.addEventListener('DOMContentLoaded', () => {
         progressBox.style.display = 'flex';
         if (actionsPanel) actionsPanel.style.display = 'flex';
         displayMeta.textContent = M.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        
+        // Atualiza o display da taxa no box de progresso
+        if (yieldCurrent) yieldCurrent.textContent = `${state.yieldCdi || 100}%`;
+        if (yieldSliderActive) yieldSliderActive.value = state.yieldCdi || 100;
     }
 
     function toggleEnvelope(index, elemento, valorGanhado) {
@@ -135,7 +156,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function calcularGanhosEstimados(valorCaixa) {
         // Busca o CDI real do motor matemático (FinMath)
         const rates = FinMath.getRates();
-        const cdiAnual = rates.cdi;
+        const yieldFactor = (state.yieldCdi || 100) / 100;
+        const cdiAnual = rates.cdi * yieldFactor;
 
         // Converte taxa anual para mensal de forma exata (Juros Compostos)
         const taxaMensal = FinMath.toMonthlyRate(cdiAnual);
@@ -165,27 +187,33 @@ document.addEventListener('DOMContentLoaded', () => {
         jurosTxt.textContent = `+ R$ ${rendimentoMes.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     }
 
+    // Listeners dos Sliders de Rendimento
+    const handleYieldInput = (e) => {
+        const val = e.target.value;
+        syncYieldUI(val);
+        if (state) {
+            state.yieldCdi = parseInt(val);
+            salvarEstado();
+        }
+    };
+
+    if (yieldSlider) yieldSlider.addEventListener('input', handleYieldInput);
+    if (yieldSliderActive) yieldSliderActive.addEventListener('input', handleYieldInput);
+
     btnStart.addEventListener('click', () => {
         const meta = parseFloat(inputMeta.value);
         const etapas = parseInt(inputSteps.value);
+        const yieldVal = yieldSlider ? parseInt(yieldSlider.value) : 100;
 
         if (isNaN(meta) || isNaN(etapas) || meta < 1 || etapas < 1) {
             alert("Por favor, preencha valores válidos para Meta e Etapas.");
             return;
         }
 
-        // Disparo do Evento para o Google Analytics
-        if (typeof gtag !== 'undefined') {
-            gtag('event', 'started_journey', {
-                'event_category': 'Gamification',
-                'event_label': `Meta: ${meta} / Etapas: ${etapas}`,
-                'value': meta
-            });
-        }
-
         state = {
             metaFinal: meta,
             etapas: etapas,
+            yieldCdi: yieldVal,
             caixa: 0,
             envelopesCompletos: []
         };
@@ -196,7 +224,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     btnReset.addEventListener('click', () => {
         if (!state) return;
-        // Removido confirm() pois o Chrome silencia popups em locahost/file local caso o usuário tenha marcado "Não exibir novamente".
+        const confirmado = confirm('Deseja zerar todos os depósitos marcados? O saldo voltará para R$ 0,00.');
+        if (!confirmado) return;
+
         state.caixa = 0;
         state.envelopesCompletos = [];
         salvarEstado();
@@ -205,44 +235,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (btnNewJourney) {
         btnNewJourney.addEventListener('click', () => {
-            // CORREÇÃO DE SEGURANÇA: Confirmação obrigatória antes de apagar dados
-            // Evita perda acidental de progresso
             const confirmado = confirm(
                 '⚠️ Atenção: Criar uma nova jornada irá apagar todo o seu progresso atual permanentemente.\n\nDeseja continuar?'
             );
             if (!confirmado) return;
 
-            // Limpa o estado do localStorage de forma segura
             localStorage.removeItem(CHAVE_STORAGE);
             state = null;
-
-            // CORREÇÃO: Removido window.location.reload(true) que era perigoso.
-            // O reload forçado (hard-reload) pode, em combinação com Service Workers,
-            // apagar todo o localStorage da origem. Fazemos a limpeza manual do DOM.
-            gridContainer.innerHTML = '<p style="color: var(--text-muted); text-align: center; grid-column: 1 / -1; padding: 2rem;">Configure sua jornada acima para gerar as etapas de depósito.</p>';
-
-            // Zerar as métricas visualmente
-            if (saldoTxt) saldoTxt.textContent = 'R$ 0,00';
-            if (jurosTxt) jurosTxt.textContent = '+ R$ 0,00';
-            if (progressFill) progressFill.style.width = '0%';
-            if (progressStatus) progressStatus.textContent = '0 / 0 depósitos completados';
-
-            // Limpar os inputs de configuração
-            if (inputMeta) inputMeta.value = '10000';
-            if (inputSteps) inputSteps.value = '50';
-
-            // Voltar painéis para o Setup
+            
+            // Força a volta para o painel de setup
+            renderGrid(); // Irá cair no bloco if(!state)
+            
             setupPanel.style.display = 'flex';
             progressBox.style.display = 'none';
             if (actionsPanel) actionsPanel.style.display = 'none';
+            
+            atualizarMetricas();
         });
     }
 
     // Boot
     if (state) {
-        setupPanel.style.display = 'none';
-        progressBox.style.display = 'flex';
-        if (actionsPanel) actionsPanel.style.display = 'flex';
+        syncYieldUI(state.yieldCdi || 100);
         renderGrid();
         atualizarMetricas();
     }

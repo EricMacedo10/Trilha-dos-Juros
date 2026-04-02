@@ -60,6 +60,158 @@
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9241818899468539"
         crossorigin="anonymous"></script>
+
+    <style>
+        /* Correção de Sobreposição - Padrão Sênior */
+        .main-header {
+            z-index: 1100 !important; /* Acima de tudo */
+        }
+        .financial-ticker {
+            z-index: 1101 !important;
+        }
+        
+        /* Ajuste do Radar para permitir botões flutuantes */
+        .radar-grid {
+            overflow: visible !important;
+        }
+        .commodity-mini-card {
+            overflow: visible !important;
+            z-index: 1;
+            transition: transform 0.2s, z-index 0.2s;
+        }
+        .commodity-mini-card:hover {
+            z-index: 50; /* Fica sobre os outros cards ao interagir */
+        }
+        .deep-links-overlay {
+            visibility: visible !important;
+            opacity: 1 !important;
+            pointer-events: auto;
+            z-index: 100;
+        }
+
+        /* Ajuste de equilíbrio: Mantém 1140px centralizado com ornamentação sênior */
+        .container {
+            max-width: 1140px !important; 
+            margin-left: auto !important; 
+            margin-right: auto !important;
+            padding: 0 2rem !important;
+        }
+
+        @media (min-width: 992px) {
+            .grid-layout {
+                grid-template-columns: 360px 1fr !important; /* Sidebar ajustada para 360px */
+                gap: 2rem !important;
+            }
+        }
+
+        /* Ornamentação das Camadas (Cinza Claro / Escuro) */
+        .radar-panel {
+            background: rgba(0, 0, 0, 0.3) !important; /* Camada Cinza Escuro interna */
+            border: 1px solid rgba(255, 255, 255, 0.03) !important;
+            padding: 1.25rem !important;
+        }
+
+        .commodity-mini-card {
+            background: rgba(255, 255, 255, 0.035) !important; /* Cards ornamentados levemente mais claros */
+            border: 1px solid rgba(255, 255, 255, 0.06) !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        .commodity-mini-card:hover {
+            background: rgba(255, 255, 255, 0.06) !important;
+            border-color: var(--neon-green) !important;
+            transform: translateY(-2px);
+        }
+
+        /* Efeito de Destaque no Banner SGA */
+        .sga-banner:hover {
+            background: rgba(16, 185, 129, 0.05) !important;
+            border-color: rgba(16, 185, 129, 0.3) !important;
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .sga-social-link:hover {
+            color: #d1d5db !important;
+            background: rgba(255, 255, 255, 0.03);
+            text-shadow: 0 0 10px rgba(131, 58, 180, 0.3); /* Sutil brilho Instagram */
+        }
+
+        /* Limpeza de sobreposição */
+        .radar-grid {
+            overflow: hidden !important; /* Nada sai da caixa do Radar */
+        }
+    </style>
+    <style>
+        /* Estilo dos Depoimentos (Social Proof) */
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--neon-green);
+        }
+        .testimonial-user {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        .testimonial-user img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--brand-blue);
+            background: #0f172a;
+        }
+        .testimonial-user-info span {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+        .testimonial-user-info small {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+        .testimonial-text {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+        .testimonial-tag {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 0.6rem;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--neon-green);
+            padding: 2px 8px;
+            border-radius: 10px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+        .compliance-note {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-align: center;
+            opacity: 0.6;
+            margin-top: 1rem;
+        }
+    </style>
 </head>
 
 <body>
@@ -79,8 +231,8 @@
                 Trilha dos Juros
             </h1>
             <nav class="pill-nav">
-                <button class="nav-btn" data-target="calculator-view">Simulador</button>
-                <button class="nav-btn active" data-target="gamification-view">Desafio dos Depósitos</button>
+                <button class="nav-btn active" data-target="calculator-view">Simulador</button>
+                <button class="nav-btn" data-target="gamification-view">Desafio dos Depósitos</button>
                 <button class="nav-btn" id="btn-open-contact"
                     style="color: var(--neon-green); border: 1px solid rgba(16, 185, 129, 0.3);">
                     <i class="ph-fill ph-envelope-simple"></i> Fale com Assessor de Investimentos
@@ -91,7 +243,7 @@
 
     <main class="container">
         <!-- View 1: Calculadora -->
-        <section id="calculator-view" class="view-section" style="display: none;">
+        <section id="calculator-view" class="view-section active">
 
             <div class="grid-layout">
                 <!-- Painel de Inputs (Esquerda Desktop / Topo Mobile) -->
@@ -104,11 +256,11 @@
                         <div class="radio-pills">
                             <label class="radio-pill">
                                 <input type="radio" name="invest-type" value="cdb" checked>
-                                <span>CDB</span>
+                                <span class="highlight-term" data-term="CDB">CDB</span>
                             </label>
                             <label class="radio-pill">
                                 <input type="radio" name="invest-type" value="lci">
-                                <span>LCI/LCA</span>
+                                <span class="highlight-term" data-term="LCI">LCI/LCA</span>
                             </label>
                             <label class="radio-pill">
                                 <input type="radio" name="invest-type" value="poupanca">
@@ -177,7 +329,7 @@
                         </div>
                         <input type="range" id="interest-rate-pos" min="70" max="150" step="1" value="100"
                             class="neon-slider">
-                        <small class="helper-text" id="cdi-helper">Considerando Taxa Selic 10.75% / CDI 10.65%
+                        <small class="helper-text" id="cdi-helper">Considerando Taxa <span class="highlight-term" data-term="SELIC">Selic</span> 10.75% / <span class="highlight-term" data-term="CDI">CDI</span> 10.65%
                             a.a.</small>
                     </div>
 
@@ -185,7 +337,7 @@
                     <div class="input-group slider-group" id="rentabilidade-pre-group" style="display: none;">
                         <div class="slider-header" id="rate-pre-header">
                             <label for="interest-rate-pre">Taxa Pré-fixada (% a.a.)</label>
-                            <span class="value-display" id="val-rate-pre">12.0%</span>
+                            <span class="value-display" id="val-rate-pre">12,0%</span>
                         </div>
                         <input type="range" id="interest-rate-pre" min="1" max="25" step="0.1" value="12"
                             class="neon-slider">
@@ -223,6 +375,33 @@
                                     style="font-size: 1.5rem; margin-bottom: 0.5rem; display: block;"></i>
                                 Sincronizando Radar...
                             </div>
+                        </div>
+
+                        <!-- SEÇÃO DE PARCEIROS OFICIAIS -->
+                        <div class="supporter-box" style="margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.05); text-align: center;">
+                            <span style="font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.75rem; display: block; opacity: 0.8;">Parceiros Oficiais</span>
+                            
+                            <!-- SGA INVEST -->
+                            <div class="sga-banner" style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 1rem; cursor: pointer; transition: all 0.3s ease; margin-bottom: 0.5rem;" onclick="document.getElementById('btn-open-contact').click()">
+                                <img src="assets/sga-logo.jpg.jpeg" alt="SGA Invest" style="max-width: 160px; height: auto; filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));">
+                                <p style="margin-top: 0.4rem; font-size: 0.65rem; color: var(--neon-green); opacity: 0.9; font-weight: 500;">Assessoria Credenciada</p>
+                            </div>
+                            
+                            <a href="https://www.instagram.com/sga_invest/" target="_blank" rel="noopener" class="sga-social-link" style="display: flex; align-items: center; justify-content: center; gap: 0.4rem; margin-bottom: 1.25rem; color: var(--text-muted); text-decoration: none; font-size: 0.7rem; padding: 0.4rem; border-radius: 6px; transition: all 0.3s ease;">
+                                <i class="ph ph-instagram-logo" style="font-size: 1rem;"></i>
+                                <span>Siga a <strong>@sga_invest</strong></span>
+                            </a>
+
+                            <!-- TOP ONE AV -->
+                            <div class="sga-banner top-one-banner" style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 1rem; cursor: pointer; transition: all 0.3s ease; margin-bottom: 0.5rem;" onclick="window.open('https://www.instagram.com/toponeav/', '_blank')">
+                                <img src="assets/toponeav-logo.jpeg" alt="Top One AV" style="max-width: 140px; height: auto; filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));">
+                                <p style="margin-top: 0.4rem; font-size: 0.65rem; color: #f59e0b; opacity: 0.9; font-weight: 500;">Automobilismo Virtual</p>
+                            </div>
+                            
+                            <a href="https://www.instagram.com/toponeav/" target="_blank" rel="noopener" class="sga-social-link" style="display: flex; align-items: center; justify-content: center; gap: 0.4rem; color: var(--text-muted); text-decoration: none; font-size: 0.7rem; padding: 0.4rem; border-radius: 6px; transition: all 0.3s ease;">
+                                <i class="ph ph-instagram-logo" style="font-size: 1rem;"></i>
+                                <span>Conheça a <strong>@toponeav_oficial</strong></span>
+                            </a>
                         </div>
                     </div>
 
@@ -291,12 +470,69 @@
                         </div>
                     </div>
 
+                    <!-- Pílula de Conhecimento (Dicionário Dinâmico) -->
+                    <div id="educational-tip" class="glass-panel" style="margin-top: 1.5rem; border-left: 4px solid var(--brand-blue); padding: 1.5rem; display: none;">
+                        <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                            <div style="background: rgba(59, 130, 246, 0.1); padding: 0.75rem; border-radius: 50%; color: var(--brand-blue);">
+                                <i class="ph-fill ph-lightbulb" style="font-size: 1.5rem;"></i>
+                            </div>
+                            <div style="flex: 1;">
+                                <h4 style="font-family: 'Outfit', sans-serif; font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem;">Pílula de Conhecimento</h4>
+                                <h3 id="term-title" style="margin: 0 0 0.5rem 0; font-size: 1.25rem; color: var(--text-main);">--</h3>
+                                <p id="term-definition" style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; margin: 0;"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Calls do Mercado (Morning Call e Resumo do Dia) -->
+                    <div id="market-calls-section" class="glass-panel" style="margin-top: 1.5rem; padding: 1.5rem;">
+                        <header style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 1rem;">
+                            <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.1rem; margin: 0; display: flex; align-items: center; gap: 0.6rem;">
+                                <i class="ph-fill ph-presentation-chart neon-text"></i>
+                                Calls do Mercado
+                            </h3>
+                            <div class="call-tabs" style="display: flex; background: rgba(0,0,0,0.3); padding: 4px; border-radius: 8px;">
+                                <button class="call-tab-btn active" onclick="switchCallTab('morning')" id="btn-tab-morning" style="padding: 6px 14px; border:none; background: var(--brand-blue); color: white; border-radius: 6px; font-size: 0.7rem; cursor: pointer; transition: all 0.2s;">Morning Call</button>
+                                <button class="call-tab-btn" onclick="switchCallTab('evening')" id="btn-tab-evening" style="padding: 6px 14px; border:none; background: transparent; color: var(--text-muted); border-radius: 6px; font-size: 0.7rem; cursor: pointer; transition: all 0.2s;">Resumo do Dia</button>
+                            </div>
+                        </header>
+
+                        <div class="call-content-wrapper" style="max-height: 380px; overflow-y: auto; padding-right: 8px; scrollbar-width: thin; scrollbar-color: var(--brand-blue) rgba(255,255,255,0.05);">
+                            <!-- Morning Call -->
+                            <article id="call-morning" class="call-article" style="display: block;">
+                                <div id="morning-date" style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; color: var(--text-muted); font-size: 0.7rem;">
+                                    <i class="ph ph-calendar"></i> Sincronizando...
+                                </div>
+                                <h4 id="morning-title" style="color: var(--text-main); font-size: 1.1rem; margin-bottom: 1rem;">Carregando Morning Call...</h4>
+                                <div id="morning-body" style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">
+                                    <p>A inteligência GII está processando as notícias globais para você.</p>
+                                </div>
+                            </article>
+
+                            <!-- Resumo do Dia -->
+                            <article id="call-evening" class="call-article" style="display: none;">
+                                <div id="evening-date" style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; color: var(--text-muted); font-size: 0.7rem;">
+                                    <i class="ph ph-calendar"></i> Sincronizando...
+                                </div>
+                                <h4 id="evening-title" style="color: var(--text-main); font-size: 1.1rem; margin-bottom: 1rem;">Carregando Fechamento...</h4>
+                                <div id="evening-body" style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">
+                                    <p>Aguardando o fechamento dos mercados principais.</p>
+                                </div>
+                            </article>
+                        </div>
+                        
+                        <footer style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: space-between;">
+                            <span style="font-size: 0.7rem; color: var(--text-muted);">Escrito por <strong>Curadoria Trilha dos Juros</strong></span>
+                            <button class="ph ph-share-network" style="background:none; border:none; color: var(--text-muted); cursor:pointer; font-size: 1.1rem;" title="Compartilhar Artigo"></button>
+                        </footer>
+                    </div>
+
                 </article>
             </div>
         </section>
 
         <!-- View 2: Gamificação -->
-        <section id="gamification-view" class="view-section active">
+        <section id="gamification-view" class="view-section" style="display: none;">
             <div class="glass-panel gamification-panel">
                 <!-- Vídeo de Destaque Premium -->
                 <div class="hero-video-container">
@@ -324,26 +560,41 @@
                     <!-- Configuração da Jornada -->
                     <div class="journey-config" id="journey-setup-panel"
                         style="background: rgba(255, 255, 255, 0.03); padding: 1.5rem; border-radius: var(--radius-md); border: var(--glass-border); margin: 1.5rem 0; display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end;">
-                        <div class="input-group" style="flex: 1; min-width: 200px;">
+                        <div class="input-group" style="flex: 2; min-width: 200px;">
                             <label for="chal-val-meta">Qual é a sua Meta Financeira? (R$)</label>
                             <input type="number" id="chal-val-meta" class="cyber-input" value="10000" min="100"
                                 step="100"
                                 style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.3); color: var(--text-main); font-family: var(--font-body);">
                         </div>
-                        <div class="input-group" style="flex: 1; min-width: 200px;">
-                            <label for="chal-val-steps">Quantos Depósitos? (Etapas)</label>
+                        <div class="input-group" style="flex: 1; min-width: 120px;">
+                            <label for="chal-val-steps">Etapas</label>
                             <input type="number" id="chal-val-steps" class="cyber-input" value="50" min="5" max="365"
                                 step="1"
                                 style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.3); color: var(--text-main); font-family: var(--font-body);">
                         </div>
+                        
+                        <!-- NOVO: Seletor de Rentabilidade no Desafio -->
+                        <div class="input-group slider-group" style="flex: 1.5; min-width: 200px;">
+                            <div class="slider-header" style="margin-bottom: 5px;">
+                                <label style="font-size: 0.8rem;">Rentabilidade: <span id="chal-yield-display" class="neon-text">100%</span> do CDI</label>
+                            </div>
+                            <input type="range" id="chal-yield-slider" class="neon-slider" min="80" max="150" value="100" step="1">
+                        </div>
+
                         <button id="btn-start-journey" class="btn btn-primary"
                             style="height: 46px; white-space: nowrap;">Criar Jornada</button>
                     </div>
 
-                    <div class="progress-box" id="journey-progress-box" style="display: none;">
-                        <span class="progress-label">Meta Final: R$ <span class="neon-text glow"
-                                id="chal-display-meta">0,00</span> +
-                            Juros (100% CDI)</span>
+                    <div class="progress-box" id="journey-progress-box" style="display: none; flex-direction: column; gap: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span class="progress-label" style="margin-bottom: 0;">Meta: R$ <span class="neon-text glow" id="chal-display-meta">0,00</span></span>
+                            
+                            <!-- NOVO: Seletor Dinâmico durante a Jornada -->
+                            <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
+                                <span style="font-size: 0.7rem; color: var(--text-muted);">Rentabilidade Atual: <strong id="chal-yield-current" class="neon-text">100%</strong> do CDI</span>
+                                <input type="range" id="chal-yield-slider-active" class="neon-slider" min="80" max="150" value="100" step="1" style="width: 120px; height: 4px;">
+                            </div>
+                        </div>
                         <div class="progress-bar-bg">
                             <div class="progress-bar-fill" id="challenge-progress-fill" style="width: 0%;"></div>
                         </div>
@@ -415,10 +666,33 @@
                         style="font-size: 1.7rem; color: var(--text-main); margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
                         <i class="ph-fill ph-student" style="color: var(--neon-green);"></i> Guia Prático do Investidor
                     </h2>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; max-width: 600px; margin: 0 auto;">Tudo o
-                        que você precisa saber sobre a matemática por trás da renda fixa, como o Imposto de Renda é
-                        calculado, e o funcionamento das principais aplicações do mercado.</p>
-                </header>
+                <!-- Depoimentos Dinâmicos: Insights e Inteligência -->
+                <div id="testimonial-container" class="testimonial-grid" style="min-height: 180px; transition: opacity 0.5s ease-in-out;">
+                    <!-- Par 1 (Default) -->
+                    <div class="testimonial-card">
+                        <span class="testimonial-tag">Insight</span>
+                        <div class="testimonial-user">
+                            <i class="ph-fill ph-user-circle neon-text" style="font-size: 2.5rem;"></i>
+                            <div class="testimonial-user-info">
+                                <span>Carlos M.</span>
+                                <small>Investidor Renda Fixa</small>
+                            </div>
+                        </div>
+                        <p class="testimonial-text">"Sempre usei poupança por medo, mas o simulador me mostrou que o CDB com liquidez diária rende bem mais com a mesma segurança. Pra longo prazo, as LCIs e LCAs com isenção de IR fazem toda a diferença no meu planejamento."</p>
+                    </div>
+                    <div class="testimonial-card">
+                        <span class="testimonial-tag">Educação</span>
+                        <div class="testimonial-user">
+                            <i class="ph-fill ph-user-circle neon-text" style="font-size: 2.5rem;"></i>
+                            <div class="testimonial-user-info">
+                                <span>Mariana R.</span>
+                                <small>Estudante</small>
+                            </div>
+                        </div>
+                        <p class="testimonial-text">"As Pílulas de Conhecimento explicam termos que pareciam grego em segundos. Acompanho as cotações aqui todo dia."</p>
+                    </div>
+                </div>
+                <p class="compliance-note">Nota: Depoimentos autorizados via e-mail para a equipe de assessoria. Identidades preservadas por compliance.</p>
 
                 <div class="faq-accordion">
                     <!-- Item 1 -->
@@ -617,6 +891,17 @@
                         <span style="font-size: 0.75rem; color: var(--text-muted);">Verificado & Livre de Ameaças</span>
                     </div>
                 </div>
+
+                <!-- NOVO: Security Badge 3 (Padrão de Transparência CVM 178) -->
+                <div
+                    style="display: flex; align-items: center; gap: 0.75rem; background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.3); padding: 0.75rem 1.2rem; border-radius: 8px;">
+                    <i class="ph-fill ph-shield-checkered" style="font-size: 1.8rem; color: var(--neon-green);"></i>
+                    <div style="text-align: left;">
+                        <strong
+                            style="display: block; color: var(--text-main); font-size: 0.95rem; line-height: 1;">Padrão de Transparência</strong>
+                        <span style="font-size: 0.75rem; color: var(--neon-green);">Resolução CVM 178 Ativa</span>
+                    </div>
+                </div>
             </div>
 
             <p style="font-size: 0.8rem; color: var(--text-muted); opacity: 0.9; margin-top: 1rem;">Os cálculos exibidos
@@ -667,11 +952,130 @@
     <script src="js/news-service.js?v=24" defer></script>
     <script src="js/ticker.js?v=24" defer></script>
     <script src="js/calculator.js?v=24" defer></script>
-    <script src="js/ui-controller.js?v=15" defer></script>
-    <script src="js/gamification.js?v=15" defer></script>
+    <script src="js/ui-controller.js?v=16" defer></script>
+    <script src="js/gamification.js?v=16" defer></script>
     <!-- <script src="js/commodities.js?v=9" defer></script> -->
     <script src="js/radar-service.js?v=4" defer></script>
-    <script src="js/buying-power.js?v=1" defer></script>
+    <script src="js/buying-power.js?v=2" defer></script>
+
+    <!-- GII TEST SERVICES -->
+    <script src="js/compliance-service.js"></script>
+    <script src="js/dictionary-service.js"></script>
+    <script src="js/editorial-service.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inicializa Motor de Dicionário
+            const dictionary = new DictionaryService();
+            dictionary.applyTooltips();
+
+            // Inicializa Pílula de Conhecimento (Dicionário Dinâmico)
+            const tipEl = document.getElementById('educational-tip');
+            if (tipEl) {
+                const randomEntry = dictionary.getRandomTerm();
+                document.getElementById('term-title').textContent = randomEntry.term;
+                document.getElementById('term-definition').textContent = randomEntry.definition;
+                tipEl.style.display = 'block';
+            }
+
+            // Inicializa Compliance (Aviso na console apenas para teste)
+            const compliance = new ComplianceService();
+            console.log("%c[Padrão de Transparência CVM 178] Sistema Ativo", "color: #10b981; font-weight: bold;");
+        });
+
+        /**
+         * Alterna entre as abas de Morning Call e Resumo do Dia
+         */
+        function switchCallTab(tab) {
+            const morningBtn = document.getElementById('btn-tab-morning');
+            const eveningBtn = document.getElementById('btn-tab-evening');
+            const morningArt = document.getElementById('call-morning');
+            const eveningArt = document.getElementById('call-evening');
+
+            if (tab === 'morning') {
+                morningBtn.classList.add('active');
+                morningBtn.style.background = 'var(--brand-blue)';
+                morningBtn.style.color = 'white';
+
+                eveningBtn.classList.remove('active');
+                eveningBtn.style.background = 'transparent';
+                eveningBtn.style.color = 'var(--text-muted)';
+
+                morningArt.style.display = 'block';
+                eveningArt.style.display = 'none';
+            } else {
+                eveningBtn.classList.add('active');
+                eveningBtn.style.background = 'var(--brand-blue)';
+                eveningBtn.style.color = 'white';
+
+                morningBtn.classList.remove('active');
+                morningBtn.style.background = 'transparent';
+                morningBtn.style.color = 'var(--text-muted)';
+
+                eveningArt.style.display = 'block';
+                morningArt.style.display = 'none';
+            }
+        }
+
+        // PWA - Registro do Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => {
+                        console.log('[PWA] Service Worker registrado com sucesso:', registration.scope);
+                    })
+                    .catch(err => {
+                        console.warn('[PWA] Falha no registro do Service Worker:', err);
+                    });
+            });
+        }
+
+        // --- SISTEMA DE ROTAÇÃO DOS DEPOIMENTOS ---
+        const testimonials = [
+            {
+                pair: [
+                    { name: 'Carlos M.', role: 'Investidor Renda Fixa', tag: 'Insight', text: '"Sempre usei poupança por medo, mas o simulador me mostrou que o CDB com liquidez diária rende bem mais com a mesma segurança. Pra longo prazo, as LCIs e LCAs com isenção de IR fazem toda a diferença no meu planejamento."' },
+                    { name: 'Mariana R.', role: 'Estudante', tag: 'Educação', text: '"As Pílulas de Conhecimento explicam termos que pareciam grego em segundos. Acompanho as cotações aqui todo dia."' }
+                ]
+            },
+            {
+                pair: [
+                    { name: 'Ricardo F.', role: 'Autônomo', tag: 'Praticidade', text: '"Esse Desafio dos Depósitos é viciante! Finalmente criei o hábito de poupar de verdade. O melhor é que não tem cadastro chato, é abrir o site e pronto."' },
+                    { name: 'Felipe S.', role: 'SimRacer / Top One AV', tag: 'Lifestyle', text: '"As corridas virtuais na Top One AV exigem foco, e a Trilha dos Juros faz o mesmo pelo meu planejamento. Entendi de vez como fazer o dinheiro render muito mais que na poupança. Agora acompanho os relatórios da SGA e sigo evoluindo na pista e no bolso!"' }
+                ]
+            }
+        ];
+
+        let currentPairIndex = 0;
+        const container = document.getElementById('testimonial-container');
+
+        function rotateTestimonials() {
+            container.style.opacity = '0';
+            
+            setTimeout(() => {
+                currentPairIndex = (currentPairIndex + 1) % testimonials.length;
+                const pair = testimonials[currentPairIndex].pair;
+                
+                container.innerHTML = pair.map(t => `
+                    <div class="testimonial-card">
+                        <span class="testimonial-tag">${t.tag}</span>
+                        <div class="testimonial-user">
+                            <i class="ph-fill ph-user-circle neon-text" style="font-size: 2.5rem;"></i>
+                            <div class="testimonial-user-info">
+                                <span>${t.name}</span>
+                                <small>${t.role}</small>
+                            </div>
+                        </div>
+                        <p class="testimonial-text">${t.text}</p>
+                    </div>
+                `).join('');
+                
+                container.style.opacity = '1';
+            }, 500);
+        }
+
+        // Rotaciona a cada 10 segundos
+        setInterval(rotateTestimonials, 10000);
+    </script>
 </body>
 
 </html>

@@ -1,0 +1,42 @@
+name: Editorial Hub Automation (IA-Driven)
+
+on:
+  schedule:
+    # Roda de segunda a sexta às 08:30 (Morning Call) e 18:00 (Resumo do Dia) BRT
+    # BRT is UTC-3, so 08:30 BRT = 11:30 UTC / 18:00 BRT = 21:00 UTC
+    - cron: '30 11 * * 1-5'
+    - cron: '0 21 * * 1-5'
+  workflow_dispatch: # Permite rodar manualmente no GitHub a qualquer momento
+
+jobs:
+  generate_and_publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: |
+          cd 4_Automacao_IA
+          pip install -r requirements.txt
+
+      - name: Run Editorial Engine (Gemini IA)
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          cd 4_Automacao_IA
+          python editorial_engine.py
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "Trilha Editorial Automático"
+          git config --global user.email "bot@trilhadosjuros.com.br"
+          git add 3_Front_End/editorial_feed.json
+          git commit -m "🤖 Auto-update: Hub Editorial (Calls do Mercado)" || echo "No changes to commit"
+          git push
