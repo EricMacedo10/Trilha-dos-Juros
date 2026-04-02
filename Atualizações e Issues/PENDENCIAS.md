@@ -1,45 +1,41 @@
 # Controle de Atualizações e Issues
 
-## 📋 Pendências e Configurações Futuras
+## 📋 Pendências e Configurações Futuras (Pós-Sessão Sênior)
 
-### 1. Configuração de Chave HG Brasil (Vercel)
-**Status:** Pendente / Opcional
-**Descrição:** Para que o sistema utilize uma cota de requisições exclusiva e personalizada, é necessário configurar a chave da HG Brasil diretamente no painel da Vercel. 
-**Ação Necessária:** No painel da Vercel (Settings > Environment Variables), adicione a variável `HG_KEY` com o valor da sua chave.
-**Observação:** Se não for adicionada, o sistema continuará operando em modo de segurança com a lógica de fallback, mas sob quotas compartilhadas ou limitadas.
+### 1. Monitoramento de Cota IA (Gemini API)
+**Status:** ⚠️ Atenção (Free Tier)
+**Descrição:** Devido aos intensos testes de deploy hoje (02/04), a cota gratuita de 20 requisições diárias foi atingida (Erro 429). 
+**Ação:** O robô voltará a gerar conteúdos novos automaticamente amanhã (03/04) às 08:30h, quando a cota resetar. O sistema de "fallback" (mensagens de segurança) está funcionando corretamente para manter o site estável.
 
-### 2. Integração de Inteligência GII (Fase 1: Ambiente de Teste)
-**Status:** Concluído / Evoluindo (31/03/2026)
-**Descrição:** Migração das funcionalidades críticas do projeto GII para o ecossistema Trilha dos Juros sob o novo branding regulatório.
-**Próximas Ações:**
-1.  **Editorial Hub Automático** (Pendente): Implementar a automação 100% hands-off via IA para evitar edição de HTML ou intervenção manual durante ausências (férias).
-2.  **Expansão do Dicionário**: Adicionar mais 50+ termos técnicos ao `dictionary-service.js`.
-3.  **Refinamento Visual CVM 178**: Inserir o selo de transparência de forma mais proeminente no footer ou sidebar.
-4.  **Teste de Stress Mobile**: Validar as abas de notícias em dispositivos de tela muito pequena (iPhone SE, etc).
+### 2. Remoção do Aviso de Próximo Pregão
+**Status:** Pendente (Próxima Atualização)
+**Descrição:** Inserimos um banner amarelo manual em `index.html` informando que a atualização ocorrerá no próximo pregão.
+**Ação:** Assim que o robô gerar o primeiro conteúdo real de amanhã, este aviso visual pode ser removido do HTML para limpar a interface.
 
-### 3. Arquitetura do Editorial Hub Automático (IA-Driven)
-**Status:** Em Implementação (Fase de Teste Local)
-**Descrição:** Motor de conteúdo autônomo que atualiza o "Morning Call" e o "Resumo do Dia".
-**Progresso Atual (02/04/2026):**
-*   **Motor Editorial (Python):** `editorial_engine.py` funcional no ambiente local.
-*   **Conectividade:** Integrado com Yahoo Finance (Global/BR), Investing.com e CoinDesk.
-*   **IA:** Utilizando API Key do Gemini (Free Tier) para resumos em conformidade com CVM.
-*   **Frontend:** `editorial-service.js` já renderiza o JSON gerado pela IA no simulador de teste.
-**Benefício:** Site com "vida própria" 24h por dia, garantindo engajamento AdSense mesmo durante as férias do administrador.
+### 3. Integração de Inteligência GII (Fase 2: Expansão)
+**Status:** Concluído / Evoluindo (02/04/2026)
+**Descrição:** Motor Editorial IA-Driven 100% integrado ao ambiente de produção oficial.
+**Ações Concluídas:**
+1.  **Editorial Hub Automático:** Implementado via GitHub Actions com gatilhos de `schedule` e `push`.
+2.  **Blindagem Anti-Alucinação:** Data do sistema agora é forçada via Python, impedindo a IA de inventar datas antigas.
+3.  **Cache-Busting:** Implementado timestamp no fetch do JSON para garantir que o usuário veja as notícias novas instantaneamente.
 
-### 4. Próximos Passos Estratégicos (Roadmap Concluído ✅)
-Todas as opções do escopo da Sessão Sênior foram integradas com sucesso:
-*   ~~**Opção A: Automação GitHub Actions:**~~ Configurada (Cron diário 08:30 / 18:00 BRT).
-*   ~~**Opção B: Dicionário Dinâmico + IA:**~~ Inteligência ativada. O termo gerado anula o aleatório e ganha brilho neon.
-*   ~~**Opção C: PWA e App Experience:**~~ Service Worker e `manifest.json` implementados, permitindo instalação mobile stand-alone e suporte offline instântaneo (Stale-While-Revalidate).
+### 4. Ajustes no Radar de Ativos
+**Status:** ✅ Concluído (02/04/2026)
+**Descrição:** Estabilização do Radar conforme solicitado pelo mestre.
+**Conquistas:**
+*   **Bitcoin (BTC):** Restaurado como ativo de destaque.
+*   **Real 1994:** Removido definitivamente do grid.
+*   **深 Deep Links:** Botões "Ver Detalhes" e "Fonte Oficial" agora fixos e visíveis em mobile.
+*   **Cache V22:** Versão de scripts atualizada para forçar refresh nos clientes.
 
 ---
 
-## ✅ Conquistas Recentes
-*   **Motor Editorial IA (Alpha):** Criação bem-sucedida do script `editorial_engine.py` integrado com Gemini API e fontes RSS globais/locais.
-*   **Dual-Control (Arquivado):** Prototipagem de input manual de valores; arquivado por decisão do mestre visando manter a pureza estética original dos sliders.
-*   **Assinatura Institucional:** Editorial agora assinado como "Curadoria Trilha dos Juros" para compliance e autoridade.
-*   **Hub Editorial "Calls do Mercado":** Implementação de sistema de abas e scroll interno para Morning Call e Resumo do Dia em `gii_test/index_test.html`.
+## ✅ Conquistas Recentes (Sessão Sênior 02/04/2026)
+*   **Escriturador de Permissões GitHub:** Resolvido o erro 403 Forbidden nas Actions, garantindo que o robô tenha autoridade para salvar as notícias no repositório.
+*   **Estilhaçador de Cache:** Implementação de `?v=timestamp` no carregamento do editorial, resolvendo o problema de "notícias presas no navegador".
+*   **Sincronização de Deploy:** Resolvido o bloqueio de "Hobby Team" da Vercel através de commits assinados pelo proprietário localmente.
+*   **Compliance CVM:** Refinamento do System Prompt da IA para garantir tom informativo e não-advisory.
 
 ---
-*Atualizado em 02/04/2026 às 08:58.*
+*Atualizado em 02/04/2026 às 18:45 (Horário de Brasília) - Sessão Sênior Finalizada.*
