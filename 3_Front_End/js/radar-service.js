@@ -1,7 +1,7 @@
 /**
  * Radar de Ativos em Destaque (Versão Sênior - Produção)
- * Focado em ativos financeiros regulados e indicadores oficiais.
- * Integrado com Deep Links para StatusInvest e Banco Central.
+ * Focado em ativos financeiros, indicadores oficiais e criptoativos.
+ * Integrado com Deep Links para StatusInvest, Investing e Banco Central.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -11,6 +11,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Mapeamento de Deep Links Úteis
     const deepLinks = {
+        'BTC': {
+            investing: 'https://br.investing.com/crypto/bitcoin/btc-usd'
+        },
         'PETR4': {
             statusInvest: 'https://statusinvest.com.br/acoes/petr4',
             investing: 'https://br.investing.com/equities/petroleo-bras-sa-pn'
@@ -35,15 +38,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Dados dos Ativos (Bitcoin removido para foco em B3/Indicadores)
+    // Dados dos Ativos (Bitcoin restaurado, Real 1994 removido)
     const ativosData = [
-        { id: 'IPCA_BC', name: 'IPCA Mensal (BCB)',  type: 'rate',   icon: 'ph-bank',                   price: '...', change: 0, isFeatured: true, subtitle: 'Último divulgado' },
+        { id: 'BTC',     name: 'Bitcoin (BTC)',      type: 'crypto', icon: 'ph-currency-btc',           price: '...', change: 0, isFeatured: true },
+        { id: 'IPCA_BC', name: 'IPCA Mensal (BCB)',  type: 'rate',   icon: 'ph-bank',                   price: '...', change: 0, isFeatured: false, subtitle: 'Último divulgado' },
         { id: 'IPCA_FOCUS', name: 'IPCA (Focus 12m)', type: 'rate',   icon: 'ph-chart-line-up',          price: '...', change: 0, isFeatured: false, subtitle: 'Expectativa Mercado' },
         { id: 'PETR4',   name: 'Petrobras',          type: 'stock',  icon: 'ph-gas-pump',               price: '...', change: 0, isFeatured: false },
         { id: 'VALE3',   name: 'Vale',               type: 'stock',  icon: 'ph-mountains',              price: '...', change: 0, isFeatured: false },
         { id: 'ITUB4',   name: 'Itaú Unibanco',      type: 'stock',  icon: 'ph-bank',                   price: '...', change: 0, isFeatured: false },
-        { id: 'BBDC4',   name: 'Bradesco',           type: 'stock',  icon: 'ph-bank',                   price: '...', change: 0, isFeatured: false },
-        { id: 'COMPRA',  name: 'Real em 1994',       type: 'rate',   icon: 'ph-currency-circle-dollar', price: '...', change: 0, isFeatured: false, subtitle: 'Poder de Compra' }
+        { id: 'BBDC4',   name: 'Bradesco',           type: 'stock',  icon: 'ph-bank',                   price: '...', change: 0, isFeatured: false }
     ];
 
     function renderRadar() {
@@ -58,14 +61,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const featuredClass = ativo.isFeatured ? 'radar-card-featured' : '';
             const subtitleHtml = ativo.subtitle ? `<small style="display:block; font-size:0.6rem; opacity:0.6; margin-top: -2px;">${ativo.subtitle}</small>` : '';
             
-            // Gerador de Deep Links
+            // Gerador de Deep Links (Sempre visíveis conforme novo design limpo)
             const linksAtivo = deepLinks[ativo.id];
             let deepLinkHtml = '';
             
             if (linksAtivo) {
                 deepLinkHtml = `
-                    <div class="deep-links-area" style="margin-top: 0.8rem; display: flex; gap: 0.5rem; justify-content: center;">
+                    <div class="deep-links-overlay" style="margin-top: 0.8rem; display: flex; gap: 0.5rem; justify-content: center;">
                         ${linksAtivo.statusInvest ? `<a href="${linksAtivo.statusInvest}" target="_blank" class="radar-btn-premium"><i class="ph ph-trend-up"></i> Ver Detalhes</a>` : ''}
+                        ${linksAtivo.investing && !linksAtivo.statusInvest ? `<a href="${linksAtivo.investing}" target="_blank" class="radar-btn-premium"><i class="ph ph-trend-up"></i> Ver Detalhes</a>` : ''}
                         ${linksAtivo.fonteOficial ? `<a href="${linksAtivo.fonteOficial}" target="_blank" class="radar-btn-secondary"><i class="ph ph-link"></i> Fonte Oficial</a>` : ''}
                     </div>
                 `;
@@ -112,22 +116,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname === '';
 
     async function fetchRadarData() {
-        // Cálculo Poder de Compra 1994
+        // Busca Crypto (Bitcoin)
         try {
-            const historyUrl = 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.433/dados?formato=json&dataInicial=01/07/1994';
-            const historyRes = await fetch(historyUrl);
-            if (historyRes.ok) {
-                const historyData = await historyRes.json();
-                let accumulatedIndex = 1.0;
-                historyData.forEach(item => { accumulatedIndex *= (1 + (parseFloat(item.valor) / 100)); });
-                const power = 100.0 / accumulatedIndex;
-                const compraAtivo = ativosData.find(a => a.id === 'COMPRA');
-                if (compraAtivo) compraAtivo.price = `R$ ${power.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            const resCrypto = await fetch('https://economia.awesomeapi.com.br/json/last/BTC-USD');
+            if (resCrypto.ok) {
+                const data = await resCrypto.json();
+                if (data.BTCUSD) {
+                    const btc = ativosData.find(a => a.id === 'BTC');
+                    if (btc) {
+                        btc.price = `$ ${parseFloat(data.BTCUSD.bid).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                        btc.change = parseFloat(data.BTCUSD.pctChange);
+                    }
+                }
             }
-        } catch (e) {
-            const compraAtivo = ativosData.find(a => a.id === 'COMPRA');
-            if (compraAtivo) compraAtivo.price = 'R$ 11,46';
-        }
+        } catch (e) {}
 
         // Busca Ações via Vercel Proxy
         const stocksToFetch = ['PETR4.SA', 'VALE3.SA', 'ITUB4.SA', 'BBDC4.SA'];
