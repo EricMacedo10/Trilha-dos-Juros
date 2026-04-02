@@ -13,6 +13,8 @@ on:
 jobs:
   generate_and_publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Necessário para permitir o git push no final
 
     steps:
       - name: Checkout Repo
