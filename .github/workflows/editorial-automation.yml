@@ -6,6 +6,8 @@ on:
     # BRT is UTC-3, so 08:30 BRT = 11:30 UTC / 18:00 BRT = 21:00 UTC
     - cron: '30 11 * * 1-5'
     - cron: '0 21 * * 1-5'
+  push:
+    branches: [ main ]
   workflow_dispatch: # Permite rodar manualmente no GitHub a qualquer momento
 
 jobs:
