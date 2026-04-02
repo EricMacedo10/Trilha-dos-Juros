@@ -1,7 +1,7 @@
 /**
- * Radar de Ativos em Destaque
- * Substitui o antigo painel de Commodities.
- * Busca Criptomoedas (AwesomeAPI) e Ações (Vercel Serverless / Yahoo).
+ * Radar de Ativos em Destaque (Versão Sênior - Produção)
+ * Focado em ativos financeiros regulados e indicadores oficiais.
+ * Integrado com Deep Links para StatusInvest e Banco Central.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -9,16 +9,41 @@ document.addEventListener('DOMContentLoaded', () => {
     const radarGrid = document.getElementById('radar-grid');
     if (!radarGrid) return;
 
-    // Estado local para armazenar e renderizar de uma vez
+    // Mapeamento de Deep Links Úteis
+    const deepLinks = {
+        'PETR4': {
+            statusInvest: 'https://statusinvest.com.br/acoes/petr4',
+            investing: 'https://br.investing.com/equities/petroleo-bras-sa-pn'
+        },
+        'VALE3': {
+            statusInvest: 'https://statusinvest.com.br/acoes/vale3',
+            investing: 'https://br.investing.com/equities/vale-sa-on-vale3'
+        },
+        'ITUB4': {
+            statusInvest: 'https://statusinvest.com.br/acoes/itub4',
+            investing: 'https://br.investing.com/equities/itau-unibanco-pn-ed-pure'
+        },
+        'BBDC4': {
+            statusInvest: 'https://statusinvest.com.br/acoes/bbdc4',
+            investing: 'https://br.investing.com/equities/bradesco-pn-ej-n1'
+        },
+        'IPCA_BC': {
+            fonteOficial: 'https://www.bcb.gov.br/controleinflacao/indicepreco'
+        },
+        'IPCA_FOCUS': {
+            fonteOficial: 'https://www.bcb.gov.br/publicacoes/focus'
+        }
+    };
+
+    // Dados dos Ativos (Bitcoin removido para foco em B3/Indicadores)
     const ativosData = [
-        { id: 'BTC',     name: 'Bitcoin (BTC)',      type: 'crypto', icon: 'ph-currency-btc',           price: '...', change: 0, isFeatured: true },
-        { id: 'IPCA_BC', name: 'IPCA Mensal (BCB)',  type: 'rate',   icon: 'ph-bank',                   price: '...', change: 0, isFeatured: false, subtitle: 'Último divulgado' },
+        { id: 'IPCA_BC', name: 'IPCA Mensal (BCB)',  type: 'rate',   icon: 'ph-bank',                   price: '...', change: 0, isFeatured: true, subtitle: 'Último divulgado' },
         { id: 'IPCA_FOCUS', name: 'IPCA (Focus 12m)', type: 'rate',   icon: 'ph-chart-line-up',          price: '...', change: 0, isFeatured: false, subtitle: 'Expectativa Mercado' },
-        { id: 'COMPRA',  name: 'Real em 1994',       type: 'rate',   icon: 'ph-currency-circle-dollar', price: '...', change: 0, isFeatured: false, subtitle: 'Poder de Compra' },
         { id: 'PETR4',   name: 'Petrobras',          type: 'stock',  icon: 'ph-gas-pump',               price: '...', change: 0, isFeatured: false },
         { id: 'VALE3',   name: 'Vale',               type: 'stock',  icon: 'ph-mountains',              price: '...', change: 0, isFeatured: false },
         { id: 'ITUB4',   name: 'Itaú Unibanco',      type: 'stock',  icon: 'ph-bank',                   price: '...', change: 0, isFeatured: false },
-        { id: 'BBDC4',   name: 'Bradesco',           type: 'stock',  icon: 'ph-bank',                   price: '...', change: 0, isFeatured: false }
+        { id: 'BBDC4',   name: 'Bradesco',           type: 'stock',  icon: 'ph-bank',                   price: '...', change: 0, isFeatured: false },
+        { id: 'COMPRA',  name: 'Real em 1994',       type: 'rate',   icon: 'ph-currency-circle-dollar', price: '...', change: 0, isFeatured: false, subtitle: 'Poder de Compra' }
     ];
 
     function renderRadar() {
@@ -33,18 +58,34 @@ document.addEventListener('DOMContentLoaded', () => {
             const featuredClass = ativo.isFeatured ? 'radar-card-featured' : '';
             const subtitleHtml = ativo.subtitle ? `<small style="display:block; font-size:0.6rem; opacity:0.6; margin-top: -2px;">${ativo.subtitle}</small>` : '';
             
+            // Gerador de Deep Links
+            const linksAtivo = deepLinks[ativo.id];
+            let deepLinkHtml = '';
+            
+            if (linksAtivo) {
+                deepLinkHtml = `
+                    <div class="deep-links-area" style="margin-top: 0.8rem; display: flex; gap: 0.5rem; justify-content: center;">
+                        ${linksAtivo.statusInvest ? `<a href="${linksAtivo.statusInvest}" target="_blank" class="radar-btn-premium"><i class="ph ph-trend-up"></i> Ver Detalhes</a>` : ''}
+                        ${linksAtivo.fonteOficial ? `<a href="${linksAtivo.fonteOficial}" target="_blank" class="radar-btn-secondary"><i class="ph ph-link"></i> Fonte Oficial</a>` : ''}
+                    </div>
+                `;
+            }
+
             htmlContent += `
-                <div class="commodity-mini-card ${featuredClass}">
-                    <div class="commodity-header">
-                        <i class="ph-fill ${ativo.icon}"></i> ${ativo.name}
-                    </div>
-                    <div class="commodity-price">
-                        <div style="display:flex; flex-direction:column;">
-                            <span>${ativo.price}</span>
-                            ${subtitleHtml}
+                <div class="commodity-mini-card ${featuredClass}" style="position:relative; cursor:default; min-height: 110px; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <div class="commodity-header">
+                            <i class="ph-fill ${ativo.icon}"></i> ${ativo.name}
                         </div>
-                        <span class="commodity-change ${changeClass}">${changeIcon} ${changeText}</span>
+                        <div class="commodity-price">
+                            <div style="display:flex; flex-direction:column;">
+                                <span>${ativo.price}</span>
+                                ${subtitleHtml}
+                            </div>
+                            <span class="commodity-change ${changeClass}">${changeIcon} ${changeText}</span>
+                        </div>
                     </div>
+                    ${deepLinkHtml}
                 </div>
             `;
         });
@@ -52,140 +93,71 @@ document.addEventListener('DOMContentLoaded', () => {
         radarGrid.innerHTML = htmlContent;
     }
 
-    // Render Inicial
     renderRadar();
 
-    // Sintoniza com o Banco Central via calculator.js para o IPCA Mensal Oficial
+    // Sintoniza com o Banco Central via calculator.js
     document.addEventListener('ratesLoaded', (e) => {
         const rates = e.detail;
-        
-        // 1. IPCA Mensal (Série 433)
         if (rates.ipcaMensal) {
             const bcAtivo = ativosData.find(a => a.id === 'IPCA_BC');
-            if (bcAtivo) {
-                bcAtivo.price = `${rates.ipcaMensal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}%`;
-                bcAtivo.change = 0;
-            }
+            if (bcAtivo) bcAtivo.price = `${rates.ipcaMensal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}%`;
         }
-
-        // 2. IPCA Focus 12 meses (Olinda)
         if (rates.ipcaProjetado) {
-            const ipcaFocusAtivo = ativosData.find(a => a.id === 'IPCA_FOCUS');
-            if (ipcaFocusAtivo) {
-                ipcaFocusAtivo.price = `${rates.ipcaProjetado.toLocaleString('pt-BR', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}%`;
-                ipcaFocusAtivo.change = 0;
-            }
+            const focusAtivo = ativosData.find(a => a.id === 'IPCA_FOCUS');
+            if (focusAtivo) focusAtivo.price = `${rates.ipcaProjetado.toLocaleString('pt-BR', { minimumFractionDigits: 3, maximumFractionDigits: 3 })}%`;
         }
-
         renderRadar();
     });
 
-    // Helper para verificar se está rodando localmente (inclui protocolo file://)
     const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname === '';
 
     async function fetchRadarData() {
-        // 1. O IPCA Focus já chega via evento ratesLoaded() do calculator.js
-        // Evitamos requisições duplicadas.
-
-        // 1.1 Poder de Compra Histórico (Real desde 1994) — BCB Série 433 (Calculado)
+        // Cálculo Poder de Compra 1994
         try {
             const historyUrl = 'https://api.bcb.gov.br/dados/serie/bcdata.sgs.433/dados?formato=json&dataInicial=01/07/1994';
             const historyRes = await fetch(historyUrl);
             if (historyRes.ok) {
                 const historyData = await historyRes.json();
-                if (Array.isArray(historyData) && historyData.length > 0) {
-                    let accumulatedIndex = 1.0;
-                    historyData.forEach(item => {
-                        accumulatedIndex *= (1 + (parseFloat(item.valor) / 100));
-                    });
-                    const power = 100.0 / accumulatedIndex;
-
-                    const compraAtivo = ativosData.find(a => a.id === 'COMPRA');
-                    if (compraAtivo) {
-                        compraAtivo.price = `R$ ${power.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-                        compraAtivo.change = 0;
-                    }
-                }
+                let accumulatedIndex = 1.0;
+                historyData.forEach(item => { accumulatedIndex *= (1 + (parseFloat(item.valor) / 100)); });
+                const power = 100.0 / accumulatedIndex;
+                const compraAtivo = ativosData.find(a => a.id === 'COMPRA');
+                if (compraAtivo) compraAtivo.price = `R$ ${power.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
             }
         } catch (e) {
-            console.warn('[Radar] Erro ao calcular Poder de Compra Histórico. Usando Fallback de Simulação.', e);
-            // Fallback para visualização local caso o CORS do Banco Central bloqueie o fetch direto no browser
             const compraAtivo = ativosData.find(a => a.id === 'COMPRA');
-            if (compraAtivo && (compraAtivo.price === '...' || compraAtivo.price === 'Erro')) {
-                compraAtivo.price = 'R$ 11,46'; // Valor real calculado via sênior scraper
-            }
+            if (compraAtivo) compraAtivo.price = 'R$ 11,46';
         }
 
-        // 2. Fetch Criptomoedas (AwesomeAPI)
-        try {
-            // Alterado para BTC-USD conforme solicitação
-            const resCrypto = await fetch('https://economia.awesomeapi.com.br/json/last/BTC-USD');
-            if (resCrypto.ok) {
-                const data = await resCrypto.json();
-                if (data.BTCUSD) {
-                    const btc = ativosData.find(a => a.id === 'BTC');
-                    if (btc) {
-                        btc.price = `$ ${parseFloat(data.BTCUSD.bid).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-                        btc.change = parseFloat(data.BTCUSD.pctChange);
-                    }
-                }
-            }
-        } catch (e) {
-            console.warn('[Radar] Erro ao buscar Criptomoedas.', e);
-        }
-
-        renderRadar(); // Atualiza a tela com o Bitcoin que já chegou rápido
-
-        // 2. Fetch Ações B3 (Vercel Serverless Function via Yahoo Finance)
-        // Só tenta se NÃO estiver local para evitar ERROS 404 no console do navegador
+        // Busca Ações via Vercel Proxy
         const stocksToFetch = ['PETR4.SA', 'VALE3.SA', 'ITUB4.SA', 'BBDC4.SA'];
-        
         const promessas = stocksToFetch.map(async (sym) => {
             if (isLocal) {
                 const ativo = ativosData.find(a => a.id === sym.replace('.SA', ''));
-                if (ativo) ativo.price = 'Modo Prod.';
+                if (ativo && ativo.price === '...') ativo.price = 'Modo Local';
                 return;
             }
-
             try {
                 const res = await fetch(`/api/yahoo?symbol=${sym}`, { signal: AbortSignal.timeout(5000) });
                 if (res.ok) {
                     const data = await res.json();
                     if (data?.chart?.result?.[0]?.meta) {
                         const meta = data.chart.result[0].meta;
-                        const internalSym = sym.replace('.SA', '');
-                        
-                        const ativo = ativosData.find(a => a.id === internalSym);
+                        const ativo = ativosData.find(a => a.id === sym.replace('.SA', ''));
                         if (ativo && meta.regularMarketPrice) {
                             ativo.price = `R$ ${meta.regularMarketPrice.toFixed(2)}`;
-                            
                             const prevClose = meta.previousClose || meta.chartPreviousClose;
-                            if (prevClose) {
-                                ativo.change = ((meta.regularMarketPrice - prevClose) / prevClose) * 100;
-                            }
+                            if (prevClose) ativo.change = ((meta.regularMarketPrice - prevClose) / prevClose) * 100;
                         }
                     }
                 }
-            } catch (e) {
-                console.warn(`[Radar] Falha ao buscar ${sym} via Vercel Function.`, e);
-                
-                const ativo = ativosData.find(a => a.id === sym.replace('.SA', ''));
-                if (ativo && ativo.price === '...') {
-                    ativo.price = 'Erro';
-                }
-            }
+            } catch (e) {}
         });
 
         await Promise.allSettled(promessas);
-        
-        // Render Final das Ações
         renderRadar();
     }
 
-    // Inicia 1 segundo após o boot para não competir com o Ticker principal
     setTimeout(fetchRadarData, 1000);
-
-    // Sincroniza a cada 5 minutos
     setInterval(fetchRadarData, 300000);
-
 });

@@ -211,6 +211,43 @@
             opacity: 0.6;
             margin-top: 1rem;
         }
+
+        /* Radar Action Buttons */
+        .radar-btn-premium {
+            color: var(--neon-green);
+            font-size: 0.65rem;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 4px 8px;
+            border-radius: 4px;
+            text-decoration: none;
+            background: rgba(16, 185, 129, 0.05);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s ease;
+        }
+        .radar-btn-premium:hover {
+            background: rgba(16, 185, 129, 0.15);
+            border-color: var(--neon-green);
+        }
+        .radar-btn-secondary {
+            color: var(--text-muted);
+            font-size: 0.65rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 4px 8px;
+            border-radius: 4px;
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.02);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s ease;
+        }
+        .radar-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-main);
+        }
     </style>
 </head>
 
@@ -948,20 +985,17 @@
         </div>
     </div>
 
-    <!-- Scripts de Lógica e Renderização -->
-    <script src="js/news-service.js?v=24" defer></script>
-    <script src="js/ticker.js?v=24" defer></script>
-    <script src="js/calculator.js?v=24" defer></script>
-    <script src="js/ui-controller.js?v=16" defer></script>
-    <script src="js/gamification.js?v=16" defer></script>
-    <!-- <script src="js/commodities.js?v=9" defer></script> -->
-    <script src="js/radar-service.js?v=4" defer></script>
-    <script src="js/buying-power.js?v=2" defer></script>
-
-    <!-- GII TEST SERVICES -->
-    <script src="js/compliance-service.js"></script>
-    <script src="js/dictionary-service.js"></script>
-    <script src="js/editorial-service.js"></script>
+    <!-- Scripts do Sistema (Versão 21 - Produção) -->
+    <script src="js/news-service.js?v=21" defer></script>
+    <script src="js/ticker.js?v=21" defer></script>
+    <script src="js/calculator.js?v=21" defer></script>
+    <script src="js/ui-controller.js?v=21" defer></script>
+    <script src="js/gamification.js?v=21" defer></script>
+    <script src="js/radar-service.js?v=21" defer></script>
+    <script src="js/buying-power.js?v=21" defer></script>
+    <script src="js/compliance-service.js?v=21" defer></script>
+    <script src="js/dictionary-service.js?v=21" defer></script>
+    <script src="js/editorial-service.js?v=21" defer></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Inicializa Motor de Dicionário
