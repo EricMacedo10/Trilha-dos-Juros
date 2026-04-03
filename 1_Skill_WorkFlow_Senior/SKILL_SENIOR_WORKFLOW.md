@@ -92,5 +92,22 @@ Este bloco documenta decisões arquiteturais para que eu nunca as repita por des
 *   **Contexto:** Necessidade de adicionar fator "UAU" visual em gráficos e containers premium sem prejudicar a leitura de valores técnicos ou confundir o usuário sobre a atualização dos dados (movimento vs. real-time).
 *   **Decisão Exclusiva:** Uso de *Animações Atmosféricas Passivas* (ex: Glowing Borders pulsantes ou Shimmer de fundo via `::before`) rodando no *background* dos containers. Componentes estáticos de visualização retêm o foco do olhar, enquanto as bordas "respiram" via `@keyframes`, transmitindo a sensação de um dashboard de alta tecnologia, vivo e ativo.
 
+### ADR-013: Motor Editorial IA-Driven (Gemini Cloud Pipeline)
+*   **Data:** 02/Abril/2026
+*   **Contexto:** Necessidade de manter o site atualizado com análises diárias ("Morning Call" e "Resumo do Dia") sem intervenção humana, garantindo engajamento e conformidade CVM.
+*   **Decisão Exclusiva:** Implementação de um pipeline em Python (`4_Automacao_IA`) rodando via GitHub Actions. A inteligência utiliza o modelo `gemini-flash-latest` (Google Cloud) para processar múltiplos feeds RSS. Para evitar "alucinações" da IA em datas (uso de datas de notícias antigas), o script Python **sobrescreve o campo de data** utilizando o relógio do servidor no momento da geração. Para anular o cache dos navegadores, o front-end injeta um `timestamp` dinâmico em cada requisição de feed, forçando a entrega do conteúdo mais recente. **IMPORTANTE:** Para compatibilidade com o plano Hobby da Vercel, o robô deve sempre assinar os commits como o proprietário da conta (`EricMacedo10`), garantindo que o deploy automático não seja bloqueado por falta de associação de usuário.
+
+### ADR-014: Blindagem Obrigatória do .gitignore (Proteção de Credenciais)
+*   **Data:** 03/Abril/2026
+*   **Contexto:** Na sessão de estabilização de 03/04, foi detectado que o `.gitignore` do projeto **não continha** regras para proteger arquivos `.env`. A pasta `4_Automacao_IA/.env` (contendo a `GEMINI_API_KEY`) estava visível como `untracked` no Git, e um simples `git add .` teria exposto a chave no repositório público.
+*   **Decisão Exclusiva:** O `.gitignore` agora é considerado um **ativo de segurança crítico** e deve conter, no mínimo, as seguintes regras obrigatórias: `.env`, `*.env`, `.env.*`, `__pycache__/`, `node_modules/`. Antes de qualquer `git add .` ou `git commit`, a proteção do `.gitignore` deve ser confirmada. Este ADR reforça a Linha Vermelha §3 ("NÃO posso ignorar a segurança").
+
+### ADR-015: Migração Futura da Biblioteca Gemini (google.generativeai → google.genai)
+*   **Data:** 03/Abril/2026
+*   **Contexto:** Nos logs do GitHub Actions de 03/04, a seguinte mensagem foi emitida: *"All support for the `google.generativeai` package has ended. Please switch to the `google.genai` package."* Adicionalmente, o Python 3.10 receberá fim de suporte do `google.api_core` em 04/Out/2026.
+*   **Impacto Atual:** Zero. O motor editorial continua funcional.
+*   **Ação Futura (Antes de Out/2026):** Migrar o `editorial_engine.py` de `import google.generativeai as genai` para `from google import genai` (novo SDK). Simultaneamente, atualizar o workflow para `python-version: '3.11'` ou superior. Esta migração não é urgente, mas deve ser planejada para evitar quebra silenciosa quando o pacote antigo for removido do PyPI.
+
 ## Assinatura de Compromisso
 Este é o meu fluxo de trabalho. A partir de agora, o projeto **Trilha dos Juros** será construído estritamente sobre bases sólidas, Cloud Edge de primeiro mundo, seguras e premium. Nada passa sem o selo de qualidade sênior.
+*Atualizado em 03/04/2026 às 10:35 (ADRs 014-015: Blindagem .gitignore e Migração Gemini SDK).*
