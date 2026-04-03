@@ -4,9 +4,25 @@ cota_hoje.json
 output.txt
 output2.txt
 
+# Segurança: NUNCA subir credenciais (ADR Skill Senior)
+.env
+*.env
+.env.*
+
 # OS generated files
 .DS_Store
 Thumbs.db
 
+# Python
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+
 # Vercel
 .vercel
+
+# Testes locais
+*_test.*
+gii_test/

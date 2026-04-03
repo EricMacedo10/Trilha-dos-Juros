@@ -39,8 +39,8 @@ jobs:
 
       - name: Commit and Push Changes
         run: |
-          git config --global user.name "Trilha Editorial Automático"
-          git config --global user.email "bot@trilhadosjuros.com.br"
+          git config --global user.name "EricMacedo10"
+          git config --global user.email "ericmacedo10@gmail.com"
           git add 3_Front_End/editorial_feed.json
           git commit -m "🤖 Auto-update: Hub Editorial (Calls do Mercado)" || echo "No changes to commit"
           git push
