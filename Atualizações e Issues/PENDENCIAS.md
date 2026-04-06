@@ -65,4 +65,44 @@
 *   **🆕 Blindagem .gitignore (03/04):** Proteção total contra vazamento de `.env` e credenciais no repositório público.
 
 ---
-*Atualizado em 03/04/2026 às 10:30 (Horário de Brasília) - Sessão de Estabilização.*
+
+## 🏛️ Roadmap de Evolução: Central de Comando Sênior (HQ)
+**Data de Proposição:** 06/04/2026
+
+Para elevar o nível de controle e transformar a HQ em uma verdadeira "Torre de Controle" profissional, estas são as melhorias detalhadas:
+
+### 1. 🟢 Orquestrador de Mercado (Monitoramento Ativo)
+*   **Problema:** Atualmente a aba de "Orquestrador" é um esqueleto visual (skeletons).
+*   **Melhoria:** Implementar lógica de `fetch` real para validar o status das APIs (BCB, Yahoo, AwesomeAPI).
+*   **Interface:** Substituir "Skeletons" por indicadores LED (Verde: Online / Vermelho: Offline).
+*   **Impacto:** Detecção imediata de falhas de cotação antes que o usuário final perceba.
+
+### 2. 📝 Editor Editorial de Contingência (Manual Override)
+*   **Problema:** Dependência 100% da IA. Se o Gemini falhar ou houver erro no texto, é necessário editar arquivos JSON via VS Code.
+*   **Melhoria:** Adicionar um campo de edição (Textarea) na HQ que permita o usuário editar manualmente o `editorial_feed.json`.
+*   **Ação:** Botão "Salvar e Republicar" que dispara um `git commit` ou salva os dados (via API futura).
+*   **Impacto:** Controle total sobre o conteúdo em casos de furos de reportagem ou correções expressas.
+
+### 3. 🛡️ Audit Log de Automação (Shadow Logs)
+*   **Problema:** A aba "Console de Eventos" contém apenas mensagens estáticas de boot.
+*   **Melhoria:** Conectar a HQ ao histórico de execuções do GitHub Actions.
+*   **Interface:** Lista cronológica: *"Há 15min: IA Editorial rodou com sucesso (12 notícias processadas)"*.
+*   **Impacto:** Segurança psicológica para o gestor saber que a "máquina" está trabalhando em segundo plano.
+
+### 4. 🔏 Gestor Dinâmico da Shadow Key (Segurança Premium)
+*   **Problema:** A senha de acesso (`Deia...`) é fixa e difícil de mudar sem ajuda técnica.
+*   **Melhoria:** Aba "Segurança" para definir uma nova chave de acesso.
+*   **Lógica:** O sistema gera o hash SHA-256 e o salva em um local seguro (env ou config).
+*   **Impacto:** Autonomia total do mestre sobre quem e como acessa a HQ.
+
+---
+
+## ✅ Conquistas Recentes (Sessão de Estabilização HQ 06/04/2026)
+*   **Restaurador de Rotas (Erro 404):** Identificado e corrigido o erro de 404 na Vercel movendo a HQ para `3_Front_End/hq/`.
+*   **Consolidador de Caminhos Relativos:** Ajustados links de CSS e Fetch do JSON para garantir funcionamento idêntico entre Localhost e Produção.
+*   **Shadow Protocol V2:** Implementada autenticação baseada em SHA-256 (Hash) na entrada da HQ, removendo senhas em texto puro do código.
+*   **Badge de Ambiente:** Implementada tag visual "MODO: PRODUÇÃO SÊNIOR" no dashboard.
+*   **Documentação ADR-016:** Formalizada a regra de "Vercel Root Directory" para evitar futuras regressões de caminhos.
+
+---
+*Atualizado em 06/04/2026 às 15:05 (Horário de Brasília) — Consolidação e Roadmapping da HQ.*
