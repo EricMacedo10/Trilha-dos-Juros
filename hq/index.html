@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Central de Comando Sênior | Trilha dos Juros</title>
+    <!-- Google Fonts: Outfit & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Styles -->
+    <link rel="stylesheet" href="../3_Front_End/css/style.css"> <!-- Reusing Base Tokens -->
+    <link rel="stylesheet" href="../3_Front_End/css/components.css"> <!-- Reusing UI Elements -->
+    <link rel="stylesheet" href="css/command.css">
+</head>
+<body class="senior-dashboard locked">
+
+    <!-- Senior Entry Key Overlay -->
+    <div id="login-overlay">
+        <div class="login-box glass-card">
+            <div class="security-shield">
+                <i class="fa-solid fa-shield-halved neon-text"></i>
+            </div>
+            <h2>ACESSO <span class="neon-text">RESTRITO</span></h2>
+            <p>Identifique-se com sua Senior Entry Key para prosseguir.</p>
+            
+            <div class="input-group">
+                <input type="password" id="senior-key-input" placeholder="••••••••••••" autocomplete="off">
+                <button id="btn-unlock"><i class="fa-solid fa-unlock"></i></button>
+            </div>
+            
+            <div id="login-error" class="negative hidden">Chave de Acesso Inválida.</div>
+            
+            <div class="login-footer">
+                <span class="environment-badge">PROTOCOLO SÊNIOR V23</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Radar de Status (Top Bar) -->
+    <header class="command-header">
+        <div class="logo">
+            <i class="fa-solid fa-tower-broadcast neon-text"></i>
+            <span>CENTRAL DE COMANDO <span class="neon-text">SÊNIOR</span></span>
+        </div>
+        <div class="system-metrics">
+            <div class="metric-pill" id="status-vercel">
+                <i class="fa-solid fa-cloud"></i> Vercel: <span class="status-ok">Online</span>
+            </div>
+            <div class="metric-pill" id="status-gemini">
+                <i class="fa-solid fa-brain"></i> Gemini IA: <span class="status-warning">Cota 80%</span>
+            </div>
+            <div class="metric-pill" id="server-time">
+                <i class="fa-solid fa-clock"></i> <span id="current-time">--:--:--</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="command-grid">
+        <!-- Sidebar: Navegação do Sistema -->
+        <aside class="command-sidebar">
+            <div class="sidebar-group">
+                <h3>MOTORES IA</h3>
+                <button class="side-btn active" onclick="switchView('editorial')">
+                    <i class="fa-solid fa-pen-nib"></i> Motor Editorial
+                </button>
+                <button class="side-btn" onclick="switchView('markets')">
+                    <i class="fa-solid fa-chart-line"></i> Orquestrador de Mercado
+                </button>
+            </div>
+            
+            <div class="sidebar-group">
+                <h3>SISTEMA CORE</h3>
+                <button class="side-btn" onclick="switchView('config')">
+                    <i class="fa-solid fa-gears"></i> Variáveis & Chaves
+                </button>
+                <button class="side-btn" onclick="switchView('logs')">
+                    <i class="fa-solid fa-terminal"></i> Console de Eventos
+                </button>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="version-tag">Trilha V23-Senior Edition</div>
+                <div class="environment-badge">MODO: LOCALHOST ONLY</div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <section class="command-content">
+            
+            <!-- View: Motor Editorial -->
+            <div id="view-editorial" class="command-section active">
+                <div class="section-header">
+                    <h2><i class="fa-solid fa-newspaper neon-text"></i> Gestão Editorial IA</h2>
+                    <p>Controle de geração de Morning Call e Resumo do Dia via Pipeline Gemini.</p>
+                </div>
+
+                <div class="dashboard-cards">
+                    <!-- Status do Feed -->
+                    <div class="glass-card status-card">
+                        <div class="card-title">STATUS DO FEED JSON</div>
+                        <div class="status-display">
+                            <div class="status-value positive" id="editorial-last-sync">--/--/-- --:--</div>
+                            <div class="status-label">Última Sincronização GitHub Action</div>
+                        </div>
+                        <div class="action-footer">
+                            <button class="btn-primary" id="btn-trigger-editorial">
+                                <i class="fa-solid fa-bolt"></i> Disparar Geração Manual
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Performance Gemini -->
+                    <div class="glass-card status-card">
+                        <div class="card-title">CRÉDITOS GEMINI (FREE TIER)</div>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 75%"></div>
+                        </div>
+                        <div class="progress-labels">
+                            <span>Usado: 12/15 dia</span>
+                            <span class="neon-text">Reset em 4h</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feed Preview -->
+                <div class="glass-panel preview-area">
+                    <div class="panel-header">PREVIEW DO FEED ATUAL</div>
+                    <div class="code-editor" id="editorial-json-view">
+                        // Carregando editorial_feed.json...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Outras Views (Skeleton) -->
+            <div id="view-markets" class="command-section">
+                <div class="section-header">
+                    <h2><i class="fa-solid fa-tower-cell neon-text"></i> Orquestrador de Mercado</h2>
+                    <p>Monitoramento de APIs de terceiros e integridade do Gist Sidecar.</p>
+                </div>
+                <div class="dashboard-cards">
+                    <div class="glass-card source-status">
+                        <div class="card-icon"><i class="fa-solid fa-file-code"></i></div>
+                        <div class="card-info">
+                            <h3>GitHub Gist (Commodities)</h3>
+                            <span class="badge positive">Conectado</span>
+                        </div>
+                    </div>
+                    <div class="glass-card source-status">
+                        <div class="card-icon"><i class="fa-solid fa-building-columns"></i></div>
+                        <div class="card-info">
+                            <h3>Banco Central (SGS)</h3>
+                            <span class="badge positive">Operativo</span>
+                        </div>
+                    </div>
+                    <div class="glass-card source-status">
+                        <div class="card-icon"><i class="fa-solid fa-microchip"></i></div>
+                        <div class="card-info">
+                            <h3>Vercel Serverless (Yahoo)</h3>
+                            <span class="badge positive">Ready</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- Overlay de Logs (Terminal) -->
+    <div class="terminal-overlay hidden">
+        <div class="terminal-header">
+            <span>SISTEMA AUDIT LOG</span>
+            <button class="close-terminal">×</button>
+        </div>
+        <div class="terminal-body" id="system-logs">
+            [2026-04-06 09:00:00] Inicializando Interface Sênior...
+            [2026-04-06 09:00:01] Verificando conexões críticas... OK
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/command.js"></script>
+</body>
+</html>
