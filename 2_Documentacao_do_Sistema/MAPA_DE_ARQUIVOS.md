@@ -57,7 +57,14 @@
 | `dictionary-service.js` | Pílulas de Conhecimento — dicionário financeiro educativo | Local + IA |
 | `compliance-service.js` | Motor de compliance CVM 178 — valida linguagem e disclaimers | Regras locais |
 | `buying-power.js` | Gráfico "O Real em 1994 vs Hoje" — perda de poder de compra | BCB SGS (Série 433) |
-| `radar-service-test.js` | ⚠️ Arquivo de TESTE — NÃO vai para produção | — |
+
+### Central de Comando Sênior (`3_Front_End/hq/`)
+
+| Arquivo/Pasta | Responsabilidade |
+|:---|:---|
+| `index.html` | Dashboard administrativo restrito ("Shadow Protocol"). Gerencia a infra, status de APIs e motor IA |
+| `css/command.css` | Estilização isolada do dashboard (Glassmorphism Sênior, Terminal Theme) |
+| `js/command.js` | Lógica autônoma do painel. Realiza fetch dinâmico (anti-cache) do `editorial_feed.json` |
 
 ### API Serverless (`3_Front_End/api/`) — Vercel Functions
 
@@ -109,6 +116,8 @@ Qualquer outro nome será **bloqueado pela Vercel Hobby**. (Ref: ADR-013)
 | `4_Back_End/api_commodities.php` | ❌ Obsoleto | PHP/Hostinger erradicado (ADR-002) |
 | `3_Front_End/news-proxy.php` | ❌ Obsoleto | Proxy PHP erradicado (ADR-002) |
 | `.htaccess` | ❌ Legado | Configuração Apache/Hostinger, ignorada na Vercel |
+| `hq/` (Raiz) | ❌ Obsoleto | Pasta legada, movida para `3_Front_End/hq/` |
+| `5_Central_Comando_Senior/` | ❌ Proibido | Vercel não monitora pastas fora de `3_Front_End`. Usar `3_Front_End/hq/` |
 
 ---
-*Documentação criada em 03/04/2026 — Sessão de Estabilização.*
+*Documentação atualizada em 06/04/2026 — Implementação e Estabilização da HQ Vercel.*

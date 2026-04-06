@@ -106,8 +106,11 @@ Este bloco documenta decisões arquiteturais para que eu nunca as repita por des
 *   **Data:** 03/Abril/2026
 *   **Contexto:** Nos logs do GitHub Actions de 03/04, a seguinte mensagem foi emitida: *"All support for the `google.generativeai` package has ended. Please switch to the `google.genai` package."* Adicionalmente, o Python 3.10 receberá fim de suporte do `google.api_core` em 04/Out/2026.
 *   **Impacto Atual:** Zero. O motor editorial continua funcional.
-*   **Ação Futura (Antes de Out/2026):** Migrar o `editorial_engine.py` de `import google.generativeai as genai` para `from google import genai` (novo SDK). Simultaneamente, atualizar o workflow para `python-version: '3.11'` ou superior. Esta migração não é urgente, mas deve ser planejada para evitar quebra silenciosa quando o pacote antigo for removido do PyPI.
+### ADR-016: Sincronização de Pastas vs Vercel Root Directory (Erros 404)
+*   **Data:** 06/Abril/2026
+*   **Contexto:** Ocorreu um Erro 404 em produção na página `trilhadosjuros.com.br/hq/`. Isso aconteceu pois, no painel da Vercel, o **Root Directory** do projeto inteiro é definido como a pasta `3_Front_End`. Criações de infraestrutura local em pastas paralelas (ex: `5_Central_Comando_Senior` ou `hq` na raiz) ficam fora do escopo de *build* da Vercel.
+*   **Decisão Exclusiva:** A arquitetura de arquivos deve obedecer à estrutura mapeada em `MAPA_DE_ARQUIVOS.md`. Qualquer nova rota ou página web oficial deve ser alocada invariavelmente dentro de `3_Front_End`. Se a rota for `/hq`, os arquivos DEVEM estar estritamente contidos em `3_Front_End/hq`. Quaisquer pastas criadas apenas com fins de organização no VS Code ("pastas falsas" ou legadas superiores) estão **terminantemente banidas**, para impedir falsos positivos no local host que causariam tela branca na produção. As alterações no código front-end (HTML/CSS/JS) precisam ser enviadas para a branch `main` apenas dentro da pasta root correta (`3_Front_End`).
 
 ## Assinatura de Compromisso
 Este é o meu fluxo de trabalho. A partir de agora, o projeto **Trilha dos Juros** será construído estritamente sobre bases sólidas, Cloud Edge de primeiro mundo, seguras e premium. Nada passa sem o selo de qualidade sênior.
-*Atualizado em 03/04/2026 às 10:35 (ADRs 014-015: Blindagem .gitignore e Migração Gemini SDK).*
+*Atualizado em 06/04/2026 — Sessão de Estabilização HQ e ADR-016 (Gestão de Diretórios Vercel).*
