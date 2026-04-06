@@ -134,38 +134,62 @@ def generate_educational_pill(context):
 
 def main():
     print("[Alpha] Iniciando Motor Editorial IA-Driven...")
-    news_context = fetch_top_news()
     
+    # Caminho do feed (Ambiente de Produção Oficial)
+    output_path = os.path.join("..", "3_Front_End", "editorial_feed.json")
+    
+    # Tenta carregar o estado anterior para não apagar o conteúdo que não será atualizado
+    existing_data = {}
+    if os.path.exists(output_path):
+        try:
+            with open(output_path, "r", encoding="utf-8") as f:
+                existing_data = json.load(f)
+            print("-> Feed existente carregado com sucesso.")
+        except Exception as e:
+            print(f"-> Aviso: Não foi possível carregar o feed anterior: {e}")
+
+    news_context = fetch_top_news()
     if not news_context:
         print("Aviso: Nenhuma notícia encontrada nas fontes RSS.")
         return
 
-    # Gera Morning Call
-    morning_call = generate_editorial(news_context, mode="morning")
-    if morning_call:
-        morning_call["date"] = datetime.now().strftime("%d/%m/%Y • 08:30h")
-        
-    # Gera Resumo do Dia
-    evening_call = generate_editorial(news_context, mode="evening")
-    if evening_call:
-        evening_call["date"] = datetime.now().strftime("%d/%m/%Y • 18:00h")
-        
-    # Gera Pílula de Conhecimento (Termo do Dia)
-    daily_term = generate_educational_pill(news_context)
-    
+    # Determina o turno baseado na hora UTC (GitHub Actions roda em UTC)
+    # 08:30 BRT = 11:30 UTC | 18:00 BRT = 21:00 UTC
+    # Usaremos 15:00 UTC (12:00 BRT) como divisor de águas
+    current_utc_hour = datetime.utcnow().hour
+    is_morning_shift = current_utc_hour < 15
+
+    # Inicializa o novo feed com os dados antigos (Fallback)
     feed_data = {
-        "morning": morning_call,
-        "evening": evening_call,
-        "daily_term": daily_term,
+        "morning": existing_data.get("morning"),
+        "evening": existing_data.get("evening"),
+        "daily_term": existing_data.get("daily_term"),
         "last_update": datetime.now().isoformat()
     }
+
+    if is_morning_shift:
+        print("-> Turno Detectado: MATUTINO (Morning Call)")
+        morning_call = generate_editorial(news_context, mode="morning")
+        if morning_call:
+            morning_call["date"] = datetime.now().strftime("%d/%m/%Y • 08:30h")
+            feed_data["morning"] = morning_call
+    else:
+        print("-> Turno Detectado: VESPERTINO (Resumo do Dia)")
+        evening_call = generate_editorial(news_context, mode="evening")
+        if evening_call:
+            evening_call["date"] = datetime.now().strftime("%d/%m/%Y • 18:00h")
+            feed_data["evening"] = evening_call
+
+    # A Pílula de Conhecimento e o timestamp são atualizados em ambos os turnos
+    daily_term = generate_educational_pill(news_context)
+    if daily_term:
+        feed_data["daily_term"] = daily_term
     
-    # Salva no diretório do Front-End (Ambiente de Produção Oficial)
-    output_path = os.path.join("..", "3_Front_End", "editorial_feed.json")
+    # Salva o arquivo final combinado
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(feed_data, f, ensure_ascii=False, indent=2)
     
-    print(f"Sucesso! Feed editorial gerado em: {output_path}")
+    print(f"Sucesso! Feed editorial ({'Morning' if is_morning_shift else 'Evening'}) sincronizado em: {output_path}")
 
 if __name__ == "__main__":
     main()
