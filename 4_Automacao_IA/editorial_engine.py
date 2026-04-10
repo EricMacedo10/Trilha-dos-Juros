@@ -2,6 +2,7 @@ import os
 import json
 import feedparser
 import google.generativeai as genai
+from openai import OpenAI
 import socket
 from datetime import datetime
 from dotenv import load_dotenv
@@ -11,7 +12,19 @@ socket.setdefaulttimeout(10)
 
 # Configurações do Ambiente
 load_dotenv()
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+
+# Inicializa clientes de IA
+DEEPSEEK_KEY = os.getenv("DEEPSEEK_API_KEY")
+GEMINI_KEY = os.getenv("GEMINI_API_KEY")
+
+deepseek_client = None
+if DEEPSEEK_KEY:
+    deepseek_client = OpenAI(api_key=DEEPSEEK_KEY, base_url="https://api.deepseek.com")
+    print("-> DeepSeek configurado como provedor principal.")
+
+if GEMINI_KEY:
+    genai.configure(api_key=GEMINI_KEY)
+    print("-> Gemini configurado como provedor de backup.")
 
 # Fontes de Notícias RSS (Foco em Yahoo Finance e Investing.com)
 NEWS_SOURCES = {
@@ -42,6 +55,7 @@ def fetch_top_news():
 def clean_json_response(text):
     """Extrai e limpa o JSON da resposta da IA de forma robusta."""
     try:
+        if not text: return None
         # Tenta encontrar o JSON entre blocos de código markdown
         if "```json" in text:
             text = text.split("```json")[1].split("```")[0]
@@ -51,16 +65,44 @@ def clean_json_response(text):
         return json.loads(text.strip())
     except Exception as e:
         print(f"Erro ao extrair JSON: {e}")
-        # Fallback: tenta carregar o texto bruto se nada mais funcionar
         try:
             return json.loads(text.strip())
         except:
             return None
 
-def generate_editorial(context, mode="morning"):
-    """Gera o texto editorial via Gemini respeitando as regras da CVM."""
-    model = genai.GenerativeModel('gemini-flash-latest')
+def ask_llm(prompt, system_prompt="Você é um assistente especializado em finanças."):
+    """Orquestrador de IA: Tenta DeepSeek primeiro, cai para Gemini se falhar."""
     
+    # Tentativa 1: DeepSeek (Custo-Benefício e Estabilidade)
+    if deepseek_client:
+        try:
+            print("   [IA] Chamando DeepSeek...")
+            response = deepseek_client.chat.completions.create(
+                model="deepseek-chat",
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": prompt},
+                ],
+                stream=False
+            )
+            return response.choices[0].message.content
+        except Exception as e:
+            print(f"   [IA] Falha no DeepSeek: {e}")
+
+    # Tentativa 2: Gemini (Backup)
+    if GEMINI_KEY:
+        try:
+            print("   [IA] Chamando Gemini (Backup)...")
+            model = genai.GenerativeModel('gemini-flash-latest')
+            response = model.generate_content(f"{system_prompt}\n\n{prompt}")
+            return response.text
+        except Exception as e:
+            print(f"   [IA] Falha no Gemini: {e}")
+
+    return None
+
+def generate_editorial(context, mode="morning"):
+    """Gera o texto editorial respeitando as regras da CVM."""
     current_time = datetime.now().strftime("%d de %B, %Y • %H:%Mh")
     
     if mode == "morning":
@@ -73,10 +115,11 @@ def generate_editorial(context, mode="morning"):
         tipo = "Resumo do Dia"
         subtitulo = "fechamento e principais movimentos"
     
-    print(f"-> Gerando {tipo} via Gemini...")
+    print(f"-> Gerando {tipo}...")
+    
+    system_prompt = "Você é um Editor Sênior de Finanças para a plataforma 'Trilha dos Juros'. Seu tom é sóbrio, analítico e profissional."
     
     prompt = f"""
-    Você é um Editor Sênior de Finanças para a plataforma 'Trilha dos Juros'.
     Sua missão é escrever um { tipo } ({subtitulo}) baseado nas seguintes notícias coletadas agora:
     
     {context}
@@ -90,7 +133,6 @@ def generate_editorial(context, mode="morning"):
     
     REQUISITOS DE FORMATAÇÃO:
     - Use HTML básico (<strong>, <p>, <ul>, <li>).
-    - Mantenha o tom sóbrio, analítico e profissional.
     - O título deve ser curto e impactante (máx 10 palavras).
     
     FORNEÇA O RESULTADO APENAS COMO JSON PURO NO SEGUINTE FORMATO:
@@ -101,18 +143,14 @@ def generate_editorial(context, mode="morning"):
     }}
     """
     
-    try:
-        response = model.generate_content(prompt)
-        return clean_json_response(response.text)
-    except Exception as e:
-        print(f"Erro na chamada Gemini ({mode}): {e}")
-        return None
+    response_text = ask_llm(prompt, system_prompt)
+    return clean_json_response(response_text)
 
 def generate_educational_pill(context):
     """Gera um termo financeiro educativo baseado no contexto das notícias (Termo do Dia)."""
-    model = genai.GenerativeModel('gemini-flash-latest')
+    print("-> Gerando Pílula de Conhecimento...")
     
-    print("-> Gerando Pílula de Conhecimento via Gemini...")
+    system_prompt = "Você é um educador financeiro didático."
     
     prompt = f"""
     Baseado nas seguintes notícias do mercado financeiro:
@@ -129,21 +167,14 @@ def generate_educational_pill(context):
     }}
     """
     
-    try:
-        response = model.generate_content(prompt)
-        return clean_json_response(response.text)
-    except Exception as e:
-        print(f"Erro na chamada Gemini (Pílula): {e}")
-        return None
-
-import requests
+    response_text = ask_llm(prompt, system_prompt)
+    return clean_json_response(response_text)
 
 def generate_economic_calendar(context):
     """Gera uma lista de 5 eventos econômicos de alto impacto utilizando dados reais da semana."""
-    model = genai.GenerativeModel('gemini-flash-latest')
     current_month = datetime.now().strftime("%B de %Y")
     
-    print("-> Gerando Agenda Econômica (5 Colunas) via Gemini...")
+    print("-> Gerando Agenda Econômica (5 Colunas)...")
     
     # Busca o calendário real da semana via API aberta
     real_calendar_text = "Nenhum evento global carregado."
@@ -153,7 +184,6 @@ def generate_economic_calendar(context):
         response = requests.get(url, headers=headers, timeout=5)
         if response.status_code == 200:
             events = response.json()
-            # Pega eventos High e Medium para as moedas principais para garantir volume
             valid_events = [e for e in events if e.get('impact') in ['High', 'Medium'] and e.get('country') in ['USD', 'EUR', 'GBP', 'CNY', 'JPY', 'BRL', 'CAD']]
             
             lines = []
@@ -167,6 +197,8 @@ def generate_economic_calendar(context):
     except Exception as e:
         print(f"Aviso: Não foi possível carregar calendário real externo: {e}")
     
+    system_prompt = "Você é um analista de dados macroeconômicos."
+    
     prompt = f"""
     Hoje é {current_month}. Recebemos os seguintes eventos reais da agenda global desta semana:
     
@@ -178,66 +210,52 @@ def generate_economic_calendar(context):
     Sua tarefa é selecionar os 5 eventos mais impactantes para um investidor no Brasil. 
     1. Utilize obrigatoriamente os eventos globais listados acima (traduzindo os títulos para Português).
     2. Se você encontrar nas "Notícias recentes" algum evento importante do Brasil (Copom, IPCA, IBC-Br, etc) para a semana, inclua-o também.
-    3. NUNCA invente ou deduzia datas futuras fictícias. Restrinja-se à agenda real passada acima.
+    3. NUNCA invente datas fictícias. Restrinja-se à agenda real passada acima.
     
     PARA CADA EVENTO, PREENCHA O JSON COM:
     1. country: use 'br' ou 'us' ou 'eu' (baseado no país do evento original).
-    2. date: formato DD/MM (extraia da data recebida).
+    2. date: formato DD/MM.
     3. time: formato HH:MM ou 'Dia Todo'.
     4. event: nome curto do indicador em Português.
     5. impact: High, Medium ou Low.
     6. atual: sempre use "---". 
-    7. proj: valor projetado (copiado da agenda real).
-    8. prev: valor anterior (copiado da agenda real).
+    7. proj: valor projetado (da agenda real).
+    8. prev: valor anterior (da agenda real).
 
     FORNEÇA O RESULTADO APENAS COMO JSON PURO NO SEGUINTE FORMATO:
     {{
       "events": [
-        {{ 
-          "date": "10/04", 
-          "time": "09:30", 
-          "country": "us", 
-          "event": "CPI - Inflação", 
-          "impact": "High", 
-          "atual": "---", 
-          "proj": "0.3%", 
-          "prev": "0.4%" 
-        }}
+        {{ "date": "10/04", "time": "09:30", "country": "us", "event": "CPI - Inflação", "impact": "High", "atual": "---", "proj": "0.3%", "prev": "0.4%" }}
       ]
     }}
     """
-    try:
-        response = model.generate_content(prompt)
-        return clean_json_response(response.text)
-    except Exception as e:
-        print(f"Erro na chamada Gemini (Agenda 2.0): {e}")
-        return None
+    
+    response_text = ask_llm(prompt, system_prompt)
+    return clean_json_response(response_text)
+
+import requests
 
 def main():
-    print("[Alpha] Iniciando Motor Editorial IA-Driven...")
+    print("[Senior Mode] Iniciando Motor Editorial Híbrido (DeepSeek + Gemini)...")
     
-    # Caminho do feed (Ambiente de Produção Oficial)
     output_path = os.path.join("..", "3_Front_End", "editorial_feed.json")
     
-    # Tenta carregar o estado anterior para não apagar o conteúdo que não será atualizado
     existing_data = {}
     if os.path.exists(output_path):
         try:
             with open(output_path, "r", encoding="utf-8") as f:
                 existing_data = json.load(f)
-            print("-> Feed existente carregado com sucesso.")
+            print("-> Feed existente carregado.")
         except Exception as e:
-            print(f"-> Aviso: Não foi possível carregar o feed anterior: {e}")
+            print(f"-> Aviso: Erro ao carregar feed anterior: {e}")
 
     news_context = fetch_top_news()
     if not news_context:
-        print("Aviso: Nenhuma notícia encontrada nas fontes RSS.")
+        print("Aviso: Nenhuma notícia encontrada.")
         return
 
-    # Turnos baseados em UTC (08:30 BRT = 11:30 UTC | 12:00 BRT = 15:00 UTC | 18:00 BRT = 21:00 UTC)
     current_utc_hour = datetime.utcnow().hour
     
-    # Inicializa o novo feed com os dados antigos (Merge)
     feed_data = {
         "morning": existing_data.get("morning"),
         "coffee": existing_data.get("coffee"),
@@ -247,28 +265,28 @@ def main():
         "last_update": datetime.now().isoformat()
     }
 
-    if current_utc_hour < 13: # Antes das 10h BRT
-        print("-> Turno Detectado: MATUTINO (Morning Call)")
+    # Turnos baseados em UTC
+    if current_utc_hour < 13: # Morning Call
+        print("-> Turno Detectado: MATUTINO")
         call = generate_editorial(news_context, mode="morning")
         if call:
             call["date"] = datetime.now().strftime("%d/%m/%Y • 08:30h")
             feed_data["morning"] = call
             
-    elif 13 <= current_utc_hour < 17: # Entre 10h e 14h BRT
-        print("-> Turno Detectado: INTERMEDIÁRIO (Coffee Break)")
+    elif 13 <= current_utc_hour < 17: # Coffee Break
+        print("-> Turno Detectado: INTERMEDIÁRIO")
         call = generate_editorial(news_context, mode="coffee")
         if call:
             call["date"] = datetime.now().strftime("%d/%m/%Y • 12:00h")
             feed_data["coffee"] = call
             
-    else: # Após as 14h BRT
-        print("-> Turno Detectado: VESPERTINO (Resumo do Dia)")
+    else: # Resumo do Dia
+        print("-> Turno Detectado: VESPERTINO")
         call = generate_editorial(news_context, mode="evening")
         if call:
             call["date"] = datetime.now().strftime("%d/%m/%Y • 18:00h")
             feed_data["evening"] = call
 
-    # Atualizações globais (Termo e Agenda) em cada run
     daily_term = generate_educational_pill(news_context)
     if daily_term:
         feed_data["daily_term"] = daily_term
@@ -280,7 +298,7 @@ def main():
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(feed_data, f, ensure_ascii=False, indent=2)
     
-    print(f"Sucesso! Processamento sincronizado em: {output_path}")
+    print(f"Sucesso! Feed atualizado via IA em: {output_path}")
 
 if __name__ == "__main__":
     main()
