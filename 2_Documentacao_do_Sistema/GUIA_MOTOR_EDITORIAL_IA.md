@@ -1,50 +1,52 @@
-# Guia do Motor Editorial IA-Driven (Trilha dos Juros)
+# Guia do Motor Editorial IA-Driven (Trilha dos Juros - v2.0)
 
-Este guia descreve o funcionamento do sistema automatizado de geração de conteúdo para o **Morning Call** e **Resumo do Dia**, implementado na Sessão Sênior de 02/04/2026.
+Este guia descreve o funcionamento do sistema automatizado de geração de conteúdo para o **Editorial Hub**, atualizado para a arquitetura 100% DeepSeek em 10/04/2026.
 
 ## 🏁 Visão Geral
-O sistema utiliza IA para coletar notícias de fontes financeiras reais (RSS), processá-las sob a ótica de compliance CVM e gerar um feed JSON que alimenta o front-end automaticamente.
+O sistema utiliza Inteligência Artificial de ponta para coletar notícias de fontes financeiras reais (RSS), processá-las sob a ótica de compliance CVM e gerar um feed JSON que alimenta o front-end automaticamente em três turnos diários.
 
 ## 🛰️ Arquitetura de Dados
-1.  **Fontes**: Investing.com, Yahoo Finance, CoinDesk, CNBC.
-2.  **Motor (Python)**: `4_Automacao_IA/editorial_engine.py`
-3.  **Inteligência**: Google Gemini API (`gemini-flash-latest`).
+1.  **Fontes**: Investing.com, Yahoo Finance, Agregadores BRL/USD/Commodities.
+2.  **Motor (Python)**: `4_Automacao_IA/editorial_engine.py` (v2.1).
+3.  **Inteligência**: **DeepSeek API** (`deepseek-chat`).
 4.  **Entrega**: Gerador de arquivo `3_Front_End/editorial_feed.json`.
 5.  **Apresentação**: `3_Front_End/js/editorial-service.js`.
 
 ## 🤖 Regras de Automação (GitHub Actions)
 O robô está configurado em `.github/workflows/editorial-automation.yml`:
-*   **Cron 08:30 BRT**: Gera o Morning Call.
-*   **Cron 18:00 BRT**: Gera o Resumo do Dia.
-*   **On Push**: Também roda sempre que houver mudanças no código.
-*   **Permissões**: Requer `contents: write` ativado no repositório.
+*   **⏰ 08:30 BRT (Matutino)**: Gera o **Morning Call**.
+*   **☕ 12:00 BRT (Intermediário)**: Gera o **Coffee Break** (Relatório de Meio de Dia).
+*   **🌆 18:00 BRT (Vespertino)**: Gera o **Resumo do Dia**.
+*   **Manual**: Permite execução manual via *GitHub Actions -> Run Workflow*.
+*   **⚠️ Nota de Deploy**: O gatilho `on: push` foi desativado para evitar sobrescritas acidentais e loops de deploy na Vercel.
+
+## 🔍 Funcionalidades Especiais
+### 🕵️ IA Detetive (Extração de Dados Reais)
+Diferente de agendas econômicas estáticas, o motor editorial agora possui uma lógica de **extração ativa**. Se o resultado de um indicador (ex: inflação CPI) for citado nas notícias de última hora, a IA extrai o número e preenche automaticamente a coluna **ATUAL** do Radar de Eventos, eliminando o delay de APIs de terceiros.
+
+### 📅 Agenda Econômica Inteligente
+O radar prioriza automaticamente eventos de "Hoje em diante", filtrando o lixo de dados passados e focando apenas no que impacta a sessão de mercado atual.
 
 ## 🛠️ Resolução de Problemas (FAQ)
 
-### ❓ As notícias estão com data errada/antiga?
-O sistema agora força a data do servidor através do Python. Se a data estiver travada, verifique se o navegador está usando cache (limpe o cache ou use o timestamp `?v=` na URL). No dia 02/04, adicionamos um alerta manual no HTML: *"A atualização irá ocorrer no próximo pregão"*.
+### ❓ Erro 429 ou Falha de IA?
+Como migramos para a API paga do **DeepSeek**, o erro de cota gratuita (Gemini) foi eliminado. Se houver falha, verifique o saldo da conta DeepSeek no dashboard oficial.
 
-### ❓ Erro 429 (Quota Exceeded)?
-Significa que o limite de 15 a 20 requisições diárias (Free Tier) foi atingido. O robô entrará em modo de **Fallback**, mostrando mensagens padrão até que a cota seja renovada no dia seguinte.
+### ❓ O site não atualizou mesmo após o robô rodar?
+O site utiliza um **Service Worker (PWA)** para alta performance. Se você não vir a atualização, faça um **Hard Reload (Ctrl + F5)**. Isso forçará o navegador a ler o novo `editorial_feed.json`.
 
-### ❓ Como rodar manualmente?
-Se você estiver no seu computador (`localhost`):
+### ❓ Como rodar manualmente para teste?
 ```bash
 cd 4_Automacao_IA
+# Certifique-se de ter a DEEPSEEK_API_KEY no .env
 python editorial_engine.py
 ```
 
-### ❓ Deploy bloqueado na Vercel (Status "Blocked")?
-Isso acontece quando o commit do robô é assinado com um nome diferente do proprietário da conta Vercel Hobby. O autor do commit no workflow **deve obrigatoriamente ser** `EricMacedo10` com o e-mail `ericmacedo10@gmail.com`. Qualquer outro nome (ex: "Trilha Editorial Automático") será rejeitado pela Vercel. Verifique as linhas de `git config` no arquivo `.github/workflows/editorial-automation.yml`.
-
-### ❓ Vários feeds RSS estão vazios?
-Algumas fontes RSS (CoinDesk, CNBC, Yahoo BR) podem estar temporariamente indisponíveis ou bloqueando requisições de servidores cloud. O motor editorial funciona com pelo menos 1 fonte ativa, mas a qualidade do conteúdo melhora com mais fontes. Avalie substituir feeds inativos.
-
 ## 🔒 Segurança e Compliance (CVM 178)
-O prompt da IA está programado para:
-*   Ser estritamente informativo (Sem recomendações de compra/venda).
-*   Manter distanciamento institucional.
-*   Referenciar fontes oficiais do mercado financeiro.
+O motor editorial segue travas de segurança rígidas:
+*   Proibido o uso de termos de recomendação (Compre/Venda).
+*   Proibido adjetivos de pânico ou euforia.
+*   Obrigatória a citação de fontes (Bloomberg, Yahoo, etc).
 
 ---
-*Documentação criada em 02/04/2026. Atualizada em 03/04/2026.*
+*Documentação atualizada em 10/04/2026 - Sprint: Estabilização Editorial Hub.*

@@ -2,8 +2,8 @@
 
 [![Status](https://img.shields.io/badge/Status-Produção-success?style=for-the-badge)](https://trilhadosjuros.com.br)
 [![Build](https://img.shields.io/badge/CI%2FCD-Vercel%20Edge-black?style=for-the-badge)](https://vercel.com)
-[![AI](https://img.shields.io/badge/Powered%20By-DeepSeek%20%2B%20Gemini-green?style=for-the-badge)]()
-[![Backend](https://img.shields.io/badge/Engine-Python%203.14-gold?style=for-the-badge)]()
+[![AI](https://img.shields.io/badge/Powered%20By-DeepSeek%20IA-green?style=for-the-badge)]()
+[![Backend](https://img.shields.io/badge/Engine-Python%203.11-gold?style=for-the-badge)]()
 
 **Trilha dos Juros** evoluiu de um simulador para um **terminal de inteligência financeira completo**. Projetado com a estética *Faria Lima Style* (Glassmorphism), o sistema agora combina cálculos matemáticos rigorosos de renda fixa com análise editorial em tempo real impulsionada por Inteligência Artificial.
 
@@ -11,20 +11,17 @@
 
 ## 💎 Diferenciais Estratégicos (Next-Gen)
 
-### 1. Hub Editorial Autônomo (Hybrid AI Architecture)
-O sistema opera com uma arquitetura de IA redundante para garantir 100% de disponibilidade:
-- **Motor Primário (DeepSeek):** Utilizado para gerações de alta performance, textos densos e análise profunda sem limites restritivos de quota.
-- **Motor de Backup (Google Gemini):** Ativado automaticamente como contingência em caso de indisponibilidade do provedor principal.
-- **Morning Call, Coffee Break e Resumo do Dia:** Três turnos de análise diária automática.
+### 1. Hub Editorial Autônomo (DeepSeek Engine v2.0)
+O sistema opera com uma arquitetura de IA de alta performance para garantir análises profundas e estáveis:
+- **Motor Exclusivo (DeepSeek):** Utilizado para gerações de alta performance, textos densos e análise profunda, operando via API paga para estabilidade total.
+- **Morning Call, Coffee Break e Resumo do Dia:** Três turnos de análise diária automática, cobrindo abertura, meio-dia e fechamento de mercado.
 - **Compliance CVM:** Todo conteúdo é estritamente informativo, eliminando adjetivos sensacionalistas ou recomendações de compra/venda.
 
-### 2. Agenda Econômica de Alto Impacto (Dados Reais)
+### 2. Agenda Econômica com "IA Detetive"
 Uma interface de monitoramento em tempo real centrada no investidor de Renda Fixa:
-- **Fonte Real:** Eventos consumidos da API do **ForexFactory** (JSON semanal), eliminando dados fictícios gerados pela IA.
+- **IA Detetive:** O motor editorial não apenas lê a agenda, mas "caça" valores reais nas notícias. Se um dado (ex: IPCA ou CPI) sair no Yahoo Finance, a IA extrai o número e preenche o campo **ATUAL** do Radar instantaneamente.
 - **Neon Pulse Indicators:** Eventos de alto impacto (CPI, FOMC, Copom) ganham destaque visual dinâmico.
-- **Análise Brasileira e Global:** Cobertura simultânea dos principais indicadores do Brasil (BCB) e Estados Unidos (Fed).
-- **Dados Preditivos:** O motor de IA injeta as projeções de mercado (Proj) vs valores anteriores (Prev) para auxiliar na tomada de decisão.
-- **Fallback Resiliente:** Se a API do Gemini atingir limite de quota (429), os dados existentes são preservados integralmente.
+- **Filtro Inteligente:** O radar prioriza automaticamente eventos de "Hoje em diante", eliminando a poluição de dados passados.
 
 ### 3. Precisão Matemática Impecável
 Nosso motor de cálculo (JS Nativo) processa o rigor financeiro que calculadoras comuns ignoram:
@@ -35,7 +32,7 @@ Nosso motor de cálculo (JS Nativo) processa o rigor financeiro que calculadoras
 ### 4. Orquestração de Dados Resiliente
 Arquitetura híbrida que garante 99.9% de disponibilidade:
 - **Indicadores Oficiais:** Selic, CDI e IPCA via API do Banco Central.
-- **Ações & Commodities:** Roteamento via Vercel Serverless Function e Python Scrapers salvos em GitHub Gists para contornar timeouts de FTP.
+- **Ações & Commodities:** Roteamento via Vercel Serverless Function e Python Scrapers persistidos para alta resiliência.
 
 ---
 
@@ -43,11 +40,11 @@ Arquitetura híbrida que garante 99.9% de disponibilidade:
 
 ```mermaid
 graph TD
-    A[Fontes: RSS, Investing, BCB] -->|Scraping / API| B(Motor Python - Editorial Engine)
+    A[Fontes: RSS, Yahoo Finance, Investing] -->|Scraping / API| B(Motor Python - DeepSeek Engine)
     FF[ForexFactory API] -->|Calendário Real Semanal| B
-    B -->|Prompt Engineering| C[Google Gemini AI]
+    B -->|IA Detetive Extraction| C[DeepSeek Chat API]
     C -->|JSON Estruturado| D[editorial_feed.json]
-    D -->|Fetch dinâmico| E[Frontend Glassmorphism]
+    D -->|Fetch dinâmico + timestamp| E[Frontend Glassmorphism]
     E -->|Interação Usuário| F[Simulador & Insights]
 ```
 
@@ -56,10 +53,10 @@ graph TD
 ## 🛠️ Stack Tecnológica
 
 - **Front-end:** Vanilla JavaScript (ES6+), CSS3 (Dark Mode & UI Premium), HTML5 Semântico.
-- **AI Engine:** Python 3.10 + Google Generative AI (Gemini Flash).
+- **AI Engine:** Python 3.11 + DeepSeek API (OpenAI SDK).
 - **Backend Edge:** Node.js em Vercel Serverless Functions.
 - **Visualização:** Chart.js para gráficos de juros compostos.
-- **Segurança:** Proteção contra XSS, DDoS e arquitetura **Clean-Secret** (Credenciais armazenadas em GitHub Secrets/Vault).
+- **Segurança:** Proteção contra XSS, DDoS e arquitetura **Clean-Secret** (GitHub Secrets).
 
 ---
 

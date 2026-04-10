@@ -48,8 +48,8 @@ O sistema opera em uma estrutura ágil, blindada de gargalos, e otimizada unicam
 
 ## 5. Editorial Hub 2.0 (Abr/2026)
 1.  **Coffee Break (3º Turno IA):** Resumo dinâmico do meio-dia, gerado às 12:00h BRT. **[CONCLUÍDO]**
-2.  **Calendário Econômico Real:** Integração com ForexFactory API (`nfs.faireconomy.media`) para eliminar eventos alucinados pela IA. **[CONCLUÍDO]**
+2.  **Calendário Econômico Real:** Integração com ForexFactory API e lógica de extração "IA Detetive". **[CONCLUÍDO]**
 3.  **Sticky Sidebar:** Coluna lateral fixa durante scroll, mantendo Ativos e Calendário visíveis. **[CONCLUÍDO]**
-4.  **Fallback Resiliente:** Motor IA preserva dados existentes (`return None`) em caso de Quota Exceeded (429). **[CONCLUÍDO]**
+4.  **Estabilidade Total:** Motor migrado para **DeepSeek API** (Paga) para eliminar erros de quota do Gemini. **[CONCLUÍDO]**
 5.  **Alinhamento Visual:** Painel de Calls harmonizado com Radar de Eventos na sidebar. **[CONCLUÍDO]**
-6.  **Arquitetura de IA Híbrida (DeepSeek + Gemini):** Implementação de redundância de IA. DeepSeek atua como motor primário de alta performance (sem travas de quota) e o Gemini atua como backup resiliente. **[ATIVO - ABR/26]**
+6.  **Arquitetura IA DeepSeek Única:** Otimização para um único provedor de elite, garantindo textos mais coesos e extração de dados macroeconômicos em tempo real. **[ATIVO - ABR/26]**
