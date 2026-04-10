@@ -111,6 +111,11 @@ Este bloco documenta decisões arquiteturais para que eu nunca as repita por des
 *   **Contexto:** Ocorreu um Erro 404 em produção na página `trilhadosjuros.com.br/hq/`. Isso aconteceu pois, no painel da Vercel, o **Root Directory** do projeto inteiro é definido como a pasta `3_Front_End`. Criações de infraestrutura local em pastas paralelas (ex: `5_Central_Comando_Senior` ou `hq` na raiz) ficam fora do escopo de *build* da Vercel.
 *   **Decisão Exclusiva:** A arquitetura de arquivos deve obedecer à estrutura mapeada em `MAPA_DE_ARQUIVOS.md`. Qualquer nova rota ou página web oficial deve ser alocada invariavelmente dentro de `3_Front_End`. Se a rota for `/hq`, os arquivos DEVEM estar estritamente contidos em `3_Front_End/hq`. Quaisquer pastas criadas apenas com fins de organização no VS Code ("pastas falsas" ou legadas superiores) estão **terminantemente banidas**, para impedir falsos positivos no local host que causariam tela branca na produção. As alterações no código front-end (HTML/CSS/JS) precisam ser enviadas para a branch `main` apenas dentro da pasta root correta (`3_Front_End`).
 
+### ADR-017: Arquitetura Editorial Híbrida (DeepSeek Pro + Gemini Backup)
+*   **Data:** 10/Abril/2026
+*   **Contexto:** O limite rigoroso da cota gratuita do Gemini (20 requisições/dia) causava falhas no Morning Call quando o volume de automações aumentava (3 turnos + deploys manuais).
+*   **Decisão Exclusiva:** Migração para um modelo híbrido. O motor editorial agora utiliza a API do **DeepSeek** (padrão OpenAI) como provedor primário de alta performance e baixo custo. O sistema detecta automaticamente erros de saldo ou instabilidade e realiza o *fallback* silencioso para o **Google Gemini**. A preservação de dados antigos (`editorial_feed.json`) em caso de falha de ambas as IAs é obrigatória para manter a integridade visual da produção.
+
 ## Assinatura de Compromisso
 Este é o meu fluxo de trabalho. A partir de agora, o projeto **Trilha dos Juros** será construído estritamente sobre bases sólidas, Cloud Edge de primeiro mundo, seguras e premium. Nada passa sem o selo de qualidade sênior.
-*Atualizado em 06/04/2026 — Sessão de Estabilização HQ e ADR-016 (Gestão de Diretórios Vercel).*
+*Atualizado em 10/04/2026 — Implementação de IA Híbrida e Estabilização Editorial 2.0.*

@@ -2,8 +2,8 @@
 
 [![Status](https://img.shields.io/badge/Status-Produção-success?style=for-the-badge)](https://trilhadosjuros.com.br)
 [![Build](https://img.shields.io/badge/CI%2FCD-Vercel%20Edge-black?style=for-the-badge)](https://vercel.com)
-[![AI](https://img.shields.io/badge/Powered%20By-Google%20Gemini-blue?style=for-the-badge)]()
-[![Backend](https://img.shields.io/badge/Engine-Python%203.10-gold?style=for-the-badge)]()
+[![AI](https://img.shields.io/badge/Powered%20By-DeepSeek%20%2B%20Gemini-green?style=for-the-badge)]()
+[![Backend](https://img.shields.io/badge/Engine-Python%203.14-gold?style=for-the-badge)]()
 
 **Trilha dos Juros** evoluiu de um simulador para um **terminal de inteligência financeira completo**. Projetado com a estética *Faria Lima Style* (Glassmorphism), o sistema agora combina cálculos matemáticos rigorosos de renda fixa com análise editorial em tempo real impulsionada por Inteligência Artificial.
 
@@ -11,11 +11,11 @@
 
 ## 💎 Diferenciais Estratégicos (Next-Gen)
 
-### 1. Hub Editorial Autônomo (AI-Powered)
-O sistema não apenas calcula, ele interpreta o mercado. Utilizando o motor **Google Gemini**, o hub gera autonomamente:
-- **Morning Call:** Preparação estratégica antes da abertura do mercado.
-- **Coffee Break:** Resumo dinâmico dos principais movimentos do meio-dia.
-- **Resumo do Dia:** Análise de fechamento com os fatos que realmente importam.
+### 1. Hub Editorial Autônomo (Hybrid AI Architecture)
+O sistema opera com uma arquitetura de IA redundante para garantir 100% de disponibilidade:
+- **Motor Primário (DeepSeek):** Utilizado para gerações de alta performance, textos densos e análise profunda sem limites restritivos de quota.
+- **Motor de Backup (Google Gemini):** Ativado automaticamente como contingência em caso de indisponibilidade do provedor principal.
+- **Morning Call, Coffee Break e Resumo do Dia:** Três turnos de análise diária automática.
 - **Compliance CVM:** Todo conteúdo é estritamente informativo, eliminando adjetivos sensacionalistas ou recomendações de compra/venda.
 
 ### 2. Agenda Econômica de Alto Impacto (Dados Reais)

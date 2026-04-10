@@ -12,7 +12,7 @@
 | `1_Skill_WorkFlow_Senior/` | Contrato de qualidade e workflow sênior (ADRs, regras de ouro) |
 | `2_Documentacao_do_Sistema/` | Toda a documentação técnica e guias de operação |
 | `3_Front_End/` | **Código de produção** — HTML, CSS, JS e APIs serverless |
-| `4_Automacao_IA/` | Motor Editorial IA (Gemini) — Python isolado |
+| `4_Automacao_IA/` | Motor Editorial IA Híbrido (DeepSeek + Gemini) — Python isolado |
 | `4_Back_End/` | ⚠️ **Legado** — PHP obsoleto (Hostinger), NÃO usar |
 | `API_Investimento/` | Scraper de Commodities (Python → Gist Strategy) |
 | `Atualizações e Issues/` | Controle de pendências, bugs e conquistas |
@@ -79,9 +79,9 @@
 
 | Arquivo | Responsabilidade |
 |:---|:---|
-| `editorial_engine.py` | Script principal: coleta RSS + ForexFactory → Gemini → gera `editorial_feed.json` (3 turnos + calendário real) |
-| `requirements.txt` | Dependências Python (google-generativeai, feedparser, etc.) |
-| `.env` | 🔒 Chave `GEMINI_API_KEY` local (NUNCA subir ao Git) |
+| `editorial_engine.py` | Script principal: coleta RSS + ForexFactory → IA Híbrida → gera `editorial_feed.json` (3 turnos + calendário real) |
+| `requirements.txt` | Dependências Python (google-generativeai, openai, feedparser, requests) |
+| `.env` | 🔒 Chaves `GEMINI_API_KEY` e `DEEPSEEK_API_KEY` local (NUNCA subir ao Git) |
 | `check_models.py` | Utilitário de debug — lista modelos Gemini disponíveis |
 
 ---
@@ -120,4 +120,4 @@ Qualquer outro nome será **bloqueado pela Vercel Hobby**. (Ref: ADR-013)
 | `5_Central_Comando_Senior/` | ❌ Proibido | Vercel não monitora pastas fora de `3_Front_End`. Usar `3_Front_End/hq/` |
 
 ---
-*Documentação atualizada em 10/04/2026 — Deploy Editorial Hub 2.0 com ForexFactory e Coffee Break.*
+*Documentação atualizada em 10/04/2026 — Implementação de IA Híbrida (DeepSeek + Gemini) e Estabilização 2.0.*

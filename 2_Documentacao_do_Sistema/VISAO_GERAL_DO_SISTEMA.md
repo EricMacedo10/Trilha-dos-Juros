@@ -52,3 +52,4 @@ O sistema opera em uma estrutura ágil, blindada de gargalos, e otimizada unicam
 3.  **Sticky Sidebar:** Coluna lateral fixa durante scroll, mantendo Ativos e Calendário visíveis. **[CONCLUÍDO]**
 4.  **Fallback Resiliente:** Motor IA preserva dados existentes (`return None`) em caso de Quota Exceeded (429). **[CONCLUÍDO]**
 5.  **Alinhamento Visual:** Painel de Calls harmonizado com Radar de Eventos na sidebar. **[CONCLUÍDO]**
+6.  **Arquitetura de IA Híbrida (DeepSeek + Gemini):** Implementação de redundância de IA. DeepSeek atua como motor primário de alta performance (sem travas de quota) e o Gemini atua como backup resiliente. **[ATIVO - ABR/26]**

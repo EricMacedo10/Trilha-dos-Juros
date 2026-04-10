@@ -238,7 +238,9 @@ import requests
 def main():
     print("[Senior Mode] Iniciando Motor Editorial Híbrido (DeepSeek + Gemini)...")
     
-    output_path = os.path.join("..", "3_Front_End", "editorial_feed.json")
+    # Caminho do feed (Baseado na localização do script para ser resiliente)
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    output_path = os.path.abspath(os.path.join(script_dir, "..", "3_Front_End", "editorial_feed.json"))
     
     existing_data = {}
     if os.path.exists(output_path):

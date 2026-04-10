@@ -3,16 +3,16 @@
 ## 🏆 Conquistas Recentes: Editorial Hub 2.0 (10/04/2026)
 *   **Integração ForexFactory:** Agora a agenda econômica é alimentada por dados reais globais, eliminando alucinações da IA.
 *   **Turno Coffee Break:** Novo slot de atualização às 12:00 BRT integrado ao GitHub Actions e à Interface.
-*   **UI/UX Alinhada:** Painel de Calls do Mercado harmonizado visualmente com o Radar de Eventos na sidebar (Sticky Sidebar).
-*   **Fallback Resiliente:** Motor IA configurado para preservar dados existentes em caso de erro 429 (Quota), garantindo estabilidade.
-*   **Janela Expandida:** Altura do painel de Calls aumentada para 980px para permitir leitura fluida de artigos longos.
+*   **Arquitetura de IA Híbrida (DeepSeek + Gemini):** Resolvido definitivamente o problema de cota. DeepSeek é o motor primário e Gemini o backup.
+*   **Resiliência Total:** Motor configurado para retornar `None` em falhas, preservando dados válidos do site sem exibir erros técnicos.
+*   **UI/UX Alinhada:** Painel de Calls harmonizado com o Radar de Eventos na sidebar (Sticky Sidebar).
+*   **Janela Expandida:** Altura do painel de Calls aumentada para 980px para leitura fluida.
 
 ## 📋 Pendências e Configurações Futuras (Pós-Sessão Sênior)
 
-### 1. Monitoramento de Cota IA (Gemini API)
-**Status:** ✅ Resolvido (03/04/2026)
-**Descrição:** Devido aos intensos testes de deploy em 02/04, a cota gratuita de 20 requisições diárias foi atingida (Erro 429). 
-**Resolução:** A cota resetou em 03/04 e o robô gerou conteúdo com sucesso às 08:30h. O sistema de "fallback" permanece ativo como rede de segurança.
+**Status:** ✅ Solucionado via Arquitetura Híbrida (10/04/2026)
+**Descrição:** A dependência exclusiva da cota gratuita do Gemini foi eliminada. 
+**Resolução:** Implementação do **DeepSeek** como motor primário estável (com saldo ativo). O Gemini agora atua apenas como redundância. O erro 429 não afeta mais a disponibilidade do conteúdo.
 
 ### 2. Remoção do Aviso de Próximo Pregão
 **Status:** ✅ Resolvido (10/04/2026)
@@ -111,4 +111,4 @@ Para elevar o nível de controle e transformar a HQ em uma verdadeira "Torre de 
 *   **Documentação ADR-016:** Formalizada a regra de "Vercel Root Directory" para evitar futuras regressões de caminhos.
 
 ---
-*Atualizado em 06/04/2026 às 15:05 (Horário de Brasília) — Consolidação e Roadmapping da HQ.*
+*Atualizado em 10/04/2026 às 11:30 (Horário de Brasília) — Upgrade para IA Híbrida DeepSeek + Gemini.*
