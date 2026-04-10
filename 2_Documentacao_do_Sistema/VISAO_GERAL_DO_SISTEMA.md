@@ -6,6 +6,7 @@ O projeto **"Trilha dos Juros"** é uma plataforma financeira estratégica (*web
 *   **Design Premium ("Faria Lima" / Fintech):** Distanciar-se dos velhos formulários estáticos e aborrecidos e da UI engessada institucional, utilizando *Dark Mode* sofisticado, sliders intuitivos de neon, áreas analíticas e *Glassmorphism* moderno, gerando a sensação de "terminal de investimentos de elite".
 *   **Máquina de Retenção e Monetização (AdSense):** Estruturado logicamente via SEO extremo e "Tráfego Recorrente". A grande revolução da "Trilha dos Juros" é gamificar a rotina financeira do brasileiro por meio de uma "**Jornada de Depósitos Dinâmica**" — onde o próprio usuário define sua Meta e Quantidade de Etapas, instigando-o a retornar religiosamente para bater metas personalizadas e garantindo um engajamento estrondoso nas visualizações (RPM/CPC).
 *   **Autonomia com IA (Operações Zero-Toque):** Arquitetura "Self-Driving". O front-end puxa dados via orquestração de APIs (Yahoo Finance Proxy, Banco Central SGS), atualizando Tickers e indicadores financeiros (Selic, CDI, IPCA) de forma síncrona e resiliente, anulando a necessidade de manutenção manual.
+*   **Hub Editorial IA Intraday:** Motor Python (Gemini) gera 3 turnos editoriais autônomos (Morning Call → Coffee Break → Resumo do Dia) e um Calendário Econômico alimentado por dados reais da API do **ForexFactory**, eliminando alucinações de datas e indicadores.
 
 ## 2. A Arquitetura do Sistema
 O sistema opera em uma estrutura ágil, blindada de gargalos, e otimizada unicamente para velocidade (Vitals) e escalabilidade.
@@ -44,3 +45,10 @@ O sistema opera em uma estrutura ágil, blindada de gargalos, e otimizada unicam
 4.  **Modernização Estética & Gamificação:** Integração de vídeo 3D de alta fidelidade na Jornada dos Depósitos, contadores animados (KPIs) e suporte oficial nativo à instalação como **Aplicativo (PWA)** no celular para máxima proteção do cache do usuário. **[NOVO - MAR/26]**
 5.  **Radar de Ativos 100% Oficial:** Migração de APIs irrelevantes/pagas (HG Brasil) para a fonte oficial absoluta de IPCA Acumulado 12 meses (Série 13522 do BCB com juros compostos), zerando dependência de chaves (`SUA_CHAVE_AQUI`). **[NOVO - MAR/26]**
 6.  **Auditoria Técnica Sênior:** Zero perda de dados locais por hard-reloads perigosos, eliminação de memory-leaks e refatoração preventiva de Service Workers. **[CONCLUÍDO]**
+
+## 5. Editorial Hub 2.0 (Abr/2026)
+1.  **Coffee Break (3º Turno IA):** Resumo dinâmico do meio-dia, gerado às 12:00h BRT. **[CONCLUÍDO]**
+2.  **Calendário Econômico Real:** Integração com ForexFactory API (`nfs.faireconomy.media`) para eliminar eventos alucinados pela IA. **[CONCLUÍDO]**
+3.  **Sticky Sidebar:** Coluna lateral fixa durante scroll, mantendo Ativos e Calendário visíveis. **[CONCLUÍDO]**
+4.  **Fallback Resiliente:** Motor IA preserva dados existentes (`return None`) em caso de Quota Exceeded (429). **[CONCLUÍDO]**
+5.  **Alinhamento Visual:** Painel de Calls harmonizado com Radar de Eventos na sidebar. **[CONCLUÍDO]**

@@ -1,6 +1,7 @@
 # 🚀 Update Editorial Hub 2.0: Calendário Global & Coffee Break
 **Data:** 09 de Abril de 2026
-**Status:** Pronto para Produção (Agendado para Amanhã Cedo)
+**Deploy em Produção:** ✅ 10 de Abril de 2026 — 06:00h BRT
+**Status:** Em Produção
 
 ---
 
@@ -28,27 +29,27 @@ Nesta atualização, elevamos a barra de qualidade do simulador **Trilha dos Jur
 
 O robô agora é **100% autônomo** para o novo formato:
 *   **3 Turnos de Publicação:** O script detecta a hora e gera o conteúdo específico (Manhã, Almoço ou Noite).
-*   **Geração de Agenda:** O Gemini agora identifica os 5 eventos mais relevantes e estima as Projeções e Valores Anteriores automaticamente se o dado real ainda não tiver saído.
+*   **Agenda Real (ForexFactory):** O motor agora consome a API JSON do **ForexFactory** (`nfs.faireconomy.media`) para alimentar o Gemini com a agenda econômica real da semana, eliminando eventos fictícios/alucinados pela IA.
 *   **Lógica de Merge:** O robô **preserva** as notícias dos turnos anteriores. Se ele rodar o Coffee Break, o Morning Call não é apagado.
+*   **Fallback Resiliente:** Se a API do Gemini retornar erro 429 (Quota), o calendário existente é **preservado** (return `None`) em vez de ser sobrescrito por um fallback genérico.
 
 ---
 
-## 📋 Checklist para Produção (Amanhã Cedo)
+## ✅ Checklist de Produção (Concluído em 10/04/2026)
 
-Para garantir que a transição seja perfeita (Zero Downtime):
-
-1.  **Verificar Configuração:** Certifique-se de que a `GEMINI_API_KEY` está ativa no painel do GitHub Secrets ou Vercel.
-2.  **Commit Seletivo:** 
-    *   Subir apenas os arquivos da pasta `3_Front_End` e `4_Automacao_IA`.
-    *   **IMPORTANTE:** Não sobrescrever o arquivo `.env` de produção com chaves locais.
-3.  **Monitorar GitHub Actions:** Após o `push`, verifique se o workflow `editorial-automation.yml` roda sem erros.
-4.  **Limpar Cache:** Se as mudanças não aparecerem de imediato, lembre-se que injetamos o `?v=timestamp` no JS para forçar o refresh do JSON.
+1.  ✅ **GEMINI_API_KEY** ativa no GitHub Secrets.
+2.  ✅ **Commit assinado** como `EricMacedo10` para compatibilidade Vercel Hobby.
+3.  ✅ **GitHub Actions** rodou sem erros após o push.
+4.  ✅ **Cache-busting** via `?v=timestamp` no JS está ativo.
+5.  ✅ **Radar de Eventos** alimentado por dados reais (ForexFactory API).
+6.  ✅ **Alinhamento visual** do painel Calls com Radar de Eventos ajustado (`margin-top: 4rem`, `max-height: 980px`).
 
 ---
 
 ## 🛡️ Notas de Segurança e Estabilidade
-*   **Fallback Ativo:** Se a API do Gemini falhar (Erro 429), o site continuará funcionando com os textos padrão e não "quebrará" o layout.
+*   **Fallback Resiliente (Bugfix 10/04):** Se a API do Gemini falhar (Erro 429 Quota Exceeded), o motor agora retorna `None` e **preserva os dados existentes** no JSON. Anteriormente, o fallback sobrescrevia o calendário inteiro com um evento genérico.
 *   **Progresso do Usuário:** Nenhuma mudança foi feita na lógica de depósitos ou saldo. O **Desafio dos Depósitos** permanece 100% seguro no localStorage dos clientes.
+*   **Dependência `requests`:** Já incluída no `requirements.txt` para suportar a chamada HTTP ao ForexFactory.
 
 ---
 **Assinado:** *Motor de IA Antigravity (Selo de Qualidade Sênior)*

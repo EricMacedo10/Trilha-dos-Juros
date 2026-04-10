@@ -1,7 +1,7 @@
 # Mapa de Arquivos do Sistema — Trilha dos Juros
 
 > Referência rápida: "quem faz o quê" em cada arquivo do projeto.
-> Atualizado em 03/04/2026.
+> Atualizado em 10/04/2026.
 
 ---
 
@@ -32,7 +32,7 @@
 | `privacidade.html` | Política de privacidade (LGPD) |
 | `manifest.json` | Configuração PWA (instalação como app no celular) |
 | `sw.js` | Service Worker — cache offline e estratégia de atualização |
-| `editorial_feed.json` | Feed de notícias gerado pelo robô IA (Morning Call + Resumo do Dia) |
+| `editorial_feed.json` | Feed editorial gerado pelo robô IA (Morning Call + Coffee Break + Resumo do Dia + Calendário Econômico) |
 | `mercado_global.json` | Dados de commodities (lido do Gist público) |
 
 ### CSS (`3_Front_End/css/`)
@@ -52,7 +52,7 @@
 | `ticker.js` | Barra de cotações infinita (60fps). Renderização "No-DOM-Trash" (ADR-003) | HG Brasil (Domain-Locked) + BCB SGS |
 | `radar-service.js` | Radar de Ativos — grid com Selic, CDI, IPCA, BTC, Ouro | BCB SGS + Gist |
 | `commodities.js` | Leitura de cotações do Gist público (Ouro, Prata, etc.) | GitHub Gist CDN |
-| `editorial-service.js` | Carrega e exibe o Morning Call / Resumo do Dia no front | `editorial_feed.json` |
+| `editorial-service.js` | Carrega e exibe Morning Call / Coffee Break / Resumo do Dia + Calendário Econômico | `editorial_feed.json` |
 | `news-service.js` | Módulo de notícias via RSS (com fallbacks) | RSS Feeds via CORS |
 | `dictionary-service.js` | Pílulas de Conhecimento — dicionário financeiro educativo | Local + IA |
 | `compliance-service.js` | Motor de compliance CVM 178 — valida linguagem e disclaimers | Regras locais |
@@ -79,7 +79,7 @@
 
 | Arquivo | Responsabilidade |
 |:---|:---|
-| `editorial_engine.py` | Script principal: coleta RSS → Gemini → gera `editorial_feed.json` |
+| `editorial_engine.py` | Script principal: coleta RSS + ForexFactory → Gemini → gera `editorial_feed.json` (3 turnos + calendário real) |
 | `requirements.txt` | Dependências Python (google-generativeai, feedparser, etc.) |
 | `.env` | 🔒 Chave `GEMINI_API_KEY` local (NUNCA subir ao Git) |
 | `check_models.py` | Utilitário de debug — lista modelos Gemini disponíveis |
@@ -100,7 +100,7 @@
 
 | Arquivo | Gatilho | O que faz |
 |:---|:---|:---|
-| `editorial-automation.yml` | Cron 08:30/18:00 BRT + Push + Manual | Roda `editorial_engine.py` → commit `editorial_feed.json` → deploy Vercel |
+| `editorial-automation.yml` | Cron 08:30/12:00/18:00 BRT + Push + Manual | Roda `editorial_engine.py` → commit `editorial_feed.json` → deploy Vercel |
 | `update_prices.yml` | Cron a cada hora + Manual | Roda `scraper.py` → atualiza Gist de commodities |
 
 ### ⚠️ Regra Crítica dos Workflows
@@ -120,4 +120,4 @@ Qualquer outro nome será **bloqueado pela Vercel Hobby**. (Ref: ADR-013)
 | `5_Central_Comando_Senior/` | ❌ Proibido | Vercel não monitora pastas fora de `3_Front_End`. Usar `3_Front_End/hq/` |
 
 ---
-*Documentação atualizada em 06/04/2026 — Implementação e Estabilização da HQ Vercel.*
+*Documentação atualizada em 10/04/2026 — Deploy Editorial Hub 2.0 com ForexFactory e Coffee Break.*

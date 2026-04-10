@@ -18,11 +18,13 @@ O sistema não apenas calcula, ele interpreta o mercado. Utilizando o motor **Go
 - **Resumo do Dia:** Análise de fechamento com os fatos que realmente importam.
 - **Compliance CVM:** Todo conteúdo é estritamente informativo, eliminando adjetivos sensacionalistas ou recomendações de compra/venda.
 
-### 2. Agenda Econômica de Alto Impacto
+### 2. Agenda Econômica de Alto Impacto (Dados Reais)
 Uma interface de monitoramento em tempo real centrada no investidor de Renda Fixa:
-- **Neon Pulse Indicators:** Eventos de alto impacto (IPCA, Copom, Payroll) ganham destaque visual dinâmico.
+- **Fonte Real:** Eventos consumidos da API do **ForexFactory** (JSON semanal), eliminando dados fictícios gerados pela IA.
+- **Neon Pulse Indicators:** Eventos de alto impacto (CPI, FOMC, Copom) ganham destaque visual dinâmico.
 - **Análise Brasileira e Global:** Cobertura simultânea dos principais indicadores do Brasil (BCB) e Estados Unidos (Fed).
 - **Dados Preditivos:** O motor de IA injeta as projeções de mercado (Proj) vs valores anteriores (Prev) para auxiliar na tomada de decisão.
+- **Fallback Resiliente:** Se a API do Gemini atingir limite de quota (429), os dados existentes são preservados integralmente.
 
 ### 3. Precisão Matemática Impecável
 Nosso motor de cálculo (JS Nativo) processa o rigor financeiro que calculadoras comuns ignoram:
@@ -41,7 +43,8 @@ Arquitetura híbrida que garante 99.9% de disponibilidade:
 
 ```mermaid
 graph TD
-    A[Fontes: RSS, Investinig, BCB] -->|Scraping / API| B(Motor Python - Editorial Engine)
+    A[Fontes: RSS, Investing, BCB] -->|Scraping / API| B(Motor Python - Editorial Engine)
+    FF[ForexFactory API] -->|Calendário Real Semanal| B
     B -->|Prompt Engineering| C[Google Gemini AI]
     C -->|JSON Estruturado| D[editorial_feed.json]
     D -->|Fetch dinâmico| E[Frontend Glassmorphism]
