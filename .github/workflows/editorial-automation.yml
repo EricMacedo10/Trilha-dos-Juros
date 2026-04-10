@@ -7,8 +7,6 @@ on:
     - cron: '30 11 * * 1-5'
     - cron: '0 15 * * 1-5'
     - cron: '0 21 * * 1-5'
-  push:
-    branches: [ main ]
   workflow_dispatch: # Permite rodar manualmente no GitHub a qualquer momento
 
 jobs:
@@ -24,16 +22,15 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.11'
 
       - name: Install Dependencies
         run: |
           cd 4_Automacao_IA
           pip install -r requirements.txt
 
-      - name: Run Editorial Engine (Gemini IA)
+      - name: Run Editorial Engine (DeepSeek IA)
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: |
           cd 4_Automacao_IA

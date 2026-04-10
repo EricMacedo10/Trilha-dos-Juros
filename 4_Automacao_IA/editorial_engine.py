@@ -1,10 +1,10 @@
 import os
 import json
 import feedparser
-import google.generativeai as genai
+import requests
 from openai import OpenAI
 import socket
-from datetime import datetime
+from datetime import datetime, timezone
 from dotenv import load_dotenv
 
 # Configuração de timeout global para evitar travamentos em feeds lentos
@@ -13,18 +13,15 @@ socket.setdefaulttimeout(10)
 # Configurações do Ambiente
 load_dotenv()
 
-# Inicializa clientes de IA
+# Inicializa cliente DeepSeek (Provedor Único)
 DEEPSEEK_KEY = os.getenv("DEEPSEEK_API_KEY")
-GEMINI_KEY = os.getenv("GEMINI_API_KEY")
 
 deepseek_client = None
 if DEEPSEEK_KEY:
     deepseek_client = OpenAI(api_key=DEEPSEEK_KEY, base_url="https://api.deepseek.com")
-    print("-> DeepSeek configurado como provedor principal.")
-
-if GEMINI_KEY:
-    genai.configure(api_key=GEMINI_KEY)
-    print("-> Gemini configurado como provedor de backup.")
+    print("-> DeepSeek configurado com sucesso.")
+else:
+    print("ERRO CRÍTICO: DEEPSEEK_API_KEY não encontrada! O motor editorial não funcionará.")
 
 # Fontes de Notícias RSS (Foco em Yahoo Finance e Investing.com)
 NEWS_SOURCES = {
@@ -71,35 +68,26 @@ def clean_json_response(text):
             return None
 
 def ask_llm(prompt, system_prompt="Você é um assistente especializado em finanças."):
-    """Orquestrador de IA: Tenta DeepSeek primeiro, cai para Gemini se falhar."""
+    """Chamada direta ao DeepSeek (Provedor Único)."""
     
-    # Tentativa 1: DeepSeek (Custo-Benefício e Estabilidade)
-    if deepseek_client:
-        try:
-            print("   [IA] Chamando DeepSeek...")
-            response = deepseek_client.chat.completions.create(
-                model="deepseek-chat",
-                messages=[
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": prompt},
-                ],
-                stream=False
-            )
-            return response.choices[0].message.content
-        except Exception as e:
-            print(f"   [IA] Falha no DeepSeek: {e}")
-
-    # Tentativa 2: Gemini (Backup)
-    if GEMINI_KEY:
-        try:
-            print("   [IA] Chamando Gemini (Backup)...")
-            model = genai.GenerativeModel('gemini-flash-latest')
-            response = model.generate_content(f"{system_prompt}\n\n{prompt}")
-            return response.text
-        except Exception as e:
-            print(f"   [IA] Falha no Gemini: {e}")
-
-    return None
+    if not deepseek_client:
+        print("   [IA] ERRO: Cliente DeepSeek não inicializado. Verifique a DEEPSEEK_API_KEY.")
+        return None
+    
+    try:
+        print("   [IA] Chamando DeepSeek...")
+        response = deepseek_client.chat.completions.create(
+            model="deepseek-chat",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": prompt},
+            ],
+            stream=False
+        )
+        return response.choices[0].message.content
+    except Exception as e:
+        print(f"   [IA] Falha no DeepSeek: {e}")
+        return None
 
 def generate_editorial(context, mode="morning"):
     """Gera o texto editorial respeitando as regras da CVM."""
@@ -194,17 +182,13 @@ def generate_economic_calendar(context):
                     future_events.append(e)
             
             lines = []
-            # Se tivermos poucos eventos hoje/futuro, pegamos os últimos do passado para completar 8 opções para a IA
+            # Se tivermos poucos eventos hoje/futuro, pegamos os últimos do passado para completar
             if len(future_events) < 5:
-                # Pega os eventos da semana inteira que são High/Medium
                 all_valid = [e for e in events if e.get('impact') in ['High', 'Medium']]
-                # Se hoje é sexta, o início da lista tem muita coisa velha. 
-                # Vamos pegar os 10 mais próximos da data de hoje (mesmo que um pouco antes)
                 lines = []
-                for e in all_valid: # Aqui all_valid já está em ordem cronológica por padrão da API
+                for e in all_valid:
                     e_date = e.get('date', '')[:10]
                     lines.append(f"- País: {e.get('country')} | Data: {e_date} | Evento: {e.get('title')} | Proj: {e.get('forecast')} | Ant: {e.get('previous')}")
-                # Pegamos os 15 mais recentes (os últimos da lista costumam ser o final da semana)
                 lines = lines[-15:] 
             else:
                 for e in future_events[:10]:
@@ -241,7 +225,7 @@ def generate_economic_calendar(context):
     5. proj: valor projetado (Proj).
     6. prev: valor anterior (Prev).
     7. date: data (DD/MM).
-    8. time: hora (HH:MM) ou 'Dia Todo'. (da agenda real).
+    8. time: hora (HH:MM) ou 'Dia Todo'.
     
     FORNEÇA O RESULTADO APENAS COMO JSON PURO NO SEGUINTE FORMATO:
     {{
@@ -254,10 +238,12 @@ def generate_economic_calendar(context):
     response_text = ask_llm(prompt, system_prompt)
     return clean_json_response(response_text)
 
-import requests
-
 def main():
-    print("[Senior Mode] Iniciando Motor Editorial Híbrido (DeepSeek + Gemini)...")
+    print("[Senior Mode] Iniciando Motor Editorial DeepSeek...")
+    
+    if not deepseek_client:
+        print("ABORTANDO: Sem cliente DeepSeek. Configure DEEPSEEK_API_KEY.")
+        return
     
     # Caminho do feed (Baseado na localização do script para ser resiliente)
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -277,7 +263,7 @@ def main():
         print("Aviso: Nenhuma notícia encontrada.")
         return
 
-    current_utc_hour = datetime.utcnow().hour
+    current_utc_hour = datetime.now(timezone.utc).hour
     
     feed_data = {
         "morning": existing_data.get("morning"),
@@ -321,7 +307,7 @@ def main():
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(feed_data, f, ensure_ascii=False, indent=2)
     
-    print(f"Sucesso! Feed atualizado via IA em: {output_path}")
+    print(f"Sucesso! Feed atualizado via DeepSeek em: {output_path}")
 
 if __name__ == "__main__":
     main()
