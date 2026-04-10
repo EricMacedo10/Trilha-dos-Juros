@@ -5,9 +5,9 @@
     "body": "<p>O cenário financeiro global nesta sexta-feira é marcado pela cautela antes da divulgação de novos dados de inflação nos Estados Unidos, que podem ditar o ritmo dos juros pelo Fed. Na Europa, os balanços corporativos mostram resiliência, enquanto na Ásia o foco permanece nos estímulos à economia chinesa.</p><strong>Foco em Inflação e Juros</strong><p>Investidores monitoram de perto os rendimentos dos Treasuries, que operam em patamares elevados. No Brasil, o mercado repercute os dados de vendas no varejo e as falas recentes de membros do Copom sobre a trajetória da Selic. O dólar apresenta volatilidade frente a moedas emergentes.</p><ul><li><strong>Commodities:</strong> O petróleo opera estável, com tensões no Oriente Médio servindo de suporte aos preços.</li><li><strong>Bolsas:</strong> Futuros em Nova York sinalizam abertura mista; Ibovespa busca manter patamar de suporte técnico.</li></ul><p><strong>Fontes:</strong> Curadoria Trilha dos Juros e Yahoo Finance.</p>"
   },
   "coffee": {
-    "title": "Mercados em Tensão: Inflação, Petróleo e Sinais do Fed",
+    "title": "Mercados em tensão: petróleo, IA e dados dos EUA",
     "date": "10/04/2026 • 12:00h",
-    "body": "<p>Os mercados financeiros operam com cautela nesta manhã, diante de um conjunto de dados e notícias que apontam para diferentes direções na economia global e doméstica.</p><p><strong>Dados de Inflação e Posição do Fed</strong></p><p>Nos Estados Unidos, a divulgação de dados de inflação ao consumidor (CPI) surpreendeu os mercados, levando a uma sessão volátil. O índice Dow Jones apresentava movimentos laterais em meio à reavaliação das perspectivas monetárias. Em linha com essa reação, um oficial do Federal Reserve colocou um novo aumento da taxa de juros sobre a mesa, condicionando a medida à trajetória futura dos dados inflacionários. Paralelamente, as projeções para o PIB dos EUA no primeiro trimestre apontam para uma recuperação, embora um cenário geopolítico de cessar-fogo frágil continue a gerar incertezas sobre o crescimento.</p><p><strong>Commodities e Geopolítica</strong></p><p>No front das commodities, um choque nos preços do petróleo gera especulações sobre um possível impacto na política monetária americana. A volatilidade é atribuída, em parte, aos desenvolvimentos no Estreito de Ormuz, onde o fluxo da commodity tem uma correlação direta e inversa com a valorização do dólar. A movimentação nos contratos futuros WDOK26 e WINJ26 foi destacada como tendo os melhores preços do dia até o momento.</p><p><strong>Inovação e Reconfiguração de Mercados</strong></p><p>No setor de tecnologia, a Amazon anunciou planos de expandir significativamente suas entregas por drones a partir de 2025. No mercado de criptoativos, a Nexus Mutual busca se posicionar como uma alternativa de seguro para carteiras digitais. Enquanto isso, uma reconfiguração geopolítica no setor de minérios ganha forma, com países ocidentais formando um clube de minerais estratégicos do qual a China estaria excluída.</p><p><strong>Mercado Doméstico e Bancário</strong></p><p>No Brasil, a discussão sobre o papel dos grandes bancos evolui, com análises apontando para uma transição de funções tradicionais de custódia para um envolvimento mais profundo na gestão empresarial por meio de serviços de inteligência e análise de dados.</p><p><strong>Fontes:</strong> Yahoo Finance (cobertura ao vivo do mercado de ações, anúncio da Amazon, nota do Fed, Nexus Mutual, clube de minerais), Agências de notícias financeiras nacionais (petróleo, PIB EUA, futuros, papel dos bancos).</p>"
+    "body": "<p>Os mercados operam nesta sexta-feira sob a influência de movimentos no petróleo, resultados corporativos no setor de tecnologia e expectativas sobre dados econômicos dos Estados Unidos.</p><p><strong>Commodities e Câmbio:</strong> O choque nos preços do petróleo, impulsionado por tensões no Estreito de Ormuz, gera discussões sobre possíveis implicações para a política monetária do Federal Reserve. Observa-se uma correlação direta entre a alta do petróleo e a desvalorização do dólar em alguns pares. No mercado futuro brasileiro, os contratos WDOK26 e WINJ26 registraram os melhores preços do dia até o momento.</p><p><strong>Economia Global:</strong> As projeções para o PIB dos EUA do primeiro trimestre apontam para uma recuperação, mas a incerteza persiste devido à fragilidade de cenários geopolíticos, como acordos de cessar-fogo.</p><p><strong>Tecnologia e IA:</strong> O setor apresenta desempenhos divergentes. A TSMC reportou um aumento de 35% na receita do primeiro trimestre, impulsionada pela forte demanda por chips de IA. A CoreWeave valorizou-se 13% após fechar um acordo com a Anthropic. Por outro lado, ações de software, incluindo a Palantir, enfrentam pressão vendedora devido a preocupações com a competição em IA. Analistas, como Ken Fisher, destacam a ASML como uma escolha relevante no segmento para 2026.</p><p><strong>Setor Financeiro:</strong> No Brasil, discute-se a evolução do papel dos bancos, que expandem suas atividades da custódia tradicional para serviços de inteligência e gestão integrada para empresas.</p><p><strong>Criptoativos:</strong> Globalmente, a Nexus Mutual busca se posicionar como uma alternativa de seguro para carteiras de criptomoedas.</p><p><strong>Fontes:</strong> Notícias de mercado do Brasil; Yahoo Finance (TSMC Q1 revenue rockets 35% on strong AI demand; Tech stocks today: CoreWeave climbs 13% on Anthropic deal; Worries Over AI Competition Pummel Software Stocks Again. Palantir Hammered.; Ken Fisher’s Top AI Stock Pick in 2026: ASML (ASML); Nexus Mutual wants to be the insurance policy your crypto never had).</p>"
   },
   "evening": {
     "title": "Panorama Global: Commodities, Balanços e Projeções Econômicas",
@@ -16,61 +16,61 @@
   },
   "daily_term": {
     "term": "Intervenção do Fed",
-    "definition": "A 'Intervenção do Fed' refere-se às ações do Federal Reserve (o banco central dos Estados Unidos) para influenciar a economia. Essas intervenções podem incluir o ajuste das taxas de juros ou a compra/venda de títulos no mercado para controlar a inflação, estimular o crescimento ou estabilizar o sistema financeiro. Para o investidor iniciante, entender essas ações é crucial porque elas afetam diretamente o custo do crédito, o valor do dólar e o desempenho geral dos mercados financeiros globais."
+    "definition": "A 'Intervenção do Fed' refere-se a ações tomadas pelo Federal Reserve (o banco central dos Estados Unidos) para influenciar a economia. Essas intervenções podem incluir o ajuste das taxas de juros ou a compra/venda de títulos no mercado para controlar a inflação, estimular o crescimento ou estabilizar o sistema financeiro. Para o investidor iniciante, é importante entender que decisões do Fed têm impacto global, afetando desde o câmbio (dólar) até o preço de commodities como o petróleo."
   },
   "economic_calendar": {
     "events": [
       {
         "country": "us",
-        "date": "09/04",
+        "date": "10/04",
         "time": "Dia Todo",
-        "event": "Índice de Preços PCE Core (mensal)",
+        "event": "CPI - Inflação (mensal)",
         "impact": "High",
         "atual": "---",
-        "proj": "0.4%",
-        "prev": "0.4%"
+        "proj": "1.0%",
+        "prev": "0.3%"
       },
       {
         "country": "us",
-        "date": "09/04",
+        "date": "10/04",
         "time": "Dia Todo",
-        "event": "PIB Final (trimestral)",
+        "event": "CPI - Inflação (anual)",
         "impact": "High",
         "atual": "---",
-        "proj": "0.7%",
-        "prev": "0.7%"
+        "proj": "3.4%",
+        "prev": "2.4%"
       },
       {
         "country": "us",
-        "date": "08/04",
+        "date": "10/04",
         "time": "Dia Todo",
-        "event": "Atas da Reunião do FOMC",
+        "event": "CPI Core - Inflação (mensal)",
         "impact": "High",
         "atual": "---",
-        "proj": "",
-        "prev": ""
+        "proj": "0.3%",
+        "prev": "0.2%"
       },
       {
         "country": "us",
-        "date": "07/04",
+        "date": "10/04",
         "time": "Dia Todo",
-        "event": "Pedidos de Bens Duráveis Core (mensal)",
+        "event": "Sentimento do Consumidor Univ. Michigan (Preliminar)",
         "impact": "Medium",
         "atual": "---",
-        "proj": "0.5%",
-        "prev": "0.4%"
+        "proj": "51.6",
+        "prev": "55.5"
       },
       {
-        "country": "us",
-        "date": "07/04",
+        "country": "cad",
+        "date": "10/04",
         "time": "Dia Todo",
-        "event": "Pedidos de Bens Duráveis (mensal)",
+        "event": "Taxa de Desemprego",
         "impact": "Medium",
         "atual": "---",
-        "proj": "-1.1%",
-        "prev": "0.0%"
+        "proj": "6.8%",
+        "prev": "6.7%"
       }
     ]
   },
-  "last_update": "2026-04-10T12:41:53.510099"
+  "last_update": "2026-04-10T13:04:21.031071"
 }

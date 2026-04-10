@@ -184,7 +184,6 @@ def generate_economic_calendar(context):
         response = requests.get(url, headers=headers, timeout=5)
         if response.status_code == 200:
             # Filtragem inteligente: Remover eventos passados
-            from datetime import datetime
             today_str = datetime.now().strftime("%Y-%m-%d")
             
             events = response.json()
