@@ -1,8 +1,8 @@
 {
   "morning": {
-    "title": "Morning Call Temporariamente Indisponível",
+    "title": "PIB Americano e Tensões Geopolíticas Direcionam Abertura dos Mercados",
     "date": "10/04/2026 • 08:30h",
-    "body": "<p>Houve uma falha técnica ao processar o Morning Call. Nossa equipe editorial já foi notificada.</p>"
+    "body": "<p>O mercado financeiro inicia a sessão desta quinta-feira monitorando uma combinação de indicadores macroeconômicos e riscos geopolíticos. No cenário internacional, investidores observam a projeção de recuperação do <strong>PIB dos Estados Unidos</strong> referente ao primeiro trimestre, embora a instabilidade de cessar-fogos em regiões de conflito traga cautela às mesas de operação.</p><p><strong>Energia e Câmbio</strong></p><p>A dinâmica do petróleo segue como fator determinante para o comportamento das moedas globais. O fluxo de suprimentos pelo <strong>Estreito de Ormuz</strong> é apontado como um dos principais vetores de influência sobre a valorização ou recuo do dólar, dada a relevância da região para o equilíbrio energético mundial.</p><p><strong>Setor Bancário e Crédito</strong></p><ul><li><strong>Goldman Sachs:</strong> O fundo de crédito privado da instituição evitou por uma margem estreita uma crise de resgates, evidenciando pontos de atenção sobre liquidez em ativos alternativos.</li><li><strong>Evolução Bancária:</strong> No Brasil, observa-se uma transição no papel das instituições financeiras, que passam a integrar serviços de inteligência estratégica à tradicional custódia de ativos.</li><li><strong>Pagamentos:</strong> A parceria entre Paysafe e MoonPay sinaliza a expansão da infraestrutura de stablecoins em plataformas que movimentam volumes bilionários.</li></ul><p><strong>Commodities e Futuros</strong></p><p>O mercado de metais preciosos permanece em foco com projeções analíticas sugerindo que o <strong>ouro</strong> pode buscar novos patamares históricos, com estimativas de até US$ 6.000 em cenários de maior aversão ao risco. Localmente, as atenções se voltam para os preços de ajuste do <strong>Ibovespa Futuro</strong> e do <strong>Dólar Futuro</strong>, que servem de termômetro para a abertura do pregão à vista.</p><p><strong>Perspectiva de Longo Prazo</strong></p><p>Analistas monitoram indicadores que buscam sinalizar a probabilidade de uma crise global no horizonte de 2026, enquanto dados fiscais e guias de endividamento pessoal ganham relevância no contexto de juros elevados.</p><p><strong>Fontes:</strong> Yahoo Finance, Agências de Notícias Financeiras do Brasil.</p>"
   },
   "coffee": null,
   "evening": {
@@ -11,8 +11,8 @@
     "body": "<p>O cenário macroeconômico global apresenta uma dualidade entre a expectativa de recuperação produtiva e a persistência de riscos geopolíticos. Nos Estados Unidos, as projeções para o PIB do primeiro trimestre indicam retomada, embora a fragilidade de acordos de cessar-fogo em zonas de conflito mantenha a volatilidade nos mercados internacionais.</p><strong>Energia e Câmbio</strong><p>A dinâmica do petróleo continua a exercer influência direta sobre o mercado de divisas. Analistas apontam que o fluxo de óleo pelo Estreito de Ormuz é um fator determinante para a trajetória do dólar. No setor corporativo, a Shell informou que espera lucros significativamente maiores em suas operações de trading de petróleo neste primeiro trimestre, refletindo a movimentação dos preços da commodity.</p><strong>Movimentações do Mercado Financeiro</strong><ul><li><strong>Setor Bancário:</strong> Observa-se uma transição nas instituições financeiras, que passam a atuar além da custódia, focando em inteligência e gestão estratégica para empresas.</li><li><strong>Resultados e Projeções:</strong> A Mizuho revisou para baixo o preço-alvo das ações da Super Micro em 25%. Por outro lado, a Clearbridge Dividend Strategy incluiu a The Williams Companies (WMB) em sua carteira, fundamentada no balanço patrimonial e perspectivas de crescimento da companhia.</li><li><strong>Indicadores de Risco:</strong> Indicadores antecedentes começam a sinalizar pontos de atenção para uma possível crise global com horizonte em 2026, exigindo monitoramento por parte dos agentes de mercado.</li></ul><strong>Agenda e Ativos</strong><p>No mercado doméstico, os contratos de Dólar Futuro e Ibovespa Futuro estabeleceram patamares de suporte e resistência nesta quinta-feira. No setor de tecnologia e entretenimento, investidores aguardam a divulgação de dados da Netflix, prevista para o dia 16 de abril. No setor de distribuição, o encerramento das operações de uma grande distribuidora de bebidas resultou na demissão de 500 colaboradores, evidenciando ajustes estruturais no segmento.</p><p><strong>Fontes:</strong> Conteúdos Brasil e Yahoo Finance Global.</p>"
   },
   "daily_term": {
-    "term": "CDI",
-    "definition": "O Certificado de Depósito Interbancário é a taxa que os bancos cobram para emprestar dinheiro entre si. É a principal referência para o rendimento da renda fixa."
+    "term": "PIB (Produto Interno Bruto)",
+    "definition": "O PIB representa a soma de todos os bens e serviços finais produzidos em um país e funciona como um termômetro da saúde da economia. Quando o PIB cresce, as empresas tendem a lucrar mais e o desemprego geralmente cai, o que favorece o mercado de investimentos. Para o investidor iniciante, acompanhar esse indicador ajuda a entender se a economia está em expansão ou em risco de recessão."
   },
   "economic_calendar": {
     "events": [
@@ -68,5 +68,5 @@
       }
     ]
   },
-  "last_update": "2026-04-10T11:12:14.228303"
+  "last_update": "2026-04-10T11:14:00.643962"
 }
