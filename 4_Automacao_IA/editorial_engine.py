@@ -188,12 +188,14 @@ def generate_economic_calendar(context):
                 lines = []
                 for e in all_valid:
                     e_date = e.get('date', '')[:10]
-                    lines.append(f"- País: {e.get('country')} | Data: {e_date} | Evento: {e.get('title')} | Proj: {e.get('forecast')} | Ant: {e.get('previous')}")
+                    actual_val = e.get('actual') or '---'
+                    lines.append(f"- País: {e.get('country')} | Data: {e_date} | Evento: {e.get('title')} | Atual: {actual_val} | Proj: {e.get('forecast')} | Ant: {e.get('previous')}")
                 lines = lines[-15:] 
             else:
                 for e in future_events[:10]:
                     e_date = e.get('date', '')[:10]
-                    lines.append(f"- País: {e.get('country')} | Data: {e_date} | Evento: {e.get('title')} | Proj: {e.get('forecast')} | Ant: {e.get('previous')}")
+                    actual_val = e.get('actual') or '---'
+                    lines.append(f"- País: {e.get('country')} | Data: {e_date} | Evento: {e.get('title')} | Atual: {actual_val} | Proj: {e.get('forecast')} | Ant: {e.get('previous')}")
             
             if lines:
                 real_calendar_text = "\n".join(lines)
