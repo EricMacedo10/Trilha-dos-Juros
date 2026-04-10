@@ -207,10 +207,11 @@ def generate_economic_calendar(context):
     Notícias recentes:
     {context}
     
-    Sua tarefa é selecionar os 5 eventos mais impactantes para um investidor no Brasil. 
-    1. Utilize obrigatoriamente os eventos globais listados acima (traduzindo os títulos para Português).
-    2. Se você encontrar nas "Notícias recentes" algum evento importante do Brasil (Copom, IPCA, IBC-Br, etc) para a semana, inclua-o também.
-    3. NUNCA invente datas fictícias. Restrinja-se à agenda real passada acima.
+    Sua tarefa é selecionar os 5 eventos mais impactantes para um investidor no Brasil, PRIORIZANDO eventos que ocorram HOJE ({datetime.now().strftime("%d/%m")}) ou nos próximos dias.
+    1. Ignore eventos que já passaram (datas anteriores a hoje), a menos que não existam eventos futuros suficientes para completar a lista de 5.
+    2. Utilize obrigatoriamente os eventos globais listados acima (traduzindo os títulos para Português).
+    3. Se você encontrar nas "Notícias recentes" algum evento importante do Brasil (Copom, IPCA, IBC-Br, etc) para a semana, inclua-o também.
+    4. NUNCA invente datas fictícias. Restrinja-se à agenda real passada acima.
     
     PARA CADA EVENTO, PREENCHA O JSON COM:
     1. country: use 'br' ou 'us' ou 'eu' (baseado no país do evento original).
