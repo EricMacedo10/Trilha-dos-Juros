@@ -5,9 +5,9 @@
     "body": "<p>O cenário financeiro global nesta sexta-feira é marcado pela cautela antes da divulgação de novos dados de inflação nos Estados Unidos, que podem ditar o ritmo dos juros pelo Fed. Na Europa, os balanços corporativos mostram resiliência, enquanto na Ásia o foco permanece nos estímulos à economia chinesa.</p><strong>Foco em Inflação e Juros</strong><p>Investidores monitoram de perto os rendimentos dos Treasuries, que operam em patamares elevados. No Brasil, o mercado repercute os dados de vendas no varejo e as falas recentes de membros do Copom sobre a trajetória da Selic. O dólar apresenta volatilidade frente a moedas emergentes.</p><ul><li><strong>Commodities:</strong> O petróleo opera estável, com tensões no Oriente Médio servindo de suporte aos preços.</li><li><strong>Bolsas:</strong> Futuros em Nova York sinalizam abertura mista; Ibovespa busca manter patamar de suporte técnico.</li></ul><p><strong>Fontes:</strong> Curadoria Trilha dos Juros e Yahoo Finance.</p>"
   },
   "coffee": {
-    "title": "Tensões no Petróleo e Demanda por IA Direcionam os Mercados",
+    "title": "Mercados em compasso de espera entre dados e geopolítica",
     "date": "10/04/2026 • 12:00h",
-    "body": "<p>O mercado financeiro internacional iniciou a sessão desta sexta-feira monitorando de perto a volatilidade nos preços do petróleo e o desempenho do setor tecnológico. O cenário geopolítico, especialmente no Estreito de Ormuz, mantém o prêmio de risco elevado, influenciando diretamente a trajetória global do dólar e as expectativas de política monetária.</p><strong>Cenário Macroeconômico e Geopolítica</strong><p>A volatilidade no setor de energia levanta questionamentos sobre a atuação do Federal Reserve. Um possível choque nos preços do petróleo pode impactar as projeções de inflação, alterando o cronograma de ajustes nas taxas de juros. Simultaneamente, as projeções para o PIB dos Estados Unidos no primeiro trimestre apontam para uma recuperação, embora a fragilidade de acordos diplomáticos no Oriente Médio mantenha a cautela dos investidores.</p><strong>Destaques do Setor Tecnológico</strong><p>No front corporativo global, a demanda por Inteligência Artificial continua a impulsionar resultados operacionais significativos:</p><ul><li><strong>TSMC:</strong> A fabricante de semicondutores reportou um salto de 35% em sua receita no primeiro trimestre, fundamentado na forte procura por chips de IA.</li><li><strong>CoreWeave:</strong> As ações da companhia avançaram cerca de 13% após o anúncio de um acordo estratégico com a startup Anthropic.</li></ul><strong>Ativos Digitais e Regulação</strong><p>No mercado de criptoativos, destaca-se a decisão oficial do Japão em classificar criptomoedas como 'Produtos Financeiros', elevando o status regulatório desses ativos. No campo dos serviços, a Nexus Mutual busca expandir a oferta de apólices de seguro voltadas especificamente para custódia e operações no ecossistema digital.</p><strong>Mercado Local e Bancos</strong><p>No Brasil, o foco dos operadores de curto prazo esteve concentrado nos contratos futuros de dólar (WDOK26) e índice (WINJ26). Além disso, observa-se uma mudança estrutural na atuação dos grandes bancos brasileiros, que migram da custódia tradicional para serviços de inteligência de dados na gestão de caixa de grandes empresas.</p><p><small>Fontes consultadas: Yahoo Finance, Notícias do Mercado Brasileiro (Agregador).</small></p>"
+    "body": "<p>Os mercados financeiros operam com direção mista nesta manhã, enquanto processam dados de inflação e notícias geopolíticas.</p><p><strong>Nos Estados Unidos</strong>, o índice Nasdaq registra alta, enquanto o Dow Jones opera em queda. O movimento segue a divulgação do Índice de Preços ao Consumidor (CPI) de março, que mostrou pressão de custos, principalmente no segmento de energia. A expectativa para o PIB do primeiro trimestre é de recuperação, mas permanece envolta em incertezas.</p><p><strong>No cenário internacional</strong>, a atenção se volta para o Oriente Médio. A menção a um cessar-fogo envolvendo o Irã é observada pelos mercados, mas sua fragilidade é destacada como um fator de risco. A tensão na região impacta diretamente o preço do petróleo, com movimentos no Estreito de Ormuz sendo monitorados por seu efeito no fluxo da commodity e, consequentemente, nas cotações do dólar.</p><p><strong>No Brasil</strong>, os contratos futuros WDOK26 e WINJ26 são apontados com os melhores preços do dia. No setor financeiro, discute-se a evolução do papel dos bancos, com foco em serviços que vão além da custódia, incluindo ferramentas de inteligência para a gestão empresarial.</p><p><strong>Em outros temas</strong>, o mercado de criptoativos vê iniciativas como a da Nexus Mutual, que busca oferecer produtos semelhantes a seguros para carteiras digitais. No âmbito fiscal nos EUA, há orientações sobre prazos para restituição de impostos e sobre como solicitar uma prorrogação para a declaração.</p><p><strong>Fontes:</strong> Yahoo Finance (Global), Agregadores de notícias financeiras (Brasil).</p>"
   },
   "evening": {
     "title": "Panorama Global: Commodities, Balanços e Projeções Econômicas",
@@ -16,7 +16,7 @@
   },
   "daily_term": {
     "term": "Intervenção do Fed",
-    "definition": "A 'Intervenção do Fed' refere-se a ações tomadas pelo Federal Reserve (o banco central dos Estados Unidos) para influenciar a economia. Essas intervenções podem incluir o ajuste das taxas de juros ou a compra/venda de títulos no mercado para controlar a inflação, estimular o crescimento ou estabilizar o sistema financeiro. Para o investidor iniciante, é importante entender que decisões do Fed têm impacto global, afetando desde o câmbio (dólar) até o preço de commodities como o petróleo."
+    "definition": "A 'Intervenção do Fed' refere-se a ações tomadas pelo Federal Reserve (o banco central dos Estados Unidos) para influenciar a economia. Essas intervenções podem incluir ajustes nas taxas de juros ou compra/venda de títulos para controlar a inflação, estimular o crescimento ou estabilizar os mercados financeiros. Para investidores iniciantes, entender essas ações é crucial, pois elas afetam diretamente o valor do dólar, os juros globais e o preço de ativos como ações e commodities."
   },
   "economic_calendar": {
     "events": [
@@ -24,7 +24,7 @@
         "country": "us",
         "date": "10/04",
         "time": "Dia Todo",
-        "event": "CPI - Inflação (mensal)",
+        "event": "IPC Mensal (CPI m/m)",
         "impact": "High",
         "atual": "---",
         "proj": "1.0%",
@@ -34,7 +34,7 @@
         "country": "us",
         "date": "10/04",
         "time": "Dia Todo",
-        "event": "CPI - Inflação (anual)",
+        "event": "IPC Anual (CPI y/y)",
         "impact": "High",
         "atual": "---",
         "proj": "3.4%",
@@ -44,7 +44,7 @@
         "country": "us",
         "date": "10/04",
         "time": "Dia Todo",
-        "event": "CPI Core - Inflação (mensal)",
+        "event": "IPC Core Mensal (Core CPI m/m)",
         "impact": "High",
         "atual": "---",
         "proj": "0.3%",
@@ -54,7 +54,7 @@
         "country": "us",
         "date": "10/04",
         "time": "Dia Todo",
-        "event": "Sentimento do Consumidor Univ. Michigan (Preliminar)",
+        "event": "Sentimento do Consumidor Univ. de Michigan (Preliminar)",
         "impact": "Medium",
         "atual": "---",
         "proj": "51.6",
@@ -64,13 +64,13 @@
         "country": "cad",
         "date": "10/04",
         "time": "Dia Todo",
-        "event": "Taxa de Desemprego",
+        "event": "Mudança no Emprego (Employment Change)",
         "impact": "Medium",
         "atual": "---",
-        "proj": "6.8%",
-        "prev": "6.7%"
+        "proj": "14.5K",
+        "prev": "-83.9K"
       }
     ]
   },
-  "last_update": "2026-04-10T16:05:33.581520"
+  "last_update": "2026-04-10T16:10:38.839149"
 }
