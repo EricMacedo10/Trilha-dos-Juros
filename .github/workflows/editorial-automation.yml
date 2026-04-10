@@ -34,6 +34,7 @@ jobs:
       - name: Run Editorial Engine (Gemini IA)
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: |
           cd 4_Automacao_IA
           python editorial_engine.py
