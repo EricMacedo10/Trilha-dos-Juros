@@ -1,8 +1,8 @@
 {
   "morning": {
-    "title": "PIB dos EUA e Geopolítica Direcionam a Abertura dos Mercados",
+    "title": "Morning Call Temporariamente Indisponível",
     "date": "10/04/2026 • 08:30h",
-    "body": "<p>O cenário financeiro global nesta quinta-feira é pautado pela expectativa em torno dos dados de recuperação do <strong>PIB dos Estados Unidos</strong> referentes ao primeiro trimestre. Apesar das projeções de crescimento, o sentimento dos investidores é temperado pela fragilidade de acordos de cessar-fogo em zonas de conflito, o que mantém a volatilidade presente nos índices de risco.</p><p>No mercado de commodities, o foco recua para o <strong>Estreito de Ormuz</strong>. A dinâmica de fluxo do petróleo na região tem apresentado impacto direto na cotação do dólar, com a oferta de óleo influenciando a força da moeda americana frente às divisas emergentes. Simultaneamente, investidores monitoram indicadores macroeconômicos que buscam mapear a probabilidade de uma crise global com horizonte em 2026.</p><p>No setor bancário e de crédito, destacam-se os seguintes pontos:</p><ul><li><strong>Setor Privado:</strong> O fundo de crédito privado do Goldman Sachs registrou uma estabilização após quase atingir um limite crítico de pedidos de resgate.</li><li><strong>Mercado Imobiliário (EUA):</strong> As taxas de hipoteca e refinanciamento apresentam leves quedas consecutivas, enquanto novas regras para o HELOC (Home Equity Line of Credit) alteram as condições de crédito para proprietários.</li><li><strong>Gestão Bancária:</strong> No Brasil, observa-se uma transição no papel das instituições financeiras, que expandem sua atuação da custódia tradicional para a inteligência na gestão corporativa.</li></ul><p>Em relação aos derivativos no Brasil, o <strong>Dólar Futuro</strong> e o <strong>Ibovespa Futuro</strong> iniciam o dia com patamares de preços que refletem o ajuste técnico frente ao cenário externo e aos dados de inflação e crédito globais. Analistas de mercado observam a manutenção de scores de crédito médios nos EUA como um termômetro para o consumo e capacidade de endividamento das famílias.</p><p><strong>Fontes:</strong> Yahoo Finance, Agências de Notícias Locais, Trilha dos Juros Intelligence.</p>"
+    "body": "<p>Houve uma falha técnica ao processar o Morning Call. Nossa equipe editorial já foi notificada.</p>"
   },
   "coffee": null,
   "evening": {
@@ -17,16 +17,56 @@
   "economic_calendar": {
     "events": [
       {
-        "date": "Hoje",
-        "time": "09:00",
-        "country": "br",
-        "event": "Abertura Mercado",
-        "impact": "Medium",
+        "date": "10/04",
+        "time": "09:30",
+        "country": "us",
+        "event": "Inflação ao Consumidor (CPI)",
+        "impact": "High",
+        "atual": "---",
+        "proj": "0.3%",
+        "prev": "0.4%"
+      },
+      {
+        "date": "10/04",
+        "time": "15:00",
+        "country": "us",
+        "event": "FOMC Meeting Minutes",
+        "impact": "High",
         "atual": "---",
         "proj": "---",
         "prev": "---"
+      },
+      {
+        "date": "10/04",
+        "time": "10:00",
+        "country": "br",
+        "event": "Vendas no Varejo",
+        "impact": "Medium",
+        "atual": "---",
+        "proj": "1.2%",
+        "prev": "0.8%"
+      },
+      {
+        "date": "11/04",
+        "time": "Dia Todo",
+        "country": "us",
+        "event": "Pedidos de Auxílio Inicial",
+        "impact": "Medium",
+        "atual": "---",
+        "proj": "210K",
+        "prev": "215K"
+      },
+      {
+        "date": "12/04",
+        "time": "Dia Todo",
+        "country": "eu",
+        "event": "Taxa de Juros do BCE",
+        "impact": "High",
+        "atual": "---",
+        "proj": "4.0%",
+        "prev": "4.0%"
       }
     ]
   },
-  "last_update": "2026-04-10T09:14:45.971388"
+  "last_update": "2026-04-10T06:31:56.771879"
 }

@@ -213,17 +213,12 @@ def generate_economic_calendar(context):
       ]
     }}
     """
-    
     try:
         response = model.generate_content(prompt)
         return clean_json_response(response.text)
     except Exception as e:
         print(f"Erro na chamada Gemini (Agenda 2.0): {e}")
-        return {
-            "events": [
-                { "date": "Hoje", "time": "09:00", "country": "br", "event": "Abertura Mercado", "impact": "Medium", "atual": "---", "proj": "---", "prev": "---" }
-            ]
-        }
+        return None
 
 def main():
     print("[Alpha] Iniciando Motor Editorial IA-Driven...")
