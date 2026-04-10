@@ -1075,3 +1075,157 @@
         padding: 1.5rem;
     }
 }
+
+/* ========================================================
+   RADAR DE EVENTOS (AGENDA ECONÔMICA)
+   ======================================================== */
+/* ========================================================
+   RADAR DE EVENTOS (AGENDA ECONÔMICA - ESTILO INVESTING)
+   ======================================================== */
+.economic-calendar-panel {
+    padding: 1.25rem !important;
+}
+
+.calendar-events-list {
+    display: flex;
+    flex-direction: column;
+    max-height: 350px; /* Mostra ~5 eventos antes de aparecer o scroll */
+    overflow-y: auto;
+    padding-right: 5px;
+    margin-top: 0.5rem;
+}
+
+/* Custom Scrollbar Premium */
+.calendar-events-list::-webkit-scrollbar {
+    width: 4px;
+}
+.calendar-events-list::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+}
+.calendar-events-list::-webkit-scrollbar-thumb {
+    background: rgba(16, 185, 129, 0.3);
+    border-radius: 10px;
+}
+
+.calendar-header-table {
+    display: grid;
+    grid-template-columns: 75px 1fr 45px 45px 45px;
+    gap: 6px;
+    padding: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.event-row {
+    display: grid;
+    grid-template-columns: 75px 1fr 45px 45px 45px;
+    gap: 6px;
+    padding: 0.6rem 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    align-items: center;
+    transition: background 0.2s;
+}
+
+.event-row:hover {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.col-time {
+    font-size: 0.7rem;
+    font-family: 'Inter', sans-serif;
+    color: var(--text-main);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding-left: 10px; /* Espaço para o ponto de impacto */
+}
+
+.country-tag {
+    font-size: 0.55rem;
+    background: rgba(255,255,255,0.08);
+    color: var(--text-muted);
+    padding: 1px 3px;
+    border-radius: 3px;
+    font-weight: 700;
+    text-transform: uppercase;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.col-time small {
+    font-size: 0.5rem;
+    color: var(--text-muted);
+    opacity: 0.8;
+}
+
+.col-event {
+    font-size: 0.7rem;
+    color: var(--text-main);
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.col-val {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-align: right;
+    font-family: monospace;
+}
+
+.val-atual {
+    color: var(--neon-green);
+    text-shadow: 0 0 5px var(--neon-green-glow);
+}
+
+.val-muted {
+    color: var(--text-muted);
+    opacity: 0.8;
+}
+
+.val-muted-more {
+    color: var(--text-muted);
+    opacity: 0.5;
+}
+
+/* Radar Impact Pulse */
+.event-row.impact-high .col-event {
+    color: #ff4d4d;
+    text-shadow: 0 0 5px rgba(255, 77, 77, 0.2);
+}
+
+.event-row.impact-high .col-time::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    background: #ff4d4d;
+    border-radius: 50%;
+    position: absolute;
+    left: 0;
+    top: 6px;
+    box-shadow: 0 0 10px #ff4d4d;
+    animation: pulse-red 2s infinite;
+}
+
+@keyframes pulse-red {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(255, 77, 77, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 77, 77, 0); }
+}
+
+/* STICKY SIDEBAR BEHAVIOR */
+.sticky-column {
+    position: sticky;
+    top: 80px; /* Ajuste para o header se houver */
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+@media (max-width: 991px) {
+    .sticky-column {
+        position: static;
+    }
+}

@@ -44,8 +44,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
 
     <!-- Global Styles -->
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/style.css?v=23">
+    <link rel="stylesheet" href="css/components.css?v=23">
 
     <!-- Google tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-PVNT5LSYC8"></script>
@@ -284,164 +284,182 @@
 
             <div class="grid-layout">
                 <!-- Painel de Inputs (Esquerda Desktop / Topo Mobile) -->
-                <aside class="glass-panel inputs-panel">
-                    <h2 class="section-title">Parâmetros</h2>
-
-                    <!-- Tipo de Investimento -->
-                    <div class="input-group">
-                        <label>Tipo de Investimento</label>
-                        <div class="radio-pills">
-                            <label class="radio-pill">
-                                <input type="radio" name="invest-type" value="cdb" checked>
-                                <span class="highlight-term" data-term="CDB">CDB</span>
-                            </label>
-                            <label class="radio-pill">
-                                <input type="radio" name="invest-type" value="lci">
-                                <span class="highlight-term" data-term="LCI">LCI/LCA</span>
-                            </label>
-                            <label class="radio-pill">
-                                <input type="radio" name="invest-type" value="poupanca">
-                                <span>Poupança</span>
-                            </label>
+                <aside class="sidebar-layout">
+                    <div class="glass-panel inputs-panel">
+                        <h2 class="section-title">Parâmetros</h2>
+    
+                        <!-- Tipo de Investimento -->
+                        <div class="input-group">
+                            <label>Tipo de Investimento</label>
+                            <div class="radio-pills">
+                                <label class="radio-pill">
+                                    <input type="radio" name="invest-type" value="cdb" checked>
+                                    <span class="highlight-term" data-term="CDB">CDB</span>
+                                </label>
+                                <label class="radio-pill">
+                                    <input type="radio" name="invest-type" value="lci">
+                                    <span class="highlight-term" data-term="LCI">LCI/LCA</span>
+                                </label>
+                                <label class="radio-pill">
+                                    <input type="radio" name="invest-type" value="poupanca">
+                                    <span>Poupança</span>
+                                </label>
+                            </div>
+                            <div class="fgc-badge">
+                                <i class="ph-fill ph-shield-check"></i>
+                                <span>Investimento protegido pelo <strong><a href="https://fgc.org.br/" target="_blank"
+                                            rel="noopener noreferrer"
+                                            style="color: inherit; text-decoration: underline; text-decoration-color: rgba(16, 185, 129, 0.4); text-underline-offset: 2px;">FGC</a></strong>
+                                    até R$ 250 mil</span>
+                            </div>
                         </div>
-                        <div class="fgc-badge">
-                            <i class="ph-fill ph-shield-check"></i>
-                            <span>Investimento protegido pelo <strong><a href="https://fgc.org.br/" target="_blank"
-                                        rel="noopener noreferrer"
-                                        style="color: inherit; text-decoration: underline; text-decoration-color: rgba(16, 185, 129, 0.4); text-underline-offset: 2px;">FGC</a></strong>
-                                até R$ 250 mil</span>
+    
+                        <!-- Investimento Inicial -->
+                        <div class="input-group slider-group">
+                            <div class="slider-header">
+                                <label for="initial-investment">Valor Inicial</label>
+                                <span class="value-display" id="val-initial">R$ 1.000,00</span>
+                            </div>
+                            <input type="range" id="initial-investment" min="0" max="100000" step="100" value="1000"
+                                class="neon-slider">
+                        </div>
+    
+                        <!-- Investimento Mensal -->
+                        <div class="input-group slider-group">
+                            <div class="slider-header">
+                                <label for="monthly-investment">Aporte Mensal</label>
+                                <span class="value-display" id="val-monthly">R$ 0,00</span>
+                            </div>
+                            <input type="range" id="monthly-investment" min="0" max="20000" step="100" value="0"
+                                class="neon-slider">
+                        </div>
+    
+                        <!-- Prazo -->
+                        <div class="input-group slider-group">
+                            <div class="slider-header">
+                                <label for="duration-months">Prazo (Meses)</label>
+                                <span class="value-display" id="val-duration">24 meses</span>
+                            </div>
+                            <input type="range" id="duration-months" min="1" max="120" step="1" value="24"
+                                class="neon-slider">
+                        </div>
+    
+                        <!-- Tipo de Rentabilidade -->
+                        <div class="input-group" id="rentabilidade-type-group">
+                            <label>Modelo de Rentabilidade</label>
+                            <div class="radio-pills" style="margin-bottom: 0.5rem;">
+                                <label class="radio-pill">
+                                    <input type="radio" name="rate-type" value="pos" checked>
+                                    <span>Pós-fixada (% do CDI)</span>
+                                </label>
+                                <label class="radio-pill">
+                                    <input type="radio" name="rate-type" value="pre">
+                                    <span>Pré-fixada (% a.a.)</span>
+                                </label>
+                            </div>
+                        </div>
+    
+                        <!-- Rentabilidade Pós -->
+                        <div class="input-group slider-group" id="rentabilidade-pos-group">
+                            <div class="slider-header" id="rate-pos-header">
+                                <label for="interest-rate-pos">Taxa Pós-fixada (% do CDI)</label>
+                                <span class="value-display" id="val-rate-pos">100%</span>
+                            </div>
+                            <input type="range" id="interest-rate-pos" min="70" max="150" step="1" value="100"
+                                class="neon-slider">
+                            <small class="helper-text" id="cdi-helper">Considerando Taxa <span class="highlight-term" data-term="SELIC">Selic</span> 10.75% / <span class="highlight-term" data-term="CDI">CDI</span> 10.65%
+                                a.a.</small>
+                        </div>
+    
+                        <!-- Rentabilidade Pré -->
+                        <div class="input-group slider-group" id="rentabilidade-pre-group" style="display: none;">
+                            <div class="slider-header" id="rate-pre-header">
+                                <label for="interest-rate-pre">Taxa Pré-fixada (% a.a.)</label>
+                                <span class="value-display" id="val-rate-pre">12,0%</span>
+                            </div>
+                            <input type="range" id="interest-rate-pre" min="1" max="25" step="0.1" value="12"
+                                class="neon-slider">
+                            <small class="helper-text" id="pre-helper">Taxa fixa, travada no momento do
+                                investimento.</small>
+                        </div>
+    
+                        <!-- Card Informativo da Poupança (Oculto por padrão) -->
+                        <div class="input-group" id="poupanca-info" style="display: none; margin-top: 1rem;">
+                            <div
+                                style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 8px; padding: 1rem;">
+                                <h4
+                                    style="color: var(--brand-blue); font-size: 0.85rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                                    <i class="ph-fill ph-info"></i> Regra da Poupança
+                                </h4>
+                                <p style="color: var(--text-muted); font-size: 0.75rem; line-height: 1.4; margin: 0;"
+                                    id="poupanca-rule-text">
+                                    Como a Selic está acima de 8,5% ao ano, o rendimento fixo é de <strong>0,5% ao mês +
+                                        Taxa Referencial (TR)</strong>. (Aprox. 6.17% a.a.)
+                                </p>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Investimento Inicial -->
-                    <div class="input-group slider-group">
-                        <div class="slider-header">
-                            <label for="initial-investment">Valor Inicial</label>
-                            <span class="value-display" id="val-initial">R$ 1.000,00</span>
-                        </div>
-                        <input type="range" id="initial-investment" min="0" max="100000" step="100" value="1000"
-                            class="neon-slider">
-                    </div>
-
-                    <!-- Investimento Mensal -->
-                    <div class="input-group slider-group">
-                        <div class="slider-header">
-                            <label for="monthly-investment">Aporte Mensal</label>
-                            <span class="value-display" id="val-monthly">R$ 0,00</span>
-                        </div>
-                        <input type="range" id="monthly-investment" min="0" max="20000" step="100" value="0"
-                            class="neon-slider">
-                    </div>
-
-                    <!-- Prazo -->
-                    <div class="input-group slider-group">
-                        <div class="slider-header">
-                            <label for="duration-months">Prazo (Meses)</label>
-                            <span class="value-display" id="val-duration">24 meses</span>
-                        </div>
-                        <input type="range" id="duration-months" min="1" max="120" step="1" value="24"
-                            class="neon-slider">
-                    </div>
-
-                    <!-- Tipo de Rentabilidade -->
-                    <div class="input-group" id="rentabilidade-type-group">
-                        <label>Modelo de Rentabilidade</label>
-                        <div class="radio-pills" style="margin-bottom: 0.5rem;">
-                            <label class="radio-pill">
-                                <input type="radio" name="rate-type" value="pos" checked>
-                                <span>Pós-fixada (% do CDI)</span>
-                            </label>
-                            <label class="radio-pill">
-                                <input type="radio" name="rate-type" value="pre">
-                                <span>Pré-fixada (% a.a.)</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- Rentabilidade Pós -->
-                    <div class="input-group slider-group" id="rentabilidade-pos-group">
-                        <div class="slider-header" id="rate-pos-header">
-                            <label for="interest-rate-pos">Taxa Pós-fixada (% do CDI)</label>
-                            <span class="value-display" id="val-rate-pos">100%</span>
-                        </div>
-                        <input type="range" id="interest-rate-pos" min="70" max="150" step="1" value="100"
-                            class="neon-slider">
-                        <small class="helper-text" id="cdi-helper">Considerando Taxa <span class="highlight-term" data-term="SELIC">Selic</span> 10.75% / <span class="highlight-term" data-term="CDI">CDI</span> 10.65%
-                            a.a.</small>
-                    </div>
-
-                    <!-- Rentabilidade Pré -->
-                    <div class="input-group slider-group" id="rentabilidade-pre-group" style="display: none;">
-                        <div class="slider-header" id="rate-pre-header">
-                            <label for="interest-rate-pre">Taxa Pré-fixada (% a.a.)</label>
-                            <span class="value-display" id="val-rate-pre">12,0%</span>
-                        </div>
-                        <input type="range" id="interest-rate-pre" min="1" max="25" step="0.1" value="12"
-                            class="neon-slider">
-                        <small class="helper-text" id="pre-helper">Taxa fixa, travada no momento do
-                            investimento.</small>
-                    </div>
-
-                    <!-- Card Informativo da Poupança (Oculto por padrão) -->
-                    <div class="input-group" id="poupanca-info" style="display: none; margin-top: 1rem;">
-                        <div
-                            style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 8px; padding: 1rem;">
+                    <!-- COLUNA FIXA (STICKY) -->
+                    <div class="sticky-column">
+                        <!-- Painel de Radar de Ativos -->
+                        <div class="commodities-panel radar-panel" id="radar-panel" style="margin-top: 0;">
                             <h4
-                                style="color: var(--brand-blue); font-size: 0.85rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
-                                <i class="ph-fill ph-info"></i> Regra da Poupança
+                                style="color: var(--brand-blue); font-size: 0.85rem; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem;">
+                                <i class="ph-fill ph-trend-up"></i> Ativos em Destaque
+                                <span style="margin-left:auto; font-size:0.7rem; color:var(--text-muted); font-weight:normal; display:flex; align-items:center; gap:0.2rem;"><i class="ph ph-clock"></i> Live</span>
                             </h4>
-                            <p style="color: var(--text-muted); font-size: 0.75rem; line-height: 1.4; margin: 0;"
-                                id="poupanca-rule-text">
-                                Como a Selic está acima de 8,5% ao ano, o rendimento fixo é de <strong>0,5% ao mês +
-                                    Taxa Referencial (TR)</strong>. (Aprox. 6.17% a.a.)
-                            </p>
+                            <div class="commodities-grid radar-grid" id="radar-grid">
+                                <div class="loading-commodities"
+                                    style="text-align: center; padding: 1rem; color: var(--text-muted); font-size: 0.8rem; grid-column: 1 / -1;">
+                                    <i class="ph ph-circle-notch ph-spin"
+                                        style="font-size: 1.5rem; margin-bottom: 0.5rem; display: block;"></i>
+                                    Sincronizando Radar...
+                                </div>
+                            </div>
+
+                            <!-- SEÇÃO DE PARCEIROS OFICIAIS -->
+                            <div class="supporter-box" style="margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.05); text-align: center;">
+                                <span style="font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.75rem; display: block; opacity: 0.8;">Parceiros Oficiais</span>
+                                
+                                <!-- SGA INVEST -->
+                                <div class="sga-banner" style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 1rem; cursor: pointer; transition: all 0.3s ease; margin-bottom: 0.5rem;" onclick="document.getElementById('btn-open-contact').click()">
+                                    <img src="assets/sga-logo.jpg.jpeg" alt="SGA Invest" style="max-width: 160px; height: auto; filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));">
+                                    <p style="margin-top: 0.4rem; font-size: 0.65rem; color: var(--neon-green); opacity: 0.9; font-weight: 500;">Assessoria Credenciada</p>
+                                </div>
+                                
+                                <a href="https://www.instagram.com/sga_invest/" target="_blank" rel="noopener" class="sga-social-link" style="display: flex; align-items: center; justify-content: center; gap: 0.4rem; margin-bottom: 1.25rem; color: var(--text-muted); text-decoration: none; font-size: 0.7rem; padding: 0.4rem; border-radius: 6px; transition: all 0.3s ease;">
+                                    <i class="ph ph-instagram-logo" style="font-size: 1rem;"></i>
+                                    <span>Siga a <strong>@sga_invest</strong></span>
+                                </a>
+
+                                <!-- TOP ONE AV -->
+                                <div class="sga-banner top-one-banner" style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 1rem; cursor: pointer; transition: all 0.3s ease; margin-bottom: 0.5rem;" onclick="window.open('https://www.instagram.com/toponeav/', '_blank')">
+                                    <img src="assets/toponeav-logo.jpeg" alt="Top One AV" style="max-width: 140px; height: auto; filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));">
+                                    <p style="margin-top: 0.4rem; font-size: 0.65rem; color: #f59e0b; opacity: 0.9; font-weight: 500;">Automobilismo Virtual</p>
+                                </div>
+                                
+                                <a href="https://www.instagram.com/toponeav/" target="_blank" rel="noopener" class="sga-social-link" style="display: flex; align-items: center; justify-content: center; gap: 0.4rem; color: var(--text-muted); text-decoration: none; font-size: 0.7rem; padding: 0.4rem; border-radius: 6px; transition: all 0.3s ease;">
+                                    <i class="ph ph-instagram-logo" style="font-size: 1rem;"></i>
+                                    <span>Conheça a <strong>@toponeav_oficial</strong></span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Radar de Eventos (Agenda Econômica) -->
+                        <div class="glass-panel radar-panel economic-calendar-panel" id="calendar-panel" style="margin-top: 0;">
+                            <h4 style="color: var(--brand-blue); font-size: 0.85rem; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem;">
+                                <i class="ph-fill ph-calendar-blank"></i> Radar de Eventos
+                                <span style="margin-left:auto; font-size:0.7rem; color:var(--text-muted); font-weight:normal;">IA-Driven</span>
+                            </h4>
+                            <div id="calendar-events-list" class="calendar-events-list">
+                                <div class="loading-calendar" style="text-align: center; padding: 1rem; color: var(--text-muted); font-size: 0.8rem;">
+                                    <i class="ph ph-circle-notch ph-spin" style="font-size: 1.2rem; margin-bottom: 0.5rem; display: block;"></i>
+                                    Sincronizando...
+                                </div>
+                            </div>
                         </div>
                     </div>
-
-                    <!-- Painel de Radar de Ativos -->
-                    <div class="commodities-panel radar-panel" id="radar-panel" style="margin-top: 1.5rem;">
-                        <h4
-                            style="color: var(--brand-blue); font-size: 0.85rem; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem;">
-                            <i class="ph-fill ph-trend-up"></i> Ativos em Destaque
-                            <span style="margin-left:auto; font-size:0.7rem; color:var(--text-muted); font-weight:normal; display:flex; align-items:center; gap:0.2rem;"><i class="ph ph-clock"></i> Atualizado agora</span>
-                        </h4>
-                        <div class="commodities-grid radar-grid" id="radar-grid">
-                            <div class="loading-commodities"
-                                style="text-align: center; padding: 1rem; color: var(--text-muted); font-size: 0.8rem; grid-column: 1 / -1;">
-                                <i class="ph ph-circle-notch ph-spin"
-                                    style="font-size: 1.5rem; margin-bottom: 0.5rem; display: block;"></i>
-                                Sincronizando Radar...
-                            </div>
-                        </div>
-
-                        <!-- SEÇÃO DE PARCEIROS OFICIAIS -->
-                        <div class="supporter-box" style="margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.05); text-align: center;">
-                            <span style="font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.75rem; display: block; opacity: 0.8;">Parceiros Oficiais</span>
-                            
-                            <!-- SGA INVEST -->
-                            <div class="sga-banner" style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 1rem; cursor: pointer; transition: all 0.3s ease; margin-bottom: 0.5rem;" onclick="document.getElementById('btn-open-contact').click()">
-                                <img src="assets/sga-logo.jpg.jpeg" alt="SGA Invest" style="max-width: 160px; height: auto; filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));">
-                                <p style="margin-top: 0.4rem; font-size: 0.65rem; color: var(--neon-green); opacity: 0.9; font-weight: 500;">Assessoria Credenciada</p>
-                            </div>
-                            
-                            <a href="https://www.instagram.com/sga_invest/" target="_blank" rel="noopener" class="sga-social-link" style="display: flex; align-items: center; justify-content: center; gap: 0.4rem; margin-bottom: 1.25rem; color: var(--text-muted); text-decoration: none; font-size: 0.7rem; padding: 0.4rem; border-radius: 6px; transition: all 0.3s ease;">
-                                <i class="ph ph-instagram-logo" style="font-size: 1rem;"></i>
-                                <span>Siga a <strong>@sga_invest</strong></span>
-                            </a>
-
-                            <!-- TOP ONE AV -->
-                            <div class="sga-banner top-one-banner" style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 1rem; cursor: pointer; transition: all 0.3s ease; margin-bottom: 0.5rem;" onclick="window.open('https://www.instagram.com/toponeav/', '_blank')">
-                                <img src="assets/toponeav-logo.jpeg" alt="Top One AV" style="max-width: 140px; height: auto; filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));">
-                                <p style="margin-top: 0.4rem; font-size: 0.65rem; color: #f59e0b; opacity: 0.9; font-weight: 500;">Automobilismo Virtual</p>
-                            </div>
-                            
-                            <a href="https://www.instagram.com/toponeav/" target="_blank" rel="noopener" class="sga-social-link" style="display: flex; align-items: center; justify-content: center; gap: 0.4rem; color: var(--text-muted); text-decoration: none; font-size: 0.7rem; padding: 0.4rem; border-radius: 6px; transition: all 0.3s ease;">
-                                <i class="ph ph-instagram-logo" style="font-size: 1rem;"></i>
-                                <span>Conheça a <strong>@toponeav_oficial</strong></span>
-                            </a>
-                        </div>
-                    </div>
-
                 </aside>
 
                 <!-- Painel de Resultados (Direita Desktop / Baixo Mobile) -->
@@ -530,12 +548,11 @@
                             </h3>
                             <div class="call-tabs" style="display: flex; background: rgba(0,0,0,0.3); padding: 4px; border-radius: 8px;">
                                 <button class="call-tab-btn active" onclick="switchCallTab('morning')" id="btn-tab-morning" style="padding: 6px 14px; border:none; background: var(--brand-blue); color: white; border-radius: 6px; font-size: 0.7rem; cursor: pointer; transition: all 0.2s;">Morning Call</button>
+                                <button class="call-tab-btn" onclick="switchCallTab('coffee')" id="btn-tab-coffee" style="padding: 6px 14px; border:none; background: transparent; color: var(--text-muted); border-radius: 6px; font-size: 0.7rem; cursor: pointer; transition: all 0.2s;">Coffee Break</button>
                                 <button class="call-tab-btn" onclick="switchCallTab('evening')" id="btn-tab-evening" style="padding: 6px 14px; border:none; background: transparent; color: var(--text-muted); border-radius: 6px; font-size: 0.7rem; cursor: pointer; transition: all 0.2s;">Resumo do Dia</button>
                             </div>
                         </header>
                         
-
-
                         <div class="call-content-wrapper" style="max-height: 380px; overflow-y: auto; padding-right: 8px; scrollbar-width: thin; scrollbar-color: var(--brand-blue) rgba(255,255,255,0.05);">
                             <!-- Morning Call -->
                             <article id="call-morning" class="call-article" style="display: block;">
@@ -545,6 +562,17 @@
                                 <h4 id="morning-title" style="color: var(--text-main); font-size: 1.1rem; margin-bottom: 1rem;">Carregando Morning Call...</h4>
                                 <div id="morning-body" style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">
                                     <p>A inteligência GII está processando as notícias globais para você.</p>
+                                </div>
+                            </article>
+
+                            <!-- Coffee Break (Intraday) -->
+                            <article id="call-coffee" class="call-article" style="display: none;">
+                                <div id="coffee-date" style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; color: var(--text-muted); font-size: 0.7rem;">
+                                    <i class="ph ph-calendar"></i> Sincronizando...
+                                </div>
+                                <h4 id="coffee-title" style="color: var(--text-main); font-size: 1.1rem; margin-bottom: 1rem;">Carregando Coffee Break...</h4>
+                                <div id="coffee-body" style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">
+                                    <p>Consolidando o que aconteceu na primeira metade do pregão.</p>
                                 </div>
                             </article>
 
@@ -988,16 +1016,16 @@
     </div>
 
     <!-- Scripts do Sistema (Versão 22 - Produção) -->
-    <script src="js/news-service.js?v=22" defer></script>
-    <script src="js/ticker.js?v=22" defer></script>
-    <script src="js/calculator.js?v=22" defer></script>
-    <script src="js/ui-controller.js?v=22" defer></script>
-    <script src="js/gamification.js?v=22" defer></script>
-    <script src="js/radar-service.js?v=22" defer></script>
-    <script src="js/buying-power.js?v=22" defer></script>
-    <script src="js/compliance-service.js?v=22" defer></script>
-    <script src="js/dictionary-service.js?v=22" defer></script>
-    <script src="js/editorial-service.js?v=22" defer></script>
+    <script src="js/news-service.js?v=23" defer></script>
+    <script src="js/ticker.js?v=23" defer></script>
+    <script src="js/calculator.js?v=23" defer></script>
+    <script src="js/ui-controller.js?v=23" defer></script>
+    <script src="js/gamification.js?v=23" defer></script>
+    <script src="js/radar-service.js?v=23" defer></script>
+    <script src="js/buying-power.js?v=23" defer></script>
+    <script src="js/compliance-service.js?v=23" defer></script>
+    <script src="js/dictionary-service.js?v=23" defer></script>
+    <script src="js/editorial-service.js?v=23" defer></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Inicializa Motor de Dicionário

@@ -1,80 +1,72 @@
-# 📈 Trilha dos Juros - Simulador Financeiro Premium
+# 📈 Trilha dos Juros - Terminal de Inteligência Financeira Premium
 
 [![Status](https://img.shields.io/badge/Status-Produção-success?style=for-the-badge)](https://trilhadosjuros.com.br)
 [![Build](https://img.shields.io/badge/CI%2FCD-Vercel%20Edge-black?style=for-the-badge)](https://vercel.com)
-[![Tech](https://img.shields.io/badge/Vanilla-JS%20%2F%20CSS-yellow?style=for-the-badge)]()\
-[![Commodities](https://img.shields.io/badge/Cotações-GitHub%20Gist%20Public-brightgreen?style=for-the-badge)]()
+[![AI](https://img.shields.io/badge/Powered%20By-Google%20Gemini-blue?style=for-the-badge)]()
+[![Backend](https://img.shields.io/badge/Engine-Python%203.10-gold?style=for-the-badge)]()
 
-**Trilha dos Juros** é um terminal de inteligência financeira projetado para entregar precisão absoluta em simulações de renda fixa. Com uma interface inspirada em fintechs de elite (Faria Lima Style), o sistema combina matemática rigorosa com gamificação para retenção de usuários.
+**Trilha dos Juros** evoluiu de um simulador para um **terminal de inteligência financeira completo**. Projetado com a estética *Faria Lima Style* (Glassmorphism), o sistema agora combina cálculos matemáticos rigorosos de renda fixa com análise editorial em tempo real impulsionada por Inteligência Artificial.
 
 ---
 
-## 💎 Diferenciais Estratégicos
+## 💎 Diferenciais Estratégicos (Next-Gen)
 
-### 1. Precisão Matemática Impecável
-Diferente de simuladores simplistas, nosso motor de cálculo (JS Nativo) processa:
+### 1. Hub Editorial Autônomo (AI-Powered)
+O sistema não apenas calcula, ele interpreta o mercado. Utilizando o motor **Google Gemini**, o hub gera autonomamente:
+- **Morning Call:** Preparação estratégica antes da abertura do mercado.
+- **Coffee Break:** Resumo dinâmico dos principais movimentos do meio-dia.
+- **Resumo do Dia:** Análise de fechamento com os fatos que realmente importam.
+- **Compliance CVM:** Todo conteúdo é estritamente informativo, eliminando adjetivos sensacionalistas ou recomendações de compra/venda.
+
+### 2. Agenda Econômica de Alto Impacto
+Uma interface de monitoramento em tempo real centrada no investidor de Renda Fixa:
+- **Neon Pulse Indicators:** Eventos de alto impacto (IPCA, Copom, Payroll) ganham destaque visual dinâmico.
+- **Análise Brasileira e Global:** Cobertura simultânea dos principais indicadores do Brasil (BCB) e Estados Unidos (Fed).
+- **Dados Preditivos:** O motor de IA injeta as projeções de mercado (Proj) vs valores anteriores (Prev) para auxiliar na tomada de decisão.
+
+### 3. Precisão Matemática Impecável
+Nosso motor de cálculo (JS Nativo) processa o rigor financeiro que calculadoras comuns ignoram:
 - **Tabela Regressiva de IR:** Descontos automáticos de 22.5% a 15% conforme o prazo.
-- **Calendário B3:** Cálculos baseados em 252 dias úteis para CDI.
-- **Isenções Inteligentes:** Tratamento específico para LCI, LCA e Poupança.
-- **Contraste Dinâmico:** Comparação em tempo real contra o benchmark da Poupança para gerar gatilhos de conversão.
+- **Calendário B3:** Cálculos baseados no padrão de 252 dias úteis.
+- **Isenções Inteligentes:** Tratamento automático para LCI, LCA e Poupança.
 
-### 2. Orquestração de Dados Resiliente (Vercel Serverless)
-O sistema possui um motor de cotações automáticas totalmente Serverless (Zero PHP, zero FTP):
-- **Indicadores Oficiais:** Selic, CDI e IPCA (12 meses) sincronizados diretamente com a API do **Banco Central do Brasil (SGS)** nativamente via CORS.
-- **Ações B3:** PETR4, VALE3, ITUB4 e IBOVESPA roteados a prova de balas por uma **Vercel Serverless Function** secreta (`api/yahoo.js`), blindada de bloqueios de IP proxy da AWS.
-- **Moedas & Crypto:** Dolar, Euro e Bitcoin via integração na AwesomeAPI Brasileira.
-- **Mercado Global (Commodities):** Gold e Silver atualizados via Python Scraper salvos em um **GitHub Gist Público**, alimentando o Frontend com Zero FTP timeouts.
-
-### 3. Gamificação: Jornada dos Depósitos
-Uma ferramenta exclusiva de retenção (monetização via AdSense) que quebra metas financeiras em micro-etapas de depósitos crescentes (Progressão Aritmética), incentivando o retorno recorrente do usuário.
+### 4. Orquestração de Dados Resiliente
+Arquitetura híbrida que garante 99.9% de disponibilidade:
+- **Indicadores Oficiais:** Selic, CDI e IPCA via API do Banco Central.
+- **Ações & Commodities:** Roteamento via Vercel Serverless Function e Python Scrapers salvos em GitHub Gists para contornar timeouts de FTP.
 
 ---
 
-## 🏗️ Arquitetura de Deploy Mística (Edge Cloud)
+## 🏗️ Arquitetura de Fluxo de Dados
 
-Esta arquitetura finalizou a instabilidade raiz de FTP de servidores base, migrando todo o ecossistema para a Vercel Global Edge Network.
-
-```
-[GitHub - Branch Main]
-          ↓
-    Git Push (Automatic Trigger)
-          ↓
-    Vercel Edge Build
-    ├── Roteamento de Frontend Estático (index.html, JS, CSS) em CDN Global
-    └── Compilação do Backend (Node.js) para a Serverless Function (/api/yahoo)
-          ↓
-    Deploy Automático com SSL Let's Encrypt Zero-Toque Ativado
+```mermaid
+graph TD
+    A[Fontes: RSS, Investinig, BCB] -->|Scraping / API| B(Motor Python - Editorial Engine)
+    B -->|Prompt Engineering| C[Google Gemini AI]
+    C -->|JSON Estruturado| D[editorial_feed.json]
+    D -->|Fetch dinâmico| E[Frontend Glassmorphism]
+    E -->|Interação Usuário| F[Simulador & Insights]
 ```
 
 ---
 
 ## 🛠️ Stack Tecnológica
 
-- **Front-end:** Vanilla JavaScript (ES6+), CSS3 (Dark Mode Glassmorphism), HTML5 Semântico.
-- **Backend (Edge):** Node.js em Vercel Serverless Functions (`api/yahoo.js`).
-- **Gráficos:** Chart.js para visualização de rendimentos compostos.
-- **Commodities Pipeline:** Python 3.10 via Workflows rodando apenas via cache Gist.
-- **DevOps:** CI/CD contínuo integrado pelo Webhook do GitHub com a Vercel. Nada de FTP legados ou painel CPanel hostinger.
-- **Segurança:** Proteção absoluta XSS, DDoS Nativo pela Cloudflare/Vercel. Ausência de bancos de dados hackeáveis. 
-
----
-
-## 🔐 Gestão de Credenciais (Cybersecurity)
-
-O projeto foi auditado e configurado para arquitetura **Clean-Secret**.
-- **Não há conexões expostas** de Banco de dados nos arquivos JS/HTML.
-- Os Tokens vitais como `GIST_TOKEN` ou arquivos `.env` do robô de Python devem residir exclusivamente nas *Action Secrets* do GitHub (Vault Restrito), garantindo que varreduras automatizadas no repositório nunca apontarão exploits.
-- Tokens de monitoramento como rastreamento Google (Analytics / AdSense pub) rodam abertamente no Front, como em toda a arquitetura web do mundo, sem expor o painel matriz ao usuário.
+- **Front-end:** Vanilla JavaScript (ES6+), CSS3 (Dark Mode & UI Premium), HTML5 Semântico.
+- **AI Engine:** Python 3.10 + Google Generative AI (Gemini Flash).
+- **Backend Edge:** Node.js em Vercel Serverless Functions.
+- **Visualização:** Chart.js para gráficos de juros compostos.
+- **Segurança:** Proteção contra XSS, DDoS e arquitetura **Clean-Secret** (Credenciais armazenadas em GitHub Secrets/Vault).
 
 ---
 
 ## 🚀 Como Visualizar
-O projeto está em produção máxima blindada em: [trilhadosjuros.com.br](https://trilhadosjuros.com.br)
+O ecossistema em produção máxima blindada pode ser acessado em: [trilhadosjuros.com.br](https://trilhadosjuros.com.br)
 
 ---
 
-## 🖋️ Autoria
-Desenvolvido sob o padrão **Skill Senior Workflow**, cruzando Design Premium PWA com infraestrutura de Banco Digital Resiliente.
+## 🖋️ Autoria e Metodologia
+Desenvolvido sob o padrão **Skill Senior Workflow**. Este projeto não é apenas código; é uma solução de engenharia financeira que prioriza UX premium, automação total e resiliência de dados.
 
 ---
 © 2026 Trilha dos Juros. Todos os direitos reservados.

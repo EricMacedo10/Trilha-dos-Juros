@@ -29,6 +29,17 @@ const EditorialService = {
             if (mBody) mBody.innerHTML = data.morning.body;
         }
 
+        // Coffee Break (Midday)
+        if (data.coffee) {
+            const cDate = document.getElementById('coffee-date');
+            const cTitle = document.getElementById('coffee-title');
+            const cBody = document.getElementById('coffee-body');
+
+            if (cDate) cDate.innerHTML = `<i class="ph ph-calendar"></i> ${data.coffee.date}`;
+            if (cTitle) cTitle.innerHTML = data.coffee.title;
+            if (cBody) cBody.innerHTML = data.coffee.body;
+        }
+
         // Resumo do Dia
         if (data.evening) {
             const eDate = document.getElementById('evening-date');
@@ -62,34 +73,97 @@ const EditorialService = {
                 tipEl.style.display = 'block';
             }
         }
+
+        // Agenda Econômica (Radar de Eventos)
+        if (data.economic_calendar) {
+            this.renderCalendar(data);
+        }
+    },
+
+    renderCalendar(data) {
+        if (!data || !data.economic_calendar || !data.economic_calendar.events) return;
+
+        const listContainer = document.getElementById('calendar-events-list');
+        if (!listContainer) return;
+
+        let html = `
+            <div class="calendar-header-table">
+                <span class="col-time">HORA</span>
+                <span class="col-event">EVENTO</span>
+                <span class="col-val">ATUAL</span>
+                <span class="col-val">PROJ.</span>
+                <span class="col-val">ANT.</span>
+            </div>
+        `;
+
+        data.economic_calendar.events.forEach(item => {
+            const impactClass = `impact-${item.impact.toLowerCase()}`;
+            const atual = item.atual || '---';
+            const proj = item.proj || '---';
+            const prev = item.prev || '---';
+            const time = item.time || '--:--';
+            const country = item.country ? item.country.toUpperCase() : '--';
+            
+            html += `
+                <div class="event-row ${impactClass}">
+                    <span class="col-time">
+                        <span style="display:flex; align-items:center; gap:4px;">
+                            ${time} 
+                            <span class="country-tag">${country}</span>
+                        </span>
+                        <small>${item.date}</small>
+                    </span>
+                    <span class="col-event">${item.event}</span>
+                    <span class="col-val val-atual">${atual}</span>
+                    <span class="col-val val-muted">${proj}</span>
+                    <span class="col-val val-muted-more">${prev}</span>
+                </div>
+            `;
+        });
+
+        listContainer.innerHTML = html;
     }
 };
 
 // Funções de Troca de Aba (Tabs) para o Editorial
+// Funções de Troca de Aba (Tabs) para o Editorial
 window.switchCallTab = function(type) {
     const btnM = document.getElementById('btn-tab-morning');
+    const btnC = document.getElementById('btn-tab-coffee');
     const btnE = document.getElementById('btn-tab-evening');
     const artM = document.getElementById('call-morning');
+    const artC = document.getElementById('call-coffee');
     const artE = document.getElementById('call-evening');
 
+    const btns = [btnM, btnC, btnE];
+    const arts = [artM, artC, artE];
+
+    // Reset All
+    btns.forEach(b => {
+        if(b) {
+            b.classList.remove('active');
+            b.style.background = 'transparent';
+            b.style.color = 'var(--text-muted)';
+        }
+    });
+    arts.forEach(a => { if(a) a.style.display = 'none'; });
+
+    // Activate Current
     if (type === 'morning') {
         btnM.classList.add('active');
-        btnE.classList.remove('active');
         btnM.style.background = 'var(--brand-blue)';
-        btnE.style.background = 'transparent';
-        btnE.style.color = 'var(--text-muted)';
         btnM.style.color = 'white';
         artM.style.display = 'block';
-        artE.style.display = 'none';
+    } else if (type === 'coffee') {
+        btnC.classList.add('active');
+        btnC.style.background = 'var(--brand-blue)';
+        btnC.style.color = 'white';
+        artC.style.display = 'block';
     } else {
         btnE.classList.add('active');
-        btnM.classList.remove('active');
         btnE.style.background = 'var(--brand-blue)';
-        btnM.style.background = 'transparent';
-        btnM.style.color = 'var(--text-muted)';
         btnE.style.color = 'white';
         artE.style.display = 'block';
-        artM.style.display = 'none';
     }
 };
 

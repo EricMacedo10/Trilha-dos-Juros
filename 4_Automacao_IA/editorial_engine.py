@@ -2,8 +2,12 @@ import os
 import json
 import feedparser
 import google.generativeai as genai
+import socket
 from datetime import datetime
 from dotenv import load_dotenv
+
+# Configuração de timeout global para evitar travamentos em feeds lentos
+socket.setdefaulttimeout(10)
 
 # Configurações do Ambiente
 load_dotenv()
@@ -14,8 +18,6 @@ NEWS_SOURCES = {
     "Brasil": "https://br.investing.com/rss/market_overview.rss",
     "Brasil_Yahoo": "https://br.financas.yahoo.com/rss",
     "Global_Yahoo": "https://finance.yahoo.com/rss/topstories",
-    "Global_CNBC": "https://search.cnbc.com/rs/search/all/view.rss?partnerId=2000&keywords=finance",
-    "Cripto": "https://www.coindesk.com/arc/outboundfeeds/rss/",
     "Commodities": "https://br.investing.com/rss/stock_Commodities.rss"
 }
 
@@ -60,13 +62,22 @@ def generate_editorial(context, mode="morning"):
     model = genai.GenerativeModel('gemini-flash-latest')
     
     current_time = datetime.now().strftime("%d de %B, %Y • %H:%Mh")
-    tipo = "Morning Call" if mode == "morning" else "Resumo do Dia"
+    
+    if mode == "morning":
+        tipo = "Morning Call"
+        subtitulo = "preparando a abertura do mercado"
+    elif mode == "coffee":
+        tipo = "Coffee Break"
+        subtitulo = "o que aconteceu até o meio-dia"
+    else:
+        tipo = "Resumo do Dia"
+        subtitulo = "fechamento e principais movimentos"
     
     print(f"-> Gerando {tipo} via Gemini...")
     
     prompt = f"""
     Você é um Editor Sênior de Finanças para a plataforma 'Trilha dos Juros'.
-    Sua missão é escrever um { tipo } baseado nas seguintes notícias coletadas agora:
+    Sua missão é escrever um { tipo } ({subtitulo}) baseado nas seguintes notícias coletadas agora:
     
     {context}
     
@@ -98,7 +109,7 @@ def generate_editorial(context, mode="morning"):
         return {
             "title": f"{tipo} Temporariamente Indisponível",
             "date": current_time,
-            "body": "<p>Houve uma falha técnica ao processar as notícias de hoje. Nossa equipe editorial já foi notificada.</p>"
+            "body": f"<p>Houve uma falha técnica ao processar o {tipo}. Nossa equipe editorial já foi notificada.</p>"
         }
 
 def generate_educational_pill(context):
@@ -132,6 +143,57 @@ def generate_educational_pill(context):
             "definition": "O Certificado de Depósito Interbancário é a taxa que os bancos cobram para emprestar dinheiro entre si. É a principal referência para o rendimento da renda fixa."
         }
 
+def generate_economic_calendar(context):
+    """Gera uma lista de 5 eventos econômicos de alto impacto no novo modelo de 5 colunas."""
+    model = genai.GenerativeModel('gemini-flash-latest')
+    
+    current_month = datetime.now().strftime("%B de %Y")
+    print("-> Gerando Agenda Econômica (5 Colunas) via Gemini...")
+    
+    prompt = f"""
+    Baseado nas notícias recentes ({context}) e no seu conhecimento atual (Hoje é {current_month}):
+    
+    Identifique os 5 PRÓXIMOS eventos econômicos de maior impacto para o investidor de renda fixa no Brasil (Misture Brasil e EUA).
+    
+    PARA CADA EVENTO, PREENCHA O JSON COM:
+    1. country: use 'br' ou 'us'.
+    2. date: formato DD/MM.
+    3. time: formato HH:MM (horário estimado).
+    4. event: nome curto do indicador.
+    5. impact: High, Medium ou Low.
+    6. atual: sempre use "---" (será preenchido em tempo real dps). 
+    7. proj: valor projetado pelo mercado (ex: 0.5%, 10.75%, 200k) - estimativa baseada nas notícias.
+    8. prev: valor anterior (ex: 0.8%, 11.25%, 250k).
+
+    FORNEÇA O RESULTADO APENAS COMO JSON PURO NO SEGUINTE FORMATO:
+    {{
+      "events": [
+        {{ 
+          "date": "DD/MM", 
+          "time": "HH:MM", 
+          "country": "br", 
+          "event": "Nome", 
+          "impact": "High", 
+          "atual": "---", 
+          "proj": "0.5%", 
+          "prev": "0.6%" 
+        }},
+        ... 100% fiel a este esquema.
+      ]
+    }}
+    """
+    
+    try:
+        response = model.generate_content(prompt)
+        return clean_json_response(response.text)
+    except Exception as e:
+        print(f"Erro na chamada Gemini (Agenda 2.0): {e}")
+        return {
+            "events": [
+                { "date": "Amanhã", "time": "09:00", "country": "br", "event": "Abertura do Mercado", "impact": "Medium", "atual": "---", "proj": "---", "prev": "---" }
+            ]
+        }
+
 def main():
     print("[Alpha] Iniciando Motor Editorial IA-Driven...")
     
@@ -153,43 +215,53 @@ def main():
         print("Aviso: Nenhuma notícia encontrada nas fontes RSS.")
         return
 
-    # Determina o turno baseado na hora UTC (GitHub Actions roda em UTC)
-    # 08:30 BRT = 11:30 UTC | 18:00 BRT = 21:00 UTC
-    # Usaremos 15:00 UTC (12:00 BRT) como divisor de águas
+    # Turnos baseados em UTC (08:30 BRT = 11:30 UTC | 12:00 BRT = 15:00 UTC | 18:00 BRT = 21:00 UTC)
     current_utc_hour = datetime.utcnow().hour
-    is_morning_shift = current_utc_hour < 15
-
-    # Inicializa o novo feed com os dados antigos (Fallback)
+    
+    # Inicializa o novo feed com os dados antigos (Merge)
     feed_data = {
         "morning": existing_data.get("morning"),
+        "coffee": existing_data.get("coffee"),
         "evening": existing_data.get("evening"),
         "daily_term": existing_data.get("daily_term"),
+        "economic_calendar": existing_data.get("economic_calendar"),
         "last_update": datetime.now().isoformat()
     }
 
-    if is_morning_shift:
+    if current_utc_hour < 13: # Antes das 10h BRT
         print("-> Turno Detectado: MATUTINO (Morning Call)")
-        morning_call = generate_editorial(news_context, mode="morning")
-        if morning_call:
-            morning_call["date"] = datetime.now().strftime("%d/%m/%Y • 08:30h")
-            feed_data["morning"] = morning_call
-    else:
+        call = generate_editorial(news_context, mode="morning")
+        if call:
+            call["date"] = datetime.now().strftime("%d/%m/%Y • 08:30h")
+            feed_data["morning"] = call
+            
+    elif 13 <= current_utc_hour < 17: # Entre 10h e 14h BRT
+        print("-> Turno Detectado: INTERMEDIÁRIO (Coffee Break)")
+        call = generate_editorial(news_context, mode="coffee")
+        if call:
+            call["date"] = datetime.now().strftime("%d/%m/%Y • 12:00h")
+            feed_data["coffee"] = call
+            
+    else: # Após as 14h BRT
         print("-> Turno Detectado: VESPERTINO (Resumo do Dia)")
-        evening_call = generate_editorial(news_context, mode="evening")
-        if evening_call:
-            evening_call["date"] = datetime.now().strftime("%d/%m/%Y • 18:00h")
-            feed_data["evening"] = evening_call
+        call = generate_editorial(news_context, mode="evening")
+        if call:
+            call["date"] = datetime.now().strftime("%d/%m/%Y • 18:00h")
+            feed_data["evening"] = call
 
-    # A Pílula de Conhecimento e o timestamp são atualizados em ambos os turnos
+    # Atualizações globais (Termo e Agenda) em cada run
     daily_term = generate_educational_pill(news_context)
     if daily_term:
         feed_data["daily_term"] = daily_term
+
+    economic_calendar = generate_economic_calendar(news_context)
+    if economic_calendar:
+        feed_data["economic_calendar"] = economic_calendar
     
-    # Salva o arquivo final combinado
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(feed_data, f, ensure_ascii=False, indent=2)
     
-    print(f"Sucesso! Feed editorial ({'Morning' if is_morning_shift else 'Evening'}) sincronizado em: {output_path}")
+    print(f"Sucesso! Processamento sincronizado em: {output_path}")
 
 if __name__ == "__main__":
     main()
