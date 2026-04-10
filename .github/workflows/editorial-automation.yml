@@ -2,9 +2,10 @@ name: Editorial Hub Automation (IA-Driven)
 
 on:
   schedule:
-    # Roda de segunda a sexta às 08:30 (Morning Call) e 18:00 (Resumo do Dia) BRT
-    # BRT is UTC-3, so 08:30 BRT = 11:30 UTC / 18:00 BRT = 21:00 UTC
+    # Roda de segunda a sexta às 08:30 (Manhã), 12:00 (Almoço) e 18:00 (Fim do dia) BRT
+    # BRT is UTC-3: 08:30=11:30 UTC / 12:00=15:00 UTC / 18:00=21:00 UTC
     - cron: '30 11 * * 1-5'
+    - cron: '0 15 * * 1-5'
     - cron: '0 21 * * 1-5'
   push:
     branches: [ main ]

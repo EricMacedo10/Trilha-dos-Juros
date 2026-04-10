@@ -1,5 +1,12 @@
 # Controle de Atualizações e Issues
 
+## 🏆 Conquistas Recentes: Editorial Hub 2.0 (10/04/2026)
+*   **Integração ForexFactory:** Agora a agenda econômica é alimentada por dados reais globais, eliminando alucinações da IA.
+*   **Turno Coffee Break:** Novo slot de atualização às 12:00 BRT integrado ao GitHub Actions e à Interface.
+*   **UI/UX Alinhada:** Painel de Calls do Mercado harmonizado visualmente com o Radar de Eventos na sidebar (Sticky Sidebar).
+*   **Fallback Resiliente:** Motor IA configurado para preservar dados existentes em caso de erro 429 (Quota), garantindo estabilidade.
+*   **Janela Expandida:** Altura do painel de Calls aumentada para 980px para permitir leitura fluida de artigos longos.
+
 ## 📋 Pendências e Configurações Futuras (Pós-Sessão Sênior)
 
 ### 1. Monitoramento de Cota IA (Gemini API)
@@ -8,9 +15,8 @@
 **Resolução:** A cota resetou em 03/04 e o robô gerou conteúdo com sucesso às 08:30h. O sistema de "fallback" permanece ativo como rede de segurança.
 
 ### 2. Remoção do Aviso de Próximo Pregão
-**Status:** 🚨 Pendente — Precisa ser removido!
-**Descrição:** Inserimos um banner amarelo manual em `index.html` (linhas 538-541) informando que a atualização ocorrerá no próximo pregão.
-**Ação:** O robô já gerou conteúdo real em 03/04. Este banner **deve ser removido** do HTML para limpar a interface. Localização: seção `calls-warning` dentro de `#market-calls-section`.
+**Status:** ✅ Resolvido (10/04/2026)
+**Descrição:** O banner de aviso manual foi removido conforme planejado. A interface agora exibe diretamente os dados gerados pela IA sem ruídos visuais.
 
 ### 3. Integração de Inteligência GII (Fase 2: Expansão)
 **Status:** ✅ Concluído (02/04/2026)
