@@ -183,14 +183,34 @@ def generate_economic_calendar(context):
         headers = {'User-Agent': 'TrilhaDosJuros/1.0'}
         response = requests.get(url, headers=headers, timeout=5)
         if response.status_code == 200:
+            # Filtragem inteligente: Remover eventos passados
+            from datetime import datetime
+            today_str = datetime.now().strftime("%Y-%m-%d")
+            
             events = response.json()
-            valid_events = [e for e in events if e.get('impact') in ['High', 'Medium'] and e.get('country') in ['USD', 'EUR', 'GBP', 'CNY', 'JPY', 'BRL', 'CAD']]
+            future_events = []
+            for e in events:
+                e_date = e.get('date', '')[:10] # Formato YYYY-MM-DD
+                if e_date >= today_str and e.get('impact') in ['High', 'Medium'] and e.get('country') in ['USD', 'EUR', 'GBP', 'CNY', 'JPY', 'BRL', 'CAD']:
+                    future_events.append(e)
             
             lines = []
-            for e in valid_events[:8]:
-                dt_str = e.get('date', '')
-                date_fmt = dt_str[:10]
-                lines.append(f"- País: {e.get('country')} | Data: {date_fmt} | Evento: {e.get('title')} | Proj: {e.get('forecast')} | Ant: {e.get('previous')}")
+            # Se tivermos poucos eventos hoje/futuro, pegamos os últimos do passado para completar 8 opções para a IA
+            if len(future_events) < 5:
+                # Pega os eventos da semana inteira que são High/Medium
+                all_valid = [e for e in events if e.get('impact') in ['High', 'Medium']]
+                # Se hoje é sexta, o início da lista tem muita coisa velha. 
+                # Vamos pegar os 10 mais próximos da data de hoje (mesmo que um pouco antes)
+                lines = []
+                for e in all_valid: # Aqui all_valid já está em ordem cronológica por padrão da API
+                    e_date = e.get('date', '')[:10]
+                    lines.append(f"- País: {e.get('country')} | Data: {e_date} | Evento: {e.get('title')} | Proj: {e.get('forecast')} | Ant: {e.get('previous')}")
+                # Pegamos os 15 mais recentes (os últimos da lista costumam ser o final da semana)
+                lines = lines[-15:] 
+            else:
+                for e in future_events[:10]:
+                    e_date = e.get('date', '')[:10]
+                    lines.append(f"- País: {e.get('country')} | Data: {e_date} | Evento: {e.get('title')} | Proj: {e.get('forecast')} | Ant: {e.get('previous')}")
             
             if lines:
                 real_calendar_text = "\n".join(lines)
