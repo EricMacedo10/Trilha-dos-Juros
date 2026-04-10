@@ -5,9 +5,9 @@
     "body": "<p>O cenário financeiro global nesta sexta-feira é marcado pela cautela antes da divulgação de novos dados de inflação nos Estados Unidos, que podem ditar o ritmo dos juros pelo Fed. Na Europa, os balanços corporativos mostram resiliência, enquanto na Ásia o foco permanece nos estímulos à economia chinesa.</p><strong>Foco em Inflação e Juros</strong><p>Investidores monitoram de perto os rendimentos dos Treasuries, que operam em patamares elevados. No Brasil, o mercado repercute os dados de vendas no varejo e as falas recentes de membros do Copom sobre a trajetória da Selic. O dólar apresenta volatilidade frente a moedas emergentes.</p><ul><li><strong>Commodities:</strong> O petróleo opera estável, com tensões no Oriente Médio servindo de suporte aos preços.</li><li><strong>Bolsas:</strong> Futuros em Nova York sinalizam abertura mista; Ibovespa busca manter patamar de suporte técnico.</li></ul><p><strong>Fontes:</strong> Curadoria Trilha dos Juros e Yahoo Finance.</p>"
   },
   "coffee": {
-    "title": "Mercados em tensão com petróleo e dados dos EUA",
+    "title": "Mercados sob tensão com petróleo e dados de inflação dos EUA",
     "date": "10/04/2026 • 12:00h",
-    "body": "<p>Os mercados financeiros operam com atenções divididas nesta manhã, entre choques no preço do petróleo e a digestão de dados econômicos recentes dos Estados Unidos.</p><p><strong>Petróleo e Geopolítica no Centro das Atenções</strong></p><p>Um choque nos preços do petróleo, potencialmente ligado a eventos no Estreito de Ormuz, gera volatilidade. Analistas observam que movimentos bruscos na commodity historicamente impactam o fluxo de capitais e a cotação do dólar. Paralelamente, notícias sobre um frágil cessar-fogo envolvendo o Irã adicionam uma camada de incerteza ao cenário global.</p><p><strong>Dados Econômicos dos EUA Sob Análise</strong></p><p>Os dados do Índice de Preços ao Consumidor (CPI) de março, divulgados nos EUA, mostraram pressão de custos na energia. Enquanto isso, projeções indicam uma recuperação do PIB norte-americano para o primeiro trimestre. Este mix de informações – inflação persistente em alguns componentes versus crescimento econômico – resultou em uma sessão mista em Wall Street, com o Nasdaq em alta e o Dow Jones em queda.</p><p><strong>Inovação e Mercado Doméstico</strong></p><p>No cenário brasileiro, os contratos futuros WDOK26 e WINJ26 registraram os melhores preços do dia até o momento. No setor bancário, discute-se uma evolução no papel das instituições, que ampliam seus serviços de custódia para incluir ferramentas de inteligência na gestão empresarial de seus clientes.</p><p><strong>Fontes:</strong> Trilha dos Juros (Brasil), Yahoo Finance (Global).</p>"
+    "body": "<p>Os mercados financeiros operam com atenções divididas entre a volatilidade no preço do petróleo e a divulgação de dados econômicos nos Estados Unidos nesta sexta-feira.</p><p><strong>Energia e Geopolítica em Foco</strong></p><ul><li>Um choque nos preços do petróleo, com impacto direto atribuído a tensões no Estreito de Ormuz, gera discussões sobre possíveis implicações para a política monetária do Federal Reserve.</li><li>Analistas observam uma correlação inversa entre a alta da commodity e a valorização do dólar em alguns mercados emergentes.</li></ul><p><strong>Cenário Macroeconômico</strong></p><ul><li>Nos EUA, a primeira estimativa do PIB do primeiro trimestre aponta para uma recuperação, mas a perspectiva é moderada pela incerteza gerada por um frágil cenário de cessar-fogo em conflitos globais.</li><li>O índice de preços ao consumidor (CPI) de março, divulgado hoje, mostrou custos de energia em alta, contribuindo para um desempenho misto das bolsas americanas no pré-mercado, com o Nasdaq em terreno positivo e o Dow Jones em queda.</li></ul><p><strong>Mercados e Setores</strong></p><ul><li>No mercado futuro brasileiro, os contratos de dólar (WDO) e índice (WIN) com vencimento em junho de 2026 (WDOK26 e WINJ26) registraram os melhores preços do dia até o momento.</li><li>As ações de empresas de ouro retornaram a listas de desempenho destacado após breve pausa, em meio ao ambiente de busca por ativos defensivos.</li><li>A Apple é apontada como ganhando participação de mercado nos segmentos de PCs e smartphones.</li></ul><p><strong>Outras Notas do Dia</strong></p><ul><li>No setor bancário, discute-se uma evolução do papel das instituições, de custódia para uma gestão mais integrada e baseada em inteligência de dados para empresas.</li><li>No universo cripto, a Nexus Mutual busca se posicionar como uma alternativa de seguro para ativos digitais.</li><li>Contribuintes nos EUA enfrentam atrasos nos reembolsos de impostos, conforme reportado.</li></ul><p><strong>Fontes:</strong> Notícias financeiras do Brasil; Yahoo Finance (Global); Dados de mercado.</p>"
   },
   "evening": {
     "title": "Panorama Global: Commodities, Balanços e Projeções Econômicas",
@@ -16,7 +16,7 @@
   },
   "daily_term": {
     "term": "Intervenção do Fed",
-    "definition": "A 'intervenção do Fed' refere-se a ações tomadas pelo Federal Reserve (o banco central dos EUA) para influenciar a economia. Essas ações podem incluir o ajuste das taxas de juros ou a compra/venda de títulos para controlar a inflação, estimular o crescimento ou estabilizar os mercados financeiros. Para o investidor iniciante, pense no Fed como um grande regulador que pode 'apertar' ou 'afrouxar' as condições econômicas, afetando diretamente o custo do empréstimo, o valor das moedas e o retorno dos seus investimentos."
+    "definition": "A intervenção do Fed refere-se a ações do Federal Reserve (banco central dos EUA) para influenciar a economia, geralmente ajustando as taxas de juros ou comprando/vendendo títulos. Quando notícias mencionam possível intervenção, significa que o Fed pode agir para controlar inflação, estimular crescimento ou estabilizar mercados em crise. Para investidores, essas decisões afetam diretamente o custo do crédito, valor do dólar e rentabilidade de diversos investimentos."
   },
   "economic_calendar": {
     "events": [
@@ -24,17 +24,7 @@
         "date": "10/04",
         "time": "Dia Todo",
         "country": "us",
-        "event": "IPC Mensal (CPI m/m)",
-        "impact": "High",
-        "atual": "---",
-        "proj": "1.0%",
-        "prev": "0.3%"
-      },
-      {
-        "date": "10/04",
-        "time": "Dia Todo",
-        "country": "us",
-        "event": "IPC Anual (CPI y/y)",
+        "event": "CPI Anual (y/y)",
         "impact": "High",
         "atual": "---",
         "proj": "3.4%",
@@ -44,7 +34,17 @@
         "date": "10/04",
         "time": "Dia Todo",
         "country": "us",
-        "event": "IPC Core Mensal (Core CPI m/m)",
+        "event": "CPI Mensal (m/m)",
+        "impact": "High",
+        "atual": "---",
+        "proj": "1.0%",
+        "prev": "0.3%"
+      },
+      {
+        "date": "10/04",
+        "time": "Dia Todo",
+        "country": "us",
+        "event": "CPI Core Mensal (m/m)",
         "impact": "High",
         "atual": "---",
         "proj": "0.3%",
@@ -64,13 +64,13 @@
         "date": "10/04",
         "time": "Dia Todo",
         "country": "cad",
-        "event": "Variação do Emprego",
+        "event": "Taxa de Desemprego",
         "impact": "Medium",
         "atual": "---",
-        "proj": "14.5K",
-        "prev": "-83.9K"
+        "proj": "6.8%",
+        "prev": "6.7%"
       }
     ]
   },
-  "last_update": "2026-04-10T16:22:31.989308"
+  "last_update": "2026-04-10T13:32:21.106676"
 }
