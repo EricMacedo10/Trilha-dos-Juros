@@ -143,42 +143,73 @@ def generate_educational_pill(context):
             "definition": "O Certificado de Depósito Interbancário é a taxa que os bancos cobram para emprestar dinheiro entre si. É a principal referência para o rendimento da renda fixa."
         }
 
+import requests
+
 def generate_economic_calendar(context):
-    """Gera uma lista de 5 eventos econômicos de alto impacto no novo modelo de 5 colunas."""
+    """Gera uma lista de 5 eventos econômicos de alto impacto utilizando dados reais da semana."""
     model = genai.GenerativeModel('gemini-flash-latest')
-    
     current_month = datetime.now().strftime("%B de %Y")
+    
     print("-> Gerando Agenda Econômica (5 Colunas) via Gemini...")
     
-    prompt = f"""
-    Baseado nas notícias recentes ({context}) e no seu conhecimento atual (Hoje é {current_month}):
+    # Busca o calendário real da semana via API aberta
+    real_calendar_text = "Nenhum evento global carregado."
+    try:
+        url = "https://nfs.faireconomy.media/ff_calendar_thisweek.json"
+        headers = {'User-Agent': 'TrilhaDosJuros/1.0'}
+        response = requests.get(url, headers=headers, timeout=5)
+        if response.status_code == 200:
+            events = response.json()
+            # Pega eventos High e Medium para as moedas principais para garantir volume
+            valid_events = [e for e in events if e.get('impact') in ['High', 'Medium'] and e.get('country') in ['USD', 'EUR', 'GBP', 'CNY', 'JPY', 'BRL', 'CAD']]
+            
+            lines = []
+            for e in valid_events[:8]:
+                dt_str = e.get('date', '')
+                date_fmt = dt_str[:10]
+                lines.append(f"- País: {e.get('country')} | Data: {date_fmt} | Evento: {e.get('title')} | Proj: {e.get('forecast')} | Ant: {e.get('previous')}")
+            
+            if lines:
+                real_calendar_text = "\n".join(lines)
+    except Exception as e:
+        print(f"Aviso: Não foi possível carregar calendário real externo: {e}")
     
-    Identifique os 5 PRÓXIMOS eventos econômicos de maior impacto para o investidor de renda fixa no Brasil (Misture Brasil e EUA).
+    prompt = f"""
+    Hoje é {current_month}. Recebemos os seguintes eventos reais da agenda global desta semana:
+    
+    {real_calendar_text}
+    
+    Notícias recentes:
+    {context}
+    
+    Sua tarefa é selecionar os 5 eventos mais impactantes para um investidor no Brasil. 
+    1. Utilize obrigatoriamente os eventos globais listados acima (traduzindo os títulos para Português).
+    2. Se você encontrar nas "Notícias recentes" algum evento importante do Brasil (Copom, IPCA, IBC-Br, etc) para a semana, inclua-o também.
+    3. NUNCA invente ou deduzia datas futuras fictícias. Restrinja-se à agenda real passada acima.
     
     PARA CADA EVENTO, PREENCHA O JSON COM:
-    1. country: use 'br' ou 'us'.
-    2. date: formato DD/MM.
-    3. time: formato HH:MM (horário estimado).
-    4. event: nome curto do indicador.
+    1. country: use 'br' ou 'us' ou 'eu' (baseado no país do evento original).
+    2. date: formato DD/MM (extraia da data recebida).
+    3. time: formato HH:MM ou 'Dia Todo'.
+    4. event: nome curto do indicador em Português.
     5. impact: High, Medium ou Low.
-    6. atual: sempre use "---" (será preenchido em tempo real dps). 
-    7. proj: valor projetado pelo mercado (ex: 0.5%, 10.75%, 200k) - estimativa baseada nas notícias.
-    8. prev: valor anterior (ex: 0.8%, 11.25%, 250k).
+    6. atual: sempre use "---". 
+    7. proj: valor projetado (copiado da agenda real).
+    8. prev: valor anterior (copiado da agenda real).
 
     FORNEÇA O RESULTADO APENAS COMO JSON PURO NO SEGUINTE FORMATO:
     {{
       "events": [
         {{ 
-          "date": "DD/MM", 
-          "time": "HH:MM", 
-          "country": "br", 
-          "event": "Nome", 
+          "date": "10/04", 
+          "time": "09:30", 
+          "country": "us", 
+          "event": "CPI - Inflação", 
           "impact": "High", 
           "atual": "---", 
-          "proj": "0.5%", 
-          "prev": "0.6%" 
-        }},
-        ... 100% fiel a este esquema.
+          "proj": "0.3%", 
+          "prev": "0.4%" 
+        }}
       ]
     }}
     """
@@ -190,7 +221,7 @@ def generate_economic_calendar(context):
         print(f"Erro na chamada Gemini (Agenda 2.0): {e}")
         return {
             "events": [
-                { "date": "Amanhã", "time": "09:00", "country": "br", "event": "Abertura do Mercado", "impact": "Medium", "atual": "---", "proj": "---", "prev": "---" }
+                { "date": "Hoje", "time": "09:00", "country": "br", "event": "Abertura Mercado", "impact": "Medium", "atual": "---", "proj": "---", "prev": "---" }
             ]
         }
 

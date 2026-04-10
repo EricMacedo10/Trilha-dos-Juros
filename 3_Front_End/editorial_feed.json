@@ -1,8 +1,8 @@
 {
   "morning": {
-    "title": "PIB dos EUA e Riscos Geopolíticos Direcionam Abertura dos Mercados",
+    "title": "PIB Global e Geopolítica Direcionam Abertura dos Mercados nesta Quinta-feira",
     "date": "10/04/2026 • 08:30h",
-    "body": "<p>O mercado financeiro inicia a sessão desta quinta-feira monitorando dados de atividade econômica global e o desdobramento de tensões em regiões estratégicas. A expectativa central recai sobre a recuperação do PIB dos Estados Unidos no primeiro trimestre, ao mesmo tempo em que investidores avaliam a fragilidade de acordos diplomáticos e seu impacto na volatilidade dos ativos.</p><strong>Geopolítica e Energia</strong><p>A situação no Estreito de Ormuz permanece como fator determinante para o mercado de commodities. O fluxo de petróleo na região possui correlação direta com o comportamento do dólar, onde a estabilidade operacional tende a favorecer o recuo da moeda americana. Analistas também observam indicadores de longo prazo que buscam mapear riscos de uma possível crise global para o horizonte de 2026.</p><strong>Mercado Internacional e Crédito</strong><ul><li><strong>Fundo Goldman Sachs:</strong> O mercado de crédito privado internacional acompanhou a situação de liquidez de um fundo gerido pelo Goldman Sachs, que evitou por pouco um cenário crítico de resgates.</li><li><strong>Commodities Agrícolas:</strong> A soja registrou ganhos na última sessão, operando de forma independente às perdas do petróleo. Já o milho demonstrou recuperação após atingir níveis mínimos.</li><li><strong>Setor Bancário:</strong> No cenário doméstico, observa-se uma transição dos bancos de serviços de custódia para um modelo focado em inteligência de dados e gestão empresarial.</li></ul><strong>Dinâmica de Ativos e Juros</strong><p>Os contratos de Dólar Futuro e Ibovespa Futuro fornecem as balizas de preço para o início do pregão. Paralelamente, informações sobre as estruturas de empréstimos sem garantia e o acesso a taxas de juros reduzidas compõem o cenário de crédito para o setor corporativo e varejo. O tom do mercado segue analítico diante de projeções de recuperação econômica versus incertezas geopolíticas.</p><p><small>Fontes: Yahoo Finance, Reportagens de Mercado Brasileiro, Indicadores de Commodities e Dados de Futuros.</small></p>"
+    "body": "<p>O cenário macroeconômico global apresenta uma dinâmica de cautela e monitoramento de indicadores estruturais nesta manhã. Os investidores avaliam a projeção de recuperação do PIB dos Estados Unidos para o primeiro trimestre, enquanto as incertezas geopolíticas, especialmente relacionadas a acordos de cessar-fogo internacionais, permanecem no radar de risco.</p><strong>Dinâmica de Commodities e Câmbio</strong><p>A movimentação no Estreito de Ormuz continua a ser um fator determinante para a volatilidade dos ativos. Historicamente, a estabilidade no fluxo de petróleo na região correlaciona-se com o comportamento do dólar frente a moedas emergentes. No mercado brasileiro, os contratos de Ibovespa Futuro e Dólar Futuro operam em zonas de preço consideradas de referência para as estratégias de hedge no pregão de hoje.</p><strong>Crédito e Setor Bancário</strong><p>No setor financeiro, observa-se uma transição no papel das instituições bancárias, que buscam ampliar a oferta de serviços de inteligência de dados além da custódia tradicional. No âmbito global, o mercado de crédito privado está sob observação após o fundo de <em>private credit</em> do Goldman Sachs registrar movimentações de resgate próximas ao limite regulatório, sugerindo uma atenção redobrada à liquidez desse segmento.</p><strong>Mercado Imobiliário e Indicadores de Longo Prazo</strong><p>Nos Estados Unidos, as taxas de juros para hipotecas e refinanciamentos apresentam pequenas retrações consecutivas, impactando o setor imobiliário. Paralelamente, novas regras para o <em>Home Equity Line of Credit</em> (HELOC) alteram o acesso ao crédito para proprietários de imóveis. No campo das projeções futuras, analistas monitoram indicadores que apontam para possíveis ajustes na economia global com horizonte em 2026, reforçando a importância do planejamento financeiro e da gestão de dívidas.</p><strong>Fontes consultadas:</strong><ul><li>Agências de Notícias (Brasil)</li><li>Yahoo Finance Global</li><li>Informações de Mercado Futuro (B3)</li></ul>"
   },
   "coffee": null,
   "evening": {
@@ -12,61 +12,61 @@
   },
   "daily_term": {
     "term": "PIB (Produto Interno Bruto)",
-    "definition": "O PIB é a soma de todos os bens e serviços produzidos por um país em um determinado período, servindo como o principal indicador do crescimento econômico. Para o investidor, ele funciona como um termômetro: se o PIB cresce, as empresas tendem a lucrar mais e o mercado fica otimista. Por outro lado, um resultado fraco pode sinalizar recessão e trazer maior cautela aos investimentos."
+    "definition": "O PIB representa a soma de todos os bens e serviços produzidos por um país e serve como o principal termômetro da saúde de sua economia. Quando o PIB cresce, as empresas tendem a lucrar mais e o mercado financeiro costuma reagir de forma positiva. Para o investidor iniciante, acompanhar esse indicador ajuda a entender se o cenário econômico é de expansão ou de possível retração."
   },
   "economic_calendar": {
     "events": [
       {
-        "date": "24/04",
-        "time": "09:00",
+        "date": "08/04",
+        "time": "Dia Todo",
         "country": "br",
-        "event": "IPCA-15 (Abril)",
+        "event": "Indicador de Crise Global 2026",
         "impact": "High",
         "atual": "---",
-        "proj": "0.45%",
-        "prev": "0.36%"
+        "proj": "---",
+        "prev": "---"
       },
       {
-        "date": "24/04",
-        "time": "09:30",
+        "date": "08/04",
+        "time": "Dia Todo",
         "country": "us",
-        "event": "PCE (Inflação)",
+        "event": "PIB dos EUA (Perspectiva 1º Trimestre)",
         "impact": "High",
         "atual": "---",
-        "proj": "0.3%",
-        "prev": "0.3%"
+        "proj": "---",
+        "prev": "---"
       },
       {
-        "date": "30/04",
-        "time": "09:30",
+        "date": "08/04",
+        "time": "Dia Todo",
         "country": "us",
-        "event": "PIB Q1 (Avanço)",
+        "event": "Crise de Resgates - Fundo Goldman Sachs",
         "impact": "High",
         "atual": "---",
-        "proj": "2.1%",
-        "prev": "1.8%"
+        "proj": "---",
+        "prev": "---"
       },
       {
-        "date": "01/05",
-        "time": "09:30",
-        "country": "us",
-        "event": "Non-Farm Payrolls",
-        "impact": "High",
-        "atual": "---",
-        "proj": "180k",
-        "prev": "215k"
-      },
-      {
-        "date": "06/05",
-        "time": "18:30",
+        "date": "08/04",
+        "time": "Dia Todo",
         "country": "br",
-        "event": "Decisão da Selic",
-        "impact": "High",
+        "event": "Impacto do Petróleo e Estreito de Ormuz no Dólar",
+        "impact": "Medium",
         "atual": "---",
-        "proj": "10.50%",
-        "prev": "10.75%"
+        "proj": "---",
+        "prev": "---"
+      },
+      {
+        "date": "08/04",
+        "time": "Dia Todo",
+        "country": "us",
+        "event": "Taxas de Juros de Hipotecas e Refinanciamento",
+        "impact": "Medium",
+        "atual": "---",
+        "proj": "---",
+        "prev": "---"
       }
     ]
   },
-  "last_update": "2026-04-10T08:52:55.518490"
+  "last_update": "2026-04-10T06:11:43.989651"
 }
