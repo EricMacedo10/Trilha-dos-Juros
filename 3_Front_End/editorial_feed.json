@@ -7,7 +7,7 @@
   "coffee": {
     "title": "Mercados em tensão com petróleo e dados dos EUA",
     "date": "10/04/2026 • 12:00h",
-    "body": "<p>Os mercados financeiros operam com atenções divididas nesta manhã, entre dados econômicos dos Estados Unidos, tensões geopolíticas e movimentos em commodities.</p><p><strong>Dados de Inflação e Mercado Acionário:</strong> O índice de preços ao consumidor (CPI) de março nos EUA, divulgado nesta manhã, mostrou pressão de custos, impulsionada principalmente pelo aumento nos preços da energia. Em reação, os principais índices de Wall Street apresentaram desempenho misto no pré-mercado, com o Nasdaq registrando ganhos enquanto o Dow Jones recuava.</p><p><strong>Geopolítica e Commodities:</strong> O foco também se volta para o Oriente Médio. A possibilidade de um cessar-fogo entre Irã e Israel, considerado frágil, trouxe alívio momentâneo aos mercados, mas a incerteza persiste. O preço do petróleo permanece volátil, com eventos no Estreito de Ormuz tendo impacto direto na cotação do dólar. Analistas observam que choques no petróleo podem influenciar o timing das decisões de política monetária do Federal Reserve.</p><p><strong>Economia e Setor Financeiro:</strong> As projeções para o PIB dos Estados Unidos no primeiro trimestre apontam para uma recuperação. No Brasil, os contratos futuros WDOK26 e WINJ26 registraram os melhores preços do dia até o momento. Paralelamente, discute-se a evolução do papel dos bancos, que expandem suas atividades da custódia tradicional para serviços de inteligência e gestão integrada para empresas.</p><p><strong>Outros Destaques:</strong> No setor de criptoativos, a Nexus Mutual busca se posicionar como uma alternativa de seguro para carteiras digitais. Nos EUA, questões administrativas como prazos para restituição de impostos e extensões para declaração também ganham espaço.</p><p><strong>Fontes:</strong> Agregador de notícias financeiras (Brasil), Yahoo Finance (Global).</p>"
+    "body": "<p>Os mercados financeiros operam com atenções divididas nesta manhã, entre choques no preço do petróleo e a digestão de dados econômicos recentes dos Estados Unidos.</p><p><strong>Petróleo e Geopolítica no Centro das Atenções</strong></p><p>Um choque nos preços do petróleo, potencialmente ligado a eventos no Estreito de Ormuz, gera volatilidade. Analistas observam que movimentos bruscos na commodity historicamente impactam o fluxo de capitais e a cotação do dólar. Paralelamente, notícias sobre um frágil cessar-fogo envolvendo o Irã adicionam uma camada de incerteza ao cenário global.</p><p><strong>Dados Econômicos dos EUA Sob Análise</strong></p><p>Os dados do Índice de Preços ao Consumidor (CPI) de março, divulgados nos EUA, mostraram pressão de custos na energia. Enquanto isso, projeções indicam uma recuperação do PIB norte-americano para o primeiro trimestre. Este mix de informações – inflação persistente em alguns componentes versus crescimento econômico – resultou em uma sessão mista em Wall Street, com o Nasdaq em alta e o Dow Jones em queda.</p><p><strong>Inovação e Mercado Doméstico</strong></p><p>No cenário brasileiro, os contratos futuros WDOK26 e WINJ26 registraram os melhores preços do dia até o momento. No setor bancário, discute-se uma evolução no papel das instituições, que ampliam seus serviços de custódia para incluir ferramentas de inteligência na gestão empresarial de seus clientes.</p><p><strong>Fontes:</strong> Trilha dos Juros (Brasil), Yahoo Finance (Global).</p>"
   },
   "evening": {
     "title": "Panorama Global: Commodities, Balanços e Projeções Econômicas",
@@ -15,8 +15,8 @@
     "body": "<p>O cenário macroeconômico global apresenta uma dualidade entre a expectativa de recuperação produtiva e a persistência de riscos geopolíticos. Nos Estados Unidos, as projeções para o PIB do primeiro trimestre indicam retomada, embora a fragilidade de acordos de cessar-fogo em zonas de conflito mantenha a volatilidade nos mercados internacionais.</p><strong>Energia e Câmbio</strong><p>A dinâmica do petróleo continua a exercer influência direta sobre o mercado de divisas. Analistas apontam que o fluxo de óleo pelo Estreito de Ormuz é um fator determinante para a trajetória do dólar. No setor corporativo, a Shell informou que espera lucros significativamente maiores em suas operações de trading de petróleo neste primeiro trimestre, refletindo a movimentação dos preços da commodity.</p><strong>Movimentações do Mercado Financeiro</strong><ul><li><strong>Setor Bancário:</strong> Observa-se uma transição nas instituições financeiras, que passam a atuar além da custódia, focando em inteligência e gestão estratégica para empresas.</li><li><strong>Resultados e Projeções:</strong> A Mizuho revisou para baixo o preço-alvo das ações da Super Micro em 25%. Por outro lado, a Clearbridge Dividend Strategy incluiu a The Williams Companies (WMB) em sua carteira, fundamentada no balanço patrimonial e perspectivas de crescimento da companhia.</li><li><strong>Indicadores de Risco:</strong> Indicadores antecedentes começam a sinalizar pontos de atenção para uma possível crise global com horizonte em 2026, exigindo monitoramento por parte dos agentes de mercado.</li></ul><strong>Agenda e Ativos</strong><p>No mercado doméstico, os contratos de Dólar Futuro e Ibovespa Futuro estabeleceram patamares de suporte e resistência nesta quinta-feira. No setor de tecnologia e entretenimento, investidores aguardam a divulgação de dados da Netflix, prevista para o dia 16 de abril. No setor de distribuição, o encerramento das operações de uma grande distribuidora de bebidas resultou na demissão de 500 colaboradores, evidenciando ajustes estruturais no segmento.</p><p><strong>Fontes:</strong> Conteúdos Brasil e Yahoo Finance Global.</p>"
   },
   "daily_term": {
-    "term": "Intervenção do Fed (Federal Reserve)",
-    "definition": "A intervenção do Fed refere-se às ações tomadas pelo banco central dos Estados Unidos para influenciar a economia, principalmente através da política monetária. Isso inclui ajustar as taxas de juros ou comprar/vender títulos do governo para controlar a inflação, estimular o crescimento ou estabilizar os mercados financeiros em momentos de crise, como um choque nos preços do petróleo mencionado nas notícias."
+    "term": "Intervenção do Fed",
+    "definition": "A 'intervenção do Fed' refere-se a ações tomadas pelo Federal Reserve (o banco central dos EUA) para influenciar a economia. Essas ações podem incluir o ajuste das taxas de juros ou a compra/venda de títulos para controlar a inflação, estimular o crescimento ou estabilizar os mercados financeiros. Para o investidor iniciante, pense no Fed como um grande regulador que pode 'apertar' ou 'afrouxar' as condições econômicas, afetando diretamente o custo do empréstimo, o valor das moedas e o retorno dos seus investimentos."
   },
   "economic_calendar": {
     "events": [
@@ -24,9 +24,9 @@
         "date": "10/04",
         "time": "Dia Todo",
         "country": "us",
-        "event": "IPC (Inflação) Mensal",
+        "event": "IPC Mensal (CPI m/m)",
         "impact": "High",
-        "atual": "1.0%",
+        "atual": "---",
         "proj": "1.0%",
         "prev": "0.3%"
       },
@@ -34,9 +34,9 @@
         "date": "10/04",
         "time": "Dia Todo",
         "country": "us",
-        "event": "IPC (Inflação) Anual",
+        "event": "IPC Anual (CPI y/y)",
         "impact": "High",
-        "atual": "3.4%",
+        "atual": "---",
         "proj": "3.4%",
         "prev": "2.4%"
       },
@@ -44,33 +44,33 @@
         "date": "10/04",
         "time": "Dia Todo",
         "country": "us",
-        "event": "IPC Core (Ex-Alimentos e Energia) Mensal",
+        "event": "IPC Core Mensal (Core CPI m/m)",
         "impact": "High",
-        "atual": "0.3%",
+        "atual": "---",
         "proj": "0.3%",
         "prev": "0.2%"
       },
       {
         "date": "10/04",
         "time": "Dia Todo",
-        "country": "cad",
-        "event": "Taxa de Desemprego",
-        "impact": "Medium",
-        "atual": "---",
-        "proj": "6.8%",
-        "prev": "6.7%"
-      },
-      {
-        "date": "10/04",
-        "time": "Dia Todo",
         "country": "us",
-        "event": "Sentimento do Consumidor Univ. de Michigan (Preliminar)",
+        "event": "Sentimento do Consumidor Univ. de Michigan Preliminar",
         "impact": "Medium",
         "atual": "---",
         "proj": "51.6",
         "prev": "55.5"
+      },
+      {
+        "date": "10/04",
+        "time": "Dia Todo",
+        "country": "cad",
+        "event": "Variação do Emprego",
+        "impact": "Medium",
+        "atual": "---",
+        "proj": "14.5K",
+        "prev": "-83.9K"
       }
     ]
   },
-  "last_update": "2026-04-10T13:21:14.373795"
+  "last_update": "2026-04-10T16:22:31.989308"
 }
