@@ -106,11 +106,7 @@ def generate_editorial(context, mode="morning"):
         return clean_json_response(response.text)
     except Exception as e:
         print(f"Erro na chamada Gemini ({mode}): {e}")
-        return {
-            "title": f"{tipo} Temporariamente Indisponível",
-            "date": current_time,
-            "body": f"<p>Houve uma falha técnica ao processar o {tipo}. Nossa equipe editorial já foi notificada.</p>"
-        }
+        return None
 
 def generate_educational_pill(context):
     """Gera um termo financeiro educativo baseado no contexto das notícias (Termo do Dia)."""
@@ -138,10 +134,7 @@ def generate_educational_pill(context):
         return clean_json_response(response.text)
     except Exception as e:
         print(f"Erro na chamada Gemini (Pílula): {e}")
-        return {
-            "term": "CDI",
-            "definition": "O Certificado de Depósito Interbancário é a taxa que os bancos cobram para emprestar dinheiro entre si. É a principal referência para o rendimento da renda fixa."
-        }
+        return None
 
 import requests
 

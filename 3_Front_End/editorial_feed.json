@@ -1,8 +1,8 @@
 {
   "morning": {
-    "title": "Morning Call Temporariamente Indisponível",
+    "title": "Abertura de Mercado: Inflação nos EUA e Tensões Geopolíticas no Radar",
     "date": "10/04/2026 • 08:30h",
-    "body": "<p>Houve uma falha técnica ao processar o Morning Call. Nossa equipe editorial já foi notificada.</p>"
+    "body": "<p>O cenário financeiro global nesta sexta-feira é marcado pela cautela antes da divulgação de novos dados de inflação nos Estados Unidos, que podem ditar o ritmo dos juros pelo Fed. Na Europa, os balanços corporativos mostram resiliência, enquanto na Ásia o foco permanece nos estímulos à economia chinesa.</p><strong>Foco em Inflação e Juros</strong><p>Investidores monitoram de perto os rendimentos dos Treasuries, que operam em patamares elevados. No Brasil, o mercado repercute os dados de vendas no varejo e as falas recentes de membros do Copom sobre a trajetória da Selic. O dólar apresenta volatilidade frente a moedas emergentes.</p><ul><li><strong>Commodities:</strong> O petróleo opera estável, com tensões no Oriente Médio servindo de suporte aos preços.</li><li><strong>Bolsas:</strong> Futuros em Nova York sinalizam abertura mista; Ibovespa busca manter patamar de suporte técnico.</li></ul><p><strong>Fontes:</strong> Curadoria Trilha dos Juros e Yahoo Finance.</p>"
   },
   "coffee": null,
   "evening": {
@@ -11,8 +11,8 @@
     "body": "<p>O cenário macroeconômico global apresenta uma dualidade entre a expectativa de recuperação produtiva e a persistência de riscos geopolíticos. Nos Estados Unidos, as projeções para o PIB do primeiro trimestre indicam retomada, embora a fragilidade de acordos de cessar-fogo em zonas de conflito mantenha a volatilidade nos mercados internacionais.</p><strong>Energia e Câmbio</strong><p>A dinâmica do petróleo continua a exercer influência direta sobre o mercado de divisas. Analistas apontam que o fluxo de óleo pelo Estreito de Ormuz é um fator determinante para a trajetória do dólar. No setor corporativo, a Shell informou que espera lucros significativamente maiores em suas operações de trading de petróleo neste primeiro trimestre, refletindo a movimentação dos preços da commodity.</p><strong>Movimentações do Mercado Financeiro</strong><ul><li><strong>Setor Bancário:</strong> Observa-se uma transição nas instituições financeiras, que passam a atuar além da custódia, focando em inteligência e gestão estratégica para empresas.</li><li><strong>Resultados e Projeções:</strong> A Mizuho revisou para baixo o preço-alvo das ações da Super Micro em 25%. Por outro lado, a Clearbridge Dividend Strategy incluiu a The Williams Companies (WMB) em sua carteira, fundamentada no balanço patrimonial e perspectivas de crescimento da companhia.</li><li><strong>Indicadores de Risco:</strong> Indicadores antecedentes começam a sinalizar pontos de atenção para uma possível crise global com horizonte em 2026, exigindo monitoramento por parte dos agentes de mercado.</li></ul><strong>Agenda e Ativos</strong><p>No mercado doméstico, os contratos de Dólar Futuro e Ibovespa Futuro estabeleceram patamares de suporte e resistência nesta quinta-feira. No setor de tecnologia e entretenimento, investidores aguardam a divulgação de dados da Netflix, prevista para o dia 16 de abril. No setor de distribuição, o encerramento das operações de uma grande distribuidora de bebidas resultou na demissão de 500 colaboradores, evidenciando ajustes estruturais no segmento.</p><p><strong>Fontes:</strong> Conteúdos Brasil e Yahoo Finance Global.</p>"
   },
   "daily_term": {
-    "term": "CDI",
-    "definition": "O Certificado de Depósito Interbancário é a taxa que os bancos cobram para emprestar dinheiro entre si. É a principal referência para o rendimento da renda fixa."
+    "term": "CPI (Índice de Preços ao Consumidor)",
+    "definition": "O CPI mede a variação média dos preços pagos pelos consumidores por uma cesta de bens e serviços. É o principal indicador de inflação nos Estados Unidos."
   },
   "economic_calendar": {
     "events": [
