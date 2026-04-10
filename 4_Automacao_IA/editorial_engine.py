@@ -230,18 +230,19 @@ def generate_economic_calendar(context):
     1. Ignore eventos que já passaram (datas anteriores a hoje), a menos que não existam eventos futuros suficientes para completar a lista de 5.
     2. Utilize obrigatoriamente os eventos globais listados acima (traduzindo os títulos para Português).
     3. Se você encontrar nas "Notícias recentes" algum evento importante do Brasil (Copom, IPCA, IBC-Br, etc) para a semana, inclua-o também.
-    4. NUNCA invente datas fictícias. Restrinja-se à agenda real passada acima.
+    4. PESQUISA DE VALOR ATUAL: Se o evento ocorreu hoje e o resultado (valor REAL) já foi citado nas "Notícias recentes", você DEVE extrair esse número e preencher no campo 'atual'.
+    5. NUNCA invente datas ou valores fictícios. Restrinja-se à agenda real e às notícias passadas acima.
     
     PARA CADA EVENTO, PREENCHA O JSON COM:
     1. country: use 'br' ou 'us' ou 'eu' (baseado no país do evento original).
-    2. date: formato DD/MM.
-    3. time: formato HH:MM ou 'Dia Todo'.
-    4. event: nome curto do indicador em Português.
-    5. impact: High, Medium ou Low.
-    6. atual: sempre use "---". 
-    7. proj: valor projetado (da agenda real).
-    8. prev: valor anterior (da agenda real).
-
+    2. event: nome do evento em português.
+    3. impact: 'High', 'Medium' ou 'Low'.
+    4. atual: valor real extraído das notícias (ex: 3.5%) ou '---' se não encontrado.
+    5. proj: valor projetado (Proj).
+    6. prev: valor anterior (Prev).
+    7. date: data (DD/MM).
+    8. time: hora (HH:MM) ou 'Dia Todo'. (da agenda real).
+    
     FORNEÇA O RESULTADO APENAS COMO JSON PURO NO SEGUINTE FORMATO:
     {{
       "events": [
