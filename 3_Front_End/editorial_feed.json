@@ -4,7 +4,11 @@
     "date": "10/04/2026 • 08:30h",
     "body": "<p>O cenário financeiro global nesta sexta-feira é marcado pela cautela antes da divulgação de novos dados de inflação nos Estados Unidos, que podem ditar o ritmo dos juros pelo Fed. Na Europa, os balanços corporativos mostram resiliência, enquanto na Ásia o foco permanece nos estímulos à economia chinesa.</p><strong>Foco em Inflação e Juros</strong><p>Investidores monitoram de perto os rendimentos dos Treasuries, que operam em patamares elevados. No Brasil, o mercado repercute os dados de vendas no varejo e as falas recentes de membros do Copom sobre a trajetória da Selic. O dólar apresenta volatilidade frente a moedas emergentes.</p><ul><li><strong>Commodities:</strong> O petróleo opera estável, com tensões no Oriente Médio servindo de suporte aos preços.</li><li><strong>Bolsas:</strong> Futuros em Nova York sinalizam abertura mista; Ibovespa busca manter patamar de suporte técnico.</li></ul><p><strong>Fontes:</strong> Curadoria Trilha dos Juros e Yahoo Finance.</p>"
   },
-  "coffee": null,
+  "coffee": {
+    "title": "Impacto do Petróleo e PIB Americano Direcionam Mercados Globais",
+    "date": "10/04/2026 • 12:00h",
+    "body": "<p>O encerramento do primeiro período de negociações nesta sexta-feira é marcado por uma análise técnica sobre a volatilidade das commodities e a expectativa em torno de dados macroeconômicos nos Estados Unidos. O cenário global reflete as tensões geopolíticas que incidem diretamente sobre a logística de energia e as políticas monetárias.</p>\n\n<p><strong>Macroeconomia e Geopolítica</strong></p>\n<p>O fluxo de petróleo pelo Estreito de Ormuz permanece como um dos principais vetores de influência sobre o dólar. Analistas observam que interrupções ou tensões na região podem pressionar a inflação global, levando o Federal Reserve (Fed) a considerar novas intervenções na taxa de juros. Paralelamente, o mercado aguarda a divulgação do PIB dos Estados Unidos referente ao primeiro trimestre, que apresenta sinais de recuperação, embora o cenário de cessar-fogo frágil no exterior adicione uma camada de incerteza às projeções.</p>\n\n<p><strong>Cenário Corporativo e Tecnologia</strong></p>\n<p>No setor de tecnologia e inteligência artificial, a Anthropic e a CoreWeave formalizaram acordos de fornecimento de infraestrutura, consolidando a expansão do processamento de dados. A CrowdStrike também se destaca ao ser analisada como peça fundamental na segurança da adoção de IAs agentes. No campo regulatório, a Meta enfrenta novos desdobramentos jurídicos em Massachusetts relacionados ao impacto de suas plataformas no público jovem.</p>\n\n<p><strong>Mercado Brasileiro e Setor Bancário</strong></p>\n<p>No Brasil, os contratos futuros de WDOK26 e WINJ26 registraram movimentações técnicas nesta manhã, ajustando-se às expectativas de liquidez. Além disso, observa-se uma mudança estrutural na atuação das instituições financeiras, que evoluem do papel de custodiantes tradicionais para provedores de inteligência na gestão empresarial, visando maior eficiência operacional para seus clientes.</p>\n\n<p><strong>Inovação Financeira</strong></p>\n<p>No mercado de ativos digitais, a Nexus Mutual busca estabelecer novos padrões para seguros em criptoativos, enquanto a Reddit (RDDT) é monitorada por investidores institucionais que avaliam seu posicionamento estratégico pós-IPO.</p>\n\n<p><strong>Fontes:</strong> InvestNews, Yahoo Finance.</p>"
+  },
   "evening": {
     "title": "Panorama Global: Commodities, Balanços e Projeções Econômicas",
     "date": "09/04/2026 • 18:00h",
@@ -68,5 +72,5 @@
       }
     ]
   },
-  "last_update": "2026-04-10T13:31:38.301781"
+  "last_update": "2026-04-10T14:28:58.302965"
 }
