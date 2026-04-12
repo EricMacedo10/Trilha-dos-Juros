@@ -158,88 +158,6 @@ def generate_educational_pill(context):
     response_text = ask_llm(prompt, system_prompt)
     return clean_json_response(response_text)
 
-def generate_economic_calendar(context):
-    """Gera uma lista de 5 eventos econômicos de alto impacto utilizando dados reais da semana."""
-    current_month = datetime.now().strftime("%B de %Y")
-    
-    print("-> Gerando Agenda Econômica (5 Colunas)...")
-    
-    # Busca o calendário real da semana via API aberta
-    real_calendar_text = "Nenhum evento global carregado."
-    try:
-        url = "https://nfs.faireconomy.media/ff_calendar_thisweek.json"
-        headers = {'User-Agent': 'TrilhaDosJuros/1.0'}
-        response = requests.get(url, headers=headers, timeout=5)
-        if response.status_code == 200:
-            # Filtragem inteligente: Remover eventos passados
-            today_str = datetime.now().strftime("%Y-%m-%d")
-            
-            events = response.json()
-            future_events = []
-            for e in events:
-                e_date = e.get('date', '')[:10] # Formato YYYY-MM-DD
-                if e_date >= today_str and e.get('impact') in ['High', 'Medium'] and e.get('country') in ['USD', 'EUR', 'GBP', 'CNY', 'JPY', 'BRL', 'CAD']:
-                    future_events.append(e)
-            
-            lines = []
-            # Se tivermos poucos eventos hoje/futuro, pegamos os últimos do passado para completar
-            if len(future_events) < 5:
-                all_valid = [e for e in events if e.get('impact') in ['High', 'Medium']]
-                lines = []
-                for e in all_valid:
-                    e_date = e.get('date', '')[:10]
-                    actual_val = e.get('actual') or '---'
-                    lines.append(f"- País: {e.get('country')} | Data: {e_date} | Evento: {e.get('title')} | Atual: {actual_val} | Proj: {e.get('forecast')} | Ant: {e.get('previous')}")
-                lines = lines[-15:] 
-            else:
-                for e in future_events[:10]:
-                    e_date = e.get('date', '')[:10]
-                    actual_val = e.get('actual') or '---'
-                    lines.append(f"- País: {e.get('country')} | Data: {e_date} | Evento: {e.get('title')} | Atual: {actual_val} | Proj: {e.get('forecast')} | Ant: {e.get('previous')}")
-            
-            if lines:
-                real_calendar_text = "\n".join(lines)
-    except Exception as e:
-        print(f"Aviso: Não foi possível carregar calendário real externo: {e}")
-    
-    system_prompt = "Você é um analista de dados macroeconômicos."
-    
-    prompt = f"""
-    Hoje é {current_month}. Recebemos os seguintes eventos reais da agenda global desta semana:
-    
-    {real_calendar_text}
-    
-    Notícias recentes:
-    {context}
-    
-    Sua tarefa é selecionar os 5 eventos mais impactantes para um investidor no Brasil, PRIORIZANDO eventos que ocorram HOJE ({datetime.now().strftime("%d/%m")}) ou nos próximos dias.
-    1. Ignore eventos que já passaram (datas anteriores a hoje), a menos que não existam eventos futuros suficientes para completar a lista de 5.
-    2. Utilize obrigatoriamente os eventos globais listados acima (traduzindo os títulos para Português).
-    3. Se você encontrar nas "Notícias recentes" algum evento importante do Brasil (Copom, IPCA, IBC-Br, etc) para a semana, inclua-o também.
-    4. PESQUISA DE VALOR ATUAL: Se o evento ocorreu hoje e o resultado (valor REAL) já foi citado nas "Notícias recentes", você DEVE extrair esse número e preencher no campo 'atual'.
-    5. NUNCA invente datas ou valores fictícios. Restrinja-se à agenda real e às notícias passadas acima.
-    
-    PARA CADA EVENTO, PREENCHA O JSON COM:
-    1. country: use 'br' ou 'us' ou 'eu' (baseado no país do evento original).
-    2. event: nome do evento em português.
-    3. impact: 'High', 'Medium' ou 'Low'.
-    4. atual: valor real extraído das notícias (ex: 3.5%) ou '---' se não encontrado.
-    5. proj: valor projetado (Proj).
-    6. prev: valor anterior (Prev).
-    7. date: data (DD/MM).
-    8. time: hora (HH:MM) ou 'Dia Todo'.
-    
-    FORNEÇA O RESULTADO APENAS COMO JSON PURO NO SEGUINTE FORMATO:
-    {{
-      "events": [
-        {{ "date": "10/04", "time": "09:30", "country": "us", "event": "CPI - Inflação", "impact": "High", "atual": "---", "proj": "0.3%", "prev": "0.4%" }}
-      ]
-    }}
-    """
-    
-    response_text = ask_llm(prompt, system_prompt)
-    return clean_json_response(response_text)
-
 def main():
     print("[Senior Mode] Iniciando Motor Editorial DeepSeek...")
     
@@ -272,7 +190,6 @@ def main():
         "coffee": existing_data.get("coffee"),
         "evening": existing_data.get("evening"),
         "daily_term": existing_data.get("daily_term"),
-        "economic_calendar": existing_data.get("economic_calendar"),
         "last_update": datetime.now().isoformat()
     }
 
@@ -302,9 +219,6 @@ def main():
     if daily_term:
         feed_data["daily_term"] = daily_term
 
-    economic_calendar = generate_economic_calendar(news_context)
-    if economic_calendar:
-        feed_data["economic_calendar"] = economic_calendar
     
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(feed_data, f, ensure_ascii=False, indent=2)

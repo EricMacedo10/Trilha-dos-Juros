@@ -5,11 +5,20 @@
 const EditorialService = {
     async loadFeed() {
         try {
-            // Adiciona timestamp para evitar cache do navegador no editorial_feed.json
-            const response = await fetch('editorial_feed.json?v=' + new Date().getTime());
-            if (!response.ok) throw new Error('Falha no carregamento do feed editorial.');
-            const data = await response.json();
-            this.renderFeed(data);
+            // 1. Carrega o Editorial Hub (Morning Call, Coffee Break, etc)
+            const editorialResponse = await fetch('editorial_feed.json?v=' + new Date().getTime());
+            if (editorialResponse.ok) {
+                const editorialData = await editorialResponse.json();
+                this.renderFeed(editorialData);
+            }
+
+            // 2. Carrega o Radar de Eventos em Tempo Real (Independente)
+            const radarResponse = await fetch('radar_data.json?v=' + new Date().getTime());
+            if (radarResponse.ok) {
+                const radarData = await radarResponse.json();
+                this.renderCalendar(radarData);
+            }
+
         } catch (error) {
             console.warn('[Trilha dos Juros] Editorial Hub aguardando geração local ou dados indisponíveis.', error);
         }
@@ -73,15 +82,10 @@ const EditorialService = {
                 tipEl.style.display = 'block';
             }
         }
-
-        // Agenda Econômica (Radar de Eventos)
-        if (data.economic_calendar) {
-            this.renderCalendar(data);
-        }
     },
 
     renderCalendar(data) {
-        if (!data || !data.economic_calendar || !data.economic_calendar.events) return;
+        if (!data || !data.events) return;
 
         const listContainer = document.getElementById('calendar-events-list');
         if (!listContainer) return;
@@ -96,7 +100,7 @@ const EditorialService = {
             </div>
         `;
 
-        data.economic_calendar.events.forEach(item => {
+        data.events.forEach(item => {
             const impactClass = `impact-${item.impact.toLowerCase()}`;
             const atual = item.atual || '---';
             const proj = item.proj || '---';

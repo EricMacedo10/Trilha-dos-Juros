@@ -2,3 +2,4 @@ python-dotenv
 feedparser
 requests
 openai
+firecrawl-py
