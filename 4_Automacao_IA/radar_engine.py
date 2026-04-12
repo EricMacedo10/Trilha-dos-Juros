@@ -24,10 +24,8 @@ def scrape_investing():
         # Usamos o modo 'scrape' para obter o markdown simplificado da página
         scrape_result = firecrawl_app.scrape(
             url, 
-            params={
-                'formats': ['markdown'],
-                'onlyMainContent': True
-            }
+            formats=['markdown'],
+            only_main_content=True
         )
         return scrape_result.get('markdown', '')
     except Exception as e:
