@@ -2,4 +2,4 @@ python-dotenv
 feedparser
 requests
 openai
-firecrawl-py
+firecrawl-py==1.10.0

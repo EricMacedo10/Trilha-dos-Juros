@@ -21,11 +21,13 @@ def scrape_investing():
     url = "https://www.investing.com/economic-calendar"
     
     try:
-        # Usamos o modo 'scrape' para obter o markdown simplificado da página
-        scrape_result = firecrawl_app.scrape(
+        # Usamos o modo 'scrape_url' para obter o markdown simplificado da página
+        scrape_result = firecrawl_app.scrape_url(
             url, 
-            formats=['markdown'],
-            only_main_content=True
+            params={
+                'formats': ['markdown'],
+                'onlyMainContent': True
+            }
         )
         return scrape_result.get('markdown', '')
     except Exception as e:

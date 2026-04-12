@@ -33,11 +33,18 @@ jobs:
         run: |
           cd 4_Automacao_IA
           python radar_engine.py
+          echo "Status: Script executado. Verificando pasta de saída..."
+          ls -la ../3_Front_End/radar_data.json || echo "Arquivo radar_data.json não encontrado!"
 
       - name: Commit and Push Changes
         run: |
           git config --global user.name "EricMacedo10"
           git config --global user.email "ericmacedo10@gmail.com"
-          git add 3_Front_End/radar_data.json
-          git commit -m "📊 🤖 Auto-update: Radar de Eventos (Real-Time)" || echo "No changes to commit"
-          git push
+          if [ -f 3_Front_End/radar_data.json ]; then
+            git add 3_Front_End/radar_data.json
+            git commit -m "📊 🤖 Auto-update: Radar de Eventos (Real-Time)" || echo "No changes to commit"
+            git push
+          else
+            echo "⚠️ radar_data.json não encontrado. Abortando deploy."
+            exit 1
+          fi
