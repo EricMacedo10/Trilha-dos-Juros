@@ -1,0 +1,35 @@
+{
+  "events": [
+    {
+      "date": "12/04",
+      "time": "18:30",
+      "country": "nz",
+      "event": "Índice de Desempenho dos Serviços (Mar)",
+      "impact": "High",
+      "atual": "---",
+      "proj": "---",
+      "prev": "48.0"
+    },
+    {
+      "date": "12/04",
+      "time": "19:50",
+      "country": "jp",
+      "event": "Oferta de Moeda M3 (Mar)",
+      "impact": "High",
+      "atual": "---",
+      "proj": "---",
+      "prev": "2,275.3B"
+    },
+    {
+      "date": "12/04",
+      "time": "19:50",
+      "country": "jp",
+      "event": "Estoque de Moeda M2 (Anual)",
+      "impact": "High",
+      "atual": "---",
+      "proj": "1.6%",
+      "prev": "1.7%"
+    }
+  ],
+  "last_update": "12/04/2026 15:01:40"
+}
