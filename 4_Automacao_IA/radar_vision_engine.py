@@ -11,10 +11,10 @@ load_dotenv()
 
 # Inicialização das APIs
 FIRECRAWL_KEY = os.getenv("FIRECRAWL_API_KEY")
-GEMINI_KEY = os.getenv("GEMINI_API_KEY")
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
 firecrawl_app = FirecrawlApp(api_key=FIRECRAWL_KEY)
-genai.configure(api_key=GEMINI_KEY)
+genai.configure(api_key=GOOGLE_API_KEY)
 
 def scrape_investing_screenshot():
     """Tira um print do calendário econômico da Investing.com via Firecrawl."""
@@ -125,6 +125,8 @@ def main():
         print(f"Sucesso! Radar atualizado via Visão Computacional: {output_path}")
     else:
         print("Erro: A IA não conseguiu extrair dados da imagem.")
+        import sys
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()
