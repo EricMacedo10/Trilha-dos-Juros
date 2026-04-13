@@ -1,9 +1,9 @@
 {
   "events": [
     {
-      "time": "05:00<br>CN",
-      "country": "China",
-      "event": "Novas Empréstimos (Mar)",
+      "time": "05:00",
+      "country": "CN",
+      "event": "Novos Empréstimos (Mar)",
       "impact": "High",
       "atual": "2,990.0B",
       "proj": "3,465.0B",
@@ -11,19 +11,9 @@
       "date": "13/04"
     },
     {
-      "time": "05:00<br>CN",
-      "country": "China",
-      "event": "M2 Estoque de Dinheiro (YoY) (Mar)",
-      "impact": "High",
-      "atual": "8.5%",
-      "proj": "8.9%",
-      "prev": "9.0%",
-      "date": "13/04"
-    },
-    {
-      "time": "05:00<br>CN",
-      "country": "China",
-      "event": "Financiamento Social Total da China (Mar)",
+      "time": "05:00",
+      "country": "CN",
+      "event": "Financiamento Social Total Chinês (Mar)",
       "impact": "High",
       "atual": "5,230.0B",
       "proj": "5,400.0B",
@@ -31,15 +21,45 @@
       "date": "13/04"
     },
     {
-      "time": "06:30<br>IN",
-      "country": "Índia",
+      "time": "06:30",
+      "country": "IN",
       "event": "CPI (YoY) (Mar)",
       "impact": "High",
       "atual": "3.40%",
       "proj": "3.48%",
       "prev": "3.21%",
       "date": "13/04"
+    },
+    {
+      "time": "09:00",
+      "country": "FR",
+      "event": "Leilão BTF Francês de 12 Meses",
+      "impact": "High",
+      "atual": "2.634%",
+      "proj": "-",
+      "prev": "2.694%",
+      "date": "13/04"
+    },
+    {
+      "time": "09:00",
+      "country": "FR",
+      "event": "Leilão BTF Francês de 6 Meses",
+      "impact": "High",
+      "atual": "2.448%",
+      "proj": "-",
+      "prev": "2.509%",
+      "date": "13/04"
+    },
+    {
+      "time": "09:47",
+      "country": "RU",
+      "event": "Balança Comercial (Fev)",
+      "impact": "High",
+      "atual": "5.35B",
+      "proj": "-",
+      "prev": "6.60B",
+      "date": "13/04"
     }
   ],
-  "last_update": "13/04/2026 15:13:09"
+  "last_update": "13/04/2026 16:18:45"
 }
