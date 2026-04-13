@@ -27,16 +27,13 @@ jobs:
           cd 4_Automacao_IA
           pip install -r requirements.txt
 
-      - name: Run Radar Engine (Vision Model - Gemini)
+      - name: Run Radar Engine (Firecrawl Extract)
         env:
           FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
-          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
-          GOOGLE_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           cd 4_Automacao_IA
-          python radar_vision_engine.py
-          echo "Status: Engine de Visão executada."
-          ls -la ../3_Front_End/radar_data.json || echo "Arquivo radar_data.json não encontrado!"
+          python radar_engine.py
+          echo "Status: Radar atualizado."
 
       - name: Commit and Push Changes
         run: |
@@ -44,7 +41,7 @@ jobs:
           git config --global user.email "ericmacedo10@gmail.com"
           if [ -f 3_Front_End/radar_data.json ]; then
             git add 3_Front_End/radar_data.json
-            git commit -m "📊 🤖 Auto-update: Radar de Eventos (Real-Time)" || echo "No changes to commit"
+            git commit -m "📊 🤖 Auto-update: Radar de Eventos (Precision Mode)" || echo "No changes to commit"
             git push
           else
             echo "⚠️ radar_data.json não encontrado. Abortando deploy."
