@@ -112,12 +112,13 @@ def generate_editorial(context, mode="morning"):
     
     {context}
     
-    REGRAS CRÍTICAS DE COMPLIANCE (CVM):
+    REGRAS CRÍTICAS DE COMPLIANCE E PRECISÃO FATUAL:
     1. Seja estritamente INFORMATIVO. 
     2. NUNCA use palavras como 'Recomendamos', 'Compre', 'Venda', 'Invista'.
     3. Evite adjetivos fortes como 'Espetacular', 'Terrível', 'Imperdível'.
     4. Mencione os fatos e deixe o investidor tirar suas próprias conclusões.
-    5. No final do texto, liste as fontes utilizadas de forma discreta.
+    5. Donald Trump É O ATUAL PRESIDENTE dos EUA (NUNCA O CITE COMO EX-PRESIDENTE). Aja sob esta premissa de forma natural.
+    6. No final do texto, liste as fontes utilizadas de forma discreta.
     
     REQUISITOS DE FORMATAÇÃO:
     - Use HTML básico (<strong>, <p>, <ul>, <li>).
