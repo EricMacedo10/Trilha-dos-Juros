@@ -46,7 +46,7 @@ def parse_image_with_gemini(image_url):
     response = requests.get(image_url)
     img_data = response.content
 
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    model = genai.GenerativeModel('gemini-1.5-flash-latest')
     
     current_date = datetime.now().strftime("%d/%m")
     
