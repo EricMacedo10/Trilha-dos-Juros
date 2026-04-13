@@ -1,8 +1,8 @@
 {
   "morning": {
-    "title": "Abertura de Mercado: Inflação nos EUA e Tensões Geopolíticas no Radar",
-    "date": "10/04/2026 • 08:30h",
-    "body": "<p>O cenário financeiro global nesta sexta-feira é marcado pela cautela antes da divulgação de novos dados de inflação nos Estados Unidos, que podem ditar o ritmo dos juros pelo Fed. Na Europa, os balanços corporativos mostram resiliência, enquanto na Ásia o foco permanece nos estímulos à economia chinesa.</p><strong>Foco em Inflação e Juros</strong><p>Investidores monitoram de perto os rendimentos dos Treasuries, que operam em patamares elevados. No Brasil, o mercado repercute os dados de vendas no varejo e as falas recentes de membros do Copom sobre a trajetória da Selic. O dólar apresenta volatilidade frente a moedas emergentes.</p><ul><li><strong>Commodities:</strong> O petróleo opera estável, com tensões no Oriente Médio servindo de suporte aos preços.</li><li><strong>Bolsas:</strong> Futuros em Nova York sinalizam abertura mista; Ibovespa busca manter patamar de suporte técnico.</li></ul><p><strong>Fontes:</strong> Curadoria Trilha dos Juros e Yahoo Finance.</p>"
+    "title": "Abertura sob tensão geopolítica e olhos nos resultados",
+    "date": "13/04/2026 • 08:30h",
+    "body": "<p><strong>Os mercados globais se preparam para uma abertura sob pressão</strong>, após a ordem do ex-presidente dos EUA, Donald Trump, de um bloqueio no Estreito de Hormuz contra o Irã. Os futuros do Dow Jones, S&P 500 e Nasdaq operam em queda no pré-mercado.</p><p><strong>No cenário macroeconômico</strong>, a expectativa é de recuperação do PIB dos EUA no primeiro trimestre, embora um cessar-fogo considerado frágil no conflito com o Irã gere incertezas adicionais. A alta recente nos preços do petróleo levanta questionamentos sobre um possível impacto na política monetária do Federal Reserve.</p><p><strong>A temporada de resultados corporativos tem início</strong> com os números do Goldman Sachs. O banco reportou aumento nos lucros, impulsionado por um forte desempenho no trading de ações e uma retomada nas atividades de fusões e aquisições. Outras instituições financeiras também estão em movimento, com o NLB apresentando uma oferta superior pela Addiko, após proposta da Raiffeisen.</p><p><strong>No mercado de criptoativos</strong>, Bitcoin e Ethereum enfrentam pressão de venda após o fracasso das negociações de paz entre Estados Unidos e Irã.</p><p><strong>No cenário doméstico</strong>, a discussão sobre o papel da mídia tradicional ganha espaço. Paralelamente, observa-se uma evolução no setor bancário, com instituições assumindo funções que vão além da custódia, adentrando a gestão estratégica de empresas por meio de serviços de inteligência.</p><p><strong>Fontes:</strong> Yahoo Finance (Earnings updates, NLB bid, Goldman Sachs results, Stock market futures, Cryptocurrency prices), Notícias do mercado financeiro brasileiro (Cenário político, Petróleo/Fed, PIB EUA, Setor bancário).</p>"
   },
   "coffee": {
     "title": "Mercados em Movimento: Petróleo, Dados e Tecnologia",
@@ -15,62 +15,8 @@
     "body": "<p>Os mercados financeiros encerraram a semana sob a influência de tensões geopolíticas e da antecipação de dados econômicos cruciais dos Estados Unidos.</p><p><strong>Principais Movimentos e Temas:</strong></p><ul><li><strong>Petróleo e Risco Geopolítico:</strong> Notícias destacam um \"choque no petróleo\" e o impacto direto de eventos no Estreito de Ormuz sobre os fluxos da commodity e, consequentemente, sobre a moeda americana. A volatilidade no mercado de energia levanta questões sobre possíveis implicações para a política monetária do Federal Reserve.</li><li><strong>Expectativas para a Economia dos EUA:</strong> Há previsões de recuperação do PIB norte-americano no primeiro trimestre, embora um \"cessar-fogo frágil\" em conflitos internacionais adicione uma camada de incerteza ao cenário macroeconômico global.</li><li><strong>Mercado Doméstico:</strong> O foco no Brasil recaiu sobre os contratos futuros de índice (WDOK26 e WINJ26), com análise de seus melhores preços do dia.</li><li><strong>Setor Bancário em Transformação:</strong> Reportagem aborda a evolução do papel dos bancos, que expandem suas funções da custódia tradicional para serviços de inteligência e gestão integrada para empresas.</li><li><strong>Inovação e Tecnologia Global:</strong> No exterior, temas em destaque incluem o desenvolvimento de seguros para criptoativos (Nexus Mutual), a colaboração entre a Broadcom e a Google na produção de chips para IA, e a previsão para o próximo relatório de resultados da ConocoPhillips.</li><li><strong>Regulação e Energia:</strong> Um documento do banco central da Índia (RBI) discute medidas para proteger idosos contra fraudes digitais, enquanto nos EUA, novos projetos de energia solar no Midwest entram em operação.</li></ul><p>O conjunto de informações aponta para um ambiente de negócios marcado pela cautela, com investidores monitorando de perto os desdobramentos geopolíticos, os dados econômicos dos EUA e as inovações tecnológicas em setores-chave.</p><p><strong>Fontes:</strong> Notícias financeiras do Brasil e do portal global Yahoo Finance.</p>"
   },
   "daily_term": {
-    "term": "Intervenção do Fed",
-    "definition": "A intervenção do Fed (Federal Reserve, o banco central dos EUA) refere-se às ações que a instituição toma para influenciar a economia, especialmente em momentos de crise ou instabilidade. Essas ações podem incluir o aumento ou corte das taxas de juros e a compra/venda de títulos no mercado para controlar a inflação, estimular o crescimento ou estabilizar mercados financeiros específicos, como o de commodities (ex.: petróleo). Para o investidor iniciante, é importante entender que decisões do Fed têm impacto global, afetando desde o câmbio (dólar) até o preço de ativos como ações e commodities."
+    "term": "Cessar-fogo",
+    "definition": "Cessar-fogo é um acordo temporário para interromper os combates em um conflito, geralmente entre países ou grupos armados. No contexto financeiro, notícias sobre um 'cessar-fogo frágil' geram incerteza nos mercados porque interrupções instáveis em conflitos (como os mencionados entre EUA e Irã) podem afetar drasticamente o preço de commodities como petróleo e causar volatilidade em bolsas de valores e criptomoedas."
   },
-  "economic_calendar": {
-    "events": [
-      {
-        "date": "10/04",
-        "time": "Dia Todo",
-        "country": "us",
-        "event": "CPI Anual (y/y)",
-        "impact": "High",
-        "atual": "---",
-        "proj": "3.4%",
-        "prev": "2.4%"
-      },
-      {
-        "date": "10/04",
-        "time": "Dia Todo",
-        "country": "us",
-        "event": "CPI Mensal (m/m)",
-        "impact": "High",
-        "atual": "---",
-        "proj": "1.0%",
-        "prev": "0.3%"
-      },
-      {
-        "date": "10/04",
-        "time": "Dia Todo",
-        "country": "us",
-        "event": "CPI Núcleo Mensal (m/m)",
-        "impact": "High",
-        "atual": "---",
-        "proj": "0.3%",
-        "prev": "0.2%"
-      },
-      {
-        "date": "10/04",
-        "time": "Dia Todo",
-        "country": "us",
-        "event": "Sentimento do Consumidor Univ. de Michigan (Preliminar)",
-        "impact": "Medium",
-        "atual": "---",
-        "proj": "51.6",
-        "prev": "55.5"
-      },
-      {
-        "date": "10/04",
-        "time": "Dia Todo",
-        "country": "cad",
-        "event": "Taxa de Desemprego",
-        "impact": "Medium",
-        "atual": "---",
-        "proj": "6.8%",
-        "prev": "6.7%"
-      }
-    ]
-  },
-  "last_update": "2026-04-10T21:26:51.168447"
+  "last_update": "2026-04-13T12:13:54.783321"
 }
