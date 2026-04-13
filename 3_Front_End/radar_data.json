@@ -1,35 +1,45 @@
 {
   "events": [
     {
-      "date": "12/04",
-      "time": "18:30",
-      "country": "nz",
-      "event": "Índice de Desempenho dos Serviços (Mar)",
+      "date": "13/04",
+      "time": "05:30",
+      "country": "cn",
+      "event": "Novos Empréstimos (Mar)",
       "impact": "High",
       "atual": "---",
-      "proj": "---",
-      "prev": "48.0"
+      "proj": "3,465.0B",
+      "prev": "900.0B"
     },
     {
-      "date": "12/04",
-      "time": "19:50",
-      "country": "jp",
-      "event": "Oferta de Moeda M3 (Mar)",
+      "date": "13/04",
+      "time": "05:30",
+      "country": "cn",
+      "event": "Estoque de Moeda M2 (Anual) (Mar)",
       "impact": "High",
       "atual": "---",
-      "proj": "---",
-      "prev": "2,275.3B"
+      "proj": "8.9%",
+      "prev": "9.0%"
     },
     {
-      "date": "12/04",
-      "time": "19:50",
-      "country": "jp",
-      "event": "Estoque de Moeda M2 (Anual)",
+      "date": "13/04",
+      "time": "05:30",
+      "country": "cn",
+      "event": "Financiamento Social Total da China (Mar)",
       "impact": "High",
       "atual": "---",
-      "proj": "1.6%",
-      "prev": "1.7%"
+      "proj": "5,400.0B",
+      "prev": "2,380.0B"
+    },
+    {
+      "date": "13/04",
+      "time": "06:30",
+      "country": "in",
+      "event": "IPC (Anual) (Mar)",
+      "impact": "High",
+      "atual": "---",
+      "proj": "3.48%",
+      "prev": "3.21%"
     }
   ],
-  "last_update": "12/04/2026 15:01:40"
+  "last_update": "13/04/2026 12:47:06"
 }
