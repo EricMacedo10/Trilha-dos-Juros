@@ -3,7 +3,7 @@
     {
       "time": "05:00",
       "country": "CN",
-      "event": "Novas Empréstimos (Mar)",
+      "event": "[Novos Empréstimos (Mar)](https://www.investing.com/economic-calendar/chinese-new-loans-1060)",
       "impact": "High",
       "atual": "2,990.0B",
       "proj": "3,465.0B",
@@ -11,19 +11,9 @@
       "date": "13/04"
     },
     {
-      "time": "05:00",
-      "country": "CN",
-      "event": "Financiamento Total Social Chinês (Mar)",
-      "impact": "High",
-      "atual": "5,230.0B",
-      "proj": "5,400.0B",
-      "prev": "2,380.0B",
-      "date": "13/04"
-    },
-    {
       "time": "06:30",
       "country": "IN",
-      "event": "CPI (YoY) (Mar)",
+      "event": "[CPI (YoY) (Mar)](https://www.investing.com/economic-calendar/indian-cpi-973)",
       "impact": "High",
       "atual": "3.40%",
       "proj": "3.48%",
@@ -33,13 +23,23 @@
     {
       "time": "09:00",
       "country": "FR",
-      "event": "Leilão de 12 Meses BTF Francês",
+      "event": "[Leilão BTF de 12 Meses Francês](https://www.investing.com/economic-calendar/french-12-month-btf-auction-685)",
       "impact": "High",
       "atual": "2.634%",
       "proj": "-",
       "prev": "2.694%",
       "date": "13/04"
+    },
+    {
+      "time": "20:00",
+      "country": "SG",
+      "event": "[PIB (YoY) (Q1)](https://www.investing.com/economic-calendar/singaporean-gdp-511)",
+      "impact": "High",
+      "atual": "---",
+      "proj": "5.4%",
+      "prev": "6.9%",
+      "date": "13/04"
     }
   ],
-  "last_update": "13/04/2026 20:09:42"
+  "last_update": "13/04/2026 21:55:18"
 }
