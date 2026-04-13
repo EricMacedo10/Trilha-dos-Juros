@@ -26,7 +26,8 @@ def scrape_investing():
             url, 
             params={
                 'formats': ['markdown'],
-                'onlyMainContent': True
+                'onlyMainContent': True,
+                'waitFor': 3000  # Aguarda 3 segundos para o JS carregar os valores reais
             }
         )
         return scrape_result.get('markdown', '')
@@ -57,6 +58,7 @@ def parse_with_deepseek(markdown_content):
     
     REGRAS DE EXTRAÇÃO:
     - Se o valor 'Atual' não estiver disponível (evento ainda não ocorreu), use '---'.
+    - MUITO IMPORTANTE: Verifique se o valor Atual está "colado" no nome do evento ou em outras colunas. Extraia apenas o número/percentual.
     - Determine o país ('br', 'us', 'eu', 'cn', etc.) baseado na bandeira ou sigla.
     - Impacto deve ser sempre 'High' para estes 4 selecionados.
     
@@ -77,7 +79,7 @@ def parse_with_deepseek(markdown_content):
     }}
     
     CONTEÚDO RASPADO:
-    {markdown_content[:20000]}  # Limitando o context para evitar estouro de token
+    {markdown_content[:30000]}  # Aumentado para 30k para garantir cobertura total
     """
 
     try:
