@@ -3,3 +3,4 @@ feedparser
 requests
 openai
 firecrawl-py==1.10.0
+google-generativeai

@@ -27,14 +27,15 @@ jobs:
           cd 4_Automacao_IA
           pip install -r requirements.txt
 
-      - name: Run Radar Engine (Firecrawl + DeepSeek)
+      - name: Run Radar Engine (Vision Model - Gemini)
         env:
           FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           cd 4_Automacao_IA
-          python radar_engine.py
-          echo "Status: Script executado. Verificando pasta de saída..."
+          python radar_vision_engine.py
+          echo "Status: Engine de Visão executada."
           ls -la ../3_Front_End/radar_data.json || echo "Arquivo radar_data.json não encontrado!"
 
       - name: Commit and Push Changes
