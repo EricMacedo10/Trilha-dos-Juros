@@ -13,7 +13,7 @@
     {
       "time": "05:00",
       "country": "CN",
-      "event": "Financiamento Social Total Chinês (Mar)",
+      "event": "Financiamento Social Total da China (Mar)",
       "impact": "High",
       "atual": "5,230.0B",
       "proj": "5,400.0B",
@@ -33,7 +33,7 @@
     {
       "time": "09:00",
       "country": "FR",
-      "event": "Leilão BTF Francês de 12 Meses",
+      "event": "Leilão BTF de 12-Meses da França",
       "impact": "High",
       "atual": "2.634%",
       "proj": "-",
@@ -43,7 +43,7 @@
     {
       "time": "09:00",
       "country": "FR",
-      "event": "Leilão BTF Francês de 6 Meses",
+      "event": "Leilão BTF de 6-Meses da França",
       "impact": "High",
       "atual": "2.448%",
       "proj": "-",
@@ -53,7 +53,7 @@
     {
       "time": "09:47",
       "country": "RU",
-      "event": "Balança Comercial (Fev)",
+      "event": "Balança Comercial (Feb)",
       "impact": "High",
       "atual": "5.35B",
       "proj": "-",
@@ -61,5 +61,5 @@
       "date": "13/04"
     }
   ],
-  "last_update": "13/04/2026 16:18:45"
+  "last_update": "13/04/2026 18:07:48"
 }
