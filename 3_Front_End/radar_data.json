@@ -6,40 +6,40 @@
       "event": "Produção de Ouro (YoY) (Fev)",
       "impact": "High",
       "atual": "12.8%",
-      "proj": "---",
+      "proj": "-",
       "prev": "0.7%",
       "date": "14/04"
     },
     {
       "time": "05:30",
       "country": "ZA",
-      "event": "Produção Mineradora (Fev)",
+      "event": "Produção Mineral (Fev)",
       "impact": "High",
       "atual": "9.7%",
-      "proj": "---",
+      "proj": "-",
       "prev": "5.0%",
+      "date": "14/04"
+    },
+    {
+      "time": "08:15",
+      "country": "US",
+      "event": "Mudança no Emprego ADP Semanal",
+      "impact": "High",
+      "atual": "39.30K",
+      "proj": "-",
+      "prev": "26.00K",
       "date": "14/04"
     },
     {
       "time": "06:00",
       "country": "US",
-      "event": "O otimismo das Pequenas Empresas NFIB (Mar)",
+      "event": "Otimismo do Pequeno Empresário NFIB (Mar)",
       "impact": "High",
       "atual": "95.8",
       "proj": "97.8",
       "prev": "98.8",
       "date": "14/04"
-    },
-    {
-      "time": "08:30",
-      "country": "US",
-      "event": "PPI (YoY) (Mar)",
-      "impact": "High",
-      "atual": "4.0%",
-      "proj": "4.6%",
-      "prev": "3.4%",
-      "date": "14/04"
     }
   ],
-  "last_update": "14/04/2026 21:56:28"
+  "last_update": "14/04/2026 23:50:02"
 }
