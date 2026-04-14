@@ -1,45 +1,45 @@
 {
   "events": [
     {
-      "time": "05:00",
-      "country": "CN",
-      "event": "Novos Empréstimos (Mar)",
+      "time": "02:00",
+      "country": "DE",
+      "event": "Índice de Preços ao Produtor (YoY) (Mar)",
       "impact": "High",
-      "atual": "2,990.0B",
-      "proj": "3,465.0B",
-      "prev": "900.0B",
-      "date": "13/04"
-    },
-    {
-      "time": "05:00",
-      "country": "CN",
-      "event": "Financiamento Social Total Chinês (Mar)",
-      "impact": "High",
-      "atual": "5,230.0B",
-      "proj": "5,400.0B",
-      "prev": "2,380.0B",
-      "date": "13/04"
-    },
-    {
-      "time": "06:30",
-      "country": "IN",
-      "event": "CPI (YoY) (Mar)",
-      "impact": "High",
-      "atual": "3.40%",
-      "proj": "3.48%",
-      "prev": "3.21%",
-      "date": "13/04"
-    },
-    {
-      "time": "09:47",
-      "country": "RU",
-      "event": "Balança Comercial (Fev)",
-      "impact": "High",
-      "atual": "5.35B",
+      "atual": "4.1%",
       "proj": "-",
-      "prev": "6.60B",
-      "date": "13/04"
+      "prev": "1.2%",
+      "date": "14/04"
+    },
+    {
+      "time": "02:00",
+      "country": "DE",
+      "event": "Índice de Preços ao Produtor (MoM) (Mar)",
+      "impact": "High",
+      "atual": "2.7%",
+      "proj": "0.4%",
+      "prev": "0.6%",
+      "date": "14/04"
+    },
+    {
+      "time": "03:00",
+      "country": "ES",
+      "event": "Índice de Preços ao Consumidor (YoY) (Mar)",
+      "impact": "High",
+      "atual": "3.4%",
+      "proj": "3.3%",
+      "prev": "2.3%",
+      "date": "14/04"
+    },
+    {
+      "time": "03:00",
+      "country": "ES",
+      "event": "Índice de Preços ao Consumidor Harmonizado (YoY) (Mar)",
+      "impact": "High",
+      "atual": "3.4%",
+      "proj": "3.3%",
+      "prev": "2.5%",
+      "date": "14/04"
     }
   ],
-  "last_update": "13/04/2026 23:51:33"
+  "last_update": "14/04/2026 12:01:13"
 }
