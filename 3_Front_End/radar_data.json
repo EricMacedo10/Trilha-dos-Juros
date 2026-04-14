@@ -1,29 +1,19 @@
 {
   "events": [
     {
-      "time": "02:00",
-      "country": "DE",
-      "event": "Índice de Preços ao Produtor (YoY) (Mar)",
+      "time": "00:30",
+      "country": "JP",
+      "event": "Produção Industrial (MoM) (Fev)",
       "impact": "High",
-      "atual": "4.1%",
-      "proj": "-",
-      "prev": "1.2%",
-      "date": "14/04"
-    },
-    {
-      "time": "02:00",
-      "country": "DE",
-      "event": "Índice de Preços ao Produtor (MoM) (Mar)",
-      "impact": "High",
-      "atual": "2.7%",
-      "proj": "0.4%",
-      "prev": "0.6%",
+      "atual": "---",
+      "proj": "-2.1%",
+      "prev": "4.3%",
       "date": "14/04"
     },
     {
       "time": "03:00",
       "country": "ES",
-      "event": "Índice de Preços ao Consumidor (YoY) (Mar)",
+      "event": "CPI Espanhol (YoY) (Mar)",
       "impact": "High",
       "atual": "3.4%",
       "proj": "3.3%",
@@ -31,15 +21,25 @@
       "date": "14/04"
     },
     {
-      "time": "03:00",
-      "country": "ES",
-      "event": "Índice de Preços ao Consumidor Harmonizado (YoY) (Mar)",
+      "time": "08:30",
+      "country": "US",
+      "event": "PPI (YoY) (Mar)",
       "impact": "High",
-      "atual": "3.4%",
-      "proj": "3.3%",
-      "prev": "2.5%",
+      "atual": "4.0%",
+      "proj": "4.6%",
+      "prev": "3.4%",
+      "date": "14/04"
+    },
+    {
+      "time": "08:30",
+      "country": "US",
+      "event": "PPI (MoM) (Mar)",
+      "impact": "High",
+      "atual": "0.5%",
+      "proj": "1.1%",
+      "prev": "0.5%",
       "date": "14/04"
     }
   ],
-  "last_update": "14/04/2026 12:01:13"
+  "last_update": "14/04/2026 14:53:07"
 }
