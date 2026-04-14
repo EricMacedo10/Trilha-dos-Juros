@@ -11,6 +11,16 @@
       "date": "14/04"
     },
     {
+      "time": "02:00",
+      "country": "DE",
+      "event": "WPI Alemão (YoY) (Mar)",
+      "impact": "High",
+      "atual": "4.1%",
+      "proj": "---",
+      "prev": "1.2%",
+      "date": "14/04"
+    },
+    {
       "time": "03:00",
       "country": "ES",
       "event": "CPI Espanhol (YoY) (Mar)",
@@ -18,6 +28,16 @@
       "atual": "3.4%",
       "proj": "3.3%",
       "prev": "2.3%",
+      "date": "14/04"
+    },
+    {
+      "time": "08:30",
+      "country": "US",
+      "event": "PPI (MoM) (Mar)",
+      "impact": "High",
+      "atual": "0.5%",
+      "proj": "1.1%",
+      "prev": "0.5%",
       "date": "14/04"
     },
     {
@@ -31,15 +51,25 @@
       "date": "14/04"
     },
     {
-      "time": "08:30",
+      "time": "08:15",
       "country": "US",
-      "event": "PPI (MoM) (Mar)",
+      "event": "Mudança no Emprego ADP Semanal",
       "impact": "High",
-      "atual": "0.5%",
-      "proj": "1.1%",
-      "prev": "0.5%",
+      "atual": "39.30K",
+      "proj": "---",
+      "prev": "26.00K",
+      "date": "14/04"
+    },
+    {
+      "time": "09:31",
+      "country": "US",
+      "event": "Redbook (YoY)",
+      "impact": "High",
+      "atual": "7.0%",
+      "proj": "---",
+      "prev": "7.6%",
       "date": "14/04"
     }
   ],
-  "last_update": "14/04/2026 14:53:07"
+  "last_update": "14/04/2026 16:13:29"
 }
