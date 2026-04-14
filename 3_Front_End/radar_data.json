@@ -31,45 +31,15 @@
       "date": "14/04"
     },
     {
-      "time": "08:30",
-      "country": "US",
-      "event": "PPI (MoM) (Mar)",
+      "time": "05:30",
+      "country": "ZA",
+      "event": "Produção de Ouro (YoY) (Fev)",
       "impact": "High",
-      "atual": "0.5%",
-      "proj": "1.1%",
-      "prev": "0.5%",
-      "date": "14/04"
-    },
-    {
-      "time": "08:30",
-      "country": "US",
-      "event": "PPI (YoY) (Mar)",
-      "impact": "High",
-      "atual": "4.0%",
-      "proj": "4.6%",
-      "prev": "3.4%",
-      "date": "14/04"
-    },
-    {
-      "time": "08:15",
-      "country": "US",
-      "event": "Mudança no Emprego ADP Semanal",
-      "impact": "High",
-      "atual": "39.30K",
+      "atual": "12.8%",
       "proj": "---",
-      "prev": "26.00K",
-      "date": "14/04"
-    },
-    {
-      "time": "09:31",
-      "country": "US",
-      "event": "Redbook (YoY)",
-      "impact": "High",
-      "atual": "7.0%",
-      "proj": "---",
-      "prev": "7.6%",
+      "prev": "0.7%",
       "date": "14/04"
     }
   ],
-  "last_update": "14/04/2026 16:13:29"
+  "last_update": "14/04/2026 18:09:20"
 }
