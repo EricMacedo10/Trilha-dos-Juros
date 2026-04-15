@@ -23,23 +23,23 @@
     {
       "time": "02:45",
       "country": "FR",
-      "event": "HICP Francês (YoY) (Mar)",
+      "event": "CPI Francês (YoY) (Mar)",
       "impact": "High",
-      "atual": "2.0%",
-      "proj": "1.9%",
-      "prev": "1.1%",
+      "atual": "1.7%",
+      "proj": "1.7%",
+      "prev": "0.9%",
       "date": "15/04"
     },
     {
-      "time": "10:30",
+      "time": "08:30",
       "country": "US",
-      "event": "Inventários de Petróleo Bruto",
+      "event": "NY Empire State Manufacturing Index (Abr)",
       "impact": "High",
-      "atual": "-0.913M",
-      "proj": "2.100M",
-      "prev": "3.081M",
+      "atual": "11.00",
+      "proj": "0.30",
+      "prev": "-0.20",
       "date": "15/04"
     }
   ],
-  "last_update": "15/04/2026 22:01:10"
+  "last_update": "15/04/2026 23:51:00"
 }
