@@ -1,45 +1,45 @@
 {
   "events": [
     {
-      "time": "00:30",
-      "country": "JP",
-      "event": "Produção Industrial (MoM) (Fev)",
+      "time": "07:00",
+      "country": "BR",
+      "event": "IGP-10 Índice de Inflação (MoM) (Abr)",
       "impact": "High",
-      "atual": "---",
-      "proj": "-2.1%",
-      "prev": "4.3%",
+      "atual": "2.9%",
+      "proj": "---",
+      "prev": "-0.2%",
       "date": "15/04"
     },
     {
-      "time": "03:00",
-      "country": "ES",
-      "event": "CPI Espanhol (YoY) (Mar)",
-      "impact": "High",
-      "atual": "---",
-      "proj": "3.3%",
-      "prev": "2.3%",
-      "date": "15/04"
-    },
-    {
-      "time": "03:00",
-      "country": "ES",
-      "event": "HICP Espanhol (YoY) (Mar)",
-      "impact": "High",
-      "atual": "---",
-      "proj": "3.3%",
-      "prev": "2.5%",
-      "date": "15/04"
-    },
-    {
-      "time": "06:00",
+      "time": "07:00",
       "country": "US",
-      "event": "Ottimismo dos Pequenos Negócios (Mar)",
+      "event": "MBA 30-Year Mortgage Rate",
       "impact": "High",
-      "atual": "---",
-      "proj": "97.8",
-      "prev": "98.8",
+      "atual": "6.42%",
+      "proj": "---",
+      "prev": "6.51%",
+      "date": "15/04"
+    },
+    {
+      "time": "07:30",
+      "country": "IN",
+      "event": "Balanço Comercial (Mar)",
+      "impact": "High",
+      "atual": "-20.67B",
+      "proj": "-32.75B",
+      "prev": "-27.10B",
+      "date": "15/04"
+    },
+    {
+      "time": "08:30",
+      "country": "US",
+      "event": "NY Empire State Manufacturing Index (Abr)",
+      "impact": "High",
+      "atual": "11.00",
+      "proj": "0.30",
+      "prev": "-0.20",
       "date": "15/04"
     }
   ],
-  "last_update": "15/04/2026 11:59:25"
+  "last_update": "15/04/2026 14:48:36"
 }
