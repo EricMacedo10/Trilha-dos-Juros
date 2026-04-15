@@ -1,45 +1,45 @@
 {
   "events": [
     {
-      "time": "05:30",
-      "country": "ZA",
-      "event": "Produção de Ouro (YoY) (Fev)",
+      "time": "00:30",
+      "country": "JP",
+      "event": "Produção Industrial (MoM) (Fev)",
       "impact": "High",
-      "atual": "12.8%",
-      "proj": "-",
-      "prev": "0.7%",
-      "date": "14/04"
+      "atual": "---",
+      "proj": "-2.1%",
+      "prev": "4.3%",
+      "date": "15/04"
     },
     {
-      "time": "05:30",
-      "country": "ZA",
-      "event": "Produção Mineral (Fev)",
+      "time": "03:00",
+      "country": "ES",
+      "event": "CPI Espanhol (YoY) (Mar)",
       "impact": "High",
-      "atual": "9.7%",
-      "proj": "-",
-      "prev": "5.0%",
-      "date": "14/04"
+      "atual": "---",
+      "proj": "3.3%",
+      "prev": "2.3%",
+      "date": "15/04"
     },
     {
-      "time": "08:15",
-      "country": "US",
-      "event": "Mudança no Emprego ADP Semanal",
+      "time": "03:00",
+      "country": "ES",
+      "event": "HICP Espanhol (YoY) (Mar)",
       "impact": "High",
-      "atual": "39.30K",
-      "proj": "-",
-      "prev": "26.00K",
-      "date": "14/04"
+      "atual": "---",
+      "proj": "3.3%",
+      "prev": "2.5%",
+      "date": "15/04"
     },
     {
       "time": "06:00",
       "country": "US",
-      "event": "Otimismo do Pequeno Empresário NFIB (Mar)",
+      "event": "Ottimismo dos Pequenos Negócios (Mar)",
       "impact": "High",
-      "atual": "95.8",
+      "atual": "---",
       "proj": "97.8",
       "prev": "98.8",
-      "date": "14/04"
+      "date": "15/04"
     }
   ],
-  "last_update": "14/04/2026 23:50:02"
+  "last_update": "15/04/2026 11:59:25"
 }
