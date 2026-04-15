@@ -49,4 +49,4 @@ O motor editorial segue travas de segurança rígidas:
 *   Obrigatória a citação de fontes (Bloomberg, Yahoo, etc).
 
 ---
-*Documentação atualizada em 10/04/2026 - Sprint: Estabilização Editorial Hub.*
+*Documentação atualizada em 15/04/2026 - Sprint: Estabilização Editorial Hub & Compliance AdSense.*

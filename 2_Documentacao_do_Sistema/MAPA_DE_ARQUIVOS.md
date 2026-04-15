@@ -30,6 +30,9 @@
 |:---|:---|
 | `index.html` | Página principal (SPA). Contém TODO o HTML: Simulador, Jornada, Radar, Calls do Mercado, FAQ |
 | `privacidade.html` | Política de privacidade (LGPD) |
+| `sobre.html` | Página "Sobre Nós" - Relato da missão e valores (E-E-A-T AdSense) |
+| `termos.html` | Termos e Condições de Uso |
+| `sitemap.xml` | Mapa do site para indexação SEO e Google Bots |
 | `manifest.json` | Configuração PWA (instalação como app no celular) |
 | `sw.js` | Service Worker — cache offline e estratégia de atualização |
 | `editorial_feed.json` | Feed editorial gerado pelo robô IA (Morning Call + Coffee Break + Resumo do Dia + Calendário Econômico) |
@@ -120,4 +123,4 @@ Qualquer outro nome será **bloqueado pela Vercel Hobby**. (Ref: ADR-013)
 | `5_Central_Comando_Senior/` | ❌ Proibido | Vercel não monitora pastas fora de `3_Front_End`. Usar `3_Front_End/hq/` |
 
 ---
-*Documentação atualizada em 10/04/2026 — Implementação de IA Híbrida (DeepSeek + Gemini) e Estabilização 2.0.*
+*Documentação atualizada em 15/04/2026 — Implementação de Sitemap, Compliance AdSense e Estabilização 2.0.*

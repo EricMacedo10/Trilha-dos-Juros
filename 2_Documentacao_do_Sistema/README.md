@@ -3,6 +3,7 @@
 [![Status](https://img.shields.io/badge/Status-Produção-success?style=for-the-badge)](https://trilhadosjuros.com.br)
 [![Build](https://img.shields.io/badge/CI%2FCD-Vercel%20Edge-black?style=for-the-badge)](https://vercel.com)
 [![AI](https://img.shields.io/badge/Powered%20By-DeepSeek%20IA-green?style=for-the-badge)]()
+[![Monetização](https://img.shields.io/badge/Ads-AdSense%20Authorized-brightgreen?style=for-the-badge)](https://adsense.google.com)
 [![Backend](https://img.shields.io/badge/Engine-Python%203.11-gold?style=for-the-badge)]()
 
 **Trilha dos Juros** evoluiu de um simulador para um **terminal de inteligência financeira completo**. Projetado com a estética *Faria Lima Style* (Glassmorphism), o sistema agora combina cálculos matemáticos rigorosos de renda fixa com análise editorial em tempo real impulsionada por Inteligência Artificial.
