@@ -3,17 +3,7 @@
     {
       "time": "08:30",
       "country": "US",
-      "event": "[Índice de Fabricantes da Filadélfia (Abr)](https://www.investing.com/economic-calendar/philadelphia-fed-manufacturing-index-236)",
-      "impact": "High",
-      "atual": "26.7",
-      "proj": "10.3",
-      "prev": "18.1",
-      "date": "16/04"
-    },
-    {
-      "time": "08:30",
-      "country": "US",
-      "event": "[Pedidos de Seguro Desemprego (Inicial)](https://www.investing.com/economic-calendar/initial-jobless-claims-294)",
+      "event": "Declarações de Reivindicações de Desemprego Iniciais",
       "impact": "High",
       "atual": "207K",
       "proj": "213K",
@@ -23,23 +13,33 @@
     {
       "time": "08:30",
       "country": "US",
-      "event": "[Variação de Emprego da Filadélfia (Abr)](https://www.investing.com/economic-calendar/philly-fed-employment-908)",
+      "event": "Índice de Fabricantes do Fed de Filadélfia (Abr)",
       "impact": "High",
-      "atual": "-5.1",
-      "proj": "---",
-      "prev": "0.8",
+      "atual": "26.7",
+      "proj": "10.3",
+      "prev": "18.1",
       "date": "16/04"
     },
     {
-      "time": "08:30",
+      "time": "09:15",
       "country": "US",
-      "event": "[Variação de Emprego da Filadélfia (Abr)](https://www.investing.com/economic-calendar/philly-fed-business-conditions-907)",
+      "event": "Produção Industrial (YoY) (Mar)",
       "impact": "High",
-      "atual": "40.8",
+      "atual": "0.74%",
       "proj": "---",
-      "prev": "40.0",
+      "prev": "1.23%",
+      "date": "16/04"
+    },
+    {
+      "time": "09:15",
+      "country": "US",
+      "event": "Taxa de Utilização de Capacidade (Mar)",
+      "impact": "High",
+      "atual": "75.7%",
+      "proj": "76.3%",
+      "prev": "76.1%",
       "date": "16/04"
     }
   ],
-  "last_update": "16/04/2026 21:51:23"
+  "last_update": "16/04/2026 23:49:55"
 }
