@@ -422,32 +422,36 @@
                                     Sincronizando Radar...
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- SEÇÃO DE PARCEIROS OFICIAIS -->
-                            <div class="supporter-box" style="margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.05); text-align: center;">
-                                <span style="font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.75rem; display: block; opacity: 0.8;">Parceiros Oficiais</span>
-                                
-                                <!-- SGA INVEST -->
-                                <div class="sga-banner" style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 1rem; cursor: pointer; transition: all 0.3s ease; margin-bottom: 0.5rem;" onclick="document.getElementById('btn-open-contact').click()">
-                                    <img src="assets/sga-logo.jpg.jpeg" alt="SGA Invest" style="max-width: 160px; height: auto; filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));">
-                                    <p style="margin-top: 0.4rem; font-size: 0.65rem; color: var(--neon-green); opacity: 0.9; font-weight: 500;">Assessoria Credenciada</p>
+                        <!-- Radar de Câmbio e Mercado Global (API HG Brasil - Safe Data) -->
+                        <div class="glass-panel radar-panel" id="market-global-panel" style="margin-top: 0; border-left: 3px solid var(--brand-blue);">
+                            <h4 style="color: var(--brand-blue); font-size: 0.85rem; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem;">
+                                <i class="ph-fill ph-globe"></i> Câmbio e Mercado Global
+                                <span style="margin-left:auto; font-size:0.65rem; background: rgba(59, 130, 246, 0.1); padding: 2px 6px; border-radius: 4px; font-weight:normal;">Real-time</span>
+                            </h4>
+                            <div id="market-global-list" class="market-global-list" style="display: flex; flex-direction: column; gap: 0.6rem;">
+                                <div class="loading-market" style="text-align: center; padding: 1rem; color: var(--text-muted); font-size: 0.75rem;">
+                                    <i class="ph ph-circle-notch ph-spin" style="font-size: 1.2rem; margin-bottom: 0.5rem; display: block;"></i>
+                                    Sincronizando Câmbio...
                                 </div>
-                                
-                                <a href="https://www.instagram.com/sga_invest/" target="_blank" rel="noopener" class="sga-social-link" style="display: flex; align-items: center; justify-content: center; gap: 0.4rem; margin-bottom: 1.25rem; color: var(--text-muted); text-decoration: none; font-size: 0.7rem; padding: 0.4rem; border-radius: 6px; transition: all 0.3s ease;">
-                                    <i class="ph ph-instagram-logo" style="font-size: 1rem;"></i>
-                                    <span>Siga a <strong>@sga_invest</strong></span>
-                                </a>
+                            </div>
+                        </div>
 
-                                <!-- TOP ONE AV -->
-                                <div class="sga-banner top-one-banner" style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 1rem; cursor: pointer; transition: all 0.3s ease; margin-bottom: 0.5rem;" onclick="window.open('https://www.instagram.com/toponeav/', '_blank')">
-                                    <img src="assets/toponeav-logonova.jpeg" alt="Top One AV" style="max-width: 140px; height: auto; filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));">
-                                    <p style="margin-top: 0.4rem; font-size: 0.65rem; color: #f59e0b; opacity: 0.9; font-weight: 500;">Automobilismo Virtual</p>
+                        <!-- Radar de Bolsas e Índices (API HG Brasil) -->
+                        <div class="glass-panel radar-panel" id="stock-indices-panel" style="margin-top: 0; border-left: 3px solid #8b5cf6;">
+                            <h4 style="color: #8b5cf6; font-size: 0.85rem; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem;">
+                                <i class="ph-fill ph-chart-line-up"></i> Índices e Bolsas Globais
+                                <span style="margin-left:auto; font-size:0.65rem; background: rgba(139, 92, 246, 0.1); padding: 2px 6px; border-radius: 4px; font-weight:normal;">HG API</span>
+                            </h4>
+                            <div id="stock-indices-list" class="stock-indices-list" style="display: flex; flex-direction: column; gap: 0.6rem;">
+                                <div class="loading-stocks" style="text-align: center; padding: 1rem; color: var(--text-muted); font-size: 0.75rem;">
+                                    <i class="ph ph-circle-notch ph-spin" style="font-size: 1.2rem; margin-bottom: 0.5rem; display: block;"></i>
+                                    Sincronizando Bolsas...
                                 </div>
-                                
-                                <a href="https://www.instagram.com/toponeav/" target="_blank" rel="noopener" class="sga-social-link" style="display: flex; align-items: center; justify-content: center; gap: 0.4rem; color: var(--text-muted); text-decoration: none; font-size: 0.7rem; padding: 0.4rem; border-radius: 6px; transition: all 0.3s ease;">
-                                    <i class="ph ph-instagram-logo" style="font-size: 1rem;"></i>
-                                    <span>Conheça a <strong>@toponeav_oficial</strong></span>
-                                </a>
+                            </div>
+                            <div style="margin-top: 0.75rem; text-align: right;">
+                                <span style="font-size: 0.6rem; color: var(--text-muted); opacity: 0.7;">Fonte: HG Brasil Finance</span>
                             </div>
                         </div>
 
@@ -597,6 +601,32 @@
                             <span style="font-size: 0.7rem; color: var(--text-muted);">Escrito por <strong>Curadoria Trilha dos Juros</strong></span>
                             <button class="ph ph-share-network" style="background:none; border:none; color: var(--text-muted); cursor:pointer; font-size: 1.1rem;" title="Compartilhar Artigo"></button>
                         </footer>
+                    </div>
+
+                    <!-- NOVO: Parceiros Oficiais (Ocupando o espaço vago abaixo dos Calls) -->
+                    <div id="partners-section" style="margin-top: 1.5rem;">
+                        <span style="font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1rem; display: block; opacity: 0.8; text-align: center;">Parceiros Oficiais</span>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
+                            
+                            <!-- SGA INVEST -->
+                            <div class="glass-panel" style="padding: 2rem 1.5rem; text-align: center; cursor: pointer; transition: all 0.3s ease; border-top: 3px solid var(--neon-green); display: flex; flex-direction: column; align-items: center; justify-content: center;" onclick="document.getElementById('btn-open-contact').click()">
+                                <img src="assets/sga-logo.jpg.jpeg" alt="SGA Invest" style="max-width: 230px; width: 100%; height: auto; margin: 0 auto 1rem; display: block; filter: drop-shadow(0 0 10px rgba(0,0,0,0.3));">
+                                <h4 style="color: var(--neon-green); font-size: 0.9rem; margin: 0.5rem 0; font-family: 'Outfit', sans-serif;">Assessoria Credenciada</h4>
+                                <a href="https://www.instagram.com/sga_invest/" target="_blank" rel="noopener" style="display: flex; align-items: center; justify-content: center; gap: 0.6rem; color: var(--text-muted); text-decoration: none; font-size: 0.8rem; margin-top: 1rem; opacity: 0.8; transition: opacity 0.2s;">
+                                    <i class="ph ph-instagram-logo" style="font-size: 1.2rem;"></i> Siga a <strong>@sga_invest</strong>
+                                </a>
+                            </div>
+
+                            <!-- TOP ONE AV -->
+                            <div class="glass-panel" style="padding: 2rem 1.5rem; text-align: center; cursor: pointer; transition: all 0.3s ease; border-top: 3px solid #f59e0b; display: flex; flex-direction: column; align-items: center; justify-content: center;" onclick="window.open('https://www.instagram.com/toponeav/', '_blank')">
+                                <img src="assets/toponeav-logonova.jpeg" alt="Top One AV" style="max-width: 190px; width: 100%; height: auto; margin: 0 auto 1rem; display: block; filter: drop-shadow(0 0 10px rgba(0,0,0,0.3));">
+                                <h4 style="color: #f59e0b; font-size: 0.9rem; margin: 0.5rem 0; font-family: 'Outfit', sans-serif;">Automobilismo Virtual</h4>
+                                <a href="https://www.instagram.com/toponeav/" target="_blank" rel="noopener" style="display: flex; align-items: center; justify-content: center; gap: 0.6rem; color: var(--text-muted); text-decoration: none; font-size: 0.8rem; margin-top: 1rem; opacity: 0.8; transition: opacity 0.2s;">
+                                    <i class="ph ph-instagram-logo" style="font-size: 1.2rem;"></i> Conheça a <strong>@toponeav_oficial</strong>
+                                </a>
+                            </div>
+
+                        </div>
                     </div>
 
                 </article>
@@ -767,143 +797,141 @@
                 <p class="compliance-note">Nota: Depoimentos autorizados via e-mail para a equipe de assessoria. Identidades preservadas por compliance.</p>
 
                 <div class="faq-accordion">
-                    <!-- Item 1 -->
+                    <!-- Item 1: Metodologia de Cálculo -->
                     <div class="faq-item">
                         <button class="faq-question">
-                            <span>1. Como a Trilha dos Juros faz o cálculo exato do Rendimento?</span>
+                            <span>1. Como a Trilha dos Juros realiza o cálculo exato do rendimento de Renda Fixa?</span>
                             <i class="ph ph-caret-down"></i>
                         </button>
                         <div class="faq-answer">
-                            <p>Nossa engine financeira utiliza o padrão profissional do mercado, trabalhando sob a base
-                                de <strong>252 dias úteis</strong> por ano para aplicações indexadas ao CDI.
-                                <br><br>
-                                Isso significa que o simulador mapeia a verdadeira taxa "Over" anual e a eleva para a
-                                fração exata de dias úteis equivalentes ao prazo informado. Este nível de precisão
-                                matemática é estabelecido pela B3, Cetip e segue a regulação vigente da Anbima. Ao
-                                inserir seu CDI e o respectivo aporte, processamos o cenário utilizando estritamente as
-                                taxas oficiais em vigor, estabelecidas na última reunião do Banco Central do Brasil.
-                            </p>
+                            <p>Diferente de simuladores genéricos que utilizam juros simples ou regimes de 360 dias, a <strong>Trilha dos Juros</strong> utiliza a convenção de <strong>252 dias úteis</strong>, que é o padrão estrito do mercado financeiro brasileiro (B3 e ANBIMA).
+                            <br><br>
+                            Para cálculos de rentabilidade pós-fixada atrelada ao CDI, aplicamos a capitalização diária exponencial. Isso garante que o investidor veja a projeção real, considerando que o dinheiro só rende em dias de mercado aberto. Nossa engine financeira mapeia a Taxa SELIC Meta e o CDI atual via Banco Central para garantir que a base do cálculo seja sempre fidedigna ao cenário macroeconômico vigente.</p>
                         </div>
                     </div>
-                    <!-- Item 2 -->
+
+                    <!-- Item 2: CDB, LCI e LCA -->
                     <div class="faq-item">
                         <button class="faq-question">
-                            <span>2. O que representam o CDB, a LCI e a LCA?</span>
+                            <span>2. Qual a diferença prática entre investir em CDB, LCI e LCA?</span>
                             <i class="ph ph-caret-down"></i>
                         </button>
                         <div class="faq-answer">
-                            <p>O <strong>Certificado de Depósito Bancário (CDB)</strong> é um título privado emitido
-                                pelos bancos para captar recursos destinados ao financiamento de suas operações diárias
-                                de crédito. Em contrapartida, o investidor é remunerado com juros previamente acordados
-                                (frequentemente atrelados a um percentual do CDI).
-                                <br><br>
-                                As <strong>Letras de Crédito (LCI e LCA)</strong> são instrumentos financeiros com
-                                finalidades específicas. Os recursos captados via LCI (Letra de Crédito Imobiliário) são
-                                obrigatoriamente destinados a linhas de crédito do setor imobiliário, enquanto os
-                                recursos da LCA (Letra de Crédito do Agronegócio) são direcionados de forma exclusiva ao
-                                fomento do setor agropecuário. Devido à importância estratégica destes setores, a
-                                legislação brasileira concede isenção total de Imposto de Renda para pessoas físicas
-                                nestes dois instrumentos.
-                                <br><br>
-                                Em termos de segurança, o CDB, a LCI e a LCA contam com a proteção do <strong>Fundo
-                                    Garantidor de Créditos (FGC)</strong>. Esta entidade assegura o ressarcimento
-                                integral do montante investido, somado aos juros acumulados, até o limite de R$
-                                250.000,00 por CPF e por instituição financeira emissora (conglomerado), respeitando o
-                                limite global de 1 milhão de reais renoáveis a cada período de quatro anos.
-                            </p>
+                            <p>O <strong>CDB (Certificado de Depósito Bancário)</strong> é um empréstimo que você faz ao banco para financiar suas atividades gerais. Ele incide Imposto de Renda sobre o lucro, seguindo a tabela regressiva.
+                            <br><br>
+                            Já a <strong>LCI (Crédito Imobiliário)</strong> e a <strong>LCA (Crédito do Agronegócio)</strong> são títulos destinados a setores específicos da economia. A grande vantagem para a Pessoa Física é a <strong>isenção total de Imposto de Renda</strong>.
+                            <br><br>
+                            <strong>Dica Sênior:</strong> Muitas vezes, um CDB de 115% do CDI pode render menos que uma LCI de 95% do CDI, justamente por causa do peso do imposto. Use nosso simulador para comparar o "Valor Líquido" e ver qual realmente põe mais dinheiro no seu bolso.</p>
                         </div>
                     </div>
-                    <!-- Item 3 -->
+
+                    <!-- Item 3: Tributação Regressiva e IOF -->
                     <div class="faq-item">
                         <button class="faq-question">
-                            <span>3. Como funciona a tributação e o desconto do Imposto de Renda (IR)?</span>
+                            <span>3. Como funciona a "Pegadinha" do IOF e a Tabela Regressiva de IR?</span>
                             <i class="ph ph-caret-down"></i>
                         </button>
                         <div class="faq-answer">
-                            <p>Em operações de renda fixa tributáveis, como é o caso do CDB, o investidor não necessita
-                                emitir boletos ou recolher uma DARF para cumprir com suas obrigações fiscais. O
-                                recolhimento do tributo é retido <em>direto na fonte</em> pela própria corretora ou
-                                instituição bancária no momento do resgate ou vencimento da aplicação, seguindo a
-                                <strong>Tabela Regressiva da Receita Federal:</strong>
-                                <br><br>
-                                - Até 180 dias de investimento: <strong>22,5%</strong> sobre o lucro.<br>
-                                - De 181 a 360 dias: <strong>20,0%</strong> sobre o lucro.<br>
-                                - De 361 a 720 dias: <strong>17,5%</strong> sobre o lucro.<br>
-                                - Mais de 720 dias: alíquota mínima de <strong>15,0%</strong> sobre o lucro.
-                                <br><br>
-                                LCI e LCA são produtos isentos dessa tributação. O simulador da Trilha dos Juros já
-                                contempla toda a carga tributária em seus algoritmos. O indicador "Valor Total Líquido"
-                                exibido na plataforma representa o montante exato com todos os devidos impostos já
-                                descontados, refletindo o valor final ajustado que seria creditado em conta-corrente na
-                                data do vencimento.
-                            </p>
+                            <p>Existem dois impostos que incidem sobre o lucro da Renda Fixa (exceto isentos):
+                            <br><br>
+                            1. <strong>IOF (Imposto sobre Operações Financeiras):</strong> Incide apenas se você resgatar o dinheiro nos primeiros 30 dias. Ele começa em 96% no primeiro dia e zera no 30º dia. <strong>Resgatar antes de um mês é o maior erro do investidor iniciante.</strong>
+                            <br><br>
+                            2. <strong>IR (Imposto de Renda):</strong> Segue a tabela regressiva baseada no tempo de permanência:
+                            - Até 180 dias: 22,5%
+                            - 181 a 360 dias: 20%
+                            - 361 a 720 dias: 17,5%
+                            - Acima de 720 dias: 15% (A alíquota mínima).</p>
                         </div>
                     </div>
-                    <!-- Item 4 -->
+
+                    <!-- Item 4: Marcação a Mercado -->
                     <div class="faq-item">
                         <button class="faq-question">
-                            <span>4. Como funcionam as atuais regras de rendimento da Poupança?</span>
+                            <span>4. O que é Marcação a Mercado e por que meu saldo pode "cair" na Renda Fixa?</span>
                             <i class="ph ph-caret-down"></i>
                         </button>
                         <div class="faq-answer">
-                            <p>A remuneração da Caderneta de Poupança é estipulada diretamente pelas resoluções do Banco
-                                Central, e é influenciada diretamente pelo patamar atual da Taxa Selic.
-                                <br><br>
-                                Sempre que a Taxa Selic anual estiver acima de 8,5%, a poupança apresenta uma
-                                rentabilidade fixa de <strong>0,5% ao mês (que corresponde a aproximadamente 6,17% ao
-                                    ano), acrescida da variação da Taxa Referencial (TR)</strong>. Já quando a Selic
-                                recua para 8,5% ou patamares inferiores, a poupança passa a render o equivalente a 70%
-                                da Selic em vigor, também somada à TR.
-                                <br><br>
-                                A rentabilização dos depósitos ocorre exclusivamente por meio da "regra do Aniversário",
-                                o que significa que os juros só são creditados uma vez a cada 30 dias na respectiva data
-                                base do depósito. Saques efetuados antes dessa data efetivam a perda imediata dos juros
-                                daquele respectivo período interrompido.
-                            </p>
+                            <p>A <strong>Marcação a Mercado</strong> é a atualização diária do preço de um título conforme as taxas atuais do mercado. Isso afeta principalmente títulos <strong>Pré-fixados</strong> ou atrelados ao <strong>IPCA</strong>.
+                            <br><br>
+                            Se as taxas de juros sobem, o valor do seu título antigo (que paga menos) cai, caso você decida vendê-lo hoje. No entanto, se você carregar o investimento até a data de vencimento, receberá exatamente a taxa que contratou, sem perdas. A Renda Fixa só é fixa se você respeitar o prazo de vencimento.</p>
                         </div>
                     </div>
-                    <!-- Item 5 -->
+
+                    <!-- Item 5: Liquidez Diária vs. Vencimento -->
                     <div class="faq-item">
                         <button class="faq-question">
-                            <span>5. Como funciona a Jornada dos Depósitos e o armazenamento de dados?</span>
+                            <span>5. Vale a pena investir em títulos com Liquidez Diária?</span>
                             <i class="ph ph-caret-down"></i>
                         </button>
                         <div class="faq-answer">
-                            <p>A ferramenta "Desafio dos Depósitos" aplica a lógica das Progressões Aritméticas (PA)
-                                para estruturar depósitos crescentes em etapas personalizáveis, com a projeção de
-                                rendimentos a 100% do CDI sobre o montante acumulado. O objetivo é simular o ganho
-                                gradual em aplicações pós-fixadas ao fracionar uma meta financeira de longo alcance.
-                                <br><br>
-                                Toda a interação é concebida respeitando rigorosamente a sua privacidade. A "Trilha dos
-                                Juros" não exige a criação de senhas ou contas de acesso e todos os dados relativos ao
-                                andamento da sua Jornada são armazenados internamente no navegador do seu dispositivo
-                                atual. Isso assegura que sua evolução seja salva e carregada automaticamente nas
-                                próximas visitas, desde que o acesso à plataforma ocorra por intermédio do mesmo
-                                aparelho (computador ou celular) e os cookies de navegação não sejam apagados.
-                            </p>
+                            <p>Depende do seu objetivo. Títulos com <strong>liquidez diária</strong> permitem que você resgate o dinheiro a qualquer momento (ideal para Reserva de Emergência). Em troca dessa liberdade, a taxa costuma ser menor (geralmente 100% do CDI).
+                            <br><br>
+                            Se você não vai precisar do dinheiro por 2 ou 3 anos, escolher títulos com <strong>liquidez no vencimento</strong> oferece taxas bem mais agressivas (110%, 120% do CDI ou mais), acelerando o poder dos juros compostos.</p>
                         </div>
                     </div>
-                    <!-- Item 6 -->
+
+                    <!-- Item 6: Inflação e Juro Real -->
                     <div class="faq-item">
                         <button class="faq-question">
-                            <span>6. Dica Ouro: Como instalar a Trilha como um App no celular? (Mais Seguro)</span>
+                            <span>6. Por que eu devo focar no "Juro Real" e não apenas na rentabilidade bruta?</span>
                             <i class="ph ph-caret-down"></i>
                         </button>
                         <div class="faq-answer">
-                            <p>Para garantir que os dados da sua Jornada dos Depósitos fiquem <strong>100% protegidos</strong> contra limpezas no navegador (e para você ter acesso rápido), você pode instalar a Trilha dos Juros no seu celular! É grátis, instantâneo e não ocupa espaço na memória:
-                                <br><br>
-                                <strong>🟢 No Android (usando o Chrome):</strong><br>
-                                1. Abra o nosso site no Chrome.<br>
-                                2. Toque nos três pontinhos <strong>⋮</strong> no canto superior direito.<br>
-                                3. Toque em <strong>"Adicionar à tela inicial"</strong> ou "Instalar aplicativo".<br>
-                                4. Pronto! O ícone da Trilha vai aparecer junto com os seus outros aplicativos.
-                                <br><br>
-                                <strong>🍏 No iPhone (usando o Safari):</strong><br>
-                                1. Abra o nosso site no navegador Safari.<br>
-                                2. Toque no ícone de <strong>"Compartilhar"</strong> (é um quadradinho com uma seta para cima, na parte de baixo da tela).<br>
-                                3. Role as opções para baixo e toque em <strong>"Adicionar à Tela de Início"</strong>.<br>
-                                4. Toque em "Adicionar" no canto superior direito e pronto!
-                            </p>
+                            <p>Rentabilidade Bruta é o quanto seu dinheiro cresceu nominalmente. <strong>Juro Real</strong> é o quanto ele cresceu acima da inflação (IPCA). Se o seu investimento rende 10% mas a inflação foi de 10%, seu poder de compra ficou estagnado.
+                            <br><br>
+                            A Trilha dos Juros ajuda você a identificar cenários onde seu ganho supera a inflação, garantindo que o seu patrimônio esteja realmente aumentando de valor ao longo do tempo.</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 7: Selic vs CDI -->
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span>7. Qual a diferença entre Taxa SELIC e Taxa CDI?</span>
+                            <i class="ph ph-caret-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>A <strong>Selic</strong> é a taxa básica de juros da economia, definida pelo Banco Central (COPOM). Ela é usada em empréstimos entre bancos que dão títulos públicos como garantia.
+                            <br><br>
+                            O <strong>CDI (Certificado de Depósito Interbancário)</strong> é a taxa usada em empréstimos entre bancos que dão títulos privados como garantia. Na prática, o CDI anda sempre <strong>0,10 ponto percentual abaixo da Selic</strong>. Se a Selic é 10,75%, o CDI será 10,65%. É o benchmark principal do mercado de Renda Fixa.</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 8: Juros Compostos -->
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span>8. Como o fator tempo potencializa os Juros Compostos na Renda Fixa?</span>
+                            <i class="ph ph-caret-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Albert Einstein chamava os juros compostos de "a oitava maravilha do mundo". Diferente dos juros simples, aqui os juros do mês seguinte incidem sobre o capital inicial + os juros do mês anterior.
+                            <br><br>
+                            Em prazos curtos (1 ano), a diferença é pequena. Em prazos longos (10 anos), a curva se torna exponencial. Por isso, a <strong>regularidade dos aportes</strong> e a <strong>paciência</strong> são as ferramentas mais poderosas de um investidor de elite.</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 9: Poupança: A Grande Perdedora? -->
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span>9. Por que a Poupança quase sempre perde para o CDI?</span>
+                            <i class="ph ph-caret-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>A Poupança tem um "teto" de rendimento. Quando a Selic está acima de 8,5% (como agora), ela rende apenas <strong>0,5% ao mês + TR</strong>. Isso dá cerca de 6,17% ao ano.
+                            <br><br>
+                            Enquanto isso, um CDB simples de 100% do CDI rende acima de 10,5% ao ano. Mesmo pagando Imposto de Renda, o CDB líquido costuma ganhar da poupança com folga. Além disso, a poupança só rende no dia do "aniversário", enquanto o CDI rende todos os dias úteis.</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 10: Segurança do FGC -->
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span>10. Como o FGC protege meu patrimônio em caso de falência bancária?</span>
+                            <i class="ph ph-caret-down"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>O <strong>Fundo Garantidor de Créditos (FGC)</strong> é uma entidade privada que assegura o pagamento de até <strong>R$ 250 mil por CPF</strong> e por instituição financeira caso o banco emissor do título quebre.
+                            <br><br>
+                            Existe um limite global de R$ 1 milhão, que se renova a cada 4 anos. Isso torna investimentos em bancos menores (que pagam mais taxas) muito seguros, desde que você respeite os limites de cobertura do fundo.</p>
                         </div>
                     </div>
                 </div>
@@ -1059,6 +1087,7 @@
     <script src="js/compliance-service.js?v=23" defer></script>
     <script src="js/dictionary-service.js?v=23" defer></script>
     <script src="js/editorial-service.js?v=23" defer></script>
+    <script src="js/market-global-service.js?v=23" defer></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Inicializa Motor de Dicionário

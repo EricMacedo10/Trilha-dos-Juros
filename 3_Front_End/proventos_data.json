@@ -1,0 +1,32 @@
+[
+    {
+        "ticker": "PETR4",
+        "empresa": "Petrobras",
+        "valor": "1,0325",
+        "data_com": "25/04/2026"
+    },
+    {
+        "ticker": "VALE3",
+        "empresa": "Vale",
+        "valor": "2,7380",
+        "data_com": "28/04/2026"
+    },
+    {
+        "ticker": "BBAS3",
+        "empresa": "Banco do Brasil",
+        "valor": "0,4521",
+        "data_com": "30/04/2026"
+    },
+    {
+        "ticker": "IBOV11",
+        "empresa": "ETF Ibovespa",
+        "valor": "0,1200",
+        "data_com": "02/05/2026"
+    },
+    {
+        "ticker": "ITUB4",
+        "empresa": "Itaú Unibanco",
+        "valor": "0,0176",
+        "data_com": "01/05/2026"
+    }
+]
