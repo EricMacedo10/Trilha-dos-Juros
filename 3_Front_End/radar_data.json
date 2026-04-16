@@ -1,45 +1,45 @@
 {
   "events": [
     {
-      "time": "08:30<br>US",
-      "country": "US",
-      "event": "Índice de Preços ao Produtor (PPI) (Mar)",
+      "time": "08:00",
+      "country": "BR",
+      "event": "IBC-Br Atividade Econômica (Fev)",
       "impact": "High",
-      "atual": "0.2%",
-      "proj": "0.5%",
-      "prev": "-0.3%",
+      "atual": "0.60%",
+      "proj": "0.50%",
+      "prev": "0.80%",
       "date": "16/04"
     },
     {
-      "time": "08:30<br>US",
+      "time": "08:30",
       "country": "US",
-      "event": "Índice de Preços ao Produtor (YoY) (Mar)",
+      "event": "Índice de Fabricação do Fed de Philadelphia (Abr)",
       "impact": "High",
-      "atual": "-2.7%",
+      "atual": "26.7",
+      "proj": "10.3",
+      "prev": "18.1",
+      "date": "16/04"
+    },
+    {
+      "time": "08:30",
+      "country": "US",
+      "event": "Solicitações Iniciais de Seguro-Desemprego",
+      "impact": "High",
+      "atual": "207K",
+      "proj": "213K",
+      "prev": "218K",
+      "date": "16/04"
+    },
+    {
+      "time": "08:30",
+      "country": "US",
+      "event": "Emprego do Fed de Philadelphia (Abr)",
+      "impact": "High",
+      "atual": "-5.1",
       "proj": "-",
-      "prev": "-2.7%",
-      "date": "16/04"
-    },
-    {
-      "time": "05:00<br>EU",
-      "country": "EU",
-      "event": "CPI (YoY) (Mar)",
-      "impact": "High",
-      "atual": "2.6%",
-      "proj": "2.5%",
-      "prev": "1.9%",
-      "date": "16/04"
-    },
-    {
-      "time": "05:00<br>EU",
-      "country": "EU",
-      "event": "Core CPI (YoY) (Mar)",
-      "impact": "High",
-      "atual": "2.3%",
-      "proj": "2.3%",
-      "prev": "2.4%",
+      "prev": "0.8",
       "date": "16/04"
     }
   ],
-  "last_update": "16/04/2026 15:00:25"
+  "last_update": "16/04/2026 16:46:37"
 }
