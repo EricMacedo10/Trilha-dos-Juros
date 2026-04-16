@@ -3,43 +3,43 @@
     {
       "time": "08:30",
       "country": "US",
-      "event": "Índice de Preços ao Consumidor (IPC) (YoY) (Mar)",
+      "event": "[Índice de Fabricantes da Filadélfia (Abr)](https://www.investing.com/economic-calendar/philadelphia-fed-manufacturing-index-236)",
       "impact": "High",
-      "atual": "2.6%",
-      "proj": "2.5%",
-      "prev": "1.9%",
+      "atual": "26.7",
+      "proj": "10.3",
+      "prev": "18.1",
       "date": "16/04"
     },
     {
       "time": "08:30",
       "country": "US",
-      "event": "Índice de Preços ao Consumidor (IPC) (MoM) (Mar)",
+      "event": "[Pedidos de Seguro Desemprego (Inicial)](https://www.investing.com/economic-calendar/initial-jobless-claims-294)",
       "impact": "High",
-      "atual": "1.3%",
-      "proj": "1.2%",
-      "prev": "0.6%",
+      "atual": "207K",
+      "proj": "213K",
+      "prev": "218K",
       "date": "16/04"
     },
     {
-      "time": "09:15",
+      "time": "08:30",
       "country": "US",
-      "event": "Produção Industrial (YoY) (Mar)",
+      "event": "[Variação de Emprego da Filadélfia (Abr)](https://www.investing.com/economic-calendar/philly-fed-employment-908)",
       "impact": "High",
-      "atual": "0.74%",
-      "proj": "-",
-      "prev": "1.23%",
+      "atual": "-5.1",
+      "proj": "---",
+      "prev": "0.8",
       "date": "16/04"
     },
     {
-      "time": "09:15",
+      "time": "08:30",
       "country": "US",
-      "event": "Taxa de Utilização da Capacidade (Mar)",
+      "event": "[Variação de Emprego da Filadélfia (Abr)](https://www.investing.com/economic-calendar/philly-fed-business-conditions-907)",
       "impact": "High",
-      "atual": "75.7%",
-      "proj": "76.3%",
-      "prev": "76.1%",
+      "atual": "40.8",
+      "proj": "---",
+      "prev": "40.0",
       "date": "16/04"
     }
   ],
-  "last_update": "16/04/2026 20:03:09"
+  "last_update": "16/04/2026 21:51:23"
 }
