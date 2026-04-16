@@ -19,6 +19,8 @@ on:
 jobs:
   update-market:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Permite que o robô faça o 'git push' com os novos dados
     
     steps:
       - name: Checkout Code
