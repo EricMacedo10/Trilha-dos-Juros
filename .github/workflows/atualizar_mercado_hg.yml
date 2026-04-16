@@ -4,9 +4,9 @@ on:
   schedule:
     # --- INTELLIGENT BRT (GMT-3) SCHEDULING ---
     
-    # 1. Horário de Mercado (Seg-Sex, 09:30 às 18:30 BRT) -> A cada 1 hora
+    # 1. Horário de Mercado (Seg-Sex, 09:30 às 18:30 BRT) -> A cada 15 minutos (Real-Time)
     # 12:30 às 21:30 UTC
-    - cron: '30 12-21 * * 1-5'
+    - cron: '*/15 12-21 * * 1-5'
     
     # 2. Check-in Fora de Horário (Seg-Sex, 00:00, 06:00, 22:00 BRT) -> 03:00, 09:00, 01:00 UTC
     - cron: '0 1,3,9 * * 1-5'

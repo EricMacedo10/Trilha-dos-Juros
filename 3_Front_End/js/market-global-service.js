@@ -37,7 +37,7 @@ class MarketGlobalService {
     renderCurrencies(currencies) {
         if (!this.currencyContainer) return;
 
-        const targets = ['USD', 'EUR', 'GBP', 'ARS', 'CAD', 'JPY'];
+        const targets = ['USD', 'EUR', 'GBP', 'CAD'];
         
         const html = targets.map(key => {
             const coin = currencies[key];
