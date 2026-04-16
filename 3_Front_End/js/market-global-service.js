@@ -12,12 +12,9 @@ class MarketGlobalService {
 
     async init() {
         try {
-            let response = await fetch('/hg.json');
-            if (!response.ok) {
-                response = await fetch('../hg.json'); 
-            }
+            const response = await fetch(this.dataFile + '?v=' + new Date().getTime());
             
-            if (!response.ok) throw new Error('Falha ao carregar HG Data');
+            if (!response.ok) throw new Error('Falha ao carregar HG Data local');
 
             const data = await response.json();
             
