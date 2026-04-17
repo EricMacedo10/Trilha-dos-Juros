@@ -3,43 +3,43 @@
     {
       "time": "07:30",
       "country": "IN",
-      "event": "Crescimento do Crédito Bancário",
+      "event": "Crescimento de empréstimos bancários",
       "impact": "High",
       "atual": "16.1%",
-      "proj": "-",
+      "proj": "---",
       "prev": "13.8%",
       "date": "17/04"
     },
     {
       "time": "07:30",
       "country": "IN",
-      "event": "Crescimento de Depósitos",
+      "event": "Crescimento de depósitos",
       "impact": "High",
       "atual": "13.5%",
-      "proj": "-",
+      "proj": "---",
       "prev": "10.8%",
       "date": "17/04"
     },
     {
-      "time": "08:30",
-      "country": "CA",
-      "event": "Compras de Títulos Estrangeiros (Fev)",
+      "time": "07:30",
+      "country": "IN",
+      "event": "Reservas de câmbio, USD",
       "impact": "High",
-      "atual": "25.360B",
-      "proj": "-",
-      "prev": "11.420B",
+      "atual": "700.95B",
+      "proj": "---",
+      "prev": "697.12B",
       "date": "17/04"
     },
     {
       "time": "13:00",
       "country": "US",
-      "event": "Contagem de Plataformas de Perfuração Baker Hughes dos EUA",
+      "event": "Contagem de plataformas de perfuração de petróleo da Baker Hughes",
       "impact": "High",
       "atual": "410",
-      "proj": "-",
+      "proj": "---",
       "prev": "411",
       "date": "17/04"
     }
   ],
-  "last_update": "17/04/2026 21:51:49"
+  "last_update": "17/04/2026 23:46:30"
 }
