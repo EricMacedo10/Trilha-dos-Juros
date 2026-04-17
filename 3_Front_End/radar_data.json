@@ -1,45 +1,45 @@
 {
   "events": [
     {
-      "time": "15:30",
-      "country": "US",
-      "event": "CFTC Wheat speculative net positions",
+      "time": "24m",
+      "country": "EU",
+      "event": "Conta Corrente (Fev)",
       "impact": "High",
-      "atual": "290.8K",
-      "proj": "---",
-      "prev": "---",
+      "atual": "---",
+      "proj": "29.8B",
+      "prev": "37.9B",
+      "date": "17/04"
+    },
+    {
+      "time": "24m",
+      "country": "IT",
+      "event": "Balança Comercial (Fev)",
+      "impact": "High",
+      "atual": "---",
+      "proj": "3.830B",
+      "prev": "1.089B",
+      "date": "17/04"
+    },
+    {
+      "time": "06:00",
+      "country": "US",
+      "event": "Contagem de Perfurações de Petróleo Baker Hughes dos EUA",
+      "impact": "High",
+      "atual": "---",
+      "proj": "411",
+      "prev": "411",
       "date": "17/04"
     },
     {
       "time": "15:30",
       "country": "US",
-      "event": "CFTC Soybeans speculative net positions",
+      "event": "Contagem Total de Perfurações Baker Hughes dos EUA",
       "impact": "High",
-      "atual": "208.5K",
-      "proj": "---",
-      "prev": "---",
-      "date": "17/04"
-    },
-    {
-      "time": "15:30",
-      "country": "US",
-      "event": "CFTC Crude Oil speculative net positions",
-      "impact": "High",
-      "atual": "202.2K",
-      "proj": "---",
-      "prev": "---",
-      "date": "17/04"
-    },
-    {
-      "time": "15:30",
-      "country": "US",
-      "event": "CFTC Gold speculative net positions",
-      "impact": "High",
-      "atual": "156.3K",
-      "proj": "---",
-      "prev": "---",
+      "atual": "---",
+      "proj": "545",
+      "prev": "545",
       "date": "17/04"
     }
   ],
-  "last_update": "17/04/2026 11:55:50"
+  "last_update": "17/04/2026 14:23:15"
 }
