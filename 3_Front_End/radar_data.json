@@ -1,29 +1,9 @@
 {
   "events": [
     {
-      "time": "13:00",
-      "country": "US",
-      "event": "Contagem do Rig de Óleo da Baker Hughes dos EUA",
-      "impact": "High",
-      "atual": "410",
-      "proj": "-",
-      "prev": "411",
-      "date": "17/04"
-    },
-    {
-      "time": "13:00",
-      "country": "US",
-      "event": "Contagem Total de Rigs da Baker Hughes dos EUA",
-      "impact": "High",
-      "atual": "543",
-      "proj": "-",
-      "prev": "545",
-      "date": "17/04"
-    },
-    {
       "time": "07:30",
       "country": "IN",
-      "event": "Crescimento de Empréstimos Bancários",
+      "event": "Crescimento do Crédito Bancário",
       "impact": "High",
       "atual": "16.1%",
       "proj": "-",
@@ -39,7 +19,27 @@
       "proj": "-",
       "prev": "10.8%",
       "date": "17/04"
+    },
+    {
+      "time": "08:30",
+      "country": "CA",
+      "event": "Compras de Títulos Estrangeiros (Fev)",
+      "impact": "High",
+      "atual": "25.360B",
+      "proj": "-",
+      "prev": "11.420B",
+      "date": "17/04"
+    },
+    {
+      "time": "13:00",
+      "country": "US",
+      "event": "Contagem de Plataformas de Perfuração Baker Hughes dos EUA",
+      "impact": "High",
+      "atual": "410",
+      "proj": "-",
+      "prev": "411",
+      "date": "17/04"
     }
   ],
-  "last_update": "17/04/2026 19:59:49"
+  "last_update": "17/04/2026 21:51:49"
 }
