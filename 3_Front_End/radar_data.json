@@ -1,45 +1,45 @@
 {
   "events": [
     {
-      "time": "08:30",
+      "time": "15:30",
       "country": "US",
-      "event": "Declarações de Reivindicações de Desemprego Iniciais",
+      "event": "CFTC Wheat speculative net positions",
       "impact": "High",
-      "atual": "207K",
-      "proj": "213K",
-      "prev": "218K",
-      "date": "16/04"
-    },
-    {
-      "time": "08:30",
-      "country": "US",
-      "event": "Índice de Fabricantes do Fed de Filadélfia (Abr)",
-      "impact": "High",
-      "atual": "26.7",
-      "proj": "10.3",
-      "prev": "18.1",
-      "date": "16/04"
-    },
-    {
-      "time": "09:15",
-      "country": "US",
-      "event": "Produção Industrial (YoY) (Mar)",
-      "impact": "High",
-      "atual": "0.74%",
+      "atual": "290.8K",
       "proj": "---",
-      "prev": "1.23%",
-      "date": "16/04"
+      "prev": "---",
+      "date": "17/04"
     },
     {
-      "time": "09:15",
+      "time": "15:30",
       "country": "US",
-      "event": "Taxa de Utilização de Capacidade (Mar)",
+      "event": "CFTC Soybeans speculative net positions",
       "impact": "High",
-      "atual": "75.7%",
-      "proj": "76.3%",
-      "prev": "76.1%",
-      "date": "16/04"
+      "atual": "208.5K",
+      "proj": "---",
+      "prev": "---",
+      "date": "17/04"
+    },
+    {
+      "time": "15:30",
+      "country": "US",
+      "event": "CFTC Crude Oil speculative net positions",
+      "impact": "High",
+      "atual": "202.2K",
+      "proj": "---",
+      "prev": "---",
+      "date": "17/04"
+    },
+    {
+      "time": "15:30",
+      "country": "US",
+      "event": "CFTC Gold speculative net positions",
+      "impact": "High",
+      "atual": "156.3K",
+      "proj": "---",
+      "prev": "---",
+      "date": "17/04"
     }
   ],
-  "last_update": "16/04/2026 23:49:55"
+  "last_update": "17/04/2026 11:55:50"
 }
