@@ -6,9 +6,9 @@
             "source": "BRL",
             "USD": {
                 "name": "Dollar",
-                "buy": 4.9787,
-                "sell": 4.9788,
-                "variation": -0.228
+                "buy": 4.9896,
+                "sell": 4.9795,
+                "variation": -0.01
             },
             "EUR": {
                 "name": "Euro",
@@ -30,9 +30,9 @@
             },
             "CAD": {
                 "name": "Canadian Dollar",
-                "buy": 3.6353,
+                "buy": 3.6364,
                 "sell": null,
-                "variation": -0.165
+                "variation": -0.135
             },
             "AUD": {
                 "name": "Australian Dollar",
@@ -54,9 +54,9 @@
             },
             "BTC": {
                 "name": "Bitcoin",
-                "buy": 408900.356,
-                "sell": 408900.356,
-                "variation": 3.432
+                "buy": 409879.086,
+                "sell": 409879.086,
+                "variation": 3.453
             }
         },
         "stocks": {
@@ -107,10 +107,10 @@
                     "USD",
                     "en_US"
                 ],
-                "last": 77481.08,
-                "buy": 77481.08,
-                "sell": 77481.08,
-                "variation": 3.432
+                "last": 77494.3,
+                "buy": 77494.3,
+                "sell": 77494.3,
+                "variation": 3.449
             },
             "bitstamp": {
                 "name": "BitStamp",
@@ -118,10 +118,10 @@
                     "USD",
                     "en_US"
                 ],
-                "last": 77513.0,
-                "buy": 77514.0,
-                "sell": 77513.0,
-                "variation": 3.413
+                "last": 77524.0,
+                "buy": 77524.0,
+                "sell": 77523.0,
+                "variation": 3.427
             },
             "foxbit": {
                 "name": "FoxBit",
@@ -129,8 +129,8 @@
                     "BRL",
                     "pt_BR"
                 ],
-                "last": 386548.0,
-                "variation": 3.256
+                "last": 386295.0,
+                "variation": 3.188
             },
             "mercadobitcoin": {
                 "name": "Mercado Bitcoin",
@@ -138,10 +138,10 @@
                     "BRL",
                     "pt_BR"
                 ],
-                "last": 386498.0,
-                "buy": 386585.0,
-                "sell": 386624.0,
-                "variation": 3.247
+                "last": 386874.0,
+                "buy": 386662.0,
+                "sell": 386874.0,
+                "variation": 3.348
             }
         },
         "taxes": [
