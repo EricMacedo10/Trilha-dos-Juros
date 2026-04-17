@@ -1,45 +1,45 @@
 {
   "events": [
     {
-      "time": "08:15",
-      "country": "CA",
-      "event": "Início de Construção (Mar)",
-      "impact": "High",
-      "atual": "258.0K",
-      "proj": "258.0K",
-      "prev": "250.9K",
-      "date": "17/04"
-    },
-    {
-      "time": "08:30",
-      "country": "CA",
-      "event": "Compras de Títulos Estrangeiros (Fev)",
-      "impact": "High",
-      "atual": "23.81B",
-      "proj": "23.81B",
-      "prev": "46.73B",
-      "date": "17/04"
-    },
-    {
-      "time": "11:30",
+      "time": "15:30",
       "country": "US",
-      "event": "Discurso do Membro do FOMC Daly",
+      "event": "Posições líquidas especulativas de CFTC para petróleo bruto",
+      "impact": "High",
+      "atual": "---",
+      "proj": "202.2K",
+      "prev": "202.2K",
+      "date": "17/04"
+    },
+    {
+      "time": "15:30",
+      "country": "US",
+      "event": "Posições líquidas especulativas de CFTC para Ouro",
+      "impact": "High",
+      "atual": "---",
+      "proj": "156.3K",
+      "prev": "156.3K",
+      "date": "17/04"
+    },
+    {
+      "time": "15:30",
+      "country": "US",
+      "event": "Posições líquidas especulativas de CFTC para S&P 500",
       "impact": "High",
       "atual": "---",
       "proj": "---",
-      "prev": "---",
+      "prev": "-45.7K",
       "date": "17/04"
     },
     {
-      "time": "12:15",
+      "time": "15:30",
       "country": "US",
-      "event": "Discurso do Membro do FOMC Barkin",
+      "event": "Posições líquidas especulativas de CFTC para Nasdaq 100",
       "impact": "High",
       "atual": "---",
-      "proj": "---",
-      "prev": "---",
+      "proj": "12.5K",
+      "prev": "12.5K",
       "date": "17/04"
     }
   ],
-  "last_update": "17/04/2026 16:05:17"
+  "last_update": "17/04/2026 17:54:14"
 }
