@@ -1,45 +1,45 @@
 {
   "events": [
     {
-      "time": "15:30",
+      "time": "13:00",
       "country": "US",
-      "event": "Posições líquidas especulativas de CFTC para petróleo bruto",
+      "event": "Contagem do Rig de Óleo da Baker Hughes dos EUA",
       "impact": "High",
-      "atual": "---",
-      "proj": "202.2K",
-      "prev": "202.2K",
+      "atual": "410",
+      "proj": "-",
+      "prev": "411",
       "date": "17/04"
     },
     {
-      "time": "15:30",
+      "time": "13:00",
       "country": "US",
-      "event": "Posições líquidas especulativas de CFTC para Ouro",
+      "event": "Contagem Total de Rigs da Baker Hughes dos EUA",
       "impact": "High",
-      "atual": "---",
-      "proj": "156.3K",
-      "prev": "156.3K",
+      "atual": "543",
+      "proj": "-",
+      "prev": "545",
       "date": "17/04"
     },
     {
-      "time": "15:30",
-      "country": "US",
-      "event": "Posições líquidas especulativas de CFTC para S&P 500",
+      "time": "07:30",
+      "country": "IN",
+      "event": "Crescimento de Empréstimos Bancários",
       "impact": "High",
-      "atual": "---",
-      "proj": "---",
-      "prev": "-45.7K",
+      "atual": "16.1%",
+      "proj": "-",
+      "prev": "13.8%",
       "date": "17/04"
     },
     {
-      "time": "15:30",
-      "country": "US",
-      "event": "Posições líquidas especulativas de CFTC para Nasdaq 100",
+      "time": "07:30",
+      "country": "IN",
+      "event": "Crescimento de Depósitos",
       "impact": "High",
-      "atual": "---",
-      "proj": "12.5K",
-      "prev": "12.5K",
+      "atual": "13.5%",
+      "proj": "-",
+      "prev": "10.8%",
       "date": "17/04"
     }
   ],
-  "last_update": "17/04/2026 17:54:14"
+  "last_update": "17/04/2026 19:59:49"
 }
