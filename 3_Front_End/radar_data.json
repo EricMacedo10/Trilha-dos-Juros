@@ -1,45 +1,45 @@
 {
   "events": [
     {
-      "time": "24m",
-      "country": "EU",
-      "event": "Conta Corrente (Fev)",
+      "time": "08:15",
+      "country": "CA",
+      "event": "Início de Construção (Mar)",
       "impact": "High",
-      "atual": "---",
-      "proj": "29.8B",
-      "prev": "37.9B",
+      "atual": "258.0K",
+      "proj": "258.0K",
+      "prev": "250.9K",
       "date": "17/04"
     },
     {
-      "time": "24m",
-      "country": "IT",
-      "event": "Balança Comercial (Fev)",
+      "time": "08:30",
+      "country": "CA",
+      "event": "Compras de Títulos Estrangeiros (Fev)",
       "impact": "High",
-      "atual": "---",
-      "proj": "3.830B",
-      "prev": "1.089B",
+      "atual": "23.81B",
+      "proj": "23.81B",
+      "prev": "46.73B",
       "date": "17/04"
     },
     {
-      "time": "06:00",
+      "time": "11:30",
       "country": "US",
-      "event": "Contagem de Perfurações de Petróleo Baker Hughes dos EUA",
+      "event": "Discurso do Membro do FOMC Daly",
       "impact": "High",
       "atual": "---",
-      "proj": "411",
-      "prev": "411",
+      "proj": "---",
+      "prev": "---",
       "date": "17/04"
     },
     {
-      "time": "15:30",
+      "time": "12:15",
       "country": "US",
-      "event": "Contagem Total de Perfurações Baker Hughes dos EUA",
+      "event": "Discurso do Membro do FOMC Barkin",
       "impact": "High",
       "atual": "---",
-      "proj": "545",
-      "prev": "545",
+      "proj": "---",
+      "prev": "---",
       "date": "17/04"
     }
   ],
-  "last_update": "17/04/2026 14:23:15"
+  "last_update": "17/04/2026 16:05:17"
 }
