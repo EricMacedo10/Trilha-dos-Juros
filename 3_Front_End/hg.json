@@ -6,21 +6,21 @@
             "source": "BRL",
             "USD": {
                 "name": "Dollar",
-                "buy": 4.9779,
-                "sell": 4.9787,
-                "variation": -0.244
+                "buy": 4.9787,
+                "sell": 4.9788,
+                "variation": -0.228
             },
             "EUR": {
                 "name": "Euro",
-                "buy": 5.8581,
-                "sell": 5.8582,
-                "variation": -0.376
+                "buy": 5.8566,
+                "sell": 5.8617,
+                "variation": -0.401
             },
             "GBP": {
                 "name": "Pound Sterling",
-                "buy": 6.73,
+                "buy": 6.7308,
                 "sell": null,
-                "variation": -0.341
+                "variation": -0.329
             },
             "ARS": {
                 "name": "Argentine Peso",
@@ -30,15 +30,15 @@
             },
             "CAD": {
                 "name": "Canadian Dollar",
-                "buy": 3.637,
+                "buy": 3.6353,
                 "sell": null,
-                "variation": -0.118
+                "variation": -0.165
             },
             "AUD": {
                 "name": "Australian Dollar",
-                "buy": 3.5701,
+                "buy": 3.5694,
                 "sell": null,
-                "variation": -0.118
+                "variation": -0.137
             },
             "JPY": {
                 "name": "Japanese Yen",
@@ -48,15 +48,15 @@
             },
             "CNY": {
                 "name": "Renminbi",
-                "buy": 0.7308,
+                "buy": 0.7302,
                 "sell": null,
-                "variation": -0.109
+                "variation": -0.191
             },
             "BTC": {
                 "name": "Bitcoin",
-                "buy": 407459.155,
-                "sell": 407459.155,
-                "variation": 3.084
+                "buy": 408900.356,
+                "sell": 408900.356,
+                "variation": 3.432
             }
         },
         "stocks": {
@@ -70,7 +70,7 @@
                 "name": "Índice de Fundos de Investimentos Imobiliários B3",
                 "location": "Sao Paulo, Brazil",
                 "points": 3931.06,
-                "variation": 0.4
+                "variation": 0.42
             },
             "NASDAQ": {
                 "name": "NASDAQ Stock Market",
@@ -107,10 +107,10 @@
                     "USD",
                     "en_US"
                 ],
-                "last": 77220.4,
-                "buy": 77220.4,
-                "sell": 77220.4,
-                "variation": 3.084
+                "last": 77481.08,
+                "buy": 77481.08,
+                "sell": 77481.08,
+                "variation": 3.432
             },
             "bitstamp": {
                 "name": "BitStamp",
@@ -118,10 +118,10 @@
                     "USD",
                     "en_US"
                 ],
-                "last": 77238.0,
-                "buy": 77244.0,
-                "sell": 77243.0,
-                "variation": 3.046
+                "last": 77513.0,
+                "buy": 77514.0,
+                "sell": 77513.0,
+                "variation": 3.413
             },
             "foxbit": {
                 "name": "FoxBit",
@@ -129,8 +129,8 @@
                     "BRL",
                     "pt_BR"
                 ],
-                "last": 385102.0,
-                "variation": 2.87
+                "last": 386548.0,
+                "variation": 3.256
             },
             "mercadobitcoin": {
                 "name": "Mercado Bitcoin",
@@ -138,10 +138,10 @@
                     "BRL",
                     "pt_BR"
                 ],
-                "last": 385007.0,
-                "buy": 385007.0,
-                "sell": 385291.0,
-                "variation": 2.849
+                "last": 386498.0,
+                "buy": 386585.0,
+                "sell": 386624.0,
+                "variation": 3.247
             }
         },
         "taxes": [
