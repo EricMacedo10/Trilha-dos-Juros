@@ -54,9 +54,9 @@
             },
             "BTC": {
                 "name": "Bitcoin",
-                "buy": 403216.298,
-                "sell": 403216.298,
-                "variation": -1.542
+                "buy": 400503.265,
+                "sell": 400503.265,
+                "variation": -2.205
             }
         },
         "stocks": {
@@ -107,10 +107,10 @@
                     "USD",
                     "en_US"
                 ],
-                "last": 76257.54,
-                "buy": 76257.54,
-                "sell": 76257.54,
-                "variation": -1.516
+                "last": 75724.16,
+                "buy": 75724.16,
+                "sell": 75724.16,
+                "variation": -2.205
             },
             "bitstamp": {
                 "name": "BitStamp",
@@ -118,10 +118,10 @@
                     "USD",
                     "en_US"
                 ],
-                "last": 76234.0,
-                "buy": 76235.0,
-                "sell": 76234.0,
-                "variation": -1.552
+                "last": 75798.0,
+                "buy": 75771.0,
+                "sell": 75770.0,
+                "variation": -2.115
             },
             "foxbit": {
                 "name": "FoxBit",
@@ -129,8 +129,8 @@
                     "BRL",
                     "pt_BR"
                 ],
-                "last": 380822.0,
-                "variation": -1.481
+                "last": 377719.0,
+                "variation": -2.284
             },
             "mercadobitcoin": {
                 "name": "Mercado Bitcoin",
@@ -138,15 +138,15 @@
                     "BRL",
                     "pt_BR"
                 ],
-                "last": 380556.0,
-                "buy": 380556.0,
-                "sell": 380916.0,
-                "variation": -1.538
+                "last": 378370.0,
+                "buy": 378246.0,
+                "sell": 378574.0,
+                "variation": -2.103
             }
         },
         "taxes": [
             {
-                "date": "2026-04-17",
+                "date": "2026-04-20",
                 "cdi": 14.75,
                 "selic": 14.75,
                 "daily_factor": 0.0,
