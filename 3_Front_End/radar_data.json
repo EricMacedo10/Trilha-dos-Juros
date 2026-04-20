@@ -3,7 +3,7 @@
     {
       "time": "02:00",
       "country": "DE",
-      "event": "Índice PPI Alemão (MoM) (Mar)",
+      "event": "Índice PPI Alemão (Mês) (Mar)",
       "impact": "High",
       "atual": "2.5%",
       "proj": "1.4%",
@@ -11,35 +11,35 @@
       "date": "20/04"
     },
     {
-      "time": "02:00",
-      "country": "DE",
-      "event": "Índice PPI Alemão (YoY) (Mar)",
+      "time": "08:30",
+      "country": "CA",
+      "event": "CPI (Mês) (Mar)",
       "impact": "High",
-      "atual": "-0.2%",
-      "proj": "---",
-      "prev": "-3.3%",
+      "atual": "0.9%",
+      "proj": "1.1%",
+      "prev": "0.5%",
       "date": "20/04"
     },
     {
-      "time": "11:30",
-      "country": "US",
-      "event": "Leilão de Títulos de 3 Meses",
+      "time": "08:30",
+      "country": "CA",
+      "event": "CPI (Ano) (Mar)",
       "impact": "High",
-      "atual": "---",
-      "proj": "---",
-      "prev": "3.620%",
+      "atual": "2.4%",
+      "proj": "2.5%",
+      "prev": "1.8%",
       "date": "20/04"
     },
     {
-      "time": "11:30",
-      "country": "US",
-      "event": "Leilão de Títulos de 6 Meses",
+      "time": "09:00",
+      "country": "FR",
+      "event": "Leilão BTF Francês de 12 Meses",
       "impact": "High",
-      "atual": "---",
-      "proj": "---",
-      "prev": "3.610%",
+      "atual": "2.476%",
+      "proj": "-",
+      "prev": "2.634%",
       "date": "20/04"
     }
   ],
-  "last_update": "20/04/2026 12:08:45"
+  "last_update": "20/04/2026 14:58:07"
 }
