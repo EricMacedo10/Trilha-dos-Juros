@@ -6,21 +6,21 @@
             "source": "BRL",
             "USD": {
                 "name": "Dollar",
-                "buy": 4.9535,
-                "sell": 4.9559,
-                "variation": -0.506
+                "buy": 4.9741,
+                "sell": 4.9548,
+                "variation": -0.092
             },
             "EUR": {
                 "name": "Euro",
-                "buy": 5.8455,
+                "buy": 5.8628,
                 "sell": 5.8411,
-                "variation": -0.19
+                "variation": 0.106
             },
             "GBP": {
                 "name": "Pound Sterling",
-                "buy": 6.7129,
+                "buy": 6.7338,
                 "sell": null,
-                "variation": -0.266
+                "variation": 0.045
             },
             "ARS": {
                 "name": "Argentine Peso",
@@ -30,33 +30,33 @@
             },
             "CAD": {
                 "name": "Canadian Dollar",
-                "buy": 3.6343,
+                "buy": 3.6448,
                 "sell": null,
-                "variation": -0.028
+                "variation": 0.261
             },
             "AUD": {
                 "name": "Australian Dollar",
-                "buy": 3.5601,
+                "buy": 3.5716,
                 "sell": null,
-                "variation": -0.261
+                "variation": 0.062
             },
             "JPY": {
                 "name": "Japanese Yen",
-                "buy": 0.0312,
+                "buy": 0.0313,
                 "sell": null,
-                "variation": -0.637
+                "variation": -0.318
             },
             "CNY": {
                 "name": "Renminbi",
-                "buy": 0.7294,
+                "buy": 0.7265,
                 "sell": null,
-                "variation": -0.11
+                "variation": -0.507
             },
             "BTC": {
                 "name": "Bitcoin",
-                "buy": 398896.439,
-                "sell": 398896.439,
-                "variation": -1.887
+                "buy": 400691.193,
+                "sell": 400691.193,
+                "variation": -1.854
             }
         },
         "stocks": {
