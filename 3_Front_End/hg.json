@@ -6,21 +6,21 @@
             "source": "BRL",
             "USD": {
                 "name": "Dollar",
-                "buy": 4.972,
-                "sell": 4.9681,
-                "variation": -0.135
+                "buy": 4.9535,
+                "sell": 4.9559,
+                "variation": -0.506
             },
             "EUR": {
                 "name": "Euro",
-                "buy": 5.8619,
-                "sell": 5.8582,
-                "variation": 0.09
+                "buy": 5.8455,
+                "sell": 5.8411,
+                "variation": -0.19
             },
             "GBP": {
                 "name": "Pound Sterling",
-                "buy": 6.7329,
+                "buy": 6.7129,
                 "sell": null,
-                "variation": 0.031
+                "variation": -0.266
             },
             "ARS": {
                 "name": "Argentine Peso",
@@ -30,21 +30,21 @@
             },
             "CAD": {
                 "name": "Canadian Dollar",
-                "buy": 3.6439,
+                "buy": 3.6343,
                 "sell": null,
-                "variation": 0.237
+                "variation": -0.028
             },
             "AUD": {
                 "name": "Australian Dollar",
-                "buy": 3.5711,
+                "buy": 3.5601,
                 "sell": null,
-                "variation": 0.048
+                "variation": -0.261
             },
             "JPY": {
                 "name": "Japanese Yen",
-                "buy": 0.0313,
+                "buy": 0.0312,
                 "sell": null,
-                "variation": -0.318
+                "variation": -0.637
             },
             "CNY": {
                 "name": "Renminbi",
@@ -54,9 +54,9 @@
             },
             "BTC": {
                 "name": "Bitcoin",
-                "buy": 402058.799,
-                "sell": 402058.799,
-                "variation": -1.478
+                "buy": 398896.439,
+                "sell": 398896.439,
+                "variation": -1.887
             }
         },
         "stocks": {
