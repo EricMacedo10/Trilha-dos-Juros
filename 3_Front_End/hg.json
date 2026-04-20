@@ -6,21 +6,21 @@
             "source": "BRL",
             "USD": {
                 "name": "Dollar",
-                "buy": 4.9924,
-                "sell": 4.9925,
-                "variation": 0.056
+                "buy": 4.9756,
+                "sell": 4.976,
+                "variation": -0.291
             },
             "EUR": {
                 "name": "Euro",
-                "buy": 5.8815,
-                "sell": 5.8824,
-                "variation": -0.117
+                "buy": 5.8764,
+                "sell": 5.8789,
+                "variation": -0.065
             },
             "GBP": {
                 "name": "Pound Sterling",
-                "buy": 6.7574,
+                "buy": 6.7496,
                 "sell": null,
-                "variation": -0.193
+                "variation": -0.05
             },
             "ARS": {
                 "name": "Argentine Peso",
@@ -30,71 +30,71 @@
             },
             "CAD": {
                 "name": "Canadian Dollar",
-                "buy": 3.6434,
+                "buy": 3.6346,
                 "sell": null,
-                "variation": 0.325
+                "variation": -0.184
             },
             "AUD": {
                 "name": "Australian Dollar",
-                "buy": 3.5742,
+                "buy": 3.5824,
                 "sell": null,
-                "variation": -0.109
+                "variation": 0.227
             },
             "JPY": {
                 "name": "Japanese Yen",
-                "buy": 0.0314,
+                "buy": 0.0315,
                 "sell": null,
-                "variation": 0.0
+                "variation": 0.639
             },
             "CNY": {
                 "name": "Renminbi",
-                "buy": 0.7319,
+                "buy": 0.7288,
                 "sell": null,
-                "variation": 0.014
+                "variation": -0.383
             },
             "BTC": {
                 "name": "Bitcoin",
-                "buy": 396332.843,
-                "sell": 396332.843,
-                "variation": 0.313
+                "buy": 410859.097,
+                "sell": 410859.097,
+                "variation": 3.992
             }
         },
         "stocks": {
             "IBOVESPA": {
                 "name": "BM&F BOVESPA",
                 "location": "Sao Paulo, Brazil",
-                "points": 196353.98,
-                "variation": -0.7
+                "points": 196596.92,
+                "variation": -0.11
             },
             "IFIX": {
                 "name": "Índice de Fundos de Investimentos Imobiliários B3",
                 "location": "Sao Paulo, Brazil",
-                "points": 3912.0,
-                "variation": 0.15
+                "points": 3923.94,
+                "variation": 0.24
             },
             "NASDAQ": {
                 "name": "NASDAQ Stock Market",
                 "location": "New York City, United States",
-                "points": 24054.8,
-                "variation": 0.16
+                "points": 24466.74,
+                "variation": 1.51
             },
             "DOWJONES": {
                 "name": "Dow Jones Industrial Average",
                 "location": "New York City, United States",
-                "points": 48562.51,
-                "variation": 0.2
+                "points": 49559.51,
+                "variation": 2.02
             },
             "CAC": {
                 "name": "CAC 40",
                 "location": "Paris, French",
-                "points": 8262.7,
-                "variation": -0.14
+                "points": 8449.31,
+                "variation": 2.26
             },
             "NIKKEI": {
                 "name": "Nikkei 225",
                 "location": "Tokyo, Japan",
-                "points": 59518.34,
-                "variation": 2.38
+                "points": 58475.9,
+                "variation": -1.75
             }
         },
         "available_sources": [
@@ -107,10 +107,10 @@
                     "USD",
                     "en_US"
                 ],
-                "last": 74791.86,
-                "buy": 74791.86,
-                "sell": 74791.86,
-                "variation": 0.176
+                "last": 77900.74,
+                "buy": 77900.74,
+                "sell": 77900.74,
+                "variation": 3.992
             },
             "bitstamp": {
                 "name": "BitStamp",
@@ -118,10 +118,10 @@
                     "USD",
                     "en_US"
                 ],
-                "last": 74830.0,
-                "buy": 74830.0,
-                "sell": 74829.0,
-                "variation": 0.208
+                "last": 77986.0,
+                "buy": 77993.0,
+                "sell": 77988.0,
+                "variation": 4.044
             },
             "foxbit": {
                 "name": "FoxBit",
@@ -129,8 +129,8 @@
                     "BRL",
                     "pt_BR"
                 ],
-                "last": 373998.0,
-                "variation": 0.244
+                "last": 387502.0,
+                "variation": 3.511
             },
             "mercadobitcoin": {
                 "name": "Mercado Bitcoin",
@@ -138,15 +138,15 @@
                     "BRL",
                     "pt_BR"
                 ],
-                "last": 373174.0,
-                "buy": 373553.0,
-                "sell": 373786.0,
-                "variation": 0.072
+                "last": 387966.0,
+                "buy": 387704.0,
+                "sell": 387966.0,
+                "variation": 3.639
             }
         },
         "taxes": [
             {
-                "date": "2026-04-16",
+                "date": "2026-04-17",
                 "cdi": 14.75,
                 "selic": 14.75,
                 "daily_factor": 0.0,

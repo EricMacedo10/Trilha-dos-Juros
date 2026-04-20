@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cabeça v3.0 - JARVIS PROTOCOL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;800&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background: #000; color: #38bdf8; font-family: 'Outfit', sans-serif; overflow: hidden; height: 100vh; }
+
+        #container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+
+        /* --- HUD ELEMENTS --- */
+        .hud-overlay {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 2rem;
+        }
+
+        .hud-box {
+            background: rgba(56, 189, 248, 0.05);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            backdrop-filter: blur(5px);
+            padding: 1rem;
+            pointer-events: auto;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .corner-top-left { position: absolute; top: 2rem; left: 2rem; width: 300px; border-left: 4px solid #38bdf8; }
+        .corner-bottom-right { position: absolute; bottom: 2rem; right: 2rem; width: 350px; text-align: right; border-right: 4px solid #38bdf8; }
+        
+        .title { font-weight: 800; font-size: 0.9rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 8px; }
+        .status-blink { width: 8px; height: 8px; background: #38bdf8; border-radius: 50%; animation: blink 1s infinite; }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+
+        /* --- MIC --- */
+        .mic-container {
+            position: absolute;
+            bottom: 5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            pointer-events: auto;
+        }
+
+        .mic-circle {
+            width: 100px;
+            height: 100px;
+            border: 2px solid #38bdf8;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            cursor: pointer;
+            transition: 0.3s;
+            background: rgba(56, 189, 248, 0.1);
+        }
+
+        .mic-circle.active {
+            background: #38bdf8;
+            color: #000;
+            box-shadow: 0 0 50px #38bdf8;
+        }
+
+        .caption { margin-top: 1rem; font-size: 1.2rem; text-align: center; max-width: 600px; color: #fff; text-shadow: 0 0 10px #38bdf8; }
+
+        /* --- SYSTEM LOG --- */
+        .system-log {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            height: 100px;
+            overflow-y: auto;
+            color: rgba(56, 189, 248, 0.6);
+            margin-top: 10px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="container"></div>
+
+    <div class="hud-overlay">
+        
+        <!-- TOP LEFT: EDITORIAL -->
+        <div class="hud-box corner-top-left">
+            <div class="title"><div class="status-blink"></div> CABEÇA v3.0 / JARVIS PROTOCOL</div>
+            <div id="log-editorial">UPLINK ESTABLISHED...</div>
+            <div class="system-log" id="sys-log">> MEMORY LOADED<br>> NEURAL NET ACTIVE</div>
+        </div>
+
+        <!-- BOTTOM RIGHT: MARKET -->
+        <div class="hud-box corner-bottom-right">
+            <div class="title">MARKET DATA STREAMING</div>
+            <div id="log-market">BTC: -- | USD: -- | IBOV: --</div>
+            <div id="log-radar" style="font-size: 0.6rem; margin-top: 5px; opacity: 0.7;">NEXT EVENT: SCANNING...</div>
+        </div>
+
+        <!-- CENTRAL MIC -->
+        <div class="mic-container">
+            <div class="caption" id="caption">"DIRETIVAS, ERIC?"</div>
+            <div class="mic-circle" id="btn-mic">
+                <i class="ph ph-microphone"></i>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- JARVIS 3D ENGINE (THREE.JS) ---
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('container').appendChild(renderer.domElement);
+
+        // 1. O Cérebro de Partículas (The Core)
+        const particlesCount = 4000;
+        const pos = new Float32Array(particlesCount * 3);
+        for(let i=0; i<particlesCount; i++) {
+            const theta = THREE.MathUtils.randFloatSpread(360); 
+            const phi = THREE.MathUtils.randFloatSpread(360);
+            
+            // Cria uma forma levemente "ovoide" (cérebro)
+            pos[i*3] = 2.5 * Math.sin(theta) * Math.cos(phi);
+            pos[i*3+1] = 3.2 * Math.sin(theta) * Math.sin(phi);
+            pos[i*3+2] = 2.5 * Math.cos(theta);
+        }
+        
+        const geometry = new THREE.BufferGeometry();
+        geometry.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+        const material = new THREE.PointsMaterial({ color: 0x38bdf8, size: 0.04, transparent: true, opacity: 0.8 });
+        const brain = new THREE.Points(geometry, material);
+        scene.add(brain);
+
+        // 2. Holographic Rings (Aneis Jarvis)
+        function createRing(radius, color, speed) {
+            const geom = new THREE.RingGeometry(radius, radius + 0.05, 64);
+            const mat = new THREE.MeshBasicMaterial({ color: color, side: THREE.DoubleSide, transparent: true, opacity: 0.3 });
+            const ring = new THREE.Mesh(geom, mat);
+            ring.rotation.x = Math.random() * Math.PI;
+            ring.rotation.y = Math.random() * Math.PI;
+            scene.add(ring);
+            return { mesh: ring, speed: speed };
+        }
+
+        const rings = [
+            createRing(4.5, 0x38bdf8, 0.01),
+            createRing(4.8, 0x10b981, -0.015),
+            createRing(5.2, 0x38bdf8, 0.005)
+        ];
+
+        camera.position.z = 10;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            brain.rotation.y += 0.005;
+            brain.rotation.x += 0.002;
+            
+            // Pulsação Jarvis
+            const time = Date.now() * 0.002;
+            brain.scale.set(1 + Math.sin(time)*0.05, 1 + Math.sin(time)*0.05, 1 + Math.sin(time)*0.05);
+
+            rings.forEach(r => {
+                r.mesh.rotation.z += r.speed;
+                r.mesh.rotation.x += r.speed / 2;
+            });
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // --- DATA SYNC ---
+        async function sync() {
+            try {
+                // 1. Sync Mercado
+                const hg = await fetch('hg.json?v='+Date.now()).then(r => r.json());
+                const res = hg.results;
+                document.getElementById('log-market').innerText = `BTC: R$ ${res.bitcoin.mercadobitcoin.last.toLocaleString('pt-BR')} | USD: R$ ${res.currencies.USD.buy} | IBOV: ${res.stocks.IBOVESPA.points.toLocaleString('pt-BR')} pts`;
+                
+                // 2. Sync Editorial (Usa a estrutura real gerada pela IA)
+                const ed = await fetch('editorial_feed.json?v='+Date.now()).then(r => r.json());
+                let edText = "Aguardando novo boletim...";
+                if (ed.evening) edText = `[FECHAMENTO] ${ed.evening.title}`;
+                else if (ed.coffee) edText = `[COFFEE] ${ed.coffee.title}`;
+                else if (ed.morning) edText = `[MORNING] ${ed.morning.title}`;
+                document.getElementById('log-editorial').innerText = edText.substring(0, 60) + "...";
+
+                // 3. Sync Radar (Firecrawl)
+                const rd = await fetch('radar_data.json?v='+Date.now()).then(r => r.json());
+                if (rd.events && rd.events.length > 0) {
+                    const next = rd.events[0];
+                    document.getElementById('log-radar').innerText = `PRÓXIMO EVENTO: ${next.time} - ${next.event} (${next.impact})`;
+                }
+            } catch(e) { 
+                console.error("Sync Error:", e);
+            }
+        }
+        setInterval(sync, 15000);
+        sync();
+
+        // --- VOICE ---
+        const btnMic = document.getElementById('btn-mic');
+        const caption = document.getElementById('caption');
+        const sysLog = document.getElementById('sys-log');
+
+        function addSysLog(msg) {
+            sysLog.innerHTML += `<br>> ${msg}`;
+            sysLog.scrollTop = sysLog.scrollHeight;
+        }
+
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if(SpeechRecognition) {
+            const rec = new SpeechRecognition();
+            rec.lang = 'pt-BR';
+            rec.continuous = false;
+            rec.interimResults = false;
+
+            btnMic.onclick = () => { 
+                try {
+                    rec.start(); 
+                    btnMic.classList.add('active'); 
+                    caption.innerText = "OUVINDO COMANDO..."; 
+                } catch(err) {
+                    console.error("Rec already started", err);
+                }
+            };
+            
+            rec.onresult = (e) => {
+                const text = e.results[0][0].transcript;
+                process(text);
+            };
+
+            rec.onend = () => {
+                btnMic.classList.remove('active');
+            };
+
+            rec.onerror = (e) => {
+                console.error("Speech Error:", e.error);
+                btnMic.classList.remove('active');
+                caption.innerText = "REC_ERROR: TENTE NOVAMENTE";
+            };
+        }
+
+        async function process(q) {
+            caption.innerText = "PROCESSANDO...";
+            addSysLog(`USER_REQ: ${q}`);
+            
+            // Efeito visual de "pensamento"
+            material.color.setHex(0x10b981); // Muda para verde Jarvis
+
+            try {
+                const res = await fetch('http://localhost:5005/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: q, context: "Modo Jarvis Ativo. Eric no comando." })
+                });
+                
+                const data = await res.json();
+                
+                // Suporte para estrutura DeepSeek ou erro do servidor
+                let reply = "";
+                if (data.choices && data.choices[0]) {
+                    reply = data.choices[0].message.content;
+                } else if (data.error) {
+                    reply = "Erro no motor neural: " + data.error;
+                } else {
+                    reply = "Resposta incompreensível do link neural.";
+                }
+
+                addSysLog(`JARVIS: ${reply.substring(0, 50)}...`);
+                caption.innerText = reply;
+                speak(reply);
+            } catch(e) { 
+                console.error("Fetch Error:", e);
+                const errMsg = "ERRO DE UPLINK NEURAL. SISTEMA OFFLINE.";
+                addSysLog(`SYSTEM_ERROR: ${e.message}`);
+                caption.innerText = errMsg;
+                speak(errMsg);
+            }
+            
+            setTimeout(() => material.color.setHex(0x38bdf8), 5000);
+        }
+
+        function speak(t) {
+            if (!t) return;
+            window.speechSynthesis.cancel(); // Para falas anteriores
+            const ut = new SpeechSynthesisUtterance(t);
+            ut.lang = 'pt-BR'; ut.pitch = 0.8; ut.rate = 1.0;
+            window.speechSynthesis.speak(ut);
+        }
+
+        window.onresize = () => {
+            camera.aspect = window.innerWidth/window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        };
+
+        // --- MODO SENTINELA (Vigilância Real-Time da Produção) ---
+        async function checkSystemHealth() {
+            addSysLog("SENTINELA: Auditando produção real (trilhadosjuros.com.br)...");
+            
+            try {
+                const response = await fetch('http://localhost:5005/audit');
+                const audit = await response.json();
+                
+                if (audit.alert) {
+                    triggerAlert(`ALERTA TÁTICO: ${audit.alert}`);
+                } else {
+                    addSysLog(`SENTINELA: Produção Nominal (${audit.latency}).`);
+                }
+            } catch (error) {
+                console.warn("Falha no link de auditoria.");
+            }
+        }
+
+        function triggerAlert(msg) {
+            material.color.setHex(0xff0000); // Cérebro Vermelho
+            caption.innerText = "!!! ALERTA DE SISTEMA !!!";
+            addSysLog(`ALERTA: ${msg}`);
+            speak(msg);
+            
+            setTimeout(() => material.color.setHex(0x38bdf8), 10000);
+        }
+
+        // Inicia vigilância a cada 5 minutos
+        setInterval(checkSystemHealth, 5 * 60 * 1000);
+        setTimeout(checkSystemHealth, 5000); 
+
+    </script>
+</body>
+</html>

@@ -4,7 +4,7 @@ import os
 
 def update_hg_data():
     # Chave encontrada no ticker.js (Plano do Usuário)
-    API_KEY = "cce1a3d7"
+    API_KEY = os.getenv("HG_API_KEY", "")
     URL = f"https://api.hgbrasil.com/finance?key={API_KEY}"
 
     print("[Trilha dos Juros] Buscando cotacoes reais via HG Brasil...")

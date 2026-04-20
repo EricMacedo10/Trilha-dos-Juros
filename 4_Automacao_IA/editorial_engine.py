@@ -75,9 +75,9 @@ def ask_llm(prompt, system_prompt="Você é um assistente especializado em finan
         return None
     
     try:
-        print("   [IA] Chamando DeepSeek...")
+        print("   [IA] Chamando DeepSeek (Reasoner Core)...")
         response = deepseek_client.chat.completions.create(
-            model="deepseek-chat",
+            model="deepseek-reasoner",
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": prompt},

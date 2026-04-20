@@ -96,7 +96,7 @@ Para elevar o nível de controle e transformar a HQ em uma verdadeira "Torre de 
 *   **Impacto:** Segurança psicológica para o gestor saber que a "máquina" está trabalhando em segundo plano.
 
 ### 4. 🔏 Gestor Dinâmico da Shadow Key (Segurança Premium)
-*   **Problema:** A senha de acesso (`Deia...`) é fixa e difícil de mudar sem ajuda técnica.
+*   **Problema:** A senha de acesso é fixa e difícil de mudar sem ajuda técnica.
 *   **Melhoria:** Aba "Segurança" para definir uma nova chave de acesso.
 *   **Lógica:** O sistema gera o hash SHA-256 e o salva em um local seguro (env ou config).
 *   **Impacto:** Autonomia total do mestre sobre quem e como acessa a HQ.

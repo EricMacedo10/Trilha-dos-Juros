@@ -64,8 +64,8 @@ Este bloco documenta decisões arquiteturais para que eu nunca as repita por des
 
 ### ADR-010: Carga Direta Premium HG Brasil (Domain Locked)
 *   **Data:** 24/Março/2026
-*   **Contexto:** Originalmente, o plano era usar um proxy Serverless (`/api/hg`) para proteger a chave da HG Brasil. No entanto, o usuário adquiriu um plano Premium com chave exclusiva (`cce1a3d7`) configurada com restrição obrigatória de origem de domínio (`trilhadosjuros.com.br`).
-*   **Decisão Exclusiva:** Como a chave é bloqueada no servidor deles para qualquer tentativa que não venha do nosso domínio, a proteção via Proxy Serverless tornou-se redundante. O Ticker de Mercado agora realiza o fetch diretamente do Client-Side. Isso remove a repetição de latência do intermediário (Vercel Node.js) e acelera drasticamente a exibição das moedas e Ibovespa no boot inicial.
+*   **Contexto:** Originalmente, o plano era usar um proxy Serverless (`/api/hg`) para proteger a chave da HG Brasil. No entanto, o usuário adquiriu um plano Premium com chave exclusiva (domain-locked) configurada com restrição obrigatória de origem de domínio (`trilhadosjuros.com.br`).
+*   **Decisão Exclusiva:** A chave cliente foi mantida exposta no frontend `ticker.js` unicamente porque é travada pelo provedor, prevenindo ataques de roubo de saldo, o que dispensou uma rota Vercel extra para os micro-requisições. O Ticker de Mercado agora realiza o fetch diretamente do Client-Side. Isso remove a repetição de latência do intermediário (Vercel Node.js) e acelera drasticamente a exibição das moedas e Ibovespa no boot inicial.
 
 ### ADR-007: Estética Premium sem Conflito de Overflow (Clip-Path Masking)
 *   **Data:** 13/Março/2026
