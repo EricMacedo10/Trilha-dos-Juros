@@ -3,7 +3,7 @@
     {
       "time": "02:00",
       "country": "DE",
-      "event": "Índice PPI Alemão (Mês) (Mar)",
+      "event": "Índice de Preços ao Produtor Alemão (Mês) (Mar)",
       "impact": "High",
       "atual": "2.5%",
       "proj": "1.4%",
@@ -11,35 +11,35 @@
       "date": "20/04"
     },
     {
-      "time": "08:30",
-      "country": "CA",
-      "event": "CPI (Mês) (Mar)",
+      "time": "09:00",
+      "country": "FR",
+      "event": "Leilão BTF de 12 Meses Francês",
       "impact": "High",
-      "atual": "0.9%",
-      "proj": "1.1%",
-      "prev": "0.5%",
-      "date": "20/04"
-    },
-    {
-      "time": "08:30",
-      "country": "CA",
-      "event": "CPI (Ano) (Mar)",
-      "impact": "High",
-      "atual": "2.4%",
-      "proj": "2.5%",
-      "prev": "1.8%",
+      "atual": "2.476%",
+      "proj": "---",
+      "prev": "2.634%",
       "date": "20/04"
     },
     {
       "time": "09:00",
       "country": "FR",
-      "event": "Leilão BTF Francês de 12 Meses",
+      "event": "Leilão BTF de 3 Meses Francês",
       "impact": "High",
-      "atual": "2.476%",
-      "proj": "-",
-      "prev": "2.634%",
+      "atual": "2.159%",
+      "proj": "---",
+      "prev": "2.248%",
+      "date": "20/04"
+    },
+    {
+      "time": "09:00",
+      "country": "FR",
+      "event": "Leilão BTF de 6 Meses Francês",
+      "impact": "High",
+      "atual": "2.319%",
+      "proj": "---",
+      "prev": "2.448%",
       "date": "20/04"
     }
   ],
-  "last_update": "20/04/2026 14:58:07"
+  "last_update": "20/04/2026 16:18:58"
 }
