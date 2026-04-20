@@ -54,9 +54,9 @@
             },
             "BTC": {
                 "name": "Bitcoin",
-                "buy": 400503.265,
-                "sell": 400503.265,
-                "variation": -2.205
+                "buy": 394264.706,
+                "sell": 394264.706,
+                "variation": -3.728
             }
         },
         "stocks": {
@@ -107,10 +107,10 @@
                     "USD",
                     "en_US"
                 ],
-                "last": 75724.16,
-                "buy": 75724.16,
-                "sell": 75724.16,
-                "variation": -2.205
+                "last": 74507.77,
+                "buy": 74507.77,
+                "sell": 74507.77,
+                "variation": -3.776
             },
             "bitstamp": {
                 "name": "BitStamp",
@@ -118,10 +118,10 @@
                     "USD",
                     "en_US"
                 ],
-                "last": 75798.0,
-                "buy": 75771.0,
-                "sell": 75770.0,
-                "variation": -2.115
+                "last": 74524.0,
+                "buy": 74547.0,
+                "sell": 74546.0,
+                "variation": -3.761
             },
             "foxbit": {
                 "name": "FoxBit",
@@ -129,8 +129,8 @@
                     "BRL",
                     "pt_BR"
                 ],
-                "last": 377719.0,
-                "variation": -2.284
+                "last": 371960.0,
+                "variation": -3.774
             },
             "mercadobitcoin": {
                 "name": "Mercado Bitcoin",
@@ -138,10 +138,10 @@
                     "BRL",
                     "pt_BR"
                 ],
-                "last": 378370.0,
-                "buy": 378246.0,
-                "sell": 378574.0,
-                "variation": -2.103
+                "last": 372094.0,
+                "buy": 371813.0,
+                "sell": 371992.0,
+                "variation": -3.727
             }
         },
         "taxes": [
