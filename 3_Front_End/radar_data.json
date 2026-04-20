@@ -1,45 +1,45 @@
 {
   "events": [
     {
-      "time": "07:30",
-      "country": "IN",
-      "event": "Crescimento de empréstimos bancários",
+      "time": "02:00",
+      "country": "DE",
+      "event": "Índice PPI Alemão (MoM) (Mar)",
       "impact": "High",
-      "atual": "16.1%",
-      "proj": "---",
-      "prev": "13.8%",
-      "date": "17/04"
+      "atual": "2.5%",
+      "proj": "1.4%",
+      "prev": "-0.5%",
+      "date": "20/04"
     },
     {
-      "time": "07:30",
-      "country": "IN",
-      "event": "Crescimento de depósitos",
+      "time": "02:00",
+      "country": "DE",
+      "event": "Índice PPI Alemão (YoY) (Mar)",
       "impact": "High",
-      "atual": "13.5%",
+      "atual": "-0.2%",
       "proj": "---",
-      "prev": "10.8%",
-      "date": "17/04"
+      "prev": "-3.3%",
+      "date": "20/04"
     },
     {
-      "time": "07:30",
-      "country": "IN",
-      "event": "Reservas de câmbio, USD",
-      "impact": "High",
-      "atual": "700.95B",
-      "proj": "---",
-      "prev": "697.12B",
-      "date": "17/04"
-    },
-    {
-      "time": "13:00",
+      "time": "11:30",
       "country": "US",
-      "event": "Contagem de plataformas de perfuração de petróleo da Baker Hughes",
+      "event": "Leilão de Títulos de 3 Meses",
       "impact": "High",
-      "atual": "410",
+      "atual": "---",
       "proj": "---",
-      "prev": "411",
-      "date": "17/04"
+      "prev": "3.620%",
+      "date": "20/04"
+    },
+    {
+      "time": "11:30",
+      "country": "US",
+      "event": "Leilão de Títulos de 6 Meses",
+      "impact": "High",
+      "atual": "---",
+      "proj": "---",
+      "prev": "3.610%",
+      "date": "20/04"
     }
   ],
-  "last_update": "17/04/2026 23:46:30"
+  "last_update": "20/04/2026 12:08:45"
 }
