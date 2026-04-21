@@ -3,17 +3,17 @@
     {
       "time": "02:00",
       "country": "UK",
-      "event": "Alteração do Emprego 3M/3M (MoM) (Fev)",
+      "event": "Mudança no Emprego 3M/3M (MoM) (Fev)",
       "impact": "High",
       "atual": "25K",
-      "proj": "---",
+      "proj": "-",
       "prev": "84K",
       "date": "21/04"
     },
     {
       "time": "02:00",
       "country": "UK",
-      "event": "Índice de Salários Médios +Bônus (Fev)",
+      "event": "Índice de Salários Médios + Bônus (Fev)",
       "impact": "High",
       "atual": "3.8%",
       "proj": "3.6%",
@@ -31,15 +31,15 @@
       "date": "21/04"
     },
     {
-      "time": "02:00",
-      "country": "UK",
-      "event": "Alteração na Contagem de Requerentes (Mar)",
+      "time": "05:00",
+      "country": "DE",
+      "event": "Sentimento Econômico ZEW (Abr)",
       "impact": "High",
-      "atual": "26.8K",
-      "proj": "21.4K",
-      "prev": "17.1K",
+      "atual": "-73.7",
+      "proj": "-70.0",
+      "prev": "-62.9",
       "date": "21/04"
     }
   ],
-  "last_update": "21/04/2026 14:49:58"
+  "last_update": "21/04/2026 16:14:03"
 }
