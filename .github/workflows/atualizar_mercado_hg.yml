@@ -47,4 +47,5 @@ jobs:
           git config --global user.email "ericmacedo10@gmail.com"
           git add 3_Front_End/hg.json
           git commit -m "📊 🤖 Auto-update: Market Data (Quotes Sincronized)" || echo "No changes to commit"
+          git pull --rebase
           git push
