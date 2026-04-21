@@ -7,20 +7,20 @@
             "USD": {
                 "name": "Dollar",
                 "buy": 4.9741,
-                "sell": 4.9548,
-                "variation": -0.092
+                "sell": 4.9536,
+                "variation": 0.416
             },
             "EUR": {
                 "name": "Euro",
-                "buy": 5.8628,
+                "buy": 5.8631,
                 "sell": 5.8411,
-                "variation": 0.106
+                "variation": 0.301
             },
             "GBP": {
                 "name": "Pound Sterling",
-                "buy": 6.7338,
+                "buy": 6.734,
                 "sell": null,
-                "variation": 0.045
+                "variation": 0.314
             },
             "ARS": {
                 "name": "Argentine Peso",
@@ -30,33 +30,33 @@
             },
             "CAD": {
                 "name": "Canadian Dollar",
-                "buy": 3.6448,
+                "buy": 3.645,
                 "sell": null,
-                "variation": 0.261
+                "variation": 0.294
             },
             "AUD": {
                 "name": "Australian Dollar",
-                "buy": 3.5716,
+                "buy": 3.5714,
                 "sell": null,
-                "variation": 0.062
+                "variation": 0.317
             },
             "JPY": {
                 "name": "Japanese Yen",
                 "buy": 0.0313,
                 "sell": null,
-                "variation": -0.318
+                "variation": 0.321
             },
             "CNY": {
                 "name": "Renminbi",
                 "buy": 0.7265,
                 "sell": null,
-                "variation": -0.507
+                "variation": -0.398
             },
             "BTC": {
                 "name": "Bitcoin",
-                "buy": 400691.193,
-                "sell": 400691.193,
-                "variation": -1.854
+                "buy": 399140.485,
+                "sell": 399140.485,
+                "variation": -0.353
             }
         },
         "stocks": {
