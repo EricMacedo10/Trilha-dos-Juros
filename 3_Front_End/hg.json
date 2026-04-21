@@ -6,21 +6,21 @@
             "source": "BRL",
             "USD": {
                 "name": "Dollar",
-                "buy": 4.9741,
-                "sell": 4.9536,
-                "variation": 0.416
+                "buy": 4.9541,
+                "sell": 4.9632,
+                "variation": 0.012
             },
             "EUR": {
                 "name": "Euro",
-                "buy": 5.8631,
-                "sell": 5.8411,
-                "variation": 0.301
+                "buy": 5.8357,
+                "sell": 5.8377,
+                "variation": -0.168
             },
             "GBP": {
                 "name": "Pound Sterling",
-                "buy": 6.734,
+                "buy": 6.7088,
                 "sell": null,
-                "variation": 0.314
+                "variation": -0.061
             },
             "ARS": {
                 "name": "Argentine Peso",
@@ -30,33 +30,33 @@
             },
             "CAD": {
                 "name": "Canadian Dollar",
-                "buy": 3.645,
+                "buy": 3.634,
                 "sell": null,
-                "variation": 0.294
+                "variation": -0.008
             },
             "AUD": {
                 "name": "Australian Dollar",
-                "buy": 3.5714,
+                "buy": 3.5536,
                 "sell": null,
-                "variation": 0.317
+                "variation": -0.183
             },
             "JPY": {
                 "name": "Japanese Yen",
-                "buy": 0.0313,
+                "buy": 0.0312,
                 "sell": null,
-                "variation": 0.321
+                "variation": 0.0
             },
             "CNY": {
                 "name": "Renminbi",
-                "buy": 0.7265,
+                "buy": 0.7278,
                 "sell": null,
-                "variation": -0.398
+                "variation": -0.219
             },
             "BTC": {
                 "name": "Bitcoin",
-                "buy": 402896.699,
-                "sell": 402896.699,
-                "variation": 0.585
+                "buy": 399367.226,
+                "sell": 399367.226,
+                "variation": 0.106
             }
         },
         "stocks": {
@@ -82,19 +82,19 @@
                 "name": "Dow Jones Industrial Average",
                 "location": "New York City, United States",
                 "points": 49442.56,
-                "variation": -0.01
+                "variation": 0.0
             },
             "CAC": {
                 "name": "CAC 40",
                 "location": "Paris, French",
-                "points": 8331.05,
-                "variation": -1.12
+                "points": 8303.39,
+                "variation": -0.33
             },
             "NIKKEI": {
                 "name": "Nikkei 225",
                 "location": "Tokyo, Japan",
-                "points": 58824.89,
-                "variation": 0.6
+                "points": 59349.17,
+                "variation": 0.89
             }
         },
         "available_sources": [
