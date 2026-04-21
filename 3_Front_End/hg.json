@@ -6,21 +6,21 @@
             "source": "BRL",
             "USD": {
                 "name": "Dollar",
-                "buy": 4.9711,
-                "sell": 4.9796,
-                "variation": 0.355
+                "buy": 4.9627,
+                "sell": 4.9818,
+                "variation": 0.186
             },
             "EUR": {
                 "name": "Euro",
-                "buy": 5.8461,
+                "buy": 5.8351,
                 "sell": 5.8445,
-                "variation": 0.01
+                "variation": -0.178
             },
             "GBP": {
                 "name": "Pound Sterling",
-                "buy": 6.7224,
+                "buy": 6.7092,
                 "sell": null,
-                "variation": 0.142
+                "variation": -0.055
             },
             "ARS": {
                 "name": "Argentine Peso",
@@ -30,15 +30,15 @@
             },
             "CAD": {
                 "name": "Canadian Dollar",
-                "buy": 3.6444,
+                "buy": 3.6394,
                 "sell": null,
-                "variation": 0.278
+                "variation": 0.14
             },
             "AUD": {
                 "name": "Australian Dollar",
-                "buy": 3.5599,
+                "buy": 3.554,
                 "sell": null,
-                "variation": -0.006
+                "variation": -0.171
             },
             "JPY": {
                 "name": "Japanese Yen",
@@ -48,15 +48,15 @@
             },
             "CNY": {
                 "name": "Renminbi",
-                "buy": 0.7303,
+                "buy": 0.7292,
                 "sell": null,
-                "variation": 0.123
+                "variation": -0.027
             },
             "BTC": {
                 "name": "Bitcoin",
-                "buy": 398195.397,
-                "sell": 398195.397,
-                "variation": -0.529
+                "buy": 396675.5,
+                "sell": 396675.5,
+                "variation": -0.741
             }
         },
         "stocks": {
@@ -75,14 +75,14 @@
             "NASDAQ": {
                 "name": "NASDAQ Stock Market",
                 "location": "New York City, United States",
-                "points": 24326.57,
-                "variation": -0.32
+                "points": 24295.97,
+                "variation": -0.41
             },
             "DOWJONES": {
                 "name": "Dow Jones Industrial Average",
                 "location": "New York City, United States",
-                "points": 49318.28,
-                "variation": -0.25
+                "points": 49215.75,
+                "variation": -0.36
             },
             "CAC": {
                 "name": "CAC 40",
