@@ -41,5 +41,11 @@ Orquestração de nuvem e robôs de manutenção.
 *   `GUIA_CABECA_IA_JARVIS.md`: **[NOVO]** Manual de uso da interface de voz e monitoramento.
 *   `MAPA_DE_ARQUIVOS.md`: Este guia de referência.
 
+## 5. Protocolos de Segurança Sênior (`Cyber-Defense`)
+*   **Identidade em Nuvem**: Commits assinados exclusivamente pelo `EricMacedo10` para garantir validação de deploy Vercel e integridade de autoria.
+*   **Proteção de Segredos**: Uso de *GitHub Secrets* para chaves de IA (DeepSeek/Firecrawl) e Tokens de Gist.
+*   **Sanitização de Código**: Bloqueio de qualquer dado sensível em arquivos `.md` ou `.json` públicos (ADR-014).
+
 ---
-**Nota:** Nenhuma credencial ou chave (SECRET) deve ser commitada nestes arquivos. Use sempre o arquivo `.env` local ou o painel de SECRETS do GitHub.
+**Ultima Auditoria:** 21 de Abril de 2026.
+*Status: Sistema Blindado e 100% Sincronizado.*

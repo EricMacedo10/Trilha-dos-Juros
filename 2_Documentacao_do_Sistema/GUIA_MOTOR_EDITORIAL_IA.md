@@ -6,9 +6,9 @@ Este guia descreve o funcionamento do sistema automatizado de geração de conte
 O sistema utiliza Inteligência Artificial de ponta para coletar notícias de fontes financeiras reais (RSS), processá-las sob a ótica de compliance CVM e gerar um feed JSON que alimenta o front-end automaticamente em três turnos diários.
 
 ## 🛰️ Arquitetura de Dados
-1.  **Fontes**: Investing.com, Yahoo Finance, Agregadores BRL/USD/Commodities.
-2.  **Motor (Python)**: `4_Automacao_IA/editorial_engine.py` (v2.1).
-3.  **Inteligência**: **DeepSeek API** (`deepseek-chat`).
+1.  **Fontes**: InfoMoney, Valor Econômico, MoneyTimes, Bloomberg Línea, InvestNews, Forbes Brasil, Investing.com, Yahoo Finance.
+2.  **Motor (Python)**: `4_Automacao_IA/editorial_engine.py` (v2.2 - Abril/26).
+3.  **Inteligência**: **DeepSeek API** (`deepseek-reasoner` / R1).
 4.  **Entrega**: Gerador de arquivo `3_Front_End/editorial_feed.json`.
 5.  **Apresentação**: `3_Front_End/js/editorial-service.js`.
 
@@ -49,4 +49,4 @@ O motor editorial segue travas de segurança rígidas:
 *   Obrigatória a citação de fontes (Bloomberg, Yahoo, etc).
 
 ---
-*Documentação atualizada em 15/04/2026 - Sprint: Estabilização Editorial Hub & Compliance AdSense.*
+*Documentação atualizada em 21/04/2026 - Milestone: Expansão de Fontes Elite & Estabilização de Identidade Actions.*

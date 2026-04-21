@@ -23,12 +23,18 @@ if DEEPSEEK_KEY:
 else:
     print("ERRO CRÍTICO: DEEPSEEK_API_KEY não encontrada! O motor editorial não funcionará.")
 
-# Fontes de Notícias RSS (Foco em Yahoo Finance e Investing.com)
+# Fontes de Notícias RSS (Foco em Portais Financeiros de Elite)
 NEWS_SOURCES = {
-    "Brasil": "https://br.investing.com/rss/market_overview.rss",
+    "Brasil_Investing": "https://br.investing.com/rss/market_overview.rss",
     "Brasil_Yahoo": "https://br.financas.yahoo.com/rss",
     "Global_Yahoo": "https://finance.yahoo.com/rss/topstories",
-    "Commodities": "https://br.investing.com/rss/stock_Commodities.rss"
+    "InfoMoney": "https://www.infomoney.com.br/feed/",
+    "Valor_Economico": "https://valor.globo.com/rss/valor/",
+    "MoneyTimes": "https://www.moneytimes.com.br/feed/",
+    "InvestNews": "https://investnews.com.br/feed/",
+    "Forbes_Brasil": "https://forbes.com.br/feed/",
+    "Bloomberg_Linea": "https://www.bloomberglinea.com.br/arc/outboundfeeds/rss/?outputType=xml",
+    "BMC_News": "https://bmcnews.com.br/feed/"
 }
 
 def fetch_top_news():

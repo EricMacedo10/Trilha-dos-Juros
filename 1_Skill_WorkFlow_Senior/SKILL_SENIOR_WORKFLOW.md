@@ -121,6 +121,12 @@ Este bloco documenta decisões arquiteturais para que eu nunca as repita por des
 *   **Contexto:** O limite rigoroso da cota gratuita do Gemini (20 requisições/dia) causava falhas no Morning Call quando o volume de automações aumentava (3 turnos + deploys manuais).
 *   **Decisão Exclusiva:** Migração para um modelo híbrido. O motor editorial agora utiliza a API do **DeepSeek** (padrão OpenAI) como provedor primário de alta performance e baixo custo. O sistema detecta automaticamente erros de saldo ou instabilidade e realiza o *fallback* silencioso para o **Google Gemini**. A preservação de dados antigos (`editorial_feed.json`) em caso de falha de ambas as IAs é obrigatória para manter a integridade visual da produção.
 
-## Assinatura de Compromisso
+### ADR-018: Padronização de Identidade em GitHub Actions
+*   **Data:** 21/Abril/2026
+*   **Contexto:** Inconsistências nos autores dos commits das Actions (ex: "Market Bot", "Action User") geravam alertas de segurança e bloqueios de deploy silenciosos no plano Hobby da Vercel.
+*   **Decisão Exclusiva:** Todos os workflows de automação (`.yml`) devem obrigatoriamente utilizar o autor oficial do repositório (`EricMacedo10` / `ericmacedo10@gmail.com`) para assinatura de commits. Isso garante que a Vercel reconheça cada push automático como um deploy válido de produção e permite um rastreamento de auditoria limpo e centralizado.
+
+---
+## 🖋️ Assinatura de Compromisso
 Este é o meu fluxo de trabalho. A partir de agora, o projeto **Trilha dos Juros** será construído estritamente sobre bases sólidas, Cloud Edge de primeiro mundo, seguras e premium. Nada passa sem o selo de qualidade sênior.
-*Atualizado em 10/04/2026 — Implementação de IA Híbrida e Estabilização Editorial 2.0.*
+*Documentação Auditada em 21/04/2026 — Milestone: Sincronização Total de Identidade & Expansão de Inteligência DeepSeek.*

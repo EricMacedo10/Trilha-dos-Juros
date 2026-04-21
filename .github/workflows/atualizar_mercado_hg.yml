@@ -43,8 +43,8 @@ jobs:
 
       - name: Commit and Push Changes
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "Market Bot"
+          git config --global user.name "EricMacedo10"
+          git config --global user.email "ericmacedo10@gmail.com"
           git add 3_Front_End/hg.json
-          git commit -m "data: auto-update market quotes [$(date +'%Y-%m-%d %H:%M')]" || echo "No changes to commit"
+          git commit -m "📊 🤖 Auto-update: Market Data (Quotes Sincronized)" || echo "No changes to commit"
           git push

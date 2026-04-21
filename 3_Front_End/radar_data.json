@@ -2,44 +2,44 @@
   "events": [
     {
       "time": "02:00",
-      "country": "UK",
-      "event": "Taxa de Desemprego (Feb)",
-      "impact": "High",
-      "atual": "4.9%",
-      "proj": "5.2%",
-      "prev": "5.2%",
-      "date": "21/04"
-    },
-    {
-      "time": "02:00",
-      "country": "UK",
-      "event": "Média de Ganhos (Feb)",
-      "impact": "High",
-      "atual": "3.8%",
-      "proj": "3.6%",
-      "prev": "4.1%",
-      "date": "21/04"
-    },
-    {
-      "time": "05:00",
       "country": "DE",
-      "event": "Sentimento Econômico ZEW (Abr)",
+      "event": "Índice de Preços ao Produtor Alemão (Mês) (Mar)",
       "impact": "High",
-      "atual": "-17.2",
-      "proj": "-6.7",
-      "prev": "-0.5",
-      "date": "21/04"
+      "atual": "2.5%",
+      "proj": "1.4%",
+      "prev": "-0.5%",
+      "date": "20/04"
     },
     {
-      "time": "05:00",
-      "country": "DE",
-      "event": "Condições Atuais ZEW (Abr)",
+      "time": "09:00",
+      "country": "FR",
+      "event": "Leilão BTF de 12 Meses Francês",
       "impact": "High",
-      "atual": "-73.7",
-      "proj": "-70.0",
-      "prev": "-62.9",
-      "date": "21/04"
+      "atual": "2.476%",
+      "proj": "---",
+      "prev": "2.634%",
+      "date": "20/04"
+    },
+    {
+      "time": "09:00",
+      "country": "FR",
+      "event": "Leilão BTF de 3 Meses Francês",
+      "impact": "High",
+      "atual": "2.159%",
+      "proj": "---",
+      "prev": "2.248%",
+      "date": "20/04"
+    },
+    {
+      "time": "09:00",
+      "country": "FR",
+      "event": "Leilão BTF de 6 Meses Francês",
+      "impact": "High",
+      "atual": "2.319%",
+      "proj": "---",
+      "prev": "2.448%",
+      "date": "20/04"
     }
   ],
-  "last_update": "21/04/2026 20:06:53"
+  "last_update": "20/04/2026 16:18:58"
 }
