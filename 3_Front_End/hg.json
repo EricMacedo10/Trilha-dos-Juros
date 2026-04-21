@@ -7,20 +7,20 @@
             "USD": {
                 "name": "Dollar",
                 "buy": 4.9627,
-                "sell": 4.9818,
+                "sell": 4.979,
                 "variation": 0.186
             },
             "EUR": {
                 "name": "Euro",
-                "buy": 5.8351,
+                "buy": 5.8378,
                 "sell": 5.8445,
-                "variation": -0.178
+                "variation": -0.132
             },
             "GBP": {
                 "name": "Pound Sterling",
-                "buy": 6.7092,
+                "buy": 6.7137,
                 "sell": null,
-                "variation": -0.055
+                "variation": 0.012
             },
             "ARS": {
                 "name": "Argentine Peso",
@@ -30,15 +30,15 @@
             },
             "CAD": {
                 "name": "Canadian Dollar",
-                "buy": 3.6394,
+                "buy": 3.6404,
                 "sell": null,
-                "variation": 0.14
+                "variation": 0.168
             },
             "AUD": {
                 "name": "Australian Dollar",
-                "buy": 3.554,
+                "buy": 3.5564,
                 "sell": null,
-                "variation": -0.171
+                "variation": -0.104
             },
             "JPY": {
                 "name": "Japanese Yen",
@@ -54,9 +54,9 @@
             },
             "BTC": {
                 "name": "Bitcoin",
-                "buy": 396675.5,
-                "sell": 396675.5,
-                "variation": -0.741
+                "buy": 393969.466,
+                "sell": 393969.466,
+                "variation": -1.418
             }
         },
         "stocks": {
@@ -75,14 +75,14 @@
             "NASDAQ": {
                 "name": "NASDAQ Stock Market",
                 "location": "New York City, United States",
-                "points": 24295.97,
-                "variation": -0.41
+                "points": 24340.78,
+                "variation": -0.26
             },
             "DOWJONES": {
                 "name": "Dow Jones Industrial Average",
                 "location": "New York City, United States",
-                "points": 49215.75,
-                "variation": -0.36
+                "points": 49251.83,
+                "variation": -0.39
             },
             "CAC": {
                 "name": "CAC 40",
