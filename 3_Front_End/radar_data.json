@@ -2,44 +2,44 @@
   "events": [
     {
       "time": "02:00",
-      "country": "DE",
-      "event": "Índice de Preços ao Produtor Alemão (Mês) (Mar)",
+      "country": "UK",
+      "event": "Mudança de Emprego 3M/3M (MoM) (Fev)",
       "impact": "High",
-      "atual": "2.5%",
-      "proj": "1.4%",
-      "prev": "-0.5%",
-      "date": "20/04"
+      "atual": "25K",
+      "proj": "---",
+      "prev": "84K",
+      "date": "21/04"
     },
     {
-      "time": "09:00",
-      "country": "FR",
-      "event": "Leilão BTF de 12 Meses Francês",
+      "time": "02:00",
+      "country": "UK",
+      "event": "Índice de Salários Médios + Bônus (Fev)",
       "impact": "High",
-      "atual": "2.476%",
-      "proj": "---",
-      "prev": "2.634%",
-      "date": "20/04"
+      "atual": "3.8%",
+      "proj": "3.6%",
+      "prev": "4.1%",
+      "date": "21/04"
     },
     {
-      "time": "09:00",
-      "country": "FR",
-      "event": "Leilão BTF de 3 Meses Francês",
+      "time": "02:00",
+      "country": "UK",
+      "event": "Taxa de Desemprego (Fev)",
       "impact": "High",
-      "atual": "2.159%",
-      "proj": "---",
-      "prev": "2.248%",
-      "date": "20/04"
+      "atual": "4.9%",
+      "proj": "5.2%",
+      "prev": "5.2%",
+      "date": "21/04"
     },
     {
-      "time": "09:00",
-      "country": "FR",
-      "event": "Leilão BTF de 6 Meses Francês",
+      "time": "02:00",
+      "country": "UK",
+      "event": "Mudança na Contagem de Requerentes (Mar)",
       "impact": "High",
-      "atual": "2.319%",
-      "proj": "---",
-      "prev": "2.448%",
-      "date": "20/04"
+      "atual": "26.8K",
+      "proj": "21.4K",
+      "prev": "17.1K",
+      "date": "21/04"
     }
   ],
-  "last_update": "20/04/2026 16:18:58"
+  "last_update": "21/04/2026 21:50:45"
 }
