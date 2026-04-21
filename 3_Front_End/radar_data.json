@@ -3,21 +3,11 @@
     {
       "time": "02:00",
       "country": "UK",
-      "event": "Mudança de Emprego 3M/3M (MoM) (Fev)",
+      "event": "Alteração no Emprego 3M/3M (MoM) (Fev)",
       "impact": "High",
       "atual": "25K",
       "proj": "---",
       "prev": "84K",
-      "date": "21/04"
-    },
-    {
-      "time": "02:00",
-      "country": "UK",
-      "event": "Índice de Salários Médios + Bônus (Fev)",
-      "impact": "High",
-      "atual": "3.8%",
-      "proj": "3.6%",
-      "prev": "4.1%",
       "date": "21/04"
     },
     {
@@ -31,15 +21,35 @@
       "date": "21/04"
     },
     {
-      "time": "02:00",
-      "country": "UK",
-      "event": "Mudança na Contagem de Requerentes (Mar)",
+      "time": "05:00",
+      "country": "DE",
+      "event": "Sentimento Econômico ZEW (Abr)",
       "impact": "High",
-      "atual": "26.8K",
-      "proj": "21.4K",
-      "prev": "17.1K",
+      "atual": "-20.4",
+      "proj": "-12.7",
+      "prev": "-8.5",
+      "date": "21/04"
+    },
+    {
+      "time": "08:30",
+      "country": "US",
+      "event": "Vendas no Varejo (MoM) (Mar)",
+      "impact": "High",
+      "atual": "1.7%",
+      "proj": "1.4%",
+      "prev": "0.7%",
+      "date": "21/04"
+    },
+    {
+      "time": "08:30",
+      "country": "US",
+      "event": "Vendas no Varejo Núcleo (MoM) (Mar)",
+      "impact": "High",
+      "atual": "1.9%",
+      "proj": "1.4%",
+      "prev": "0.7%",
       "date": "21/04"
     }
   ],
-  "last_update": "21/04/2026 21:50:45"
+  "last_update": "21/04/2026 23:40:35"
 }
