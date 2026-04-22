@@ -286,7 +286,8 @@ const TreasuryService = (function () {
         body.innerHTML = allBonds.map(b => {
             const isSelected = selectedBonds[b.type] && selectedBonds[b.type].TrsuryBondTyp.nm === b.TrsuryBondTyp.nm;
             const maturity = new Date(b.ltapnmDate).toLocaleDateString('pt-BR');
-            const rateDisplay = b.type === 'pre' ? b.annlRenmRate.toFixed(2) + '%' : (b.type === 'selic' ? 'Selic + ' + b.annlRenmRate.toFixed(2) + '%' : 'IPCA + ' + b.annlRenmRate.toFixed(2) + '%');
+            const rate = b.annlRenmRate || 0;
+            const rateDisplay = b.type === 'pre' ? rate.toFixed(2) + '%' : (b.type === 'selic' ? 'Selic + ' + rate.toFixed(2) + '%' : 'IPCA + ' + rate.toFixed(2) + '%');
 
             return `
                 <tr class="${isSelected ? 'selected-row' : ''}">
