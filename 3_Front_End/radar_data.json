@@ -1,45 +1,45 @@
 {
   "events": [
     {
-      "time": "02:00",
-      "country": "DE",
-      "event": "Índice de Preços ao Produtor Alemão (Mês) (Mar)",
+      "time": "Wednesday, April 22, 2026",
+      "country": "UK",
+      "event": "Índice de Preços ao Consumidor (CPI) (YoY)(Mar)",
       "impact": "High",
-      "atual": "2.5%",
-      "proj": "1.4%",
-      "prev": "-0.5%",
-      "date": "20/04"
+      "atual": "3.3%",
+      "proj": "3.3%",
+      "prev": "3.0%",
+      "date": "22/04"
     },
     {
-      "time": "09:00",
-      "country": "FR",
-      "event": "Leilão BTF de 12 Meses Francês",
+      "time": "Wednesday, April 22, 2026",
+      "country": "UK",
+      "event": "Índice de Preços ao Produtor (PPI) de Entrada (YoY)(Mar)",
       "impact": "High",
-      "atual": "2.476%",
-      "proj": "---",
-      "prev": "2.634%",
-      "date": "20/04"
+      "atual": "5.4%",
+      "proj": "-",
+      "prev": "0.7%",
+      "date": "22/04"
     },
     {
-      "time": "09:00",
-      "country": "FR",
-      "event": "Leilão BTF de 3 Meses Francês",
+      "time": "Wednesday, April 22, 2026",
+      "country": "UK",
+      "event": "Índice de Preços ao Produtor (PPI) de Saída (YoY)(Mar)",
       "impact": "High",
-      "atual": "2.159%",
-      "proj": "---",
-      "prev": "2.248%",
-      "date": "20/04"
+      "atual": "2.6%",
+      "proj": "-",
+      "prev": "1.8%",
+      "date": "22/04"
     },
     {
-      "time": "09:00",
-      "country": "FR",
-      "event": "Leilão BTF de 6 Meses Francês",
+      "time": "Wednesday, April 22, 2026",
+      "country": "UK",
+      "event": "Índice de Preços ao Consumidor (Core CPI) (YoY)(Mar)",
       "impact": "High",
-      "atual": "2.319%",
-      "proj": "---",
-      "prev": "2.448%",
-      "date": "20/04"
+      "atual": "3.1%",
+      "proj": "3.2%",
+      "prev": "3.2%",
+      "date": "22/04"
     }
   ],
-  "last_update": "20/04/2026 16:18:58"
+  "last_update": "22/04/2026 16:12:48"
 }
