@@ -6,21 +6,21 @@
             "source": "BRL",
             "USD": {
                 "name": "Dollar",
-                "buy": 4.9727,
-                "sell": 4.9882,
-                "variation": -0.068
+                "buy": 4.975,
+                "sell": 4.9914,
+                "variation": -0.022
             },
             "EUR": {
                 "name": "Euro",
-                "buy": 5.819,
-                "sell": 5.8411,
-                "variation": -0.409
+                "buy": 5.8208,
+                "sell": 5.8445,
+                "variation": -0.378
             },
             "GBP": {
                 "name": "Pound Sterling",
-                "buy": 6.7139,
+                "buy": 6.7151,
                 "sell": null,
-                "variation": -0.094
+                "variation": -0.076
             },
             "ARS": {
                 "name": "Argentine Peso",
@@ -30,15 +30,15 @@
             },
             "CAD": {
                 "name": "Canadian Dollar",
-                "buy": 3.636,
+                "buy": 3.6368,
                 "sell": null,
-                "variation": -0.146
+                "variation": -0.124
             },
             "AUD": {
                 "name": "Australian Dollar",
-                "buy": 3.5591,
+                "buy": 3.5602,
                 "sell": null,
-                "variation": 0.02
+                "variation": 0.051
             },
             "JPY": {
                 "name": "Japanese Yen",
@@ -54,35 +54,35 @@
             },
             "BTC": {
                 "name": "Bitcoin",
-                "buy": 416831.946,
-                "sell": 416831.946,
-                "variation": 4.541
+                "buy": 414640.012,
+                "sell": 414640.012,
+                "variation": 3.943
             }
         },
         "stocks": {
             "IBOVESPA": {
                 "name": "BM&F BOVESPA",
                 "location": "Sao Paulo, Brazil",
-                "points": 192845.9,
-                "variation": -1.68
+                "points": 192840.7,
+                "variation": -1.65
             },
             "IFIX": {
                 "name": "Índice de Fundos de Investimentos Imobiliários B3",
                 "location": "Sao Paulo, Brazil",
-                "points": 3937.84,
-                "variation": -0.1
+                "points": 3939.93,
+                "variation": -0.04
             },
             "NASDAQ": {
                 "name": "NASDAQ Stock Market",
                 "location": "New York City, United States",
-                "points": 24604.81,
-                "variation": 1.45
+                "points": 24657.57,
+                "variation": 1.64
             },
             "DOWJONES": {
                 "name": "Dow Jones Industrial Average",
                 "location": "New York City, United States",
-                "points": 49398.54,
-                "variation": 0.55
+                "points": 49490.03,
+                "variation": 0.69
             },
             "CAC": {
                 "name": "CAC 40",
