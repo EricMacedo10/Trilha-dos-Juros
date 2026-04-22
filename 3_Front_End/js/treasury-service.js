@@ -283,12 +283,26 @@ const TreasuryService = (function () {
             );
         }
 
-        body.innerHTML = allBonds.map(b => {
+        body.innerHTML = ''; // Limpa antes de renderizar
+
+        if (!allBonds || allBonds.length === 0) {
+            body.innerHTML = '<tr><td colspan="6" style="padding: 2rem; opacity: 0.6;">Nenhum título disponível no momento.</td></tr>';
+            return;
+        }
+
+        const html = allBonds.map(b => {
+            if (!b || !b.TrsuryBondTyp) return ''; // Pula se o dado for inválido
+
             const isSelected = selectedBonds[b.type] && selectedBonds[b.type].TrsuryBondTyp.nm === b.TrsuryBondTyp.nm;
             const maturityDate = b.ltapnmDate ? new Date(b.ltapnmDate) : null;
             const maturity = (maturityDate && !isNaN(maturityDate)) ? maturityDate.toLocaleDateString('pt-BR') : 'N/D';
+            
             const rate = b.annlRenmRate || 0;
-            const rateDisplay = b.type === 'pre' ? rate.toFixed(2) + '%' : (b.type === 'selic' ? 'Selic + ' + rate.toFixed(2) + '%' : 'IPCA + ' + rate.toFixed(2) + '%');
+            const rateDisplay = b.type === 'pre' ? rate.toFixed(2) + '%' : 
+                               (b.type === 'selic' ? 'Selic + ' + rate.toFixed(2) + '%' : 'IPCA + ' + rate.toFixed(2) + '%');
+
+            const price = b.invstmtVal || 0;
+            const minInv = b.minInvestAmt || 0;
 
             return `
                 <tr class="${isSelected ? 'selected-row' : ''}">
@@ -300,12 +314,14 @@ const TreasuryService = (function () {
                     <td>
                         <button class="btn-table-action" onclick="TreasuryService.selectBond('${b.TrsuryBondTyp.nm}', '${b.type}')">
                             ${isSelected ? '<i class="ph-fill ph-check-circle"></i>' : '<i class="ph ph-plus-circle"></i>'} 
-                            ${isSelected ? 'Ativo' : 'Comparar'}
                         </button>
                     </td>
                 </tr>
             `;
         }).join('');
+
+        body.innerHTML = html;
+    }
     }
 
     function selectBond(bondName, type) {
