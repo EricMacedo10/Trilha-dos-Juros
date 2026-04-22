@@ -40,26 +40,43 @@ const TreasuryService = (function () {
     };
 
     async function fetchBonds() {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
+
         try {
             console.log('[Treasury] Buscando títulos oficiais...');
-            const response = await fetch(API_URL);
+            const response = await fetch(API_URL, { signal: controller.signal });
+            clearTimeout(timeoutId);
+
             if (!response.ok) throw new Error('Falha ao conectar com o servidor do Tesouro');
             
             const data = await response.json();
             return processBonds(data);
         } catch (error) {
             console.warn('[Treasury] Usando mock de segurança:', error);
+            updateStatusBadge('Dados Offline');
             return getMockBonds();
+        }
+    }
+
+    function updateStatusBadge(text) {
+        const badge = document.querySelector('.status-badge') || document.querySelector('[style*="Sincronizando"]');
+        if (badge) {
+            badge.innerHTML = `<span style="width: 8px; height: 8px; background: ${text.includes('Offline') ? '#ef4444' : '#10b981'}; border-radius: 50%; display: inline-block; margin-right: 6px;"></span> ${text}`;
+            badge.style.background = text.includes('Offline') ? 'rgba(239, 68, 68, 0.1)' : 'rgba(16, 185, 129, 0.1)';
         }
     }
 
     function processBonds(apiResponse) {
         const bonds = apiResponse.response.TrsuryBondSery.TrsuryBond;
+        const status = apiResponse.response.TrsuryBondSery.TrsuryBondMktSts.nm;
+        updateStatusBadge(status);
+        
         return {
             selic: bonds.filter(b => b.TrsuryBondTyp.nm.toLowerCase().includes('selic')),
             ipca: bonds.filter(b => b.TrsuryBondTyp.nm.toLowerCase().includes('ipca')),
             pre: bonds.filter(b => b.TrsuryBondTyp.nm.toLowerCase().includes('prefixado')),
-            status: apiResponse.response.TrsuryBondSery.TrsuryBondMktSts.nm
+            status: status
         };
     }
 
