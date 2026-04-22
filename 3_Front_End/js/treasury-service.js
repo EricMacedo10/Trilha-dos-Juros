@@ -285,7 +285,8 @@ const TreasuryService = (function () {
 
         body.innerHTML = allBonds.map(b => {
             const isSelected = selectedBonds[b.type] && selectedBonds[b.type].TrsuryBondTyp.nm === b.TrsuryBondTyp.nm;
-            const maturity = new Date(b.ltapnmDate).toLocaleDateString('pt-BR');
+            const maturityDate = b.ltapnmDate ? new Date(b.ltapnmDate) : null;
+            const maturity = (maturityDate && !isNaN(maturityDate)) ? maturityDate.toLocaleDateString('pt-BR') : 'N/D';
             const rate = b.annlRenmRate || 0;
             const rateDisplay = b.type === 'pre' ? rate.toFixed(2) + '%' : (b.type === 'selic' ? 'Selic + ' + rate.toFixed(2) + '%' : 'IPCA + ' + rate.toFixed(2) + '%');
 
@@ -295,7 +296,7 @@ const TreasuryService = (function () {
                     <td>${maturity}</td>
                     <td class="neon-text">${rateDisplay}</td>
                     <td>R$ ${(b.invstmtVal || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
-                    <td>R$ ${b.minInvestAmt.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
+                    <td>R$ ${(b.minInvestAmt || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
                     <td>
                         <button class="btn-table-action" onclick="TreasuryService.selectBond('${b.TrsuryBondTyp.nm}', '${b.type}')">
                             ${isSelected ? '<i class="ph-fill ph-check-circle"></i>' : '<i class="ph ph-plus-circle"></i>'} 
