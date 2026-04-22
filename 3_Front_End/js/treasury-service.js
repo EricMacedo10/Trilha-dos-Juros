@@ -60,10 +60,14 @@ const TreasuryService = (function () {
     }
 
     function updateStatusBadge(text) {
-        const badge = document.querySelector('.status-badge') || document.querySelector('[style*="Sincronizando"]');
-        if (badge) {
-            badge.innerHTML = `<span style="width: 8px; height: 8px; background: ${text.includes('Offline') ? '#ef4444' : '#10b981'}; border-radius: 50%; display: inline-block; margin-right: 6px;"></span> ${text}`;
-            badge.style.background = text.includes('Offline') ? 'rgba(239, 68, 68, 0.1)' : 'rgba(16, 185, 129, 0.1)';
+        const textElement = document.getElementById('status-text');
+        const iconElement = document.getElementById('status-icon');
+        
+        if (textElement) {
+            textElement.innerText = text;
+        }
+        if (iconElement) {
+            iconElement.style.color = text.includes('Offline') ? '#ef4444' : '#10b981';
         }
     }
 
