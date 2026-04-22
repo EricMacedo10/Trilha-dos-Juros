@@ -1,7 +1,8 @@
 const https = require('https');
 
 module.exports = async (req, res) => {
-    const url = 'https://www.tesourodireto.com.br/json/br/com/b3/tesourodireto/service/api/treasurybondsumary.json';
+    // URL sugerida para maior estabilidade
+    const url = 'https://www.tesourodireto.com.br/json/br/com/b3/tesouro/bond/search.json';
     
     const options = {
         headers: {
@@ -10,11 +11,11 @@ module.exports = async (req, res) => {
             'Referer': 'https://www.tesourodireto.com.br/titulos/precos-e-taxas.htm',
             'Origin': 'https://www.tesourodireto.com.br'
         },
-        timeout: 5000
+        timeout: 8000 // Aumentado para 8s para evitar timeouts falsos
     };
 
     return new Promise((resolve) => {
-        https.get(url, options, (apiRes) => {
+        const request = https.get(url, options, (apiRes) => {
             let data = '';
 
             apiRes.on('data', (chunk) => {
@@ -24,25 +25,38 @@ module.exports = async (req, res) => {
             apiRes.on('end', () => {
                 try {
                     if (apiRes.statusCode !== 200) {
-                        throw new Error(`Status ${apiRes.statusCode}`);
+                        throw new Error(`Tesouro B3 retornou status ${apiRes.statusCode}`);
                     }
                     
                     const jsonData = JSON.parse(data);
+                    
+                    // Tratamento para garantir que o formato de saída seja consistente
+                    const responseData = jsonData.response || jsonData;
                     
                     res.setHeader('Access-Control-Allow-Origin', '*');
                     res.setHeader('Content-Type', 'application/json');
                     res.setHeader('Cache-Control', 's-maxage=600, stale-while-revalidate=1200');
                     
-                    res.status(200).send(jsonData);
+                    res.status(200).send(responseData);
                     resolve();
                 } catch (e) {
-                    res.status(500).json({ error: 'Erro ao processar JSON', details: e.message });
+                    console.error('[API Tesouro] Erro no Parse:', e.message);
+                    res.status(500).json({ error: 'Erro ao processar dados do Tesouro', details: e.message });
                     resolve();
                 }
             });
 
-        }).on('error', (err) => {
-            res.status(500).json({ error: 'Erro de conexao com o Tesouro', details: err.message });
+        });
+
+        request.on('error', (err) => {
+            console.error('[API Tesouro] Erro de Conexao:', err.message);
+            res.status(500).json({ error: 'Falha na conexao com a B3', details: err.message });
+            resolve();
+        });
+
+        request.on('timeout', () => {
+            request.destroy();
+            res.status(504).json({ error: 'Timeout na resposta da B3' });
             resolve();
         });
     });

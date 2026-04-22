@@ -61,6 +61,9 @@ self.addEventListener('fetch', (event) => {
         .then((networkResponse) => {
           // Atualiza o cache se a requisição for bem sucedida
           if (networkResponse.ok && event.request.url.startsWith('http')) {
+             // Ignora respostas parciais (vídeos/áudio) pois o Cache API não as suporta
+             if (networkResponse.status === 206) return networkResponse;
+
              const responseClone = networkResponse.clone();
              caches.open(CACHE_NAME).then((cache) => {
                cache.put(event.request, responseClone);
