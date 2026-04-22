@@ -1,9 +1,9 @@
 {
   "events": [
     {
-      "time": "---",
+      "time": "Wednesday, April 22, 2026",
       "country": "UK",
-      "event": "CPI (YoY) (Mar)",
+      "event": "Índice de Preços ao Consumidor (CPI) (YoY)(Mar)",
       "impact": "High",
       "atual": "3.3%",
       "proj": "3.3%",
@@ -11,35 +11,35 @@
       "date": "22/04"
     },
     {
-      "time": "---",
+      "time": "Wednesday, April 22, 2026",
       "country": "UK",
-      "event": "PPI Input (MoM) (Mar)",
+      "event": "Índice de Preços ao Produtor (PPI) de Entrada (YoY)(Mar)",
       "impact": "High",
-      "atual": "4.4%",
-      "proj": "2.9%",
-      "prev": "0.9%",
+      "atual": "5.4%",
+      "proj": "-",
+      "prev": "0.7%",
       "date": "22/04"
     },
     {
-      "time": "---",
+      "time": "Wednesday, April 22, 2026",
       "country": "UK",
-      "event": "Core PPI Output (YoY) (Mar)",
+      "event": "Índice de Preços ao Produtor (PPI) de Saída (YoY)(Mar)",
       "impact": "High",
-      "atual": "2.0%",
-      "proj": "---",
-      "prev": "2.0%",
+      "atual": "2.6%",
+      "proj": "-",
+      "prev": "1.8%",
       "date": "22/04"
     },
     {
-      "time": "---",
+      "time": "Wednesday, April 22, 2026",
       "country": "UK",
-      "event": "House Price Index (YoY)",
+      "event": "Índice de Preços ao Consumidor (Core CPI) (YoY)(Mar)",
       "impact": "High",
-      "atual": "1.2%",
-      "proj": "0.9%",
-      "prev": "1.0%",
+      "atual": "3.1%",
+      "proj": "3.2%",
+      "prev": "3.2%",
       "date": "22/04"
     }
   ],
-  "last_update": "22/04/2026 14:49:36"
+  "last_update": "22/04/2026 16:12:48"
 }
