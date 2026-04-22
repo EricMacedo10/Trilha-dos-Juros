@@ -126,7 +126,22 @@ Este bloco documenta decisões arquiteturais para que eu nunca as repita por des
 *   **Contexto:** Inconsistências nos autores dos commits das Actions (ex: "Market Bot", "Action User") geravam alertas de segurança e bloqueios de deploy silenciosos no plano Hobby da Vercel.
 *   **Decisão Exclusiva:** Todos os workflows de automação (`.yml`) devem obrigatoriamente utilizar o autor oficial do repositório (`EricMacedo10` / `ericmacedo10@gmail.com`) para assinatura de commits. Isso garante que a Vercel reconheça cada push automático como um deploy válido de produção e permite um rastreamento de auditoria limpo e centralizado.
 
+### ADR-019: Arquitetura de Dados Oficiais (Tesouro Transparente)
+*   **Data:** 22/Abril/2026
+*   **Contexto:** APIs de terceiros e endpoints internos da B3 para o Tesouro Direto mostraram-se instáveis, sujeitos a bloqueios de WAF e mudanças sem aviso.
+*   **Decisão Exclusiva:** Migração para o portal oficial **Tesouro Transparente (CKAN API)**. O sistema utiliza uma função Serverless (`/api/tesouro.js`) para realizar consultas filtradas e rápidas. Foi implementada a lógica de **Salto de Feriado Automático**, onde o backend detecta o dia de hoje e busca retroativamente o último dia útil com dados consolidados (D-1), garantindo que o site nunca exiba tabelas zeradas.
+
+### ADR-020: Resiliência de News e Bypass de Mídia no SW
+*   **Data:** 22/Abril/2026
+*   **Contexto:** O uso de proxies públicos (AllOrigins) para RSS causava erros de CORS constantes, e o Service Worker bloqueava fluxos de mídia do YouTube (NetworkError).
+*   **Decisão Exclusiva:** Criação de um **Proxy de Notícias Local (`/api/news.js`)**. O site agora consome RSS através do próprio backend Vercel. Adicionalmente, o `sw.js` foi configurado com um filtro de exclusão para URLs externas de mídia, garantindo que vídeos e feeds externos carreguem sem interferência do cache do Service Worker.
+
+### ADR-021: Padrão "Nuclear Safety" e Cache Busting
+*   **Data:** 22/Abril/2026
+*   **Contexto:** Mudanças estruturais no backend frequentemente causavam quebras no frontend devido a dados malformados ou scripts antigos presos no cache do navegador.
+*   **Decisão Exclusiva:** Adoção do padrão de renderização **Nuclear Safety** (uso massivo de Optional Chaining e fallbacks `|| 0`). Nenhum dado externo pode causar um crash de JS no frontend. Para garantir a propagação de correções críticas, o sistema adota a estratégia de **Cache Busting Dinâmico** no `index.html` (ex: `?v=26`), forçando o navegador a descartar versões obsoletas e carregar a arquitetura mais recente.
+
 ---
 ## 🖋️ Assinatura de Compromisso
 Este é o meu fluxo de trabalho. A partir de agora, o projeto **Trilha dos Juros** será construído estritamente sobre bases sólidas, Cloud Edge de primeiro mundo, seguras e premium. Nada passa sem o selo de qualidade sênior.
-*Documentação Auditada em 21/04/2026 — Milestone: Sincronização Total de Identidade & Expansão de Inteligência DeepSeek.*
+*Documentação Auditada em 22/04/2026 — Milestone: Estabilização de Dados Oficiais (D-1) & Backend Proxy Integration.*
