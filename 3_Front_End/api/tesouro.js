@@ -1,10 +1,8 @@
 const https = require('https');
 
 module.exports = async (req, res) => {
-    // Usando a API de busca do CKAN para pegar apenas os últimos 50 registros (que são os mais recentes)
-    // Isso evita baixar o arquivo de 13MB inteiro.
     const resourceId = '796d2059-14e9-44e3-80c9-2d9e30b405c1';
-    const url = `https://www.tesourotransparente.gov.br/ckan/api/3/action/datastore_search?resource_id=${resourceId}&limit=50&sort=_id%20desc`;
+    const url = `https://www.tesourotransparente.gov.br/ckan/api/3/action/datastore_search?resource_id=${resourceId}&limit=100&sort=_id%20desc`;
     
     return new Promise((resolve) => {
         https.get(url, (apiRes) => {
@@ -17,21 +15,25 @@ module.exports = async (req, res) => {
 
                     const records = json.result.records;
                     
-                    // Os campos na API do CKAN podem ter nomes levemente diferentes do CSV
-                    // Mapeamos para o formato esperado pelo site
-                    const processedBonds = records.map(r => ({
-                        nm: r["Tipo Titulo"],
-                        dtVct: r["Data Vencimento"],
-                        unidInvt: 'S',
-                        TrsuryBondTyp: { nm: r["Tipo Titulo"] },
-                        TrsuryBondSts: { nm: 'Ativo' },
-                        annlIncrtRate: parseFloat(String(r["Taxa Compra Manha"]).replace(',', '.')),
-                        unnmrdRate: parseFloat(String(r["Taxa Venda Manha"]).replace(',', '.')),
-                        untPrUnitBuy: parseFloat(String(r["PU Compra Manha"]).replace(',', '.')),
-                        untPrUnitSell: parseFloat(String(r["PU Venda Manha"]).replace(',', '.'))
-                    }));
+                    // Mapeamento EXATO para o que o frontend espera
+                    const processedBonds = records.map(r => {
+                        const name = String(r["Tipo Titulo"] || "");
+                        const buyRate = parseFloat(String(r["Taxa Compra Manha"] || "0").replace(',', '.'));
+                        const buyPrice = parseFloat(String(r["PU Compra Manha"] || "0").replace(',', '.'));
+                        
+                        return {
+                            nm: name,
+                            ltapnmDate: r["Data Vencimento"], // Data de Vencimento
+                            annlRenmRate: buyRate || 0, // TAXA COMPRA (O que causou o erro toFixed)
+                            invstmtVal: buyPrice || 0, // PREÇO UNITÁRIO
+                            minInvestAmt: (buyPrice * 0.01) || 30.00, // Investimento Mínimo (aprox 1%)
+                            type: name.toLowerCase().includes('selic') ? 'selic' : 
+                                  (name.toLowerCase().includes('ipca') ? 'ipca' : 'pre'),
+                            TrsuryBondTyp: { nm: name }
+                        };
+                    });
 
-                    const latestDate = records[0]["Data Base"];
+                    const latestDate = records[0] ? records[0]["Data Base"] : "Hoje";
 
                     const response = {
                         response: {
@@ -47,7 +49,7 @@ module.exports = async (req, res) => {
                     res.status(200).json(response);
                     resolve();
                 } catch (e) {
-                    res.status(500).json({ error: 'Falha ao processar API do Tesouro', details: e.message });
+                    res.status(500).json({ error: 'Erro no processamento', details: e.message });
                     resolve();
                 }
             });
