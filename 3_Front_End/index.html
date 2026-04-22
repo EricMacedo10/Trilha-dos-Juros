@@ -275,6 +275,7 @@
             <nav class="pill-nav">
                 <button class="nav-btn active" data-target="calculator-view">Simulador</button>
                 <button class="nav-btn" data-target="gamification-view">Desafio dos Depósitos</button>
+                <button class="nav-btn" data-target="treasury-view">Títulos Públicos</button>
                 <button class="nav-btn" id="btn-open-contact"
                     style="color: var(--neon-green); border: 1px solid rgba(16, 185, 129, 0.3);">
                     <i class="ph-fill ph-envelope-simple"></i> Fale com Assessor de Investimentos
@@ -729,6 +730,168 @@
             </div>
         </section>
 
+        <!-- View 3: Títulos Públicos (Tesouro Direto) -->
+        <section id="treasury-view" class="view-section" style="display: none;">
+            <div class="glass-panel treasury-panel">
+                <header class="treasury-header" style="text-align: center; margin-bottom: 2rem;">
+                    <h2 style="font-size: 1.8rem; color: var(--text-main); margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 0.75rem;">
+                        <i class="ph-fill ph-bank" style="color: var(--neon-green);"></i> Painel do Tesouro Direto
+                    </h2>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; max-width: 600px; margin: 0 auto;">Cotações oficiais em tempo real para compra e venda. Taxas e preços atualizados diretamente do sistema do Tesouro Nacional.</p>
+                    <div id="market-status-badge" style="margin-top: 1rem; display: inline-flex; align-items: center; gap: 0.5rem; padding: 4px 12px; border-radius: 20px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); font-size: 0.75rem; font-weight: 600;">
+                        <i class="ph-fill ph-circle" id="status-icon" style="color: var(--text-muted);"></i>
+                        <span id="status-text">Sincronizando...</span>
+                    </div>
+                </header>
+
+                <!-- NOVO: Simulador Integrado do Tesouro -->
+                <div class="glass-panel" style="margin-bottom: 3rem; padding: 2rem; border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <div style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 2.5rem; align-items: start;">
+                        <!-- Parâmetros -->
+                        <div class="simulation-controls">
+                            <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.1rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="ph-fill ph-sliders-horizontal neon-text"></i>
+                                Configurar Simulação
+                            </h3>
+
+                            <div class="input-group" style="margin-bottom: 1.5rem;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                    <label class="input-label">Investimento Inicial</label>
+                                    <span id="val-treasury-initial" class="neon-text" style="font-weight: 600;">R$ 100,00</span>
+                                </div>
+                                <input type="range" id="treasury-initial-investment" min="100" max="100000" step="100" value="100" class="neon-slider">
+                            </div>
+
+                            <div class="input-group" style="margin-bottom: 1.5rem;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                    <label class="input-label">Aporte Mensal</label>
+                                    <span id="val-treasury-monthly" class="neon-text" style="font-weight: 600;">R$ 0,00</span>
+                                </div>
+                                <input type="range" id="treasury-monthly-investment" min="0" max="10000" step="50" value="0" class="neon-slider">
+                            </div>
+
+                            <div class="input-group" style="margin-bottom: 1.5rem;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                    <label class="input-label">Prazo (Meses)</label>
+                                    <span id="val-treasury-duration" class="neon-text" style="font-weight: 600;">24 meses</span>
+                                </div>
+                                <input type="range" id="treasury-duration-months" min="1" max="120" step="1" value="24" class="neon-slider">
+                            </div>
+
+                            <div style="background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 1.5rem;">
+                                <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.5; margin: 0;">
+                                    <i class="ph ph-info" style="color: var(--brand-blue);"></i> 
+                                    A simulação considera a <strong>Taxa B3 de 0,20% a.a.</strong> e o <strong>IR Regressivo</strong> (15% a 22,5%) sobre os ganhos de todos os títulos públicos.
+                                </p>
+                            </div>
+
+                            <!-- Vídeo Educativo Oficial -->
+                            <div class="video-container" style="border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.5); background: #000;">
+                                <iframe 
+                                    width="100%" 
+                                    height="276" 
+                                    src="https://www.youtube.com/embed/bPbyvYjWTec" 
+                                    title="Planejamento Financeiro - Tesouro Direto" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                    allowfullscreen
+                                    style="display: block;"
+                                ></iframe>
+                            </div>
+                        </div>
+
+                        <!-- Gráfico Comparativo -->
+                        <div class="simulation-result">
+                            <!-- Label do Título Vencedor -->
+                            <div id="winner-badge-container" style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); padding: 6px 12px; border-radius: 6px; width: fit-content;">
+                                <i class="ph-fill ph-medal" style="color: var(--neon-green);"></i>
+                                <span style="font-size: 0.75rem; color: var(--text-muted);">Melhor rendimento projetado:</span>
+                                <strong id="treasury-winner-name" style="font-size: 0.75rem; color: var(--neon-green);">Calculando...</strong>
+                            </div>
+
+                            <!-- KPI Cards do Tesouro -->
+                            <div class="kpi-grid" style="grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                                <div class="glass-card kpi-card highlight" style="padding: 1rem;">
+                                    <span class="kpi-label" style="font-size: 0.7rem;">Valor Total Líquido</span>
+                                    <strong class="kpi-value neon-text" id="treasury-res-net-total" style="font-size: 1.2rem;">R$ 0,00</strong>
+                                </div>
+                                <div class="glass-card kpi-card" style="padding: 1rem;">
+                                    <span class="kpi-label" style="font-size: 0.7rem;">Total Investido</span>
+                                    <strong class="kpi-value" id="treasury-res-total-invested" style="font-size: 1.2rem;">R$ 0,00</strong>
+                                </div>
+                            </div>
+                            <div class="kpi-grid secondary" style="grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                                <div class="glass-card kpi-card" style="padding: 1rem;">
+                                    <span class="kpi-label" style="font-size: 0.7rem;">Total Ganho Juros</span>
+                                    <strong class="kpi-value positive" id="treasury-res-total-interest" style="font-size: 1.2rem;">R$ 0,00</strong>
+                                </div>
+                                <div class="glass-card kpi-card danger" style="padding: 1rem;">
+                                    <span class="kpi-label" style="font-size: 0.7rem;">Imposto Retido</span>
+                                    <strong class="kpi-value negative" id="treasury-res-tax-discount" style="font-size: 1.2rem;">- R$ 0,00</strong>
+                                </div>
+                            </div>
+
+                            <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.1rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="ph-fill ph-chart-line-up neon-text"></i>
+                                Comparativo: Tesouro vs Poupança
+                            </h3>
+                            <div class="glass-card" style="height: 350px; padding: 1rem; background: rgba(0,0,0,0.3);">
+                                <canvas id="treasuryGrowthChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NOVO: Explorador de Mercado (Tabela com Filtros) -->
+                <div class="glass-panel treasury-explorer" style="padding: 1.5rem; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 2rem;">
+                    <header style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; gap: 1rem; flex-wrap: wrap;">
+                        <div>
+                            <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.2rem; margin: 0; display: flex; align-items: center; gap: 0.6rem;">
+                                <i class="ph-fill ph-magnifying-glass neon-text"></i>
+                                Explorador de Títulos
+                            </h3>
+                            <p style="font-size: 0.75rem; color: var(--text-muted); margin: 4px 0 0 0;">Filtre por nome, tipo ou ano de vencimento.</p>
+                        </div>
+
+                        <div class="filter-bar" style="display: flex; align-items: center; gap: 1rem; flex: 1; justify-content: flex-end; min-width: 300px;">
+                            <div class="search-wrapper" style="position: relative; flex: 1; max-width: 300px;">
+                                <i class="ph ph-magnifying-glass" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted);"></i>
+                                <input type="text" id="treasury-search" placeholder="Ex: 2029 ou Selic..." style="width: 100%; padding: 0.6rem 1rem 0.6rem 2.5rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.2); color: var(--text-main); font-size: 0.85rem;">
+                            </div>
+                            <div class="filter-chips" id="treasury-filter-chips" style="display: flex; gap: 0.5rem;">
+                                <button class="chip active" data-filter="all">Todos</button>
+                                <button class="chip" data-filter="selic">Selic</button>
+                                <button class="chip" data-filter="ipca">IPCA+</button>
+                                <button class="chip" data-filter="pre">Prefixado</button>
+                            </div>
+                        </div>
+                    </header>
+
+                    <div class="explorer-table-wrapper" style="overflow-x: auto;">
+                        <table class="premium-table" id="treasury-market-table">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: left;">Título</th>
+                                    <th>Vencimento</th>
+                                    <th>Taxa Compra</th>
+                                    <th>Preço Compra</th>
+                                    <th>Inv. Mínimo</th>
+                                    <th>Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody id="treasury-market-body">
+                                <!-- Preenchido via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="treasury-footer" style="margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.05); text-align: center;">
+                    <p style="font-size: 0.7rem; color: var(--text-muted);">As taxas exibidas são para compra. Os preços e taxas podem variar durante o dia conforme a marcação a mercado. Fonte oficial: B3 / Tesouro Nacional.</p>
+                </div>
+            </div>
+        </section>
+
         <!-- Monitor de Poder de Compra (Vistoso / Premium) -->
         <section class="buying-power-section container" style="margin-top: 2.5rem;">
             <div class="buying-power-area">
@@ -1080,6 +1243,7 @@
     <script src="js/news-service.js?v=23" defer></script>
     <script src="js/ticker.js?v=23" defer></script>
     <script src="js/calculator.js?v=23" defer></script>
+    <script src="js/treasury-service.js?v=23" defer></script>
     <script src="js/ui-controller.js?v=23" defer></script>
     <script src="js/gamification.js?v=23" defer></script>
     <script src="js/radar-service.js?v=23" defer></script>

@@ -8,6 +8,7 @@ const FinMath = (function () {
     // Taxas Base Iniciais (Usadas como Fallback se a API falhar ou demorar para responder)
     let SELIC_ANUAL_DEFAULT = 14.75; // Taxa Selic Atualizada Real de 2026
     let CDI_ANUAL_DEFAULT = 14.65; // CDI Atualizado Real de 2026
+    let IPCA_PROJETADO_DEFAULT = 4.10; // Expectativa Focus 12m
     let POUPANCA_ANUAL = SELIC_ANUAL_DEFAULT > 8.5 ? 6.17 : (SELIC_ANUAL_DEFAULT * 0.7);
 
     /**
@@ -63,6 +64,7 @@ const FinMath = (function () {
             if (ipcaFocusRes.status === 'fulfilled' && ipcaFocusRes.value && ipcaFocusRes.value.value && ipcaFocusRes.value.value.length > 0) {
                 // Focus API retorna a mediana na chave "Mediana" dentro de "value"
                 realData.ipcaProjetado = parseFloat(ipcaFocusRes.value.value[0].Mediana);
+                IPCA_PROJETADO_DEFAULT = realData.ipcaProjetado;
             }
 
             // Função extra para garantir valor do IPCA mensal
@@ -186,10 +188,15 @@ const FinMath = (function () {
         };
     }
 
+
     return {
         simulate,
         toMonthlyRate,
-        getRates: () => ({ selic: SELIC_ANUAL_DEFAULT, cdi: CDI_ANUAL_DEFAULT })
+        getRates: () => ({ 
+            selic: SELIC_ANUAL_DEFAULT, 
+            cdi: CDI_ANUAL_DEFAULT, 
+            ipca: IPCA_PROJETADO_DEFAULT 
+        })
     };
 
 })();

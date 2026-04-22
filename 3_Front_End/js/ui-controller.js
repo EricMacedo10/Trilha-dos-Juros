@@ -24,6 +24,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetView = document.getElementById(targetId);
 
             targetView.style.display = 'block';
+            
+            // Inicializa dados do Tesouro se for o target
+            if (targetId === 'treasury-view' && typeof TreasuryService !== 'undefined') {
+                TreasuryService.init();
+            }
+
             setTimeout(() => {
                 targetView.classList.add('active');
             }, 50); // slight delay for CSS animation
@@ -338,6 +344,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             growthChartInstance.data.labels = labelsHtml;
             growthChartInstance.data.datasets[0].data = dataInvestido;
+            growthChartInstance.data.datasets[1].data = dataAcumulado;
+            growthChartInstance.data.datasets[2].data = dataPoupanca;
+
             growthChartInstance.data.datasets[1].data = dataAcumulado;
             growthChartInstance.data.datasets[2].data = dataPoupanca;
 
