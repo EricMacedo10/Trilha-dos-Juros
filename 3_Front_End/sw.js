@@ -50,10 +50,13 @@ self.addEventListener('activate', (event) => {
 });
 
 // O evento 'fetch' intercepta as requisições de rede.
-// Estratégia: Stale-While-Revalidate (prioriza o cache para velocidade, 
-// mas busca a versão mais recente em background).
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
+
+  // IMPORTANTE: Não interceptar requisições externas (CORS) para evitar erros no Cache API
+  if (!event.request.url.startsWith(self.location.origin)) {
+    return; // Deixa o navegador resolver a requisição externa normalmente
+  }
   
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {

@@ -14,10 +14,9 @@ const NewsService = (function () {
         { name: 'Agência Brasil - Economia', url: 'https://agenciabrasil.ebc.com.br/rss/economia/feed.xml', tag: 'rf' }
     ];
 
-    // Estratégia de proxies para contornar CORS Vercel Edge Restraint
+    // Estratégia de proxy local para evitar bloqueios de CORS e instabilidade de terceiros
     const PROXIES = [
-        { name: 'AllOrigins', fn: (url) => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`, type: 'json' },
-        { name: 'Rss2Json', fn: (url) => `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}&api_key=`, type: 'rss2json' }
+        { name: 'LocalProxy', fn: (url) => `/api/news?url=${encodeURIComponent(url)}`, type: 'xml' }
     ];
 
     async function fetchFromFeed(feed) {
