@@ -322,7 +322,6 @@ const TreasuryService = (function () {
 
         body.innerHTML = html;
     }
-    }
 
     function selectBond(bondName, type) {
         const bond = currentBondsData[type].find(b => b.TrsuryBondTyp.nm === bondName);
