@@ -95,9 +95,38 @@ def ask_llm(prompt, system_prompt="Você é um assistente especializado em finan
         print(f"   [IA] Falha no DeepSeek: {e}")
         return None
 
+def load_market_snapshot():
+    """Carrega dados reais do mercado para injetar no contexto da IA."""
+    try:
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        hg_path = os.path.abspath(os.path.join(script_dir, "..", "3_Front_End", "hg.json"))
+        
+        if os.path.exists(hg_path):
+            with open(hg_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            
+            res = data.get("results", {})
+            stocks = res.get("stocks", {})
+            ibov = stocks.get("IBOVESPA", {})
+            nasdaq = stocks.get("NASDAQ", {})
+            currencies = res.get("currencies", {})
+            usd = currencies.get("USD", {})
+            
+            snapshot = f"""
+            DADOS REAIS DE MERCADO AGORA (FONTE: HG BRASIL):
+            - Ibovespa: {ibov.get('points', 'N/A')} pts ({ibov.get('variation', '0')}% variação)
+            - Dólar: R$ {usd.get('buy', 'N/A')} ({usd.get('variation', '0')}% variação)
+            - Nasdaq: {nasdaq.get('points', 'N/A')} pts ({nasdaq.get('variation', '0')}% variação)
+            """
+            return snapshot
+    except Exception as e:
+        print(f"Erro ao carregar snapshot de mercado: {e}")
+    return "Dados de mercado em tempo real indisponíveis no momento."
+
 def generate_editorial(context, mode="morning"):
     """Gera o texto editorial respeitando as regras da CVM."""
     current_time = datetime.now().strftime("%d de %B, %Y • %H:%Mh")
+    market_snapshot = load_market_snapshot()
     
     if mode == "morning":
         tipo = "Morning Call"
@@ -113,18 +142,36 @@ def generate_editorial(context, mode="morning"):
     
     system_prompt = "Você é um Editor Sênior de Finanças para a plataforma 'Trilha dos Juros'. Seu tom é sóbrio, analítico e profissional."
     
-    prompt = f"""
-    Sua missão é escrever um { tipo } ({subtitulo}) baseado nas seguintes notícias coletadas agora:
+    # Informações Temporais Precisas (Anti-Alucinação)
+    dias_semana = {
+        'Monday': 'Segunda-feira', 'Tuesday': 'Terça-feira', 'Wednesday': 'Quarta-feira',
+        'Thursday': 'Quinta-feira', 'Friday': 'Sexta-feira', 'Saturday': 'Sábado', 'Sunday': 'Domingo'
+    }
+    now = datetime.now()
+    weekday_pt = dias_semana.get(now.strftime("%A"), "Data Indefinida")
+    date_full = now.strftime("%d/%m/%Y")
     
+    prompt = f"""
+    Sua missão é escrever um { tipo } ({subtitulo}) baseado nas notícias coletadas agora e nos dados reais do mercado.
+    
+    CONTEXTO TEMPORAL OBRIGATÓRIO (VERDADE ABSOLUTA):
+    - HOJE É: {weekday_pt}, dia {date_full}.
+    - TODA a sua análise deve ser baseada no dia de HOJE. 
+    - IGNORE notícias que se refiram a dias passados ou que mencionem datas anteriores a {date_full} como "hoje" (comum em resumos semanais de RSS).
+    - Verifique se hoje é feriado no Brasil (ex: 21 de Abril - Tiradentes) e considere o fechamento da B3.
+    
+    {market_snapshot}
+    
+    FONTES DE NOTÍCIAS COLETADAS (USE PARA CONTEXTO POLÍTICO/ECONÔMICO):
     {context}
     
     REGRAS CRÍTICAS DE COMPLIANCE E PRECISÃO FATUAL:
     1. Seja estritamente INFORMATIVO. 
-    2. NUNCA use palavras como 'Recomendamos', 'Compre', 'Venda', 'Invista'.
-    3. Evite adjetivos fortes como 'Espetacular', 'Terrível', 'Imperdível'.
-    4. Mencione os fatos e deixe o investidor tirar suas próprias conclusões.
-    5. Donald Trump É O ATUAL PRESIDENTE dos EUA (NUNCA O CITE COMO EX-PRESIDENTE). Aja sob esta premissa de forma natural.
-    6. No final do texto, liste as fontes utilizadas de forma discreta.
+    2. NUNCA erre o dia da semana ou a data.
+    3. NUNCA use palavras como 'Recomendamos', 'Compre', 'Venda', 'Invista'.
+    4. Donald Trump É O ATUAL PRESIDENTE dos EUA. Aja sob esta premissa de forma natural.
+    5. **PREVALÊNCIA DE DADOS:** Os "DADOS REAIS DE MERCADO" acima são a verdade absoluta sobre preços e pontos. Se uma notícia RSS disser que o Ibovespa bateu recorde, mas os pontos indicarem queda ou estabilidade, ignore a afirmação de recorde da notícia.
+    6. Se o Ibovespa estiver em ~193k a ~196k pontos, ele NÃO está em recorde histórico (que na nossa premissa de 2026 é superior a 210k pontos). Trate o movimento apenas como oscilação diária.
     
     REQUISITOS DE FORMATAÇÃO:
     - Use HTML básico (<strong>, <p>, <ul>, <li>).

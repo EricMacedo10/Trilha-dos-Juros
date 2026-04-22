@@ -40,10 +40,10 @@ const BuyingPowerMonitor = (function () {
         } catch (error) {
             console.error('[Trilha] Erro no Monitor de Poder de Compra:', error);
             // Fallback se o BCB estiver offline ou CORS local
-            const mockLabels = ['01/07/1994', '01/01/2000', '01/01/2010', '01/01/2020', '01/02/2026'];
-            const mockValues = [100, 52.4, 27.8, 15.2, 11.46];
+            const mockLabels = ['01/07/1994', '01/01/2000', '01/01/2010', '01/01/2020', '01/04/2026'];
+            const mockValues = [100, 52.4, 27.8, 15.2, 11.36];
             renderChart(ctx, mockLabels, mockValues);
-            updateSummary(11.46);
+            updateSummary(11.36);
         }
     }
 
