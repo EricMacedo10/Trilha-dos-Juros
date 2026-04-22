@@ -1,9 +1,9 @@
 {
   "events": [
     {
-      "time": "Mar",
+      "time": "Wednesday, April 22, 2026",
       "country": "UK",
-      "event": "CPI (Anual)",
+      "event": "Índice de Preços ao Consumidor (YoY)(Mar)",
       "impact": "High",
       "atual": "3.3%",
       "proj": "3.3%",
@@ -11,19 +11,19 @@
       "date": "22/04"
     },
     {
-      "time": "Mar",
+      "time": "Wednesday, April 22, 2026",
       "country": "UK",
-      "event": "PPI (Entrada) (Mensal)",
+      "event": "PPI Input (YoY)(Mar)",
       "impact": "High",
-      "atual": "4.4%",
-      "proj": "2.9%",
-      "prev": "0.9%",
+      "atual": "5.4%",
+      "proj": "-",
+      "prev": "0.7%",
       "date": "22/04"
     },
     {
-      "time": "Mar",
+      "time": "Wednesday, April 22, 2026",
       "country": "UK",
-      "event": "PPI (Saída) (Anual)",
+      "event": "PPI Output (YoY)(Mar)",
       "impact": "High",
       "atual": "2.6%",
       "proj": "-",
@@ -31,7 +31,7 @@
       "date": "22/04"
     },
     {
-      "time": "Mar",
+      "time": "Wednesday, April 22, 2026",
       "country": "US",
       "event": "Aplicações de Hipoteca MBA (WoW)",
       "impact": "High",
@@ -41,5 +41,5 @@
       "date": "22/04"
     }
   ],
-  "last_update": "22/04/2026 20:08:43"
+  "last_update": "22/04/2026 21:54:55"
 }
