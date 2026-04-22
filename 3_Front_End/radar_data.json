@@ -3,53 +3,43 @@
     {
       "time": "02:00",
       "country": "UK",
-      "event": "Alteração no Emprego 3M/3M (MoM) (Fev)",
+      "event": "IPC (YoY) (Mar)",
       "impact": "High",
-      "atual": "25K",
-      "proj": "---",
-      "prev": "84K",
-      "date": "21/04"
+      "atual": "3.3%",
+      "proj": "3.3%",
+      "prev": "3.0%",
+      "date": "22/04"
     },
     {
       "time": "02:00",
       "country": "UK",
-      "event": "Taxa de Desemprego (Fev)",
+      "event": "PPI de Entrada (MoM) (Mar)",
       "impact": "High",
-      "atual": "4.9%",
-      "proj": "5.2%",
-      "prev": "5.2%",
-      "date": "21/04"
+      "atual": "4.4%",
+      "proj": "2.8%",
+      "prev": "0.9%",
+      "date": "22/04"
     },
     {
-      "time": "05:00",
-      "country": "DE",
-      "event": "Sentimento Econômico ZEW (Abr)",
+      "time": "02:00",
+      "country": "UK",
+      "event": "PPI de Saída (YoY) (Mar)",
       "impact": "High",
-      "atual": "-20.4",
-      "proj": "-12.7",
-      "prev": "-8.5",
-      "date": "21/04"
+      "atual": "2.6%",
+      "proj": "-",
+      "prev": "1.8%",
+      "date": "22/04"
     },
     {
-      "time": "08:30",
-      "country": "US",
-      "event": "Vendas no Varejo (MoM) (Mar)",
+      "time": "19:00",
+      "country": "KR",
+      "event": "PIB (YoY) (1T)",
       "impact": "High",
-      "atual": "1.7%",
-      "proj": "1.4%",
-      "prev": "0.7%",
-      "date": "21/04"
-    },
-    {
-      "time": "08:30",
-      "country": "US",
-      "event": "Vendas no Varejo Núcleo (MoM) (Mar)",
-      "impact": "High",
-      "atual": "1.9%",
-      "proj": "1.4%",
-      "prev": "0.7%",
-      "date": "21/04"
+      "atual": "-",
+      "proj": "2.7%",
+      "prev": "1.6%",
+      "date": "22/04"
     }
   ],
-  "last_update": "21/04/2026 23:40:35"
+  "last_update": "22/04/2026 12:02:03"
 }
