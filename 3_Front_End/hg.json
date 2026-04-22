@@ -6,21 +6,21 @@
             "source": "BRL",
             "USD": {
                 "name": "Dollar",
-                "buy": 4.9645,
+                "buy": 4.9663,
                 "sell": 4.9864,
-                "variation": -0.233
+                "variation": -0.197
             },
             "EUR": {
                 "name": "Euro",
-                "buy": 5.811,
+                "buy": 5.8143,
                 "sell": 5.8377,
-                "variation": -0.546
+                "variation": -0.489
             },
             "GBP": {
                 "name": "Pound Sterling",
-                "buy": 6.7036,
+                "buy": 6.7079,
                 "sell": null,
-                "variation": -0.247
+                "variation": -0.183
             },
             "ARS": {
                 "name": "Argentine Peso",
@@ -30,15 +30,15 @@
             },
             "CAD": {
                 "name": "Canadian Dollar",
-                "buy": 3.6311,
+                "buy": 3.6325,
                 "sell": null,
-                "variation": -0.28
+                "variation": -0.242
             },
             "AUD": {
                 "name": "Australian Dollar",
-                "buy": 3.5532,
+                "buy": 3.5566,
                 "sell": null,
-                "variation": -0.146
+                "variation": -0.051
             },
             "JPY": {
                 "name": "Japanese Yen",
@@ -48,15 +48,15 @@
             },
             "CNY": {
                 "name": "Renminbi",
-                "buy": 0.727,
+                "buy": 0.7273,
                 "sell": null,
-                "variation": -0.343
+                "variation": -0.302
             },
             "BTC": {
                 "name": "Bitcoin",
-                "buy": 413668.854,
-                "sell": 413668.854,
-                "variation": 3.919
+                "buy": 413995.93,
+                "sell": 413995.93,
+                "variation": 3.964
             }
         },
         "stocks": {
