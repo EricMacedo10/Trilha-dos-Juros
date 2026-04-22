@@ -6,21 +6,21 @@
             "source": "BRL",
             "USD": {
                 "name": "Dollar",
-                "buy": 4.9761,
-                "sell": 4.9815,
-                "variation": 0.456
+                "buy": 4.982,
+                "sell": 5.0106,
+                "variation": 0.119
             },
             "EUR": {
                 "name": "Euro",
-                "buy": 5.8425,
-                "sell": 5.848,
-                "variation": -0.051
+                "buy": 5.8483,
+                "sell": 5.8824,
+                "variation": 0.092
             },
             "GBP": {
                 "name": "Pound Sterling",
-                "buy": 6.7214,
+                "buy": 6.7284,
                 "sell": null,
-                "variation": 0.127
+                "variation": 0.122
             },
             "ARS": {
                 "name": "Argentine Peso",
@@ -30,15 +30,15 @@
             },
             "CAD": {
                 "name": "Canadian Dollar",
-                "buy": 3.6418,
+                "buy": 3.6459,
                 "sell": null,
-                "variation": 0.206
+                "variation": 0.126
             },
             "AUD": {
                 "name": "Australian Dollar",
-                "buy": 3.5612,
+                "buy": 3.5636,
                 "sell": null,
-                "variation": 0.031
+                "variation": 0.146
             },
             "JPY": {
                 "name": "Japanese Yen",
@@ -48,15 +48,15 @@
             },
             "CNY": {
                 "name": "Renminbi",
-                "buy": 0.7295,
+                "buy": 0.7303,
                 "sell": null,
-                "variation": 0.014
+                "variation": 0.11
             },
             "BTC": {
                 "name": "Bitcoin",
-                "buy": 398157.847,
-                "sell": 398157.847,
-                "variation": -0.638
+                "buy": 409499.172,
+                "sell": 409499.172,
+                "variation": 2.51
             }
         },
         "stocks": {
