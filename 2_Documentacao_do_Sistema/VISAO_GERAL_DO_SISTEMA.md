@@ -30,6 +30,11 @@ O sistema opera em uma estrutura ágil, blindada de gargalos, e otimizada unicam
 *   **Lógica Inteligente D-1:** Implementação de algoritmo de detecção automática do último dia útil fechado. O sistema "pula" feriados e fins de semana automaticamente para mostrar sempre a cotação oficial mais recente.
 *   **Nuclear Safety Rendering:** Refatoração do motor de renderização do Tesouro com proteção contra dados malformados (null-checks e optional chaining), garantindo estabilidade total na UI.
 
+### 2.5. Módulo de Mercado Global e Radar de FIIs
+*   **Integração HG Brasil Finance:** O sistema utiliza um motor centralizado (`MarketGlobalService.js`) para orquestrar dados de moedas, índices globais e ativos da B3.
+*   **Arquitetura "Member Mode" (Cache de 10 min):** Para preservar a cota diária de 1.000 requisições do plano do usuário, implementamos um sistema de persistência em `sessionStorage`. O site consome dados reais da API apenas uma vez a cada 10 minutos, compartilhando essa informação entre o Ticker superior e o Painel de Mercado.
+*   **Terminal de Consulta B3:** Implementação de um campo de busca dinâmico que permite ao usuário consultar qualquer ticker da bolsa brasileira (Ações/FIIs) em tempo real, com carregamento unitário para contornar restrições de batch da API.
+
 ## 3. Fluxo de Vida Prática de Uso
 1.  **A Atração:** Usuário navega pelo celular atrás de "Quanto rende R$ 1000 na poupança?".
 2.  **O Choque de UI:** Encontra o Painel do Tesouro com disclaimers claros sobre a fonte oficial e dados D-1, elevando a percepção de segurança.
@@ -39,4 +44,5 @@ O sistema opera em uma estrutura ágil, blindada de gargalos, e otimizada unicam
 1.  **Estabilização Tesouro 2.0:** Transição para API CKAN do governo e lógica de D-1. **[CONCLUÍDO]**
 2.  **Proxy de Notícias Local:** Eliminação do AllOrigins em favor de `/api/news`. **[CONCLUÍDO]**
 3.  **Transparência AdSense:** Injeção de disclaimers oficiais e conformidade de dados governamentais. **[CONCLUÍDO]**
-4.  **Resiliência PWA:** Cache-busting (`v=26`) e Service Worker otimizado para mídia externa. **[CONCLUÍDO]**
+4.  **Resiliência PWA:** Cache-busting (`v=30`) e Service Worker otimizado para mídia externa. **[CONCLUÍDO]**
+5.  **Painel de Mercado & Radar FIIs:** Integração HG Brasil com cache inteligente de 10 minutos. **[CONCLUÍDO]**

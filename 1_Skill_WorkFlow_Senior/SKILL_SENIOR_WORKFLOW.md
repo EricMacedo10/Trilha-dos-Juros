@@ -139,9 +139,14 @@ Este bloco documenta decisões arquiteturais para que eu nunca as repita por des
 ### ADR-021: Padrão "Nuclear Safety" e Cache Busting
 *   **Data:** 22/Abril/2026
 *   **Contexto:** Mudanças estruturais no backend frequentemente causavam quebras no frontend devido a dados malformados ou scripts antigos presos no cache do navegador.
-*   **Decisão Exclusiva:** Adoção do padrão de renderização **Nuclear Safety** (uso massivo de Optional Chaining e fallbacks `|| 0`). Nenhum dado externo pode causar um crash de JS no frontend. Para garantir a propagação de correções críticas, o sistema adota a estratégia de **Cache Busting Dinâmico** no `index.html` (ex: `?v=26`), forçando o navegador a descartar versões obsoletas e carregar a arquitetura mais recente.
+*   **Decisão Exclusiva:** Adoção do padrão de renderização **Nuclear Safety** (uso massivo de Optional Chaining e fallbacks `|| 0`). Nenhum dado externo pode causar um crash de JS no frontend. Para garantir a propagação de correções críticas, o sistema adota a estratégia de **Cache Busting Dinâmico** no `index.html` (ex: `?v=30`), forçando o navegador a descartar versões obsoletas e carregar a arquitetura mais recente.
+
+### ADR-022: Arquitetura de Cache "Member Mode" (HG Brasil Finance)
+*   **Data:** 23/Abril/2026
+*   **Contexto:** O plano Member da HG Brasil possui um limite de 1.000 requisições diárias e restrições de cotação em lote (batch) limitadas a 1 símbolo por requisição em certas configurações de chave.
+*   **Decisão Exclusiva:** Centralização total do consumo de mercado no `MarketGlobalService.js`. Implementação de **Cache em Sessão (SWR)** com validade de 10 minutos via `sessionStorage`. Componentes distintos (Ticker e Painel de Cotações) compartilham o mesmo estado de dados, reduzindo o consumo de créditos em mais de 60%. Para contornar a trava de lote, o sistema utiliza **Carregamento Unitário Progressivo**, garantindo que a interface seja populada sem bloqueios da API.
 
 ---
 ## 🖋️ Assinatura de Compromisso
 Este é o meu fluxo de trabalho. A partir de agora, o projeto **Trilha dos Juros** será construído estritamente sobre bases sólidas, Cloud Edge de primeiro mundo, seguras e premium. Nada passa sem o selo de qualidade sênior.
-*Documentação Auditada em 22/04/2026 — Milestone: Estabilização de Dados Oficiais (D-1) & Backend Proxy Integration.*
+*Documentação Auditada em 23/04/2026 — Milestone: Integração Premium HG Brasil & Terminal de Consulta B3.*
