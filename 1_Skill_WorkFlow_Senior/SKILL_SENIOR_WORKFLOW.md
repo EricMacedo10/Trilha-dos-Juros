@@ -146,7 +146,17 @@ Este bloco documenta decisões arquiteturais para que eu nunca as repita por des
 *   **Contexto:** O plano Member da HG Brasil possui um limite de 1.000 requisições diárias e restrições de cotação em lote (batch) limitadas a 1 símbolo por requisição em certas configurações de chave.
 *   **Decisão Exclusiva:** Centralização total do consumo de mercado no `MarketGlobalService.js`. Implementação de **Cache em Sessão (SWR)** com validade de 10 minutos via `sessionStorage`. Componentes distintos (Ticker e Painel de Cotações) compartilham o mesmo estado de dados, reduzindo o consumo de créditos em mais de 60%. Para contornar a trava de lote, o sistema utiliza **Carregamento Unitário Progressivo**, garantindo que a interface seja populada sem bloqueios da API.
 
+### ADR-023: Gestão de Cache PWA e Força-Refresh (Service Worker v2)
+*   **Data:** 23/Abril/2026
+*   **Contexto:** Erros de "Identifier already declared" ocorriam devido ao carregamento de scripts obsoletos presos no cache do Service Worker após atualizações estruturais.
+*   **Decisão Exclusiva:** Bumping obrigatório da versão do Service Worker (`CACHE_NAME = 'trilha-juros-v2'`) e sincronização com Cache Busting no HTML (`v=30`). Esta manobra força o navegador a purgar o cache antigo e revalidar todos os scripts, eliminando conflitos de declaração de classes e constantes globais.
+
+### ADR-024: Auditoria de Fluxo CI/CD (GitHub Actions vs index.html)
+*   **Data:** 23/Abril/2026
+*   **Contexto:** Suspeitas de que automações de dados estivessem corrompendo a estrutura do front-end.
+*   **Decisão Exclusiva:** Auditoria completa dos arquivos `.yml`. Ficou estabelecido que as Actions possuem permissão apenas para adicionar arquivos JSON de dados (`git add 3_Front_End/*.json`). Qualquer modificação no `index.html` deve ser manual ou via commit explícito do desenvolvedor, mantendo a integridade da árvore de dependências de scripts.
+
 ---
 ## 🖋️ Assinatura de Compromisso
 Este é o meu fluxo de trabalho. A partir de agora, o projeto **Trilha dos Juros** será construído estritamente sobre bases sólidas, Cloud Edge de primeiro mundo, seguras e premium. Nada passa sem o selo de qualidade sênior.
-*Documentação Auditada em 23/04/2026 — Milestone: Integração Premium HG Brasil & Terminal de Consulta B3.*
+*Documentação Auditada em 23/04/2026 — Milestone: Estabilização de Cache PWA e Integridade de Deploy.*

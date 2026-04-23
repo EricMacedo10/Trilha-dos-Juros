@@ -14,6 +14,11 @@ O "coração" visível da plataforma. Focado em performance e UX.
     *   `ticker.js`: Motor da barra flutuante (60fps).
     *   `market-global-service.js`: Consumo e renderização de dados HG Brasil.
     *   `news-service.js`: Integrador de notícias RSS.
+    *   `sw.js`: Service Worker (PWA) para cache offline e performance.
+*   **`/api`**: Endpoints Serverless (Vercel Functions).
+    *   `tesouro.js`: Ponte oficial para o Tesouro Transparente (D-1 Detection).
+    *   `news.js`: Proxy local para feeds de notícias (Bypass CORS).
+    *   `hg.js`: Proxy de proteção para chaves HG Brasil.
 *   **`/css`**: Design System.
     *   `estilo.css`: Tokens de design, glassmorphism e cores neon.
 *   **`/img`**: Assets visuais.
@@ -47,5 +52,5 @@ Orquestração de nuvem e robôs de manutenção.
 *   **Sanitização de Código**: Bloqueio de qualquer dado sensível em arquivos `.md` ou `.json` públicos (ADR-014).
 
 ---
-**Ultima Auditoria:** 21 de Abril de 2026.
-*Status: Sistema Blindado e 100% Sincronizado.*
+**Ultima Auditoria:** 23 de Abril de 2026.
+*Status: Sistema Blindado, Cache v2 Ativo e 100% Sincronizado.*

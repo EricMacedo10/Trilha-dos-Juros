@@ -24,6 +24,7 @@ O sistema opera em uma estrutura ágil, blindada de gargalos, e otimizada unicam
 *   **Hospedagem Zero-Config Integrada (Vercel):** Frontend servido via CDN Global ultra-rápida. Subverte atritos antigos do FTP legados trazendo deploy em segundos sob Criptografia TLS padrão de fábrica.
 *   **Backend Proxy First (API Functions):** O sistema isola chamadas propensas a falhas de CORS através de funções Node.js (`/api/tesouro`, `/api/news`, `/api/hg`). Isso blinda as chaves de API, garante estabilidade contra bloqueios de origem e permite processamento de dados brutos (como CSV do Tesouro) antes de chegar ao cliente.
 *   **Serviço de Notícias Resiliente:** Módulo `news-service.js` busca RSS através de um **Backend Proxy Próprio (`api/news.js`)**. Isso blinda a aplicação contra o bloqueio de origens externas e garante que o *Service Worker* não interfira em requisições de mídia externas (YouTube), eliminando erros de rede.
+*   **Gestão de Cache PWA (Service Worker v2):** Implementação de um Service Worker otimizado com estratégia *Stale-While-Revalidate* e mecanismo de força-refresh (v2) para garantir que correções críticas no front-end sejam propagadas instantaneamente a todos os usuários, resolvendo conflitos de "cache trap".
 
 ### 2.4. Arquitetura de Dados Oficiais (Tesouro Direto)
 *   **Fonte da Verdade:** Migração total para o portal oficial **Tesouro Transparente (Dados Abertos/CKAN API)**. O site consome dados brutos do governo, garantindo taxas reais e oficiais.
