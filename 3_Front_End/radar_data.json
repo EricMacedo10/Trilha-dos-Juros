@@ -1,45 +1,45 @@
 {
   "events": [
     {
-      "time": "Thursday, April 23, 2026",
+      "time": "---",
       "country": "JP",
-      "event": "PMI de Serviços da S&P Global (Abr)",
+      "event": "PMI do Setor de Serviços S&P Global (Abr)",
       "impact": "High",
       "atual": "51.2",
-      "proj": "--",
+      "proj": "-",
       "prev": "53.4",
       "date": "23/04"
     },
     {
-      "time": "Thursday, April 23, 2026",
+      "time": "---",
       "country": "JP",
       "event": "PMI de Manufatura e Serviços (Abr)",
       "impact": "High",
       "atual": "52.40",
-      "proj": "--",
+      "proj": "-",
       "prev": "53.00",
       "date": "23/04"
     },
     {
-      "time": "Thursday, April 23, 2026",
-      "country": "FR",
-      "event": "Pesquisas Empresariais na França (Abr)",
+      "time": "---",
+      "country": "IN",
+      "event": "PMI de Manufatura e Serviços HSBC (Abr)",
       "impact": "High",
-      "atual": "100",
-      "proj": "99",
-      "prev": "99",
+      "atual": "58.30",
+      "proj": "-",
+      "prev": "57.00",
       "date": "23/04"
     },
     {
-      "time": "Thursday, April 23, 2026",
-      "country": "FR",
-      "event": "PMI de Manufatura da HCOB França (Abr)",
+      "time": "---",
+      "country": "EU",
+      "event": "PMI de Serviços HCOB da Eurozona (Abr)",
       "impact": "High",
-      "atual": "52.8",
-      "proj": "49.5",
-      "prev": "50.0",
+      "atual": "-",
+      "proj": "49.8",
+      "prev": "50.2",
       "date": "23/04"
     }
   ],
-  "last_update": "23/04/2026 21:52:51"
+  "last_update": "23/04/2026 23:53:34"
 }
