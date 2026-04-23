@@ -1,7 +1,7 @@
 {
   "events": [
     {
-      "time": "---",
+      "time": "Thursday, April 23, 2026",
       "country": "JP",
       "event": "PMI de Serviços da S&P Global (Abr)",
       "impact": "High",
@@ -11,7 +11,17 @@
       "date": "23/04"
     },
     {
-      "time": "---",
+      "time": "Thursday, April 23, 2026",
+      "country": "JP",
+      "event": "PMI de Manufatura e Serviços (Abr)",
+      "impact": "High",
+      "atual": "52.40",
+      "proj": "---",
+      "prev": "53.00",
+      "date": "23/04"
+    },
+    {
+      "time": "Thursday, April 23, 2026",
       "country": "IN",
       "event": "PMI de Manufatura e Serviços da HSBC (Abr)",
       "impact": "High",
@@ -21,25 +31,15 @@
       "date": "23/04"
     },
     {
-      "time": "---",
+      "time": "Thursday, April 23, 2026",
       "country": "IN",
-      "event": "PMI de Manufatura da HSBC da Índia (Abr)",
+      "event": "PMI de Manufatura da HSBC (Abr)",
       "impact": "High",
       "atual": "55.9",
       "proj": "---",
       "prev": "53.9",
       "date": "23/04"
-    },
-    {
-      "time": "---",
-      "country": "IN",
-      "event": "PMI de Serviços da HSBC da Índia (Abr)",
-      "impact": "High",
-      "atual": "57.9",
-      "proj": "---",
-      "prev": "57.5",
-      "date": "23/04"
     }
   ],
-  "last_update": "23/04/2026 15:17:17"
+  "last_update": "23/04/2026 18:09:32"
 }
