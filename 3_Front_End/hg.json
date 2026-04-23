@@ -6,21 +6,21 @@
             "source": "BRL",
             "USD": {
                 "name": "Dollar",
-                "buy": 5.0077,
-                "sell": 5.0251,
-                "variation": 0.87
+                "buy": 5.0235,
+                "sell": 5.0314,
+                "variation": 1.188
             },
             "EUR": {
                 "name": "Euro",
-                "buy": 5.852,
-                "sell": 5.872,
-                "variation": 0.706
+                "buy": 5.87,
+                "sell": 5.8824,
+                "variation": 1.015
             },
             "GBP": {
                 "name": "Pound Sterling",
-                "buy": 6.7454,
+                "buy": 6.7671,
                 "sell": null,
-                "variation": 0.624
+                "variation": 0.947
             },
             "ARS": {
                 "name": "Argentine Peso",
@@ -30,21 +30,21 @@
             },
             "CAD": {
                 "name": "Canadian Dollar",
-                "buy": 3.6566,
+                "buy": 3.6648,
                 "sell": null,
-                "variation": 0.702
+                "variation": 0.928
             },
             "AUD": {
                 "name": "Australian Dollar",
-                "buy": 3.5716,
+                "buy": 3.5802,
                 "sell": null,
-                "variation": 0.518
+                "variation": 0.76
             },
             "JPY": {
                 "name": "Japanese Yen",
-                "buy": 0.0314,
+                "buy": 0.0315,
                 "sell": null,
-                "variation": 0.965
+                "variation": 1.286
             },
             "CNY": {
                 "name": "Renminbi",
@@ -54,9 +54,9 @@
             },
             "BTC": {
                 "name": "Bitcoin",
-                "buy": 413400.718,
-                "sell": 413400.718,
-                "variation": -0.905
+                "buy": 414718.049,
+                "sell": 414718.049,
+                "variation": -0.902
             }
         },
         "stocks": {
@@ -70,7 +70,7 @@
                 "name": "Índice de Fundos de Investimentos Imobiliários B3",
                 "location": "Sao Paulo, Brazil",
                 "points": 3928.65,
-                "variation": -0.26
+                "variation": -0.29
             },
             "NASDAQ": {
                 "name": "NASDAQ Stock Market",
