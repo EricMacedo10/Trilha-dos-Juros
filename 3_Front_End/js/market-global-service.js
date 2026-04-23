@@ -4,11 +4,13 @@ class MarketGlobalService {
         this.cacheTimeKey = 'hg_market_cache_time';
         this.cacheDuration = 10 * 60 * 1000; // 10 minutos em ms
         
-        // Contêineres da Barra Lateral
+        // Lista dos 15 FIIs mais conhecidos/liquidos (Top IFIX)
+        this.topTickers = 'MXRF11,HGLG11,KNCR11,XPLG11,VISC11,BTLG11,XPML11,KNRI11,IRDM11,RECT11,VINO11,GALG11,MCCI11,VGIR11,VRTA11';
+        this.fiiData = [];
+
+        // Contêineres
         this.currencyContainer = document.getElementById('market-global-list');
         this.stocksContainer = document.getElementById('stock-indices-list');
-        
-        // Contêineres da Nova View (Cotações)
         this.viewCurrencies = document.getElementById('market-view-currencies');
         this.viewStocks = document.getElementById('market-view-stocks');
         this.viewFiis = document.getElementById('market-view-fiis');
@@ -17,9 +19,19 @@ class MarketGlobalService {
     }
 
     async init() {
-        const data = await this.getMarketData();
-        if (data && data.results) {
-            this.renderAll(data.results);
+        // Carrega dados globais e lista de FIIs em paralelo
+        const [globalData, topAssets] = await Promise.all([
+            this.getMarketData(),
+            this.getBatchAssets(this.topTickers)
+        ]);
+
+        if (globalData && globalData.results) {
+            this.renderGlobal(globalData.results);
+        }
+        
+        if (topAssets && topAssets.results) {
+            this.fiiData = Object.values(topAssets.results);
+            this.renderFiis(this.fiiData);
         }
     }
 
@@ -28,31 +40,71 @@ class MarketGlobalService {
         const cachedData = sessionStorage.getItem(this.cacheKey);
         const cachedTime = sessionStorage.getItem(this.cacheTimeKey);
 
-        // Se tiver cache válido, retorna ele (Respeitando o Plano Member)
         if (cachedData && cachedTime && (now - cachedTime < this.cacheDuration)) {
-            console.log('[Market Service] Usando dados em cache (Member Mode)');
             return JSON.parse(cachedData);
         }
 
         try {
-            console.log('[Market Service] Buscando novos dados da HG Brasil...');
             const response = await fetch('/api/hg');
-            if (!response.ok) throw new Error('Falha na API HG');
-            
             const data = await response.json();
-            
-            // Salva no cache
             sessionStorage.setItem(this.cacheKey, JSON.stringify(data));
             sessionStorage.setItem(this.cacheTimeKey, now.toString());
-            
             return data;
         } catch (error) {
-            console.error('[Market Service] Erro ao buscar dados:', error);
             return cachedData ? JSON.parse(cachedData) : null;
         }
     }
 
-    renderAll(results) {
+    async getBatchAssets(symbols) {
+        try {
+            const response = await fetch(`/api/hg?symbol=${symbols}`);
+            return await response.json();
+        } catch (error) {
+            console.error('[Market Service] Erro ao buscar batch:', error);
+            return null;
+        }
+    }
+
+    async searchAsset() {
+        const input = document.getElementById('asset-search-input');
+        const symbol = input.value.trim().toUpperCase();
+        
+        if (!symbol) return;
+        
+        // Verifica se já está na lista para não gastar API
+        const exists = this.fiiData.find(f => f.symbol === symbol);
+        if (exists) {
+            input.value = '';
+            alert(`O ativo ${symbol} já está na lista!`);
+            return;
+        }
+
+        try {
+            const btn = document.querySelector('.search-asset-box button');
+            btn.innerHTML = '<i class="ph ph-circle-notch ph-spin"></i>';
+            
+            const response = await fetch(`/api/hg?symbol=${symbol}`);
+            const data = await response.json();
+            
+            if (data && data.results && data.results[symbol]) {
+                const asset = data.results[symbol];
+                if (asset.error) throw new Error('Ativo não encontrado');
+                
+                // Adiciona ao topo da lista
+                this.fiiData.unshift(asset);
+                this.renderFiis(this.fiiData);
+                input.value = '';
+            } else {
+                alert('Ativo não encontrado na B3. Verifique o ticker (Ex: PETR4).');
+            }
+        } catch (error) {
+            alert('Erro ao buscar ativo. Verifique se o código está correto.');
+        } finally {
+            document.querySelector('.search-asset-box button').innerHTML = '<i class="ph ph-magnifying-glass"></i>';
+        }
+    }
+
+    renderGlobal(results) {
         if (results.currencies) {
             this.renderCurrencies(results.currencies, this.currencyContainer);
             this.renderCurrencies(results.currencies, this.viewCurrencies, true);
@@ -61,9 +113,6 @@ class MarketGlobalService {
             this.renderStocks(results.stocks, this.stocksContainer);
             this.renderStocks(results.stocks, this.viewStocks, true);
         }
-        
-        // Renderiza FIIs (Destaques do Plano Member)
-        this.renderFiis();
     }
 
     renderCurrencies(currencies, container, isFullView = false) {
@@ -116,29 +165,24 @@ class MarketGlobalService {
         }).join('');
     }
 
-    renderFiis() {
+    renderFiis(assets) {
         if (!this.viewFiis) return;
         
-        // Ativos de destaque para o Radar (Plano Member)
-        const fiis = [
-            { ticker: 'MXRF11', name: 'Maxi Renda', price: 10.45, var: 0.12 },
-            { ticker: 'HGLG11', name: 'CGHG Logística', price: 168.30, var: -0.05 },
-            { ticker: 'KNCR11', name: 'Kinea Rendimentos', price: 102.15, var: 0.22 },
-            { ticker: 'XPLG11', name: 'XP Logística', price: 108.40, var: -0.15 }
-        ];
-
-        this.viewFiis.innerHTML = fiis.map(f => `
+        this.viewFiis.innerHTML = assets.map(f => `
             <tr>
-                <td style="font-weight: 700; color: var(--neon-green);">${f.ticker}</td>
-                <td style="text-align: left; font-size: 0.8rem;">${f.name}</td>
+                <td style="font-weight: 700; color: var(--neon-green);">${f.symbol}</td>
+                <td style="text-align: left; font-size: 0.8rem;">${f.name || f.company_name}</td>
                 <td style="font-weight: 600;">R$ ${f.price.toFixed(2)}</td>
-                <td style="color: ${f.var >= 0 ? '#10b981' : '#ef4444'}; font-weight: 600;">
-                    ${f.var >= 0 ? '▲' : '▼'} ${f.var}%
+                <td style="color: ${f.change_percent >= 0 ? '#10b981' : '#ef4444'}; font-weight: 600;">
+                    ${f.change_percent >= 0 ? '▲' : '▼'} ${f.change_percent.toFixed(2)}%
                 </td>
             </tr>
         `).join('');
     }
 }
+
+// Singleton para acesso global
+window.marketService = new MarketGlobalService();
 
 // Singleton para acesso global
 window.marketService = new MarketGlobalService();

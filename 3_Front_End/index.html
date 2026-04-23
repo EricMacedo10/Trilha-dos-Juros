@@ -928,23 +928,30 @@
                 </div>
 
                 <div class="fii-section">
-                    <h3 style="font-size: 0.9rem; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem; color: var(--text-main);">
-                        <i class="ph-bold ph-buildings neon-text"></i> Radar de FIIs (Destaques B3)
-                    </h3>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+                        <h3 style="font-size: 0.9rem; margin:0; display: flex; align-items: center; gap: 0.5rem; color: var(--text-main);">
+                            <i class="ph-bold ph-buildings neon-text"></i> Radar de FIIs e Ações
+                        </h3>
+                        <div class="search-asset-box" style="display: flex; gap: 0.5rem; background: rgba(0,0,0,0.2); padding: 4px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+                            <input type="text" id="asset-search-input" placeholder="Buscar ticker (ex: ITUB4)..." style="background: transparent; border: none; color: white; padding: 0.4rem 0.8rem; font-size: 0.8rem; outline: none; width: 180px;">
+                            <button onclick="window.marketService.searchAsset()" style="background: var(--brand-blue); border: none; color: white; padding: 0.4rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: 600;">
+                                <i class="ph ph-magnifying-glass"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
                     <div style="overflow-x: auto; background: rgba(0,0,0,0.2); border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
                         <table class="premium-table">
                             <thead>
                                 <tr>
                                     <th style="text-align: left;">Ativo</th>
-                                    <th>Nome do Fundo</th>
+                                    <th>Nome</th>
                                     <th>Cotação</th>
                                     <th>Variação</th>
                                 </tr>
                             </thead>
                             <tbody id="market-view-fiis">
-                                <tr>
-                                    <td colspan="4" style="padding: 3rem; text-align: center; color: var(--text-muted);">Sincronizando dados da B3...</td>
-                                </tr>
+                                <!-- Injetado via JS -->
                             </tbody>
                         </table>
                     </div>
