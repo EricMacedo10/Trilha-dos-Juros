@@ -1307,8 +1307,7 @@
         </div>
     </footer>
 
-    <script src="js/editorial-service.js?v=26" defer></script>
-    <script src="js/market-global-service.js?v=26" defer></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Inicializa Motor de Dicionário
@@ -1329,39 +1328,7 @@
             console.log("%c[Padrão de Transparência CVM 178] Sistema Ativo", "color: #10b981; font-weight: bold;");
         });
 
-        /**
-         * Alterna entre as abas de Morning Call e Resumo do Dia
-         */
-        function switchCallTab(tab) {
-            const morningBtn = document.getElementById('btn-tab-morning');
-            const eveningBtn = document.getElementById('btn-tab-evening');
-            const morningArt = document.getElementById('call-morning');
-            const eveningArt = document.getElementById('call-evening');
 
-            if (tab === 'morning') {
-                morningBtn.classList.add('active');
-                morningBtn.style.background = 'var(--brand-blue)';
-                morningBtn.style.color = 'white';
-
-                eveningBtn.classList.remove('active');
-                eveningBtn.style.background = 'transparent';
-                eveningBtn.style.color = 'var(--text-muted)';
-
-                morningArt.style.display = 'block';
-                eveningArt.style.display = 'none';
-            } else {
-                eveningBtn.classList.add('active');
-                eveningBtn.style.background = 'var(--brand-blue)';
-                eveningBtn.style.color = 'white';
-
-                morningBtn.classList.remove('active');
-                morningBtn.style.background = 'transparent';
-                morningBtn.style.color = 'var(--text-muted)';
-
-                eveningArt.style.display = 'block';
-                morningArt.style.display = 'none';
-            }
-        }
 
         // PWA - Registro do Service Worker
         if ('serviceWorker' in navigator) {
@@ -1382,6 +1349,8 @@
     <script src="js/dictionary-service.js?v=30"></script>
     <script src="js/editorial-service.js?v=30"></script>
     <script src="js/market-global-service.js?v=30"></script>
+    <script src="js/news-service.js?v=30"></script>
+    <script src="js/radar-service.js?v=30"></script>
     <script src="js/ticker.js?v=30"></script>
     <script src="js/calculator.js?v=30"></script>
     <script src="js/gamification.js?v=30"></script>
