@@ -6,21 +6,21 @@
             "source": "BRL",
             "USD": {
                 "name": "Dollar",
-                "buy": 5.0235,
-                "sell": 5.0314,
-                "variation": 1.188
+                "buy": 5.0245,
+                "sell": 5.0326,
+                "variation": 1.209
             },
             "EUR": {
                 "name": "Euro",
-                "buy": 5.87,
+                "buy": 5.8704,
                 "sell": 5.8824,
-                "variation": 1.015
+                "variation": 1.022
             },
             "GBP": {
                 "name": "Pound Sterling",
-                "buy": 6.7671,
+                "buy": 6.7663,
                 "sell": null,
-                "variation": 0.947
+                "variation": 0.935
             },
             "ARS": {
                 "name": "Argentine Peso",
@@ -30,15 +30,15 @@
             },
             "CAD": {
                 "name": "Canadian Dollar",
-                "buy": 3.6648,
+                "buy": 3.6674,
                 "sell": null,
-                "variation": 0.928
+                "variation": 1.0
             },
             "AUD": {
                 "name": "Australian Dollar",
-                "buy": 3.5802,
+                "buy": 3.5825,
                 "sell": null,
-                "variation": 0.76
+                "variation": 0.825
             },
             "JPY": {
                 "name": "Japanese Yen",
@@ -48,15 +48,15 @@
             },
             "CNY": {
                 "name": "Renminbi",
-                "buy": 0.7312,
+                "buy": 0.7359,
                 "sell": null,
-                "variation": 0.578
+                "variation": 1.224
             },
             "BTC": {
                 "name": "Bitcoin",
-                "buy": 414718.049,
-                "sell": 414718.049,
-                "variation": -0.902
+                "buy": 415707.351,
+                "sell": 415707.351,
+                "variation": -0.685
             }
         },
         "stocks": {
