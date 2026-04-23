@@ -20,27 +20,33 @@ class MarketGlobalService {
 
     async init() {
         if (this.viewFiis) {
-            this.viewFiis.innerHTML = '<tr><td colspan="4" style="padding: 2rem; text-align: center; color: var(--text-muted);"><i class="ph ph-circle-notch ph-spin"></i> Sincronizando 15 ativos da B3...</td></tr>';
+            this.viewFiis.innerHTML = '<tr><td colspan="4" style="padding: 2rem; text-align: center; color: var(--text-muted);"><i class="ph ph-circle-notch ph-spin"></i> Sincronizando ativos...</td></tr>';
         }
 
         try {
-            // Carrega dados globais e lista de FIIs em paralelo
-            const [globalData, topAssets] = await Promise.all([
-                this.getMarketData().catch(e => null),
-                this.getBatchAssets(this.topTickers).catch(e => null)
-            ]);
-
+            // 1. Dados Globais (Moedas/Bolsas) - 1 crédito
+            const globalData = await this.getMarketData();
             if (globalData && globalData.results) {
                 this.renderGlobal(globalData.results);
             }
+
+            // 2. FIIs Individuais (Para contornar o limite de 1 por req)
+            // Vamos carregar os Top 5 iniciais para não estourar a cota no boot
+            const initialTickers = ['MXRF11', 'HGLG11', 'XPML11', 'BTLG11', 'KNCR11'];
+            this.fiiData = [];
             
-            if (topAssets && topAssets.results) {
-                // Filtra apenas resultados válidos que tenham preço
-                this.fiiData = Object.values(topAssets.results).filter(a => a.price !== undefined);
-                this.renderFiis(this.fiiData);
-            } else {
-                if (this.viewFiis) this.viewFiis.innerHTML = '<tr><td colspan="4" style="padding: 2rem; text-align: center; color: var(--text-muted);">Cotações indisponíveis no momento.</td></tr>';
+            if (this.viewFiis) this.viewFiis.innerHTML = ''; // Limpa o loader
+
+            for (const ticker of initialTickers) {
+                try {
+                    const data = await this.getBatchAssets(ticker);
+                    if (data && data.results && data.results[ticker]) {
+                        this.fiiData.push(data.results[ticker]);
+                        this.renderFiis(this.fiiData);
+                    }
+                } catch (e) { console.warn(`Erro ao carregar ${ticker}`); }
             }
+
         } catch (error) {
             console.error('[Market Service] Erro crítico no init:', error);
         }
