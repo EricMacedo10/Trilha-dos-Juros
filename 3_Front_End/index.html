@@ -44,8 +44,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
 
     <!-- Global Styles -->
-    <link rel="stylesheet" href="css/style.css?v=23">
-    <link rel="stylesheet" href="css/components.css?v=23">
+    <link rel="stylesheet" href="css/style.css?v=27">
+    <link rel="stylesheet" href="css/components.css?v=27">
 
     <!-- Google tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-PVNT5LSYC8"></script>
@@ -276,6 +276,7 @@
                 <button class="nav-btn active" data-target="calculator-view">Simulador</button>
                 <button class="nav-btn" data-target="gamification-view">Desafio dos Depósitos</button>
                 <button class="nav-btn" data-target="treasury-view">Títulos Públicos</button>
+                <button class="nav-btn" data-target="market-view">Cotações</button>
                 <button class="nav-btn" id="btn-open-contact"
                     style="color: var(--neon-green); border: 1px solid rgba(16, 185, 129, 0.3);">
                     <i class="ph-fill ph-envelope-simple"></i> Fale com Assessor de Investimentos
@@ -639,7 +640,7 @@
             <div class="glass-panel gamification-panel">
                 <!-- Vídeo de Destaque Premium -->
                 <div class="hero-video-container">
-                    <video autoplay loop muted playsinline class="hero-video">
+                    <video autoplay loop muted playsinline poster="img/brain_bg.png" class="hero-video">
                         <source src="assets/Golden_money_bag_glowing_arrow_delpmaspu_.mp4" type="video/mp4">
                     </video>
                 </div>
@@ -888,6 +889,65 @@
 
                 <div class="treasury-footer" style="margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.05); text-align: center;">
                     <p style="font-size: 0.7rem; color: var(--text-muted);">As taxas exibidas são para compra. Os preços e taxas podem variar durante o dia conforme a marcação a mercado. Fonte oficial: B3 / Tesouro Nacional.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- View 4: Mercado e Cotações (HG Brasil Premium) -->
+        <section id="market-view" class="view-section" style="display: none;">
+            <div class="glass-panel">
+                <header class="section-header-market" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <h2 class="section-title" style="border:none; margin:0; display: flex; align-items: center; gap: 0.75rem;">
+                            <i class="ph-fill ph-chart-bar neon-text"></i> Painel de Mercado
+                        </h2>
+                        <p class="text-muted" style="font-size: 0.8rem; margin-top: 4px;">Dados HG Brasil Finance • Atualizado a cada 10 min</p>
+                    </div>
+                    <div class="api-badge" style="padding: 0.4rem 0.8rem; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 20px; font-size: 0.7rem; color: var(--neon-green); font-weight: 600;">
+                        <i class="ph ph-crown"></i> Dados Oficiais HG Brasil
+                    </div>
+                </header>
+
+                <div class="market-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem;">
+                    <div class="market-col">
+                        <h3 style="font-size: 0.9rem; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem; color: var(--text-main);">
+                            <i class="ph-bold ph-currency-circle-dollar neon-text"></i> Câmbio e Moedas
+                        </h3>
+                        <div id="market-view-currencies" class="market-list-view" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                            <p class="text-muted" style="font-size: 0.8rem; text-align: center; padding: 2rem;">Sincronizando cotações...</p>
+                        </div>
+                    </div>
+                    <div class="market-col">
+                        <h3 style="font-size: 0.9rem; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem; color: var(--text-main);">
+                            <i class="ph-bold ph-chart-line-up neon-text"></i> Índices e Bolsas
+                        </h3>
+                        <div id="market-view-stocks" class="market-list-view" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                            <p class="text-muted" style="font-size: 0.8rem; text-align: center; padding: 2rem;">Sincronizando índices...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fii-section">
+                    <h3 style="font-size: 0.9rem; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem; color: var(--text-main);">
+                        <i class="ph-bold ph-buildings neon-text"></i> Radar de FIIs (Destaques B3)
+                    </h3>
+                    <div style="overflow-x: auto; background: rgba(0,0,0,0.2); border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+                        <table class="premium-table">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: left;">Ativo</th>
+                                    <th>Nome do Fundo</th>
+                                    <th>Cotação</th>
+                                    <th>Variação</th>
+                                </tr>
+                            </thead>
+                            <tbody id="market-view-fiis">
+                                <tr>
+                                    <td colspan="4" style="padding: 3rem; text-align: center; color: var(--text-muted);">Sincronizando dados da B3...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1240,18 +1300,8 @@
         </div>
     </footer>
 
-    <script src="js/news-service.js?v=23" defer></script>
-    <script src="js/ticker.js?v=23" defer></script>
-    <script src="js/calculator.js?v=23" defer></script>
-    <script src="js/treasury-service.js?v=26" defer></script>
-    <script src="js/ui-controller.js?v=23" defer></script>
-    <script src="js/gamification.js?v=23" defer></script>
-    <script src="js/radar-service.js?v=23" defer></script>
-    <script src="js/buying-power.js?v=23" defer></script>
-    <script src="js/compliance-service.js?v=23" defer></script>
-    <script src="js/dictionary-service.js?v=23" defer></script>
-    <script src="js/editorial-service.js?v=23" defer></script>
-    <script src="js/market-global-service.js?v=23" defer></script>
+    <script src="js/editorial-service.js?v=26" defer></script>
+    <script src="js/market-global-service.js?v=26" defer></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Inicializa Motor de Dicionário
@@ -1319,6 +1369,19 @@
             });
         }
 
+    <!-- Scripts do Sistema -->
+    <script src="js/compliance-service.js?v=27"></script>
+    <script src="js/dictionary-service.js?v=27"></script>
+    <script src="js/editorial-service.js?v=27"></script>
+    <script src="js/market-global-service.js?v=27"></script>
+    <script src="js/ticker.js?v=27"></script>
+    <script src="js/calculator.js?v=27"></script>
+    <script src="js/gamification.js?v=27"></script>
+    <script src="js/treasury-service.js?v=27"></script>
+    <script src="js/buying-power.js?v=27"></script>
+    <script src="js/ui-controller.js?v=27"></script>
+
+    <script>
         // --- SISTEMA DE ROTAÇÃO DOS DEPOIMENTOS ---
         const testimonials = [
             {

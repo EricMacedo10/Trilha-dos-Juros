@@ -72,20 +72,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function updateMarketQuotes() {
-        console.log('[Trilha dos Juros] Iniciando rodada de atualização de cotações API...');
+        console.log('[Trilha dos Juros] Ticker sincronizando com MarketGlobalService...');
 
+        // 1. Tentar obter dados centralizados (Com Cache de 10 min para Plano Member)
         let hgData = null;
-        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-
-        // 1. Tentar HG Brasil como fonte primária para IBOV e Moedas (via Proxy Seguro)
         try {
-            const hgUrl = '/api/hg';
-            const hgResponse = await fetch(hgUrl);
-            if (hgResponse.ok) {
-                hgData = await hgResponse.json();
-                console.log('[Trilha dos Juros] HG Brasil carregada com sucesso.');
-                
-                // Processar Dados HG
+            if (window.marketService) {
+                hgData = await window.marketService.getMarketData();
+            }
+            
+            if (hgData && hgData.results) {
                 const results = hgData.results;
                 
                 // IBOVESPA
@@ -107,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         } catch (e) {
-            console.warn('[Trilha dos Juros] HG Brasil falhou ou atingiu limite. Usando fallbacks...', e);
+            console.warn('[Trilha dos Juros] Falha ao sincronizar Ticker com Serviço Central:', e);
         }
 
         // 2. AwesomeAPI (Fallback para Moedas + Bitcoin)

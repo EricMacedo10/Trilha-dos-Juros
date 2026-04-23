@@ -1,7 +1,7 @@
 // Proxy Seguro para HG Brasil - Trilha dos Juros
 module.exports = async (req, res) => {
     // Chave real extraída do seu painel oficial
-    const HG_KEY = 'cce1a3d7';
+    const HG_KEY = process.env.HG_KEY || 'cce1a3d7'; // Fallback temporário até configurar na Vercel
 
     try {
         const url = `https://api.hgbrasil.com/finance?key=${HG_KEY}&format=json-cors`;

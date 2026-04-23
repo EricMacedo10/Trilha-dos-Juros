@@ -64,8 +64,49 @@ const BuyingPowerMonitor = (function () {
         lineGradient.addColorStop(0.5, '#10b981'); // Meio
         lineGradient.addColorStop(1, '#059669');   // Final (Hoje) mais profundo
 
+        // Plugin Customizado para desenhar os rótulos de "R$ Valor" na linha
+        const datalabelsPlugin = {
+            id: 'lineLabels',
+            afterDatasetsDraw(chart) {
+                const { ctx, data, scales: { x, y } } = chart;
+                ctx.save();
+                
+                // Configuração Estética Sênior
+                ctx.font = 'bold 11px Inter, sans-serif';
+                ctx.textBaseline = 'bottom';
+                
+                // Sombra para garantir leitura sobre o brilho da linha
+                ctx.shadowBlur = 6;
+                ctx.shadowColor = '#000';
+                ctx.shadowOffsetY = 2;
+
+                const dataset = data.datasets[0];
+                const meta = chart.getDatasetMeta(0);
+
+                // Intervalo de exibição: Primeiro ponto, Último ponto, e a cada ~4 anos (8 pontos no array filtrado)
+                meta.data.forEach((point, index) => {
+                    const isFirst = index === 0;
+                    const isLast = index === data.length - 1;
+                    const isInterval = index % 8 === 0;
+
+                    if (isFirst || isLast || isInterval) {
+                        const value = `R$ ${parseFloat(dataset.data[index]).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+                        
+                        // Alinhamento dinâmico para não cortar nas bordas
+                        ctx.textAlign = isFirst ? 'left' : (isLast ? 'right' : 'center');
+                        ctx.fillStyle = '#34d399';
+                        
+                        // Desenha o texto levemente acima do ponto
+                        ctx.fillText(value, point.x, point.y - 12);
+                    }
+                });
+                ctx.restore();
+            }
+        };
+
         chartInstance = new Chart(ctx, {
             type: 'line',
+            plugins: [datalabelsPlugin],
             data: {
                 labels: labels,
                 datasets: [{
@@ -73,7 +114,13 @@ const BuyingPowerMonitor = (function () {
                     data: data,
                     borderColor: lineGradient,
                     borderWidth: 4,
-                    pointRadius: 0,
+                    pointRadius: (ctx) => {
+                        const index = ctx.dataIndex;
+                        return (index === 0 || index === labels.length - 1 || index % 8 === 0) ? 5 : 0;
+                    },
+                    pointBackgroundColor: '#fff',
+                    pointBorderColor: '#10b981',
+                    pointBorderWidth: 2,
                     pointHoverRadius: 7,
                     pointHoverBackgroundColor: '#fff',
                     pointHoverBorderColor: '#10b981',
@@ -81,7 +128,6 @@ const BuyingPowerMonitor = (function () {
                     fill: true,
                     backgroundColor: areaGradient,
                     tension: 0.4,
-                    // Efeito de Profundidade Sênior: Sombra Neon no Traçado
                     segment: {
                         borderColor: (ctx) => lineGradient,
                     },
@@ -91,13 +137,19 @@ const BuyingPowerMonitor = (function () {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                layout: {
+                    padding: {
+                        top: 40,
+                        right: 45, // Margem de segurança para o valor de 2026
+                        left: 10
+                    }
+                },
                 animation: {
                     duration: 2000,
                     easing: 'easeOutQuart'
                 },
                 elements: {
                     line: {
-                        // Aplica sombra através do contexto nativo do canvas para performance e estética
                         borderCapStyle: 'round',
                         borderJoinStyle: 'round',
                         shadowBlur: 15,
@@ -139,7 +191,6 @@ const BuyingPowerMonitor = (function () {
                             padding: 10,
                             callback: function(val, index) {
                                 const label = this.getLabelForValue(val);
-                                // Mostra apenas o ano a cada intervalo para limpar o visual
                                 return label ? label.split('/')[2] : '';
                             }
                         }
