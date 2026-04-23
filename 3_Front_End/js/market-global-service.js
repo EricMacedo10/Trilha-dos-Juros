@@ -19,19 +19,30 @@ class MarketGlobalService {
     }
 
     async init() {
-        // Carrega dados globais e lista de FIIs em paralelo
-        const [globalData, topAssets] = await Promise.all([
-            this.getMarketData(),
-            this.getBatchAssets(this.topTickers)
-        ]);
-
-        if (globalData && globalData.results) {
-            this.renderGlobal(globalData.results);
+        if (this.viewFiis) {
+            this.viewFiis.innerHTML = '<tr><td colspan="4" style="padding: 2rem; text-align: center; color: var(--text-muted);"><i class="ph ph-circle-notch ph-spin"></i> Sincronizando 15 ativos da B3...</td></tr>';
         }
-        
-        if (topAssets && topAssets.results) {
-            this.fiiData = Object.values(topAssets.results);
-            this.renderFiis(this.fiiData);
+
+        try {
+            // Carrega dados globais e lista de FIIs em paralelo
+            const [globalData, topAssets] = await Promise.all([
+                this.getMarketData().catch(e => null),
+                this.getBatchAssets(this.topTickers).catch(e => null)
+            ]);
+
+            if (globalData && globalData.results) {
+                this.renderGlobal(globalData.results);
+            }
+            
+            if (topAssets && topAssets.results) {
+                // Filtra apenas resultados válidos que tenham preço
+                this.fiiData = Object.values(topAssets.results).filter(a => a.price !== undefined);
+                this.renderFiis(this.fiiData);
+            } else {
+                if (this.viewFiis) this.viewFiis.innerHTML = '<tr><td colspan="4" style="padding: 2rem; text-align: center; color: var(--text-muted);">Cotações indisponíveis no momento.</td></tr>';
+            }
+        } catch (error) {
+            console.error('[Market Service] Erro crítico no init:', error);
         }
     }
 
@@ -180,9 +191,6 @@ class MarketGlobalService {
         `).join('');
     }
 }
-
-// Singleton para acesso global
-window.marketService = new MarketGlobalService();
 
 // Singleton para acesso global
 window.marketService = new MarketGlobalService();
