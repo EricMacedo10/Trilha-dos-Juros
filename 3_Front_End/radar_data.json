@@ -1,29 +1,19 @@
 {
   "events": [
     {
-      "time": "04:00",
-      "country": "DE",
-      "event": "Índice do clima de negócios Ifo da Alemanha (Abr)",
+      "time": "07:00",
+      "country": "BR",
+      "event": "Confiança do Consumidor FGV (Abr)",
       "impact": "High",
-      "atual": "85.4",
-      "proj": "86.2",
-      "prev": "86.7",
-      "date": "24/04"
-    },
-    {
-      "time": "02:00",
-      "country": "UK",
-      "event": "Vendas no varejo (YoY) (Mar)",
-      "impact": "High",
-      "atual": "1.7%",
-      "proj": "1.3%",
-      "prev": "1.8%",
+      "atual": "89.1",
+      "proj": "---",
+      "prev": "88.1",
       "date": "24/04"
     },
     {
       "time": "06:30",
       "country": "RU",
-      "event": "Decisão sobre a taxa de juros (Abr)",
+      "event": "Decisão da Taxa de Juros (Abr)",
       "impact": "High",
       "atual": "14.50%",
       "proj": "14.50%",
@@ -33,13 +23,23 @@
     {
       "time": "10:00",
       "country": "US",
-      "event": "Sentimento do consumidor Michigan (Abr)",
+      "event": "Expectativas de Inflação de 5 Anos do Michigan (Abr)",
       "impact": "High",
-      "atual": "49.8",
-      "proj": "47.6",
-      "prev": "53.3",
+      "atual": "3.5%",
+      "proj": "3.4%",
+      "prev": "3.2%",
+      "date": "24/04"
+    },
+    {
+      "time": "13:00",
+      "country": "US",
+      "event": "Contagem de Plataformas de Perfuração Baker Hughes (EUA)",
+      "impact": "High",
+      "atual": "407",
+      "proj": "---",
+      "prev": "410",
       "date": "24/04"
     }
   ],
-  "last_update": "24/04/2026 17:53:15"
+  "last_update": "24/04/2026 19:55:00"
 }
