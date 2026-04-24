@@ -54,9 +54,9 @@
             },
             "BTC": {
                 "name": "Bitcoin",
-                "buy": 414153.286,
-                "sell": 414153.286,
-                "variation": -0.156
+                "buy": 413259.109,
+                "sell": 413259.109,
+                "variation": -0.372
             }
         },
         "stocks": {
