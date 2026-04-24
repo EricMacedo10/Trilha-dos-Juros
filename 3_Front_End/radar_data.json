@@ -1,45 +1,45 @@
 {
   "events": [
     {
-      "time": "---",
-      "country": "JP",
-      "event": "PMI do Setor de Serviços S&P Global (Abr)",
+      "time": "02:00",
+      "country": "UK",
+      "event": "Vendas no Varejo (YoY) (Mar)",
       "impact": "High",
-      "atual": "51.2",
-      "proj": "-",
-      "prev": "53.4",
-      "date": "23/04"
+      "atual": "1.7%",
+      "proj": "1.3%",
+      "prev": "1.8%",
+      "date": "24/04"
     },
     {
-      "time": "---",
-      "country": "JP",
-      "event": "PMI de Manufatura e Serviços (Abr)",
+      "time": "04:00",
+      "country": "DE",
+      "event": "Índice de Clima Empresarial Ifo (Abr)",
       "impact": "High",
-      "atual": "52.40",
-      "proj": "-",
-      "prev": "53.00",
-      "date": "23/04"
+      "atual": "84.4",
+      "proj": "85.7",
+      "prev": "86.3",
+      "date": "24/04"
     },
     {
-      "time": "---",
-      "country": "IN",
-      "event": "PMI de Manufatura e Serviços HSBC (Abr)",
+      "time": "04:00",
+      "country": "DE",
+      "event": "Expectativas Empresariais Alemãs (Abr)",
       "impact": "High",
-      "atual": "58.30",
-      "proj": "-",
-      "prev": "57.00",
-      "date": "23/04"
+      "atual": "83.3",
+      "proj": "85.0",
+      "prev": "85.9",
+      "date": "24/04"
     },
     {
-      "time": "---",
-      "country": "EU",
-      "event": "PMI de Serviços HCOB da Eurozona (Abr)",
+      "time": "03:00",
+      "country": "ES",
+      "event": "IPP Espanhol (YoY) (Mar)",
       "impact": "High",
-      "atual": "-",
-      "proj": "49.8",
-      "prev": "50.2",
-      "date": "23/04"
+      "atual": "3.4%",
+      "proj": "-",
+      "prev": "-7.0%",
+      "date": "24/04"
     }
   ],
-  "last_update": "23/04/2026 23:53:34"
+  "last_update": "24/04/2026 12:01:05"
 }
