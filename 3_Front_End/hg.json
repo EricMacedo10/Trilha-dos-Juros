@@ -6,21 +6,21 @@
             "source": "BRL",
             "USD": {
                 "name": "Dollar",
-                "buy": 4.9786,
-                "sell": 5.0083,
-                "variation": -0.894
+                "buy": 4.9793,
+                "sell": 4.9806,
+                "variation": -0.88
             },
             "EUR": {
                 "name": "Euro",
-                "buy": 5.8357,
-                "sell": 5.8685,
-                "variation": -0.584
+                "buy": 5.8358,
+                "sell": 5.872,
+                "variation": -0.583
             },
             "GBP": {
                 "name": "Pound Sterling",
-                "buy": 6.7403,
+                "buy": 6.7386,
                 "sell": null,
-                "variation": -0.396
+                "variation": -0.421
             },
             "ARS": {
                 "name": "Argentine Peso",
@@ -30,15 +30,15 @@
             },
             "CAD": {
                 "name": "Canadian Dollar",
-                "buy": 3.6422,
+                "buy": 3.6418,
                 "sell": null,
-                "variation": -0.617
+                "variation": -0.628
             },
             "AUD": {
                 "name": "Australian Dollar",
-                "buy": 3.5615,
+                "buy": 3.5606,
                 "sell": null,
-                "variation": -0.522
+                "variation": -0.547
             },
             "JPY": {
                 "name": "Japanese Yen",
@@ -54,9 +54,9 @@
             },
             "BTC": {
                 "name": "Bitcoin",
-                "buy": 410217.33,
-                "sell": 410217.33,
-                "variation": -0.193
+                "buy": 409591.974,
+                "sell": 409591.974,
+                "variation": -0.359
             }
         },
         "stocks": {
