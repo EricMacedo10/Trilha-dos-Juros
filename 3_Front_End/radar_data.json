@@ -3,7 +3,7 @@
     {
       "time": "Friday, April 24, 2026",
       "country": "RU",
-      "event": "Decisão de Taxa de Juros(Abr)",
+      "event": "Decisão da Taxa de Juros (Abr)",
       "impact": "High",
       "atual": "14.50%",
       "proj": "14.50%",
@@ -13,7 +13,7 @@
     {
       "time": "Friday, April 24, 2026",
       "country": "IN",
-      "event": "M3 Oferta de Dinheiro",
+      "event": "M3 Oferta Monetária",
       "impact": "High",
       "atual": "11.9%",
       "proj": "-",
@@ -32,14 +32,14 @@
     },
     {
       "time": "Friday, April 24, 2026",
-      "country": "BR",
-      "event": "Confiança do Consumidor FGV(Abr)",
+      "country": "IN",
+      "event": "Investimento Estrangeiro Direto (USD) (Mar)",
       "impact": "High",
-      "atual": "89.1",
-      "proj": "-",
-      "prev": "88.1",
+      "atual": "6.04B",
+      "proj": "6.50B",
+      "prev": "6.75B",
       "date": "24/04"
     }
   ],
-  "last_update": "24/04/2026 14:47:04"
+  "last_update": "24/04/2026 16:08:16"
 }
